@@ -2,82 +2,89 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <parent>
-    <artifactId>stocky</artifactId>
-    <groupId>com.james</groupId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <modelVersion>4.0.0</modelVersion>
-  <packaging>jar</packaging>
-  <artifactId>stocky-web</artifactId>
-  <build>
-    <plugins>
-      <!-- clean the dist directory used by Angular -->
-      <plugin>
-        <artifactId>maven-clean-plugin</artifactId>
-        <version>3.1.0</version>
-        <configuration>
-          <filesets>
-            <fileset>
-              <directory>dist</directory>
-            </fileset>
-          </filesets>
-        </configuration>
-      </plugin>
-      <!-- start building web -->
-      <plugin>
-        <groupId>com.github.eirslett</groupId>
-        <artifactId>frontend-maven-plugin</artifactId>
-        <version>1.11.2</version>
-        <executions>
-          <!-- Install node and npm -->
-          <execution>
-            <id>Install Node and NPM</id>
-            <goals>
-              <goal>install-node-and-npm</goal>
-            </goals>
-            <configuration>
-              <nodeVersion>v14.16.0</nodeVersion>
-            </configuration>
-          </execution>
-          <!-- clean install -->
-          <execution>
-            <id>npm install</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-          </execution>
 
-          <!-- code validation -->
-<!--          <execution>-->
-<!--              <id>npm run lint</id>-->
-<!--              <goals>-->
-<!--                  <goal>npm</goal>-->
-<!--              </goals>-->
-<!--              <phase>test</phase>-->
-<!--              <configuration>-->
-<!--                  <arguments>run lint</arguments>-->
-<!--              </configuration>-->
-<!--          </execution>-->
+    <parent>
+        <artifactId>stocky</artifactId>
+        <groupId>com.jamesaworo</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
 
-          <!-- build app -->
-          <execution>
-            <id>npm run build</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>run build --prod</arguments>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-    <resources>
-      <resource>
-        <!-- we copy the content of the frontend directory in the final artifact -->
-        <directory>dist/stocky-web</directory>
-      </resource>
-    </resources>
-  </build>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+    <artifactId>stocky-web</artifactId>
+
+    <build>
+
+        <plugins>
+            <!-- clean the dist directory used by Angular -->
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>dist</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+            <!-- start building web -->
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.11.2</version>
+                <executions>
+                    <!-- Install node and npm -->
+                    <execution>
+                        <id>Install Node and NPM</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <configuration>
+                            <nodeVersion>v16.19.1</nodeVersion>
+                        </configuration>
+                    </execution>
+                    <!-- clean install -->
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- code validation -->
+                    <!--          <execution>-->
+                    <!--              <id>npm run lint</id>-->
+                    <!--              <goals>-->
+                    <!--                  <goal>npm</goal>-->
+                    <!--              </goals>-->
+                    <!--              <phase>test</phase>-->
+                    <!--              <configuration>-->
+                    <!--                  <arguments>run lint</arguments>-->
+                    <!--              </configuration>-->
+                    <!--          </execution>-->
+
+                    <!-- build app -->
+                    <execution>
+                        <id>npm run build</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>run build --prod</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <resources>
+            <resource>
+                <!-- we copy the content of the frontend directory in the final artifact -->
+                <directory>dist/stocky-web</directory>
+            </resource>
+        </resources>
+
+    </build>
+
 </project>
