@@ -15,12 +15,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.5</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>2.7.3</version>
+        <relativePath/>
     </parent>
 
-    <groupId>com.james</groupId>
     <artifactId>stocky</artifactId>
+    <groupId>com.jamesaworo</groupId>
     <version>0.0.1-SNAPSHOT</version>
     <name>stocky</name>
     <description>Stocky is a store management application for busy store owners. </description>
