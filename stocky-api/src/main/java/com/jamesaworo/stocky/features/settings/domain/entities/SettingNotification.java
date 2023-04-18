@@ -12,15 +12,6 @@ import static com.jamesaworo.stocky.core.constants.DatabaseTable.SETTING_NOTIFIC
 @Table(name = SETTING_NOTIFICATION)
 @Builder
 @Data
-public class SettingNotification {
-
-    @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private Boolean enableNotification;
-
-    private Boolean showNotificationPopup;
-
-    private Boolean showNotificationSide;
+public class SettingNotification extends  Setting{
 
 }
