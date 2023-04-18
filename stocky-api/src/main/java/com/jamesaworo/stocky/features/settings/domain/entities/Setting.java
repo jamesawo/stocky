@@ -1,36 +1,30 @@
 package com.jamesaworo.stocky.features.settings.domain.entities;
 
-import com.jamesaworo.stocky.features.settings.domain.contracts.ISetting;
-import lombok.Builder;
-import lombok.Data;
+import com.jamesaworo.stocky.core.enumconstants.SettingField;
+import io.hypersistence.utils.hibernate.type.json.JsonType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 
-import static com.jamesaworo.stocky.core.constants.DatabaseTable.SETTING;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
-@Entity
-@Table(name = SETTING)
-@Builder
-@Data
-public class Setting implements ISetting {
+@MappedSuperclass
+@TypeDef(name = "json", typeClass = JsonType.class)
+
+public class Setting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @OneToOne
-    private SettingDashboard dashboard;
-
-    @OneToOne
-    private SettingBackRestore backRestore;
-
-    @OneToOne
-    private SettingExpenses expenses;
-
-    @OneToOne
-    private SettingNotification notification;
-
-    @OneToOne
-    private SettingPaymentMethod paymentMethod;
-
+    private String settingKey;
+    private String settingValue;
+    private SettingField settingField;
+    @Type(type = "json")
+    @Column(columnDefinition = "json")
+    private Map<String, String> settingOptions;
+    private LocalDateTime createdAt;
+    private LocalDateTime updateAt;
 
 }

@@ -11,10 +11,5 @@ import static com.jamesaworo.stocky.core.constants.DatabaseTable.SETTING_DASHBOA
 @Table(name = SETTING_DASHBOARD)
 @Builder
 @Data
-public class SettingDashboard {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-
+public class SettingDashboard extends Setting {
 }
