@@ -15,14 +15,13 @@ import java.util.Collection;
 @Data
 @Builder
 @AllArgsConstructor
-public class SettingBackupDto {
+public class SettingDto {
     private Long id;
     private String settingKey;
     private String settingValue;
     private SettingField settingField;
     private Collection<SettingOption> settingOptions;
-
-
-    public SettingBackupDto() {
+    
+    public SettingDto() {
     }
 }
