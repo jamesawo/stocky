@@ -16,7 +16,7 @@ public class SettingPaymentMethod {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(updatable = false)
+    @Column(updatable = false, unique = true)
     private String title;
     private String description;
     @Column(updatable = false)
@@ -25,6 +25,9 @@ public class SettingPaymentMethod {
 
     public SettingPaymentMethod(String title) {
         this.title = title;
+    }
+
+    public SettingPaymentMethod() {
     }
 
     @PrePersist()

@@ -11,6 +11,9 @@ import static com.jamesaworo.stocky.core.constants.DatabaseTable.SETTING_DASHBOA
 @Table(name = SETTING_DASHBOARD)
 public class SettingDashboard extends Setting {
 
+    public SettingDashboard() {
+    }
+
     public SettingDashboard(String key, String value, SettingField field, String[] options) {
         super(key, value, field, options);
     }

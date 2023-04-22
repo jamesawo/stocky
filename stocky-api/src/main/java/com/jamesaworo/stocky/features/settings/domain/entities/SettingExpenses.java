@@ -11,6 +11,10 @@ import static com.jamesaworo.stocky.core.constants.DatabaseTable.SETTING_EXPENSE
 @Entity
 @Table(name = SETTING_EXPENSES)
 public class SettingExpenses extends Setting {
+
+    public SettingExpenses() {
+    }
+
     public SettingExpenses(String key, String value, SettingField field, String[] options) {
         super(key, value, field, options);
     }

@@ -12,6 +12,9 @@ import static com.jamesaworo.stocky.core.constants.DatabaseTable.SETTING_TAX;
 @Table(name = SETTING_TAX)
 public class SettingTax extends Setting {
 
+    public SettingTax() {
+    }
+
     public SettingTax(String key, String value, SettingField field, String[] options) {
         super(key, value, field, options);
     }
