@@ -20,7 +20,7 @@ public class SettingBackupUsecase implements SettingUsecase<SettingBackUpRestore
 
     @Override
     public List<SettingBackUpRestore> all() {
-        return null;
+        return this.repository.findAll();
     }
 
     @Override

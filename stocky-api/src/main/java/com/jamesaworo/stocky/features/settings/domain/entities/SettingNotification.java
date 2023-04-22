@@ -1,17 +1,18 @@
 package com.jamesaworo.stocky.features.settings.domain.entities;
 
 
-import lombok.Builder;
-import lombok.Data;
+import com.jamesaworo.stocky.core.enumconstants.SettingField;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import static com.jamesaworo.stocky.core.constants.DatabaseTable.SETTING_NOTIFICATION;
 
 @Entity
 @Table(name = SETTING_NOTIFICATION)
-@Builder
-@Data
-public class SettingNotification extends  Setting{
+public class SettingNotification extends Setting {
 
+    public SettingNotification(String key, String value, SettingField field, String[] options) {
+        super(key, value, field, options);
+    }
 }
