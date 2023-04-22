@@ -22,8 +22,12 @@ public class Setting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true)
     private String settingKey;
+
     private String settingValue;
+
     private SettingField settingField;
 
     @Type(type = "json")
@@ -32,6 +36,7 @@ public class Setting {
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
+    
     private LocalDateTime updateAt;
 
 
