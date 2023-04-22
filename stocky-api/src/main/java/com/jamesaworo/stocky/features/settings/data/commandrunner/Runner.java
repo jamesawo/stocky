@@ -1,4 +1,4 @@
-package com.jamesaworo.stocky.features.settings.data.datasource;
+package com.jamesaworo.stocky.features.settings.data.commandrunner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

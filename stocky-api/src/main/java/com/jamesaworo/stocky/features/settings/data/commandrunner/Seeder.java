@@ -1,4 +1,4 @@
-package com.jamesaworo.stocky.features.settings.data.datasource;
+package com.jamesaworo.stocky.features.settings.data.commandrunner;
 
 import com.jamesaworo.stocky.core.enumconstants.PaymentMethod;
 import com.jamesaworo.stocky.features.settings.data.repositories.*;
