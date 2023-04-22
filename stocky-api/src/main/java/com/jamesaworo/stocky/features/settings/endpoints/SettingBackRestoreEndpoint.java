@@ -1,16 +1,12 @@
 package com.jamesaworo.stocky.features.settings.endpoints;
 
-import com.jamesaworo.stocky.features.settings.data.dto.SettingBackupDto;
+import com.jamesaworo.stocky.features.settings.data.dto.SettingDto;
 import com.jamesaworo.stocky.features.settings.data.interactors.setting_backup_restore.ISettingBackupInteractor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Aworo James
@@ -19,17 +15,30 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value = "setting-backup")
 @RequiredArgsConstructor
-public class SettingBackRestoreEndpoints {
+public class SettingBackRestoreEndpoint {
     private final ISettingBackupInteractor interactor;
 
+    @GetMapping()
+    public ResponseEntity<SettingDto> get(@RequestParam() String key) {
+        return this.interactor.get(key);
+    }
+
     @GetMapping(value = "all")
-    public ResponseEntity<List<SettingBackupDto>> getAll() {
+    public ResponseEntity<List<SettingDto>> getAll() {
         return interactor.getAll();
     }
 
     @PostMapping(value = "update-all")
-    public ResponseEntity<Optional<Boolean>> updateAll(List<SettingBackupDto> list) {
+    public ResponseEntity<Boolean> updateAll(
+            @RequestBody List<SettingDto> list
+    ) {
         return interactor.updateAll(list);
+    }
+
+    @PutMapping(value = "update")
+    public ResponseEntity<Boolean> update(
+            @RequestBody SettingDto setting) {
+        return interactor.update(setting);
     }
 
 }
