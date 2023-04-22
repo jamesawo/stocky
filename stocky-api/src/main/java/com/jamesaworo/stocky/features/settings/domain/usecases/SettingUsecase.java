@@ -1,6 +1,7 @@
 package com.jamesaworo.stocky.features.settings.domain.usecases;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Aworo James
@@ -9,9 +10,9 @@ import java.util.List;
 public interface SettingUsecase<T> {
     List<T> all();
 
-    T get(String key);
+    Optional<T> get(String key);
 
-    void updateAll(List<T> settings);
+    Boolean updateMany(List<T> settings);
 
-    void update(String key, T setting);
+    Boolean update(String key, String value);
 }

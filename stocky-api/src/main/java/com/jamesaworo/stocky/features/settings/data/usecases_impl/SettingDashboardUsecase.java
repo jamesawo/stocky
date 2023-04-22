@@ -5,8 +5,10 @@ import com.jamesaworo.stocky.features.settings.data.repositories.SettingDashboar
 import com.jamesaworo.stocky.features.settings.domain.entities.SettingDashboard;
 import com.jamesaworo.stocky.features.settings.domain.usecases.SettingUsecase;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Aworo James
@@ -14,27 +16,38 @@ import java.util.List;
  */
 @Usecase
 @RequiredArgsConstructor
+@Slf4j
 public class SettingDashboardUsecase implements SettingUsecase<SettingDashboard> {
 
     private final SettingDashboardRepository repository;
 
     @Override
     public List<SettingDashboard> all() {
-        return null;
+        return this.repository.findAll();
     }
 
     @Override
-    public SettingDashboard get(String key) {
-        return null;
+    public Optional<SettingDashboard> get(String key) {
+        return this.repository.findBySettingKey(key);
     }
 
     @Override
-    public void updateAll(List<SettingDashboard> settings) {
-
+    public Boolean updateMany(List<SettingDashboard> settings) {
+        try {
+            settings.forEach(s -> this.update(s.getSettingKey(), s.getSettingValue()));
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return false;
+        }
     }
 
     @Override
-    public void update(String key, SettingDashboard setting) {
-
+    public Boolean update(String key, String value) {
+        var optionalSetting = this.get(key);
+        return optionalSetting.map(e -> {
+            var updated = this.repository.updateByKey(key, value);
+            return updated == 1;
+        }).orElse(false);
     }
 }

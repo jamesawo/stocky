@@ -3,10 +3,11 @@ package com.jamesaworo.stocky.features.settings.data.usecases_impl;
 import com.jamesaworo.stocky.core.annotations.Usecase;
 import com.jamesaworo.stocky.features.settings.data.repositories.SettingPaymentMethodRepository;
 import com.jamesaworo.stocky.features.settings.domain.entities.SettingPaymentMethod;
-import com.jamesaworo.stocky.features.settings.domain.usecases.SettingUsecase;
+import com.jamesaworo.stocky.features.settings.domain.usecases.ISettingPaymentMethodUsecase;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Aworo James
@@ -14,27 +15,24 @@ import java.util.List;
  */
 @Usecase
 @RequiredArgsConstructor
-public class SettingPaymentMethodUsecase implements SettingUsecase<SettingPaymentMethod> {
+public class SettingPaymentMethodUsecase implements ISettingPaymentMethodUsecase {
 
     private final SettingPaymentMethodRepository repository;
 
     @Override
     public List<SettingPaymentMethod> all() {
-        return null;
+        return this.repository.findAll();
     }
 
     @Override
-    public SettingPaymentMethod get(String key) {
-        return null;
+    public Optional<SettingPaymentMethod> get(String title) {
+        return this.repository.findByTitle(title);
     }
 
     @Override
-    public void updateAll(List<SettingPaymentMethod> settings) {
-
+    public Optional<SettingPaymentMethod> getById(Long id) {
+        return this.repository.findById(id);
     }
 
-    @Override
-    public void update(String key, SettingPaymentMethod setting) {
 
-    }
 }
