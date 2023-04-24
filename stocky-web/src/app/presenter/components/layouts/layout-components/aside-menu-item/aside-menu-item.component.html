@@ -1,0 +1,15 @@
+<ng-container *ngIf="menu?.children; else singleMenu">
+    <app-aside-menu-item-dropdown [menu]="menu"></app-aside-menu-item-dropdown>
+</ng-container>
+
+<ng-template #singleMenu>
+    <li>
+        <a
+            href="#"
+            class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
+        >
+            <i-feather [name]="menu?.icon ?? ''" class="i-md"></i-feather>
+            <span class="ml-3" sidebar-toggle-item>{{ menu?.title }}</span>
+        </a>
+    </li>
+</ng-template>
