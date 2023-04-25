@@ -21,11 +21,27 @@
                 <ul class="pb-2 space-y-2">
                     <app-aside-mobile-search-input></app-aside-mobile-search-input>
 
-                    <ng-container *ngFor="let menu of menus">
+                    <ng-container *ngFor="let menu of menus; let idx = index">
+                        <ng-container
+                            [ngTemplateOutlet]="
+                                menu.children ? complexLink : simpleLink
+                            "
+                            [ngTemplateOutletContext]="{ menu: menu, idx: idx }"
+                        >
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-template #simpleLink let-menu="menu">
                         <app-aside-menu-item
                             [menu]="menu"
                         ></app-aside-menu-item>
-                    </ng-container>
+                    </ng-template>
+
+                    <ng-template #complexLink let-menu="menu" let-idx="idx">
+                        <app-aside-menu-item-dropdown
+                            [item]="{ index: idx, menu: menu }"
+                        ></app-aside-menu-item-dropdown>
+                    </ng-template>
                 </ul>
             </div>
         </div>
