@@ -10,6 +10,8 @@ import { LayoutNavBarComponent } from './layout-navbar/layout-navbar.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { IconsModule } from '../icons/icons.module';
+import { LayoutBaseComponent } from './layout-base/layout-base.component';
+import { RouterOutlet } from '@angular/router';
 
 @NgModule({
     declarations: [
@@ -19,6 +21,7 @@ import { IconsModule } from '../icons/icons.module';
         LayoutFooterTopComponent,
         LayoutFooterBottomComponent,
         LayoutBreadcrumbComponent,
+        LayoutBaseComponent,
     ],
     exports: [
         LayoutNavBarComponent,
@@ -27,7 +30,14 @@ import { IconsModule } from '../icons/icons.module';
         LayoutFooterTopComponent,
         LayoutFooterBottomComponent,
         LayoutBreadcrumbComponent,
+        LayoutBaseComponent,
     ],
-    imports: [IconsModule, LayoutComponentModule, BrowserModule, CommonModule],
+    imports: [
+        IconsModule,
+        LayoutComponentModule,
+        RouterOutlet,
+        BrowserModule,
+        CommonModule,
+    ],
 })
 export class LayoutModule {}
