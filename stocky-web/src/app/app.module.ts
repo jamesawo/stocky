@@ -3,13 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/app.component';
-import { LayoutModule } from '@app/presenter/components/layouts/layouts.module';
-
-import { IconsModule } from './presenter/components/icons/icons.module';
+import { PresenterModule } from './presenter/presenter.module';
 
 @NgModule({
     declarations: [AppComponent],
-    imports: [BrowserModule, AppRoutingModule, LayoutModule, IconsModule],
+    imports: [BrowserModule, AppRoutingModule, PresenterModule],
     providers: [],
     bootstrap: [AppComponent],
 })
