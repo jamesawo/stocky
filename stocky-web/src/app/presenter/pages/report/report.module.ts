@@ -1,4 +1,7 @@
 import { NgModule } from '@angular/core';
+import { ReportRoutingModule } from './report-routing.module';
 
-@NgModule({})
+@NgModule({
+    imports: [ReportRoutingModule],
+})
 export class ReportModule {}

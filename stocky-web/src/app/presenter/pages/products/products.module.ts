@@ -1,4 +1,7 @@
 import { NgModule } from '@angular/core';
+import { ProductRoutingModule } from './products-routing.module';
 
-@NgModule({})
+@NgModule({
+    imports: [ProductRoutingModule],
+})
 export class ProductsModule {}
