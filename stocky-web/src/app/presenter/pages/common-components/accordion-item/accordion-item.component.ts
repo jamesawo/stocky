@@ -8,6 +8,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 export class AccordionItemComponent implements OnInit {
     @Input()
     public title?: string;
+    public open = false;
 
     public headingId?: string;
     public accordionId?: string;

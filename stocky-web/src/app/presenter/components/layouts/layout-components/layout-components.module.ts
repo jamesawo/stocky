@@ -15,6 +15,7 @@ import { AsideMenuItemDropdownComponent } from './aside-menu-item-dropdown/aside
 import { IconsModule } from '../../icons/icons.module';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
     declarations: [
@@ -45,6 +46,6 @@ import { BrowserModule } from '@angular/platform-browser';
         AsideMobileSearchInputComponent,
         AsideMenuItemDropdownComponent,
     ],
-    imports: [IconsModule, CommonModule, BrowserModule],
+    imports: [RouterModule, IconsModule, CommonModule, BrowserModule],
 })
 export class LayoutComponentModule {}

@@ -16,4 +16,6 @@ import { Menu } from '@app/core/types/menu';
 export class AsideMenuItemDropdownComponent {
     @Input()
     public item?: { index: number; menu: Menu };
+
+    public open = false;
 }

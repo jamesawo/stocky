@@ -1,9 +1,11 @@
 <li *ngIf="item && item.menu">
     <button
+        (click)="open = !open"
         type="button"
         class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
         [attr.aria-controls]="'dropdown-layouts-' + item.index"
         [attr.data-collapse-toggle]="'dropdown-layouts-' + item.index"
+        [attr.aria-expanded]="open"
     >
         <i-feather [name]="item.menu.icon!" class="i-md"></i-feather>
         <span
@@ -13,10 +15,14 @@
         >
         <i-feather name="chevron-down" class="h-1 w-1"></i-feather>
     </button>
-    <ul id="dropdown-layouts-{{ item.index }}" class="hidden py-2 space-y-2">
+    <ul
+        id="dropdown-layouts-{{ item.index }}"
+        [className]="[open ? '' : 'hidden']"
+        class="hidden py-2 space-y-2"
+    >
         <li *ngFor="let child of item?.menu?.children">
             <a
-                href="#"
+                [routerLink]="child.link"
                 class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                 >{{ child?.title }}</a
             >
