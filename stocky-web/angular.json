@@ -1,11 +1,54 @@
-{
+x{
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
     "version": 1,
+    "cli": {
+        "packageManager": "npm",
+        "schematicCollections": [
+            "@schematics/angular",
+            "ng-alain"
+        ]
+    },
     "newProjectRoot": "projects",
     "projects": {
         "stocky-web": {
             "projectType": "application",
-            "schematics": {},
+            "schematics": {
+                "@schematics/angular:component": {
+                    "skipTests": false,
+                    "flat": false,
+                    "inlineStyle": true,
+                    "inlineTemplate": false,
+                    "style": "less"
+                },
+                "ng-alain:module": {
+                    "routing": true,
+                    "skipTests": false
+                },
+                "ng-alain:list": {
+                    "skipTests": false
+                },
+                "ng-alain:edit": {
+                    "skipTests": false,
+                    "modal": true
+                },
+                "ng-alain:view": {
+                    "skipTests": false,
+                    "modal": true
+                },
+                "ng-alain:curd": {
+                    "skipTests": false
+                },
+                "@schematics/angular:module": {
+                    "routing": true,
+                    "skipTests": false
+                },
+                "@schematics/angular:directive": {
+                    "skipTests": false
+                },
+                "@schematics/angular:service": {
+                    "skipTests": false
+                }
+            },
             "root": "",
             "sourceRoot": "src",
             "prefix": "app",
@@ -20,24 +63,40 @@
                             "zone.js"
                         ],
                         "tsConfig": "tsconfig.app.json",
+                        "inlineStyleLanguage": "less",
                         "assets": [
                             "src/favicon.ico",
-                            "src/assets"
+                            "src/assets",
+                            {
+                                "glob": "**/*",
+                                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                                "output": "/assets/"
+                            }
                         ],
                         "styles": [
-                            "src/styles.css"
+                            "src/styles.less"
                         ],
-                        "scripts": [
-                            "node_modules/flowbite/dist/flowbite.js"
-                        ]
+                        "scripts": [],
+                        "allowedCommonJsDependencies": [
+                            "ajv",
+                            "ajv-formats",
+                            "extend",
+                            "file-saver",
+                            "mockjs"
+                        ],
+                        "stylePreprocessorOptions": {
+                            "includePaths": [
+                                "node_modules/"
+                            ]
+                        }
                     },
                     "configurations": {
                         "production": {
                             "budgets": [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "500kb",
-                                    "maximumError": "1mb"
+                                    "maximumWarning": "2mb",
+                                    "maximumError": "3mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",
@@ -68,7 +127,10 @@
                             "browserTarget": "stocky-web:build:development"
                         }
                     },
-                    "defaultConfiguration": "development"
+                    "defaultConfiguration": "development",
+                    "options": {
+                        "proxyConfig": "proxy.conf.js"
+                    }
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -84,14 +146,24 @@
                             "zone.js/testing"
                         ],
                         "tsConfig": "tsconfig.spec.json",
+                        "inlineStyleLanguage": "less",
                         "assets": [
                             "src/favicon.ico",
                             "src/assets"
                         ],
                         "styles": [
-                            "src/styles.css"
+                            "src/styles.less"
                         ],
                         "scripts": []
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-eslint/builder:lint",
+                    "options": {
+                        "lintFilePatterns": [
+                            "src/**/*.ts",
+                            "src/**/*.html"
+                        ]
                     }
                 }
             }
