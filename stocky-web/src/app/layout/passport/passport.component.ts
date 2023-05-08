@@ -9,15 +9,15 @@ import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 export class LayoutPassportComponent implements OnInit {
   links = [
     {
-      title: '帮助',
+      title: 'Support',
       href: ''
     },
     {
-      title: '隐私',
+      title: 'Developers',
       href: ''
     },
     {
-      title: '条款',
+      title: 'FAQ',
       href: ''
     }
   ];
