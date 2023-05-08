@@ -23,71 +23,115 @@ const routes: Routes = [
         canActivate: [startPageGuard, SimpleGuard],
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-            { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘' } },
-            { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) }
-        ]
+            {
+                path: 'dashboard',
+                component: DashboardComponent,
+                data: { title: '仪表盘' },
+            },
+            {
+                path: 'exception',
+                loadChildren: () =>
+                    import('./exception/exception.module').then(
+                        (m) => m.ExceptionModule
+                    ),
+            },
+        ],
     },
 
     {
         path: 'passport',
         component: LayoutPassportComponent,
         children: [
-            { path: 'login', component: UserLoginComponent, data: { title: 'Login' } },
-            { path: 'register', component: UserRegisterComponent, data: { title: 'Register' } },
-            { path: 'register-result', component: UserRegisterResultComponent, data: { title: 'Register Result' } },
-            { path: 'lock', component: UserLockComponent, data: { title: 'Lock' } }
-        ]
+            {
+                path: 'login',
+                component: UserLoginComponent,
+                data: { title: 'Login' },
+            },
+            {
+                path: 'register',
+                component: UserRegisterComponent,
+                data: { title: 'Register' },
+            },
+            {
+                path: 'register-result',
+                component: UserRegisterResultComponent,
+                data: { title: 'Register Result' },
+            },
+            {
+                path: 'lock',
+                component: UserLockComponent,
+                data: { title: 'Lock' },
+            },
+        ],
     },
 
     {
         path: 'company',
         component: LayoutBasicComponent,
         canActivate: [startPageGuard, SimpleGuard],
-        loadChildren: () => import('src/app/routes/company/company.module').then(m => m.CompanyModule)
+        loadChildren: () =>
+            import('src/app/routes/company/company.module').then(
+                (m) => m.CompanyModule
+            ),
     },
 
     {
         path: 'products',
         component: LayoutBasicComponent,
-        canActivate: [startPageGuard, SimpleGuard],
-        loadChildren: () => import('src/app/routes/products/products.module').then(m => m.ProductsModule)
+        canActivate: [],
+        loadChildren: () =>
+            import('src/app/routes/products/products.module').then(
+                (m) => m.ProductsModule
+            ),
     },
     {
         path: 'report',
         component: LayoutBasicComponent,
         canActivate: [startPageGuard, SimpleGuard],
-        loadChildren: () => import('src/app/routes/report/report.module').then(m => m.ReportModule)
+        loadChildren: () =>
+            import('src/app/routes/report/report.module').then(
+                (m) => m.ReportModule
+            ),
     },
     {
         path: 'sales',
         component: LayoutBasicComponent,
         canActivate: [startPageGuard, SimpleGuard],
-        loadChildren: () => import('src/app/routes/sales/sales.module').then(m => m.SalesModule)
+        loadChildren: () =>
+            import('src/app/routes/sales/sales.module').then(
+                (m) => m.SalesModule
+            ),
     },
     {
         path: 'settings',
         component: LayoutBasicComponent,
         canActivate: [startPageGuard, SimpleGuard],
-        loadChildren: () => import('src/app/routes/settings/settings.module').then(m => m.SettingsModule)
+        loadChildren: () =>
+            import('src/app/routes/settings/settings.module').then(
+                (m) => m.SettingsModule
+            ),
     },
     {
         path: 'stock',
         component: LayoutBasicComponent,
         canActivate: [startPageGuard, SimpleGuard],
-        loadChildren: () => import('src/app/routes/stock/stock.module').then(m => m.StockModule)
+        loadChildren: () =>
+            import('src/app/routes/stock/stock.module').then(
+                (m) => m.StockModule
+            ),
     },
 
     { path: 'passport/callback/:type', component: CallbackComponent },
-    { path: '**', redirectTo: 'exception/404' }
+    { path: '**', redirectTo: 'exception/404' },
 ];
 
 @NgModule({
     imports: [
         RouterModule.forRoot(routes, {
             useHash: environment.useHash,
-            scrollPositionRestoration: 'top'
-        })
+            scrollPositionRestoration: 'top',
+        }),
     ],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
 export class RouteRoutingModule {}

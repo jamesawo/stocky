@@ -1,11 +1,16 @@
-import { Injectable, Inject } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { ALAIN_I18N_TOKEN, Menu, MenuService, SettingsService, TitleService } from '@delon/theme';
+import {
+    ALAIN_I18N_TOKEN,
+    MenuService,
+    SettingsService,
+    TitleService,
+} from '@delon/theme';
 import { ACLService } from '@delon/acl';
 import { I18NService } from '../i18n/i18n.service';
-import { Observable, zip, of, catchError, map } from 'rxjs';
+import { catchError, map, Observable, of, zip } from 'rxjs';
 import type { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzIconService } from 'ng-zorro-antd/icon';
 
@@ -29,11 +34,24 @@ export class StartupService {
         iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
     }
 
+    load(): Observable<void> {
+        // http
+        // return this.viaHttp();
+        // mock: Don’t use it in a production environment. ViaMock is just to simulate some data to make the scaffolding work normally
+        return this.viaMockI18n();
+    }
+
     private viaHttp(): Observable<void> {
         const defaultLang = this.i18n.defaultLang;
-        return zip(this.i18n.loadLangData(defaultLang), this.httpClient.get('assets/tmp/app-data.json')).pipe(
+        return zip(
+            this.i18n.loadLangData(defaultLang),
+            this.httpClient.get('assets/tmp/app-data.json')
+        ).pipe(
             catchError((res: NzSafeAny) => {
-                console.warn(`StartupService.load: Network request failed`, res);
+                console.warn(
+                    `StartupService.load: Network request failed`,
+                    res
+                );
                 setTimeout(() => this.router.navigateByUrl(`/exception/500`));
                 return [];
             }),
@@ -68,13 +86,13 @@ export class StartupService {
         // mock
         const app: any = {
             name: `ng-alain`,
-            description: `Ng-zorro admin panel front-end framework`
+            description: `Stocky, A store management software`,
         };
         const user: any = {
             name: 'Admin',
             avatar: './assets/tmp/img/avatar.jpg',
             email: 'cipchk@qq.com',
-            token: '123456789'
+            token: '123456789',
         };
         this.settingService.setApp(app);
         this.settingService.setUser(user);
@@ -82,12 +100,5 @@ export class StartupService {
         this.menuService.add(MENU_BAG);
         this.titleService.suffix = app.name;
         return of(void 0);
-    }
-
-    load(): Observable<void> {
-        // http
-        // return this.viaHttp();
-        // mock: Don’t use it in a production environment. ViaMock is just to simulate some data to make the scaffolding work normally
-        return this.viaMockI18n();
     }
 }

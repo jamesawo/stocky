@@ -8,23 +8,22 @@ export const MENU_BAG: Menu[] = [
             {
                 text: 'Dashboard',
                 link: '/dashboard',
-                icon: { type: 'icon', value: 'appstore' }
+                icon: { type: 'icon', value: 'appstore' },
             },
 
             {
                 text: 'Products',
-                link: '/products',
                 icon: { type: 'icon', value: 'shopping-cart' },
                 children: [
                     {
                         text: 'Categories',
-                        link: '/categories'
+                        link: '/products/category-list',
                     },
                     {
                         text: 'Products',
-                        link: '/products'
-                    }
-                ]
+                        link: '/products/product-list',
+                    },
+                ],
             },
 
             {
@@ -34,8 +33,8 @@ export const MENU_BAG: Menu[] = [
                 children: [
                     { text: 'Sale', link: '/sales/sale' },
                     { text: 'Order', link: '/sales/order' },
-                    { text: 'Refund', link: '/sales/refund' }
-                ]
+                    { text: 'Refund', link: '/sales/refund' },
+                ],
             },
             {
                 text: 'Stock',
@@ -45,8 +44,8 @@ export const MENU_BAG: Menu[] = [
                     { text: 'Manage', link: '/stock/manage' },
                     { text: 'Count Stock', link: '/stock/count' },
                     { text: 'Reorder Alert', link: 'stock/reorder-alert' },
-                    { text: 'Reconciliation', link: '/stock/reconcile' }
-                ]
+                    { text: 'Reconciliation', link: '/stock/reconcile' },
+                ],
             },
             {
                 text: 'Company',
@@ -57,8 +56,8 @@ export const MENU_BAG: Menu[] = [
                     { text: 'Tax', link: '/company/tax' },
                     { text: 'People', link: '/company/people' },
                     { text: 'Location', link: '/company/location' },
-                    { text: 'Expenses', link: '/company/expenses' }
-                ]
+                    { text: 'Expenses', link: '/company/expenses' },
+                ],
             },
             {
                 text: 'Report',
@@ -69,8 +68,8 @@ export const MENU_BAG: Menu[] = [
                     { text: 'Expense', link: '/report/expenses' },
                     { text: 'Employee', link: '/report/employees' },
                     { text: 'Customer', link: '/report/customers' },
-                    { text: 'Stock', link: '/report/stock' }
-                ]
+                    { text: 'Stock', link: '/report/stock' },
+                ],
             },
 
             {
@@ -83,9 +82,9 @@ export const MENU_BAG: Menu[] = [
                     { text: 'Sales', link: '/settings/sales' },
                     { text: 'People', link: '/settings/people' },
                     { text: 'Stock', link: '/settings/stock' },
-                    { text: 'Product', link: '/settings/product' }
-                ]
-            }
-        ]
-    }
+                    { text: 'Product', link: '/settings/product' },
+                ],
+            },
+        ],
+    },
 ];

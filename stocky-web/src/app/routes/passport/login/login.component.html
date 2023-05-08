@@ -1,18 +1,19 @@
-<form nz-form [formGroup]="form" (ngSubmit)="submit()" role="form">
+<form (ngSubmit)="submit()" [formGroup]="form" nz-form role="form">
     <nz-tabset [nzAnimated]="false" class="tabs">
         <nz-tab [nzTitle]="'Login'">
-            <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
+            <nz-alert *ngIf="error" [nzMessage]="error" [nzShowIcon]="true" [nzType]="'error'" class="mb-lg"></nz-alert>
             <nz-form-item>
                 <nz-form-control nzErrorTip="Please enter your username">
-                    <nz-input-group nzSize="large" nzPrefixIcon="user">
-                        <input nz-input formControlName="userName" placeholder="Enter your username" />
+                    <nz-input-group nzPrefixIcon="user" nzSize="large">
+                        <input formControlName="userName" nz-input placeholder="Enter your username"/>
                     </nz-input-group>
                 </nz-form-control>
             </nz-form-item>
             <nz-form-item>
                 <nz-form-control nzErrorTip="Please enter your password">
-                    <nz-input-group nzSize="large" nzPrefixIcon="lock">
-                        <input nz-input type="password" formControlName="password" placeholder="Enter your password" />
+                    <nz-input-group nzPrefixIcon="lock" nzSize="large">
+                        <input formControlName="password" nz-input placeholder="Enter your password" type="password"
+                        />
                     </nz-input-group>
                 </nz-form-control>
             </nz-form-item>
@@ -21,12 +22,12 @@
 
     <nz-form-item>
         <nz-col [nzSpan]="12">
-            <label nz-checkbox formControlName="remember">{{ 'remember me' | i18n }}</label>
+            <label formControlName="remember" nz-checkbox>{{ 'remember me' | i18n }}</label>
         </nz-col>
     </nz-form-item>
 
     <nz-form-item>
-        <button nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="loading" nzBlock>
+        <button [nzLoading]="loading" nz-button nzBlock nzSize="large" nzType="primary" type="submit">
             {{ 'Login' }}
         </button>
     </nz-form-item>

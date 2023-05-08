@@ -1,102 +1,134 @@
-<<<<<<< HEAD:stocky-web/src/app/presenter/pages/products/category-list/category-list.component.html
+<page-header [action]='action' [breadcrumb]='breadcrumb' [content]='content' title="Product Categories">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/dashboard">Dashboard</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a routerLink="/products/product-list">Product</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a routerLink="/products/category-list">Categories</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+    <ng-template #action>
+        <!--        <app-expand-collapse-button [(open)]='isExpanded'></app-expand-collapse-button>-->
+    </ng-template>
+
+    <ng-template #content>
+        <form autocomplete='off' nz-form>
+            <div nz-row>
+                <div class='ph-main' nz-col nzSpan='24'>
+                    <input name='supportPerson'
+                           nz-input
+                           placeholder='Enter support name' type='text'/>
+                </div>
+
+                <ng-container>
+
+                    <div class='' nz-col nzSpan='24'>
+                        <div nz-row>
+                            <div [nzLg]='8' [nzXs]='24' class='p-r-10px' nz-col nzSpan='8'>
+                                <nz-form-label [nzNoColon]='true' nzFor='supportPerson'
+                                >Support Person
+                                    <span
+                                        class='m-l-3px'
+                                        nz-icon
+                                        nz-tooltip
+                                        nzTheme='outline'
+                                        nzTooltipTitle='search hospitals by support administrator'
+                                        nzType='info-circle'
+                                    ></span>
+                                </nz-form-label>
+                                <nz-form-control>
+                                    <input id='supportPerson' name='supportPerson'
+                                           nz-input
+                                           placeholder='Enter support name' type='text'/>
+                                </nz-form-control>
+                            </div>
+
+                            <div [nzLg]='8' [nzXs]='24' class='p-lr-10px m-t-sm-1em' nz-col nzSpan='8'>
+                                <p>dropdown</p>
+                            </div>
+
+                            <div [nzLg]='8' [nzXs]='24' class='p-l-10px m-t-sm-1em' nz-col
+                                 nzSpan='8'>
+                                <nz-form-label [nzNoColon]='true' nzFor='dateOfCreation'
+                                >Date of creation
+                                    <span
+                                        class='m-l-3px'
+                                        nz-icon
+                                        nz-tooltip
+                                        nzTheme='outline'
+                                        nzTooltipTitle='Choose a start and end date to search for hospital created between the dates.'
+                                        nzType='info-circle'
+                                    ></span>
+                                </nz-form-label>
+                                <p>date picker</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class='ph-main m-t-1em m-t-sm-1em' nz-col nzSpan='24'>
+                        <div nz-row>
+
+                            <div [nzLg]='8' [nzXs]='24' class='p-r-10px' nz-col>
+                                <p>search again</p>
+                            </div>
+
+                            <div [nzLg]='8' [nzXs]='24' class='p-lr-10px m-t-sm-1em' nz-col>
+
+                            </div>
+
+                            <div [nzLg]='6' [nzXs]='24' class='p-lr-10px m-t-sm-1em' nz-col>
+
+                                <div nz-row>
+                                    <div [nzLg]='12' [nzXs]='24' nz-col>
+                                        <nz-form-label [nzNoColon]='true' class='' nzFor='isEnabled'
+                                        >Status
+                                            <span
+                                                class='m-l-3px'
+                                                nz-icon
+                                                nz-tooltip
+                                                nzTheme='outline'
+                                                nzTooltipTitle='search by current active or inactive status'
+                                                nzType='info-circle'
+                                            ></span>
+
+                                        </nz-form-label>
+                                    </div>
+
+                                    <div [nzLg]='12' [nzXs]='24' nz-col>
+                                        <nz-form-label [nzNoColon]='true' class='' nzFor='hasHmis'
+                                        >Has HMIS
+                                            <span
+                                                class='m-l-3px'
+                                                nz-icon
+                                                nz-tooltip
+                                                nzTheme='outline'
+                                                nzTooltipTitle='search hospitals using HMIS for bill searching & payment'
+                                                nzType='info-circle'
+                                            ></span>
+
+                                        </nz-form-label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </ng-container>
+
+                <div [nzLg]='24' [nzXs]='24' class='ph-main m-t-2em m-t-sm-2em m-b-2em' nz-col nzSpan='24'>
+                    <div nz-row nzJustify='space-between'>
+                        <div [nzLg]='12' [nzSpan]='12' [nzXs]='10' nz-col>
+                        </div>
+
+                        <div [nzLg]='12' [nzSpan]='12' [nzXs]='10' class='text-align-end' nz-col>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </ng-template>
+
+</page-header>
 <p>category-list works!</p>
-=======
-<!-- <div class="m-4 h-[50vh]">
-    <form>
-        <div class="grid gap-6 mb-6 md:grid-cols-2">
-            <div>
-                <label
-                    for="first_name"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >First name</label
-                >
-                <input
-                    type="text"
-                    id="first_name"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="John"
-                    required
-                />
-            </div>
-            <div>
-                <label
-                    for="last_name"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Last name</label
-                >
-                <input
-                    type="text"
-                    id="last_name"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Doe"
-                    required
-                />
-            </div>
-            <div>
-                <label
-                    for="company"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Company</label
-                >
-                <input
-                    type="text"
-                    id="company"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Flowbite"
-                    required
-                />
-            </div>
-            <div>
-                <label
-                    for="phone"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Phone number</label
-                >
-                <input
-                    type="tel"
-                    id="phone"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="123-45-678"
-                    pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-                    required
-                />
-            </div>
-            <div>
-                <label
-                    for="website"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Website URL</label
-                >
-                <input
-                    type="url"
-                    id="website"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="flowbite.com"
-                    required
-                />
-            </div>
-            <div>
-                <label
-                    for="visitors"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Unique visitors (per month)</label
-                >
-                <input
-                    type="number"
-                    id="visitors"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder=""
-                    required
-                />
-            </div>
-        </div>
-        <button
-            type="submit"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-            Submit
-        </button>
-        <button nz-button nzType="primary">Primary</button>
-    </form>
-</div> -->
->>>>>>> 3692364... update(stocky-web): install ant-design, and ng-alain:stocky-web/src/app/routes/products/category-list/category-list.component.html
