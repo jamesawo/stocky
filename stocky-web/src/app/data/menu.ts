@@ -23,6 +23,10 @@ export const MENU_BAG: Menu[] = [
                         text: 'Products',
                         link: '/products/product-list',
                     },
+                    {
+                        text: 'Variants',
+                        link: '/products/variants',
+                    },
                 ],
             },
 
