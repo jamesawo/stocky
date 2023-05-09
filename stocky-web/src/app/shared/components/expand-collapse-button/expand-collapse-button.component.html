@@ -1,0 +1,9 @@
+<button nz-button nzType='text' class='primary' (click)='onToggle()'>
+    {{ open ? 'Collapse' :'Expand' }}
+    <ng-container *ngIf='open; else downIcon'>
+        <span nz-icon nzType='up' nzTheme='outline' ></span>
+    </ng-container>
+    <ng-template #downIcon>
+        <span nz-icon nzType='down' nzTheme='outline' ></span>
+    </ng-template>
+</button>

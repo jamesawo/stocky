@@ -1,0 +1,9 @@
+<button (click)="props.handler()"
+        [nzLoading]="props.isLoading!"
+        [nzSize]="props.size!"
+        [nzType]="props.type!"
+        nz-button
+>
+    <span *ngIf="showTitle">{{props.title}}</span>
+    <span nz-icon nzType='{{props.icon}}'></span>
+</button>

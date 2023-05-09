@@ -1,0 +1,8 @@
+<ng-container *ngIf="props?.style != 2; else style2">
+    <nz-badge [nzColor]="status ? 'green': 'red'" nzSize='default' [nzText]="status ? 'ACTIVE' : 'INACTIVE'"></nz-badge>
+</ng-container>
+
+<ng-template #style2>
+     <span nz-tooltip=''
+           [ngClass]="{'badge-red': !status,'badge-green': status}" [innerText]="status ? 'YES': 'NO'"></span>
+</ng-template>

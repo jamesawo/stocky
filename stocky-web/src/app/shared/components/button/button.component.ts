@@ -1,0 +1,54 @@
+import { Component, Input } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { BreakPoints, ResponsiveService } from '../../utils/responsive.service';
+import { NzButtonSize, NzButtonType } from 'ng-zorro-antd/button';
+
+export type ButtonProps = {
+    handler: () => void;
+    title?: string;
+    isLoading?: boolean;
+    type?: NzButtonType;
+    size?: NzButtonSize;
+    icon?: string;
+};
+
+@Component({
+    selector: 'app-button',
+    templateUrl: './button.component.html',
+})
+export class ButtonComponent {
+    public showTitle = true;
+
+    @Input()
+    public props: ButtonProps = {
+        handler: () => {},
+        title: 'Add',
+        isLoading: false,
+        type: 'primary',
+        size: 'large',
+        icon: '',
+    };
+
+    private sub = new Subscription();
+
+    constructor(private service: ResponsiveService) {}
+
+    ngOnInit(): void {
+        if (!this.props.handler) this.props['handler'] = () => {};
+        if (!this.props.isLoading) this.props['isLoading'] = false;
+        if (!this.props.size) this.props['size'] = 'large';
+        if (!this.props.type) this.props['type'] = 'primary';
+
+        this.service.mediaBreakpoint$.subscribe((value) =>
+            this.onBreakPointChange(value)
+        );
+    }
+
+    ngOnDestroy() {
+        this.sub.unsubscribe();
+    }
+
+    public onBreakPointChange(value: string) {
+        this.showTitle = value !== BreakPoints.XS;
+    }
+}

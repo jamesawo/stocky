@@ -1,127 +1,42 @@
 <page-header [action]='action' [breadcrumb]='breadcrumb' [content]='content' title="Product Categories">
     <ng-template #breadcrumb>
-        <nz-breadcrumb>
-            <nz-breadcrumb-item><a routerLink="/dashboard">Dashboard</a></nz-breadcrumb-item>
-            <nz-breadcrumb-item><a routerLink="/products/product-list">Product</a></nz-breadcrumb-item>
-            <nz-breadcrumb-item><a routerLink="/products/category-list">Categories</a></nz-breadcrumb-item>
-        </nz-breadcrumb>
+        <app-breadcrumbs [crumbs]="crumbs"></app-breadcrumbs>
     </ng-template>
+
     <ng-template #action>
-        <!--        <app-expand-collapse-button [(open)]='isExpanded'></app-expand-collapse-button>-->
+        <app-expand-collapse-button [(open)]='isExpanded'></app-expand-collapse-button>
     </ng-template>
 
     <ng-template #content>
-        <form autocomplete='off' nz-form>
+        <form *ngIf="isExpanded" autocomplete='off' nz-form>
             <div nz-row>
-                <div class='ph-main' nz-col nzSpan='24'>
-                    <input name='supportPerson'
+                <div class='ph-main m-t-1em' nz-col nzSpan='24'>
+                    <input name='productCategoryName'
                            nz-input
-                           placeholder='Enter support name' type='text'/>
+                           placeholder='Enter category name' type='text'/>
                 </div>
 
-                <ng-container>
-
-                    <div class='' nz-col nzSpan='24'>
-                        <div nz-row>
-                            <div [nzLg]='8' [nzXs]='24' class='p-r-10px' nz-col nzSpan='8'>
-                                <nz-form-label [nzNoColon]='true' nzFor='supportPerson'
-                                >Support Person
-                                    <span
-                                        class='m-l-3px'
-                                        nz-icon
-                                        nz-tooltip
-                                        nzTheme='outline'
-                                        nzTooltipTitle='search hospitals by support administrator'
-                                        nzType='info-circle'
-                                    ></span>
-                                </nz-form-label>
-                                <nz-form-control>
-                                    <input id='supportPerson' name='supportPerson'
-                                           nz-input
-                                           placeholder='Enter support name' type='text'/>
-                                </nz-form-control>
-                            </div>
-
-                            <div [nzLg]='8' [nzXs]='24' class='p-lr-10px m-t-sm-1em' nz-col nzSpan='8'>
-                                <p>dropdown</p>
-                            </div>
-
-                            <div [nzLg]='8' [nzXs]='24' class='p-l-10px m-t-sm-1em' nz-col
-                                 nzSpan='8'>
-                                <nz-form-label [nzNoColon]='true' nzFor='dateOfCreation'
-                                >Date of creation
-                                    <span
-                                        class='m-l-3px'
-                                        nz-icon
-                                        nz-tooltip
-                                        nzTheme='outline'
-                                        nzTooltipTitle='Choose a start and end date to search for hospital created between the dates.'
-                                        nzType='info-circle'
-                                    ></span>
-                                </nz-form-label>
-                                <p>date picker</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class='ph-main m-t-1em m-t-sm-1em' nz-col nzSpan='24'>
-                        <div nz-row>
-
-                            <div [nzLg]='8' [nzXs]='24' class='p-r-10px' nz-col>
-                                <p>search again</p>
-                            </div>
-
-                            <div [nzLg]='8' [nzXs]='24' class='p-lr-10px m-t-sm-1em' nz-col>
-
-                            </div>
-
-                            <div [nzLg]='6' [nzXs]='24' class='p-lr-10px m-t-sm-1em' nz-col>
-
-                                <div nz-row>
-                                    <div [nzLg]='12' [nzXs]='24' nz-col>
-                                        <nz-form-label [nzNoColon]='true' class='' nzFor='isEnabled'
-                                        >Status
-                                            <span
-                                                class='m-l-3px'
-                                                nz-icon
-                                                nz-tooltip
-                                                nzTheme='outline'
-                                                nzTooltipTitle='search by current active or inactive status'
-                                                nzType='info-circle'
-                                            ></span>
-
-                                        </nz-form-label>
-                                    </div>
-
-                                    <div [nzLg]='12' [nzXs]='24' nz-col>
-                                        <nz-form-label [nzNoColon]='true' class='' nzFor='hasHmis'
-                                        >Has HMIS
-                                            <span
-                                                class='m-l-3px'
-                                                nz-icon
-                                                nz-tooltip
-                                                nzTheme='outline'
-                                                nzTooltipTitle='search hospitals using HMIS for bill searching & payment'
-                                                nzType='info-circle'
-                                            ></span>
-
-                                        </nz-form-label>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                </ng-container>
 
                 <div [nzLg]='24' [nzXs]='24' class='ph-main m-t-2em m-t-sm-2em m-b-2em' nz-col nzSpan='24'>
                     <div nz-row nzJustify='space-between'>
                         <div [nzLg]='12' [nzSpan]='12' [nzXs]='10' nz-col>
+                            <app-search-reset-button
+                                [props]='{
+                                onSearchAction: onAddCategory,
+                                isLoadingSearchResult: isLoading,
+                                onResetSearchPayload: onAddCategory,
+                                onCancelAction: onAddCategory
+                                }'
+                            ></app-search-reset-button>
                         </div>
 
                         <div [nzLg]='12' [nzSpan]='12' [nzXs]='10' class='text-align-end' nz-col>
+                            <nz-space nzSize="small">
+                                <app-button *nzSpaceItem
+                                            [props]="{handler: onAddCategory, title: 'Add', icon: 'plus'}"
+                                ></app-button>
+                                <app-export-upload-button *nzSpaceItem [props]='{}'></app-export-upload-button>
+                            </nz-space>
                         </div>
                     </div>
                 </div>
@@ -131,4 +46,34 @@
     </ng-template>
 
 </page-header>
-<p>category-list works!</p>
+
+<nz-card>
+    <div class='wd-100p'>
+        <nz-table>
+            <thead>
+            <tr class='text-uppercase'>
+                <th (nzCheckedChange)='onCheckedAllRecord($event)'
+                    [nzChecked]='isAllCurrentPageChecked'
+                    [nzIndeterminate]='indeterminate' nzWidth='10%'
+                ></th>
+                <th nzWidth='30%'>Title</th>
+                <th nzWidth='60%'>Description</th>
+            </tr>
+            </thead>
+        </nz-table>
+    </div>
+</nz-card>
+
+<div>
+    <nz-modal
+        (nzOnCancel)="handleCancel()"
+        (nzOnOk)="handleOk()"
+        [(nzVisible)]="showModal"
+        nzTitle="Create New Category">
+        <ng-container *nzModalContent>
+            <p>Content one</p>
+            <p>Content two</p>
+            <p>Content three</p>
+        </ng-container>
+    </nz-modal>
+</div>

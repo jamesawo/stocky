@@ -1,0 +1,13 @@
+<nz-breadcrumb>
+    <nz-breadcrumb-item *ngFor="let crumb of crumbs">
+
+        <ng-container *ngIf="crumb.link; else noLink">
+            <a [routerLink]="crumb.link">{{crumb.title}}</a>
+        </ng-container>
+
+        <ng-template #noLink>
+            <a>{{crumb.title}}</a>
+        </ng-template>
+        
+    </nz-breadcrumb-item>
+</nz-breadcrumb>

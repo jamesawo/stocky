@@ -1,0 +1,19 @@
+<button nz-button nzType='default' [nzSize]="'large'">
+    <span *ngIf='displayTest'> Import</span>
+    <span nz-icon nzType='upload'></span>
+</button>
+
+<button nz-button nz-dropdown [nzSize]="'large'" [nzDropdownMenu]='menu'>
+    <span *ngIf='displayTest'> Export</span>
+    <span nz-icon nzType='download'></span>
+</button>
+<nz-dropdown-menu #menu='nzDropdownMenu'>
+    <ul nz-menu>
+        <li nz-menu-item>
+            <a>PDF</a>
+        </li>
+        <li nz-menu-item>
+            <a>Excel</a>
+        </li>
+    </ul>
+</nz-dropdown-menu>

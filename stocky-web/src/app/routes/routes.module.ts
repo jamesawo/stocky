@@ -21,7 +21,7 @@ const COMPONENTS: Array<Type<void>> = [
     // single pages
     CallbackComponent,
     UserLockComponent,
-    // product components
+    // product _components
 ];
 
 @NgModule({

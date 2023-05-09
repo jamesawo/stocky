@@ -1,0 +1,9 @@
+<nz-form-control>
+    <nz-range-picker
+        class="wd-100p"
+        id="dateOfCreation"
+        (ngModelChange)='onChange($event)'
+        [(ngModel)]='selectedDate'
+        [nzFormat]="dateFormat"
+    ></nz-range-picker>
+</nz-form-control>
