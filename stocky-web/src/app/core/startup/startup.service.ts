@@ -2,16 +2,10 @@ import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import {
-    ALAIN_I18N_TOKEN,
-    MenuService,
-    SettingsService,
-    TitleService,
-} from '@delon/theme';
+import { MenuService, SettingsService, TitleService } from '@delon/theme';
 import { ACLService } from '@delon/acl';
-import { I18NService } from '../i18n/i18n.service';
-import { catchError, map, Observable, of, zip } from 'rxjs';
-import type { NzSafeAny } from 'ng-zorro-antd/core/types';
+// import { I18NService } from '../i18n/i18n.service';
+import { Observable, of } from 'rxjs';
 import { NzIconService } from 'ng-zorro-antd/icon';
 
 import { ICONS } from '../../../style-icons';
@@ -23,7 +17,7 @@ export class StartupService {
     constructor(
         iconSrv: NzIconService,
         private menuService: MenuService,
-        @Inject(ALAIN_I18N_TOKEN) private i18n: I18NService,
+        // @Inject(ALAIN_I18N_TOKEN) private i18n: I18NService,
         private settingService: SettingsService,
         private aclService: ACLService,
         private titleService: TitleService,
@@ -38,13 +32,15 @@ export class StartupService {
         // http
         // return this.viaHttp();
         // mock: Don’t use it in a production environment. ViaMock is just to simulate some data to make the scaffolding work normally
-        return this.viaMockI18n();
+        // return this.viaMockI18n();
+        return this.viaMock();
     }
 
+    /*
     private viaHttp(): Observable<void> {
-        const defaultLang = this.i18n.defaultLang;
+        // const defaultLang = this.i18n.defaultLang;
         return zip(
-            this.i18n.loadLangData(defaultLang),
+            // this.i18n.loadLangData(defaultLang),
             this.httpClient.get('assets/tmp/app-data.json')
         ).pipe(
             catchError((res: NzSafeAny) => {
@@ -56,7 +52,7 @@ export class StartupService {
                 return [];
             }),
             map(([langData, appData]: [Record<string, string>, NzSafeAny]) => {
-                this.i18n.use(defaultLang, langData);
+                // this.i18n.use(defaultLang, langData);
                 this.settingService.setApp(appData.app);
                 this.settingService.setUser(appData.user);
                 this.aclService.setFull(true);
@@ -75,6 +71,8 @@ export class StartupService {
             })
         );
     }
+
+     */
 
     private viaMock(): Observable<void> {
         // const tokenData = this.tokenService.get();
