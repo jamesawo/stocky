@@ -1,1 +1,20 @@
-<p>product-add works!</p>
+<page-header [breadcrumb]='breadcrumb' title="Add Product">
+    <ng-template #breadcrumb>
+        <app-breadcrumbs [crumbs]="crumbs"></app-breadcrumbs>
+    </ng-template>
+
+</page-header>
+
+<nz-card>
+    <div class='wd-100p'>
+        <nz-table>
+            <thead>
+            <tr class='text-uppercase'>
+                <th nzWidth='10%'></th>
+                <th nzWidth='30%'>Title</th>
+                <th nzWidth='60%'>Description</th>
+            </tr>
+            </thead>
+        </nz-table>
+    </div>
+</nz-card>

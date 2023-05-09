@@ -56,10 +56,11 @@
 
                         <div [nzLg]='12' [nzSpan]='12' [nzXs]='10' class='text-align-end' nz-col>
                             <nz-space nzSize="small">
-                                <app-button
-                                    *nzSpaceItem
-                                    [props]="{handler: onCreateProduct, title: 'Add', icon: 'plus'}"
-                                ></app-button>
+                                <a *nzSpaceItem nz-button nzSize="large" nzType="primary"
+                                   routerLink="/products/product-add">
+                                    Add
+                                    <i nz-icon nzType="plus"></i>
+                                </a>
                                 <app-export-upload-button *nzSpaceItem [props]='{}'></app-export-upload-button>
                             </nz-space>
                         </div>
