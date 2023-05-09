@@ -16,16 +16,15 @@
                            placeholder='Enter category name' type='text'/>
                 </div>
 
-
                 <div [nzLg]='24' [nzXs]='24' class='ph-main m-t-2em m-t-sm-2em m-b-2em' nz-col nzSpan='24'>
                     <div nz-row nzJustify='space-between'>
                         <div [nzLg]='12' [nzSpan]='12' [nzXs]='10' nz-col>
                             <app-search-reset-button
                                 [props]='{
-                                onSearchAction: onAddCategory,
+                                onSearchAction: onOpenModal,
                                 isLoadingSearchResult: isLoading,
-                                onResetSearchPayload: onAddCategory,
-                                onCancelAction: onAddCategory
+                                onResetSearchPayload: onOpenModal,
+                                onCancelAction: onOpenModal
                                 }'
                             ></app-search-reset-button>
                         </div>
@@ -33,7 +32,7 @@
                         <div [nzLg]='12' [nzSpan]='12' [nzXs]='10' class='text-align-end' nz-col>
                             <nz-space nzSize="small">
                                 <app-button *nzSpaceItem
-                                            [props]="{handler: onAddCategory, title: 'Add', icon: 'plus'}"
+                                            [props]="{handler: onOpenModal, title: 'Add', icon: 'plus'}"
                                 ></app-button>
                                 <app-export-upload-button *nzSpaceItem [props]='{}'></app-export-upload-button>
                             </nz-space>
@@ -53,7 +52,7 @@
             <thead>
             <tr class='text-uppercase'>
                 <th (nzCheckedChange)='onCheckedAllRecord($event)'
-                    [nzChecked]='isAllCurrentPageChecked'
+                    [nzChecked]='isAllChecked'
                     [nzIndeterminate]='indeterminate' nzWidth='10%'
                 ></th>
                 <th nzWidth='30%'>Title</th>
@@ -64,16 +63,51 @@
     </div>
 </nz-card>
 
-<div>
-    <nz-modal
-        (nzOnCancel)="handleCancel()"
-        (nzOnOk)="handleOk()"
-        [(nzVisible)]="showModal"
-        nzTitle="Create New Category">
-        <ng-container *nzModalContent>
-            <p>Content one</p>
-            <p>Content two</p>
-            <p>Content three</p>
-        </ng-container>
-    </nz-modal>
-</div>
+<nz-modal
+    (nzOnCancel)="onCloseModal()"
+    (nzOnOk)="onCreateCategory()"
+    [(nzVisible)]="showModal"
+    nzTitle="Add New Category">
+
+    <ng-container *nzModalContent>
+
+        <div [nzLg]='{ span: 24, offset: 0 }' [nzXs]='{ span: 24, offset: 0 }' nz-col>
+            <form (submit)='onCreateCategory()'
+                  [formGroup]='categoryForm'
+                  autocomplete='off'
+                  nz-form
+                  nzLayout="vertical"
+            >
+
+                <div [nzSpan]='24' nz-col>
+
+                    <nz-form-item>
+                        <nz-form-label>Title</nz-form-label>
+                        <nz-form-control nzErrorTip='Title is required'>
+                            <input
+                                formControlName='title'
+                                nz-input
+                                placeholder='Enter Title'
+                                type='text'
+                            />
+                        </nz-form-control>
+                    </nz-form-item>
+
+
+                    <nz-form-item>
+                        <nz-form-label>Description</nz-form-label>
+                        <nz-form-control>
+                                <textarea formControlName="description"
+                                          nz-input
+                                          placeholder="Enter Description"
+                                ></textarea>
+                        </nz-form-control>
+                    </nz-form-item>
+
+                </div>
+
+            </form>
+        </div>
+
+    </ng-container>
+</nz-modal>

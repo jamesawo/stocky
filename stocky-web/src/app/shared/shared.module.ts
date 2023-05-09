@@ -24,6 +24,7 @@ import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.compo
 import { ButtonComponent } from './components/button/button.component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzFormModule } from 'ng-zorro-antd/form';
 
 const THIRD_MODULES: Array<Type<void>> = [
     NzBreadCrumbModule,
@@ -32,6 +33,7 @@ const THIRD_MODULES: Array<Type<void>> = [
     NzBadgeModule,
     NzSpaceModule,
     NzModalModule,
+    NzFormModule,
 ];
 const COMPONENTS: Array<Type<void>> = [
     DatePickerComponent,
