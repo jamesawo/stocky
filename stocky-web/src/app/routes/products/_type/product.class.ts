@@ -1,4 +1,4 @@
-import { VariantEnum } from './product.enum';
+import { ProductVariantEnum } from './product.enum';
 
 export class ProductCategory {
     id?: number;
@@ -9,7 +9,7 @@ export class ProductCategory {
 
 export class ProductVariant {
     id?: number;
-    type?: VariantEnum;
+    type?: ProductVariantEnum;
     value?: string;
 }
 
