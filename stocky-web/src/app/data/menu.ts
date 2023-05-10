@@ -20,12 +20,12 @@ export const MENU_BAG: Menu[] = [
                         link: '/products/category-list',
                     },
                     {
-                        text: 'Products',
-                        link: '/products/product-list',
-                    },
-                    {
                         text: 'Variants',
                         link: '/products/variants',
+                    },
+                    {
+                        text: 'Products',
+                        link: '/products/product-list',
                     },
                 ],
             },
@@ -33,7 +33,6 @@ export const MENU_BAG: Menu[] = [
             {
                 text: 'Sales',
                 icon: { type: 'icon', value: 'credit-card' },
-                link: '/sales',
                 children: [
                     { text: 'Sale', link: '/sales/sale' },
                     { text: 'Order', link: '/sales/order' },
@@ -43,7 +42,6 @@ export const MENU_BAG: Menu[] = [
             {
                 text: 'Stock',
                 icon: { type: 'icon', value: 'appstore-add' },
-                link: '/stock',
                 children: [
                     { text: 'Manage', link: '/stock/manage' },
                     { text: 'Count Stock', link: '/stock/count' },
@@ -54,7 +52,6 @@ export const MENU_BAG: Menu[] = [
             {
                 text: 'Company',
                 icon: { type: 'icon', value: 'shop' },
-                link: '/company',
                 children: [
                     { text: 'Basic', link: '/company/basic' },
                     { text: 'Tax', link: '/company/tax' },
@@ -66,7 +63,6 @@ export const MENU_BAG: Menu[] = [
             {
                 text: 'Report',
                 icon: { type: 'icon', value: 'file-pdf' },
-                link: '/report',
                 children: [
                     { text: 'Sales', link: '/report/sales' },
                     { text: 'Expense', link: '/report/expenses' },
@@ -79,7 +75,6 @@ export const MENU_BAG: Menu[] = [
             {
                 text: 'Settings',
                 icon: { type: 'icon', value: 'setting' },
-                link: '/settings',
                 children: [
                     { text: 'Dashboard', link: '/settings/dashboard' },
                     { text: 'Expense', link: '/settings/expenses' },
