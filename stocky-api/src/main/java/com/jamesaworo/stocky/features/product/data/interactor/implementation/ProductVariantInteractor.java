@@ -5,10 +5,8 @@ import com.jamesaworo.stocky.core.mapper.Mapper;
 import com.jamesaworo.stocky.features.product.data.interactor.contract.IProductVariantInteractor;
 import com.jamesaworo.stocky.features.product.data.pojo.ProductVariantRequest;
 import com.jamesaworo.stocky.features.product.domain.entity.ProductVariant;
-import com.jamesaworo.stocky.features.product.domain.enums.ProductVariantType;
 import com.jamesaworo.stocky.features.product.domain.usecase.IProductVariantUsecase;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
@@ -35,8 +33,13 @@ public class ProductVariantInteractor implements IProductVariantInteractor, Mapp
 
     public ResponseEntity<ProductVariantRequest> save(ProductVariantRequest request) {
         ProductVariant variant = toModel(request);
-        var model = this.usecase.save(variant);
-        return ResponseEntity.ok().body(toRequest(model));
+        try {
+            var model = this.usecase.save(variant);
+            return ResponseEntity.ok().body(toRequest(model));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     public ResponseEntity<List<ProductVariantRequest>> findAll() {
@@ -72,11 +75,6 @@ public class ProductVariantInteractor implements IProductVariantInteractor, Mapp
     }
 
     public ProductVariant toModel(ProductVariantRequest request) {
-        
-        mapper.addConverter((Converter<String, ProductVariantType>) c -> {
-            System.out.println(c.getSource());
-            return ProductVariantType.valueOf(c.getSource());
-        });
         return mapper.map(request, ProductVariant.class);
     }
 }

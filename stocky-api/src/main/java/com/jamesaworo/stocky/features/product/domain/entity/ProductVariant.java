@@ -23,7 +23,7 @@ public class ProductVariant {
 
     @Column(nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Type cannot be null")
+    @NotNull(message = "Variant type cannot be null")
     private ProductVariantType variantType;
 
     private String variantValue;
