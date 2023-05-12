@@ -4,7 +4,7 @@ package com.jamesaworo.stocky.core.constants;
  * @author Aworo James
  * @since 4/16/23
  */
-public class Tables {
+public class Table {
     public static final String PREFIX = "STOCKY_";
 
     // SETTING TABLES

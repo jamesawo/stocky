@@ -4,10 +4,10 @@ package com.jamesaworo.stocky.core.mapper;
  * @author Aworo James
  * @since 4/21/23
  */
-public interface Mapper<K, I> {
+public interface Mapper<R, M> {
 
-    K to(I input);
+    R toRequest(M model);
 
-    I from(K output);
+    M toModel(R request);
 
 }

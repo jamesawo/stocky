@@ -1,4 +1,4 @@
-package com.jamesaworo.stocky.core.enumconstants;
+package com.jamesaworo.stocky.core.constants.enums;
 
 public enum SettingField {
     INPUT,

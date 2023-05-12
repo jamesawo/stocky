@@ -4,7 +4,7 @@ package com.jamesaworo.stocky.core.constants;
  * @author Aworo James
  * @since 4/21/23
  */
-public class SettingConst {
+public class Setting {
     // backup and restore
     public static final String ENABLE_AUTO_BACK_UP = "SETTING_ENABLE_AUTO_BACK_UP";
 
