@@ -1,10 +1,10 @@
-package com.jamesaworo.stocky.features.settings.data.interactors.settings_payment_method;
+package com.jamesaworo.stocky.features.settings.data.interactor.settings_payment_method;
 
 import com.jamesaworo.stocky.core.annotations.Interactor;
 import com.jamesaworo.stocky.core.mapper.Mapper;
 import com.jamesaworo.stocky.features.settings.data.dto.PaymentMethodDto;
 import com.jamesaworo.stocky.features.settings.data.usecases_impl.SettingPaymentMethodUsecase;
-import com.jamesaworo.stocky.features.settings.domain.entities.SettingPaymentMethod;
+import com.jamesaworo.stocky.features.settings.domain.entity.SettingPaymentMethod;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -27,32 +27,32 @@ public class SettingPaymentMethodInteractor implements ISettingPaymentMethodInte
     @Override
     public ResponseEntity<Optional<PaymentMethodDto>> getByName(String name) {
         var optionalPaymentMethod = this.usecase.get(name);
-        return ResponseEntity.ok(optionalPaymentMethod.map(this::to));
+        return ResponseEntity.ok(optionalPaymentMethod.map(this::toRequest));
     }
 
     @Override
     public ResponseEntity<Optional<PaymentMethodDto>> getById(Long id) {
         var optionalPaymentMethod = this.usecase.getById(id);
-        return ResponseEntity.ok(optionalPaymentMethod.map(this::to));
+        return ResponseEntity.ok(optionalPaymentMethod.map(this::toRequest));
     }
 
     @Override
     public ResponseEntity<List<PaymentMethodDto>> all() {
         var settingsList = this.usecase.all();
-        var settingDtoList = settingsList.stream().map(this::to).collect(Collectors.toList());
+        var settingDtoList = settingsList.stream().map(this::toRequest).collect(Collectors.toList());
         return ResponseEntity.ok(settingDtoList);
     }
 
 
     @Override
-    public PaymentMethodDto to(SettingPaymentMethod input) {
+    public PaymentMethodDto toRequest(SettingPaymentMethod model) {
         ModelMapper mapper = new ModelMapper();
-        return mapper.map(input, PaymentMethodDto.class);
+        return mapper.map(model, PaymentMethodDto.class);
     }
 
     @Override
-    public SettingPaymentMethod from(PaymentMethodDto output) {
+    public SettingPaymentMethod toModel(PaymentMethodDto request) {
         ModelMapper mapper = new ModelMapper();
-        return mapper.map(output, SettingPaymentMethod.class);
+        return mapper.map(request, SettingPaymentMethod.class);
     }
 }

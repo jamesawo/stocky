@@ -1,9 +1,9 @@
 package com.jamesaworo.stocky.features.settings.data.usecases_impl;
 
 import com.jamesaworo.stocky.core.annotations.Usecase;
-import com.jamesaworo.stocky.features.settings.data.repositories.SettingPaymentMethodRepository;
-import com.jamesaworo.stocky.features.settings.domain.entities.SettingPaymentMethod;
-import com.jamesaworo.stocky.features.settings.domain.usecases.ISettingPaymentMethodUsecase;
+import com.jamesaworo.stocky.features.settings.data.repository.SettingPaymentMethodRepository;
+import com.jamesaworo.stocky.features.settings.domain.entity.SettingPaymentMethod;
+import com.jamesaworo.stocky.features.settings.domain.usecase.ISettingPaymentMethodUsecase;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

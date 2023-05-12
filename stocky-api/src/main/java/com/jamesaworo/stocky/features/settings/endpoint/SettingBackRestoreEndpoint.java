@@ -1,19 +1,21 @@
-package com.jamesaworo.stocky.features.settings.endpoints;
+package com.jamesaworo.stocky.features.settings.endpoint;
 
 import com.jamesaworo.stocky.features.settings.data.dto.SettingDto;
-import com.jamesaworo.stocky.features.settings.data.interactors.setting_backup_restore.ISettingBackupInteractor;
+import com.jamesaworo.stocky.features.settings.data.interactor.setting_backup_restore.ISettingBackupInteractor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
+
 /**
  * @author Aworo James
  * @since 4/21/23
  */
 @RestController
-@RequestMapping(value = "setting-backup")
+@RequestMapping(value = API_PREFIX + "/setting-backup")
 @RequiredArgsConstructor
 public class SettingBackRestoreEndpoint {
     private final ISettingBackupInteractor interactor;

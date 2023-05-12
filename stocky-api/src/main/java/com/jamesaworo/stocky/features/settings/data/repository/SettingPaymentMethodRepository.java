@@ -1,6 +1,6 @@
-package com.jamesaworo.stocky.features.settings.data.repositories;
+package com.jamesaworo.stocky.features.settings.data.repository;
 
-import com.jamesaworo.stocky.features.settings.domain.entities.SettingPaymentMethod;
+import com.jamesaworo.stocky.features.settings.domain.entity.SettingPaymentMethod;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

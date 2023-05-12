@@ -1,12 +1,12 @@
-package com.jamesaworo.stocky.features.settings.domain.entities;
+package com.jamesaworo.stocky.features.settings.domain.entity;
 
 
-import com.jamesaworo.stocky.core.enumconstants.SettingField;
+import com.jamesaworo.stocky.core.constants.enums.SettingField;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import static com.jamesaworo.stocky.core.constants.DatabaseTable.SETTING_EXPENSES;
+import static com.jamesaworo.stocky.core.constants.Table.SETTING_EXPENSES;
 
 @Entity
 @Table(name = SETTING_EXPENSES)

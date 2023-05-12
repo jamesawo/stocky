@@ -1,6 +1,6 @@
-package com.jamesaworo.stocky.features.settings.data.interactors.setting_expenses;
+package com.jamesaworo.stocky.features.settings.data.interactor.setting_expenses;
 
-import com.jamesaworo.stocky.features.settings.data.interactors.base.ISettingBaseInteractor;
+import com.jamesaworo.stocky.features.settings.data.interactor.base.ISettingBaseInteractor;
 
 /**
  * @author Aworo James

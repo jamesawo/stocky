@@ -1,4 +1,4 @@
-package com.jamesaworo.stocky.features.settings.domain.usecases;
+package com.jamesaworo.stocky.features.settings.domain.usecase;
 
 import java.util.List;
 import java.util.Optional;

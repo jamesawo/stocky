@@ -1,19 +1,19 @@
 package com.jamesaworo.stocky.features.settings.data.commandrunner;
 
-import com.jamesaworo.stocky.core.enumconstants.PaymentMethod;
-import com.jamesaworo.stocky.features.settings.data.repositories.*;
-import com.jamesaworo.stocky.features.settings.domain.entities.*;
+import com.jamesaworo.stocky.core.constants.enums.PaymentMethod;
+import com.jamesaworo.stocky.features.settings.data.repository.*;
+import com.jamesaworo.stocky.features.settings.domain.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.jamesaworo.stocky.core.constants.GlobalConst.NO;
-import static com.jamesaworo.stocky.core.constants.GlobalConst.YES;
-import static com.jamesaworo.stocky.core.constants.SettingConst.*;
-import static com.jamesaworo.stocky.core.enumconstants.SettingField.INPUT;
-import static com.jamesaworo.stocky.core.enumconstants.SettingField.TOGGLE;
+import static com.jamesaworo.stocky.core.constants.Global.NO;
+import static com.jamesaworo.stocky.core.constants.Global.YES;
+import static com.jamesaworo.stocky.core.constants.Setting.*;
+import static com.jamesaworo.stocky.core.constants.enums.SettingField.INPUT;
+import static com.jamesaworo.stocky.core.constants.enums.SettingField.TOGGLE;
 import static java.util.Arrays.stream;
 
 /**
@@ -46,13 +46,11 @@ public class Seeder {
     }
 
     public void run() {
-        System.out.println("-----seeding-----");
         this.seedBackupAndRestore();
         this.seedDashboardSetting();
         this.seedExpensesSetting();
         this.seedTaxSetting();
         this.seedPaymentMethod();
-        System.out.println("-----seeded-----");
     }
 
     private void seedBackupAndRestore() {
@@ -61,6 +59,7 @@ public class Seeder {
                     new SettingBackUpRestore(ENABLE_AUTO_BACK_UP, NO, TOGGLE, getToggleOptions())
             );
             this.backupRestoreRepository.saveAll(settings);
+            System.out.println("----- seed backup&restore settings -----");
         }
     }
 
@@ -71,6 +70,7 @@ public class Seeder {
                     new SettingDashboard(SHOW_PRODUCT_PERFORMANCE, NO, TOGGLE, getToggleOptions())
             );
             this.dashboardRepository.saveAll(settings);
+            System.out.println("----- seed dashboard settings -----");
         }
     }
 
@@ -80,6 +80,7 @@ public class Seeder {
                     new SettingExpenses(ENABLE_EXPENSES_APPROVAL, NO, TOGGLE, getToggleOptions())
             );
             this.expensesRepository.saveAll(settings);
+            System.out.println("----- seed expenses settings -----");
         }
     }
 
@@ -90,6 +91,7 @@ public class Seeder {
                     new SettingTax(ENABLE_TAX_VALUE, "0", INPUT, new String[]{})
             );
             this.taxRepository.saveAll(settings);
+            System.out.println("----- seed tax settings -----");
         }
     }
 
@@ -99,6 +101,7 @@ public class Seeder {
             PaymentMethod[] values = PaymentMethod.values();
             stream(values).map(v -> new SettingPaymentMethod(v.name())).forEach(settings::add);
             this.paymentMethodRepository.saveAll(settings);
+            System.out.println("----- seed payment method -----");
         }
     }
 

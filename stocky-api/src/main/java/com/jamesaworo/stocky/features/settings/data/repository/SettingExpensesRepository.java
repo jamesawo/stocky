@@ -1,6 +1,6 @@
-package com.jamesaworo.stocky.features.settings.data.repositories;
+package com.jamesaworo.stocky.features.settings.data.repository;
 
-import com.jamesaworo.stocky.features.settings.domain.entities.SettingExpenses;
+import com.jamesaworo.stocky.features.settings.domain.entity.SettingExpenses;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

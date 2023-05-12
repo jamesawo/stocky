@@ -1,4 +1,4 @@
-package com.jamesaworo.stocky.features.settings.domain.entities;
+package com.jamesaworo.stocky.features.settings.domain.entity;
 
 
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-import static com.jamesaworo.stocky.core.constants.DatabaseTable.SETTING_PAYMENT_METHOD;
+import static com.jamesaworo.stocky.core.constants.Table.SETTING_PAYMENT_METHOD;
 
 @Entity
 @Table(name = SETTING_PAYMENT_METHOD)

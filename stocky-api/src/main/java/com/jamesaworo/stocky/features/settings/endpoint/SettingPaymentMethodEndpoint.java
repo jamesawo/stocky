@@ -1,7 +1,7 @@
-package com.jamesaworo.stocky.features.settings.endpoints;
+package com.jamesaworo.stocky.features.settings.endpoint;
 
 import com.jamesaworo.stocky.features.settings.data.dto.PaymentMethodDto;
-import com.jamesaworo.stocky.features.settings.data.interactors.settings_payment_method.ISettingPaymentMethodInteractor;
+import com.jamesaworo.stocky.features.settings.data.interactor.settings_payment_method.ISettingPaymentMethodInteractor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 
+import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
+
 /**
  * @author Aworo James
  * @since 4/21/23
  */
 @RestController
-@RequestMapping(value = "setting-paymentmethod")
+@RequestMapping(value = API_PREFIX + "/setting-payment-method")
 @RequiredArgsConstructor
 public class SettingPaymentMethodEndpoint {
 

@@ -1,9 +1,9 @@
 package com.jamesaworo.stocky.features.settings.data.usecases_impl;
 
 import com.jamesaworo.stocky.core.annotations.Usecase;
-import com.jamesaworo.stocky.features.settings.data.repositories.SettingDashboardRepository;
-import com.jamesaworo.stocky.features.settings.domain.entities.SettingDashboard;
-import com.jamesaworo.stocky.features.settings.domain.usecases.SettingUsecase;
+import com.jamesaworo.stocky.features.settings.data.repository.SettingDashboardRepository;
+import com.jamesaworo.stocky.features.settings.domain.entity.SettingDashboard;
+import com.jamesaworo.stocky.features.settings.domain.usecase.SettingUsecase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package com.jamesaworo.stocky.features.settings.data.interactors.base;
+package com.jamesaworo.stocky.features.settings.data.interactor.base;
 
 
 import com.jamesaworo.stocky.features.settings.data.dto.SettingDto;

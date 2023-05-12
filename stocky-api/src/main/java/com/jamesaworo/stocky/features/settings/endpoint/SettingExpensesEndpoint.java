@@ -1,19 +1,21 @@
-package com.jamesaworo.stocky.features.settings.endpoints;
+package com.jamesaworo.stocky.features.settings.endpoint;
 
 import com.jamesaworo.stocky.features.settings.data.dto.SettingDto;
-import com.jamesaworo.stocky.features.settings.data.interactors.setting_expenses.ISettingExpensesInteractor;
+import com.jamesaworo.stocky.features.settings.data.interactor.setting_expenses.ISettingExpensesInteractor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
+
 /**
  * @author Aworo James
  * @since 4/21/23
  */
 @RestController
-@RequestMapping(value = "setting-expenses")
+@RequestMapping(value = API_PREFIX + "/setting-expenses")
 @RequiredArgsConstructor
 public class SettingExpensesEndpoint {
     private final ISettingExpensesInteractor interactor;

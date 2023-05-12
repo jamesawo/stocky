@@ -1,6 +1,6 @@
-package com.jamesaworo.stocky.features.settings.data.interactors.setting_tax;
+package com.jamesaworo.stocky.features.settings.data.interactor.setting_tax;
 
-import com.jamesaworo.stocky.features.settings.data.interactors.base.ISettingBaseInteractor;
+import com.jamesaworo.stocky.features.settings.data.interactor.base.ISettingBaseInteractor;
 
 /**
  * @author Aworo James

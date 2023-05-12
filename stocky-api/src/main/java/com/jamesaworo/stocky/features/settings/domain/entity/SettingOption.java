@@ -1,4 +1,4 @@
-package com.jamesaworo.stocky.features.settings.domain.entities;
+package com.jamesaworo.stocky.features.settings.domain.entity;
 
 import lombok.Data;
 

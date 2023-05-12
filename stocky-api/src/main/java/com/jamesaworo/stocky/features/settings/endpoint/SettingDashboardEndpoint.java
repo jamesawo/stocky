@@ -1,19 +1,21 @@
-package com.jamesaworo.stocky.features.settings.endpoints;
+package com.jamesaworo.stocky.features.settings.endpoint;
 
 import com.jamesaworo.stocky.features.settings.data.dto.SettingDto;
-import com.jamesaworo.stocky.features.settings.data.interactors.setting_dashboard.ISettingDashboardInteractor;
+import com.jamesaworo.stocky.features.settings.data.interactor.setting_dashboard.ISettingDashboardInteractor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
+
 /**
  * @author Aworo James
  * @since 4/21/23
  */
 @RestController
-@RequestMapping(value = "setting-dashboard")
+@RequestMapping(value = API_PREFIX + "/setting-dashboard")
 @RequiredArgsConstructor
 public class SettingDashboardEndpoint {
     private final ISettingDashboardInteractor interactor;

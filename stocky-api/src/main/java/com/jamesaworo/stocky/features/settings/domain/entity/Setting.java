@@ -1,6 +1,6 @@
-package com.jamesaworo.stocky.features.settings.domain.entities;
+package com.jamesaworo.stocky.features.settings.domain.entity;
 
-import com.jamesaworo.stocky.core.enumconstants.SettingField;
+import com.jamesaworo.stocky.core.constants.enums.SettingField;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,7 +36,7 @@ public class Setting {
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
-    
+
     private LocalDateTime updateAt;
 
 
