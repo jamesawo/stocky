@@ -72,19 +72,11 @@ public class ProductVariantInteractor implements IProductVariantInteractor, Mapp
     }
 
     public ProductVariant toModel(ProductVariantRequest request) {
-
-        ModelMapper modelMapper = new ModelMapper();
-
-        Converter<String, Integer> classificationConverter =
-                ctx -> ctx.getSource() == null ? null : Classification.getCodeByName(ctx.getSource());
-
-       
-        (Converter<String, ProductVariantType>) c -> {
+        
+        mapper.addConverter((Converter<String, ProductVariantType>) c -> {
             System.out.println(c.getSource());
             return ProductVariantType.valueOf(c.getSource());
-        }
-
-        mapper.addConverter();
+        });
         return mapper.map(request, ProductVariant.class);
     }
 }
