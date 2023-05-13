@@ -5,5 +5,6 @@ public enum SettingField {
     SELECT,
     TEXTAREA,
     TOGGLE,
-    RADIO
+    RADIO,
+    DATE
 }

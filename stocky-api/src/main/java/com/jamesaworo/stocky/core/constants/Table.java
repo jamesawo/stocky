@@ -15,6 +15,7 @@ public class Table {
     public static final String SETTING_NOTIFICATION = SETTING + "_NOTIFICATION";
     public static final String SETTING_PAYMENT_METHOD = SETTING + "_PAYMENT_METHOD";
     public static final String SETTING_TAX = SETTING + "_TAX";
+    public static final String SETTING_STOCK = SETTING + "_STOCK";
     public static final String SETTING_OPTIONS = SETTING + "_OPTION";
 
     // PRODUCT TABLES
