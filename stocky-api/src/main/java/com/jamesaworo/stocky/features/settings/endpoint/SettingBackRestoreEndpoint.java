@@ -20,12 +20,12 @@ import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 public class SettingBackRestoreEndpoint {
     private final ISettingBackupInteractor interactor;
 
-    @GetMapping()
+    @GetMapping("/find")
     public ResponseEntity<SettingDto> get(@RequestParam() String key) {
         return this.interactor.get(key);
     }
 
-    @GetMapping(value = "all")
+    @GetMapping(value = "/all")
     public ResponseEntity<List<SettingDto>> getAll() {
         return interactor.getAll();
     }
