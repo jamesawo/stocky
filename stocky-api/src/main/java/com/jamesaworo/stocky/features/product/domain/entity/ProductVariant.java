@@ -21,8 +21,8 @@ public class ProductVariant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //@Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
-    @Enumerated(EnumType.STRING)
     @NotNull(message = "Variant type cannot be null")
     private ProductVariantType variantType;
 

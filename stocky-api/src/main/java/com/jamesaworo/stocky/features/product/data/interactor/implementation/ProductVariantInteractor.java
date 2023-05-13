@@ -32,14 +32,8 @@ public class ProductVariantInteractor implements IProductVariantInteractor, Mapp
     private final ModelMapper mapper;
 
     public ResponseEntity<ProductVariantRequest> save(ProductVariantRequest request) {
-        ProductVariant variant = toModel(request);
-        try {
-            var model = this.usecase.save(variant);
-            return ResponseEntity.ok().body(toRequest(model));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
+        var model = this.usecase.save(toModel(request));
+        return ResponseEntity.ok().body(toRequest(model));
     }
 
     public ResponseEntity<List<ProductVariantRequest>> findAll() {
