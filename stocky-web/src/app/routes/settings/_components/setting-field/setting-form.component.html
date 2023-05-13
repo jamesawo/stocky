@@ -1,0 +1,73 @@
+<form
+    (ngSubmit)="onSubmitHandler()"
+    [formGroup]="form"
+    nz-form
+    nzLayout="horizontal"
+>
+    <div *ngFor="let setting of settings">
+
+        <nz-form-item>
+
+            <nz-form-label [nzSpan]="6">Form Layout</nz-form-label>
+
+            <div [ngSwitch]="setting.settingField">
+
+                <div *ngSwitchCase="select">
+                    <ng-container *ngTemplateOutlet="select; context: setting"></ng-container>
+                </div>
+
+            </div>
+
+        </nz-form-item>
+
+    </div>
+</form>
+
+<ng-template #input>
+    <nz-form-control [nzSpan]="18">
+        <input nz-input nzSize="large" placeholder="large size"/>
+    </nz-form-control>
+</ng-template>
+
+<ng-template #textarea>
+    <nz-form-control [nzSpan]="18">
+        <textarea nz-input rows="4"></textarea>
+    </nz-form-control>
+</ng-template>
+
+<ng-template #radio>
+    <nz-form-control [nzSpan]="18">
+        <nz-radio-group>
+            <label nz-radio nzValue="A">A</label>
+            <label nz-radio nzValue="B">B</label>
+            <label nz-radio nzValue="C">C</label>
+            <label nz-radio nzValue="D">D</label>
+        </nz-radio-group>
+    </nz-form-control>
+
+</ng-template>
+
+<ng-template #date>
+    <nz-form-control [nzSpan]="18">
+        <nz-date-picker></nz-date-picker>
+    </nz-form-control>
+</ng-template>
+
+<ng-template #toggle>
+    <nz-form-control [nzSpan]="18">
+        <nz-switch
+            [nzCheckedChildren]="checkedTemplate"
+            [nzUnCheckedChildren]="unCheckedTemplate"
+        ></nz-switch>
+        <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
+        <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
+    </nz-form-control>
+</ng-template>
+
+<ng-template #select let-setting>
+    <nz-select>
+        <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
+        <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
+        <nz-option nzDisabled nzLabel="Disabled" nzValue="disabled"></nz-option>
+    </nz-select>
+</ng-template>

@@ -3,7 +3,7 @@ package com.jamesaworo.stocky.features.settings.data.usecases_impl;
 import com.jamesaworo.stocky.core.annotations.Usecase;
 import com.jamesaworo.stocky.features.settings.data.repository.SettingTaxRepository;
 import com.jamesaworo.stocky.features.settings.domain.entity.SettingTax;
-import com.jamesaworo.stocky.features.settings.domain.usecase.SettingUsecase;
+import com.jamesaworo.stocky.features.settings.domain.usecase.ISettingUsecase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +17,7 @@ import java.util.Optional;
 @Usecase
 @RequiredArgsConstructor
 @Slf4j
-public class SettingTaxUsecase implements SettingUsecase<SettingTax> {
+public class SettingTaxUsecase implements ISettingUsecase<SettingTax> {
 
     private final SettingTaxRepository repository;
 

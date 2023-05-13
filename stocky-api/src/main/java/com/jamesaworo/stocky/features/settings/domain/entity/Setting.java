@@ -23,12 +23,15 @@ public class Setting {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String settingKey;
 
     private String settingValue;
 
     private SettingField settingField;
+
+    @Column(nullable = false)
+    private String settingTitle;
 
     @Type(type = "json")
     @Column(columnDefinition = "json")
@@ -36,20 +39,21 @@ public class Setting {
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
-
-    private LocalDateTime updateAt;
-
+    
 
     public Setting() {
     }
 
-    public Setting(String key, String value, SettingField field, String[] options) {
+    public Setting(String key, String value, SettingField field, String[] options, String title) {
         this.setSettingKey(key);
         this.setSettingValue(value);
         this.setSettingField(field);
         var map = stream(options).map(option -> new SettingOption(option, option)).collect(Collectors.toList());
         this.setSettingOptions(map);
+        this.setSettingTitle(title);
+
     }
+
 
     @PrePersist()
     void prePersist() {

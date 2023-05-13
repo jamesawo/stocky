@@ -1,39 +1,40 @@
 package com.jamesaworo.stocky.features.settings.data.usecases_impl;
 
 import com.jamesaworo.stocky.core.annotations.Usecase;
-import com.jamesaworo.stocky.features.settings.data.repository.SettingBackupRestoreRepository;
-import com.jamesaworo.stocky.features.settings.domain.entity.SettingBackUpRestore;
+import com.jamesaworo.stocky.features.settings.data.repository.SettingStockRepository;
+import com.jamesaworo.stocky.features.settings.domain.entity.SettingStock;
 import com.jamesaworo.stocky.features.settings.domain.usecase.ISettingUsecase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+
 /**
  * @author Aworo James
- * @since 4/20/23
+ * @since 5/13/23
  */
+
 @Usecase
 @RequiredArgsConstructor
 @Slf4j
-public class SettingBackupUsecase implements ISettingUsecase<SettingBackUpRestore> {
-
-    private final SettingBackupRestoreRepository repository;
+public class SettingStockUsecase implements ISettingUsecase<SettingStock> {
+    private final SettingStockRepository repository;
 
     @Override
-    public List<SettingBackUpRestore> all() {
+    public List<SettingStock> all() {
         return this.repository.findAll();
     }
 
     @Override
-    public Optional<SettingBackUpRestore> get(String key) {
+    public Optional<SettingStock> get(String key) {
         return this.repository.findBySettingKey(key);
     }
 
-    @Transactional
-    public Boolean updateMany(List<SettingBackUpRestore> settings) {
+    @Override
+    public Boolean updateMany(List<SettingStock> settings) {
+
         try {
             settings.forEach(s -> this.update(s.getSettingKey(), s.getSettingValue()));
             return true;
@@ -43,7 +44,7 @@ public class SettingBackupUsecase implements ISettingUsecase<SettingBackUpRestor
         }
     }
 
-    @Transactional
+    @Override
     public Boolean update(String key, String value) {
         var optionalSetting = this.get(key);
         return optionalSetting.map(e -> {

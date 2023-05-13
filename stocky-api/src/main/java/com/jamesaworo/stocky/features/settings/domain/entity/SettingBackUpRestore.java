@@ -12,8 +12,8 @@ import static com.jamesaworo.stocky.core.constants.Table.SETTING_BACKUP_RESTORE;
 @Table(name = SETTING_BACKUP_RESTORE)
 public class SettingBackUpRestore extends Setting {
 
-    public SettingBackUpRestore(String key, String value, SettingField field, String[] options) {
-        super(key, value, field, options);
+    public SettingBackUpRestore(String key, String value, SettingField field, String[] options, String title) {
+        super(key, value, field, options, title);
     }
 
     public SettingBackUpRestore() {

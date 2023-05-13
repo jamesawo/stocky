@@ -3,7 +3,7 @@ package com.jamesaworo.stocky.features.settings.data.usecases_impl;
 import com.jamesaworo.stocky.core.annotations.Usecase;
 import com.jamesaworo.stocky.features.settings.data.repository.SettingExpensesRepository;
 import com.jamesaworo.stocky.features.settings.domain.entity.SettingExpenses;
-import com.jamesaworo.stocky.features.settings.domain.usecase.SettingUsecase;
+import com.jamesaworo.stocky.features.settings.domain.usecase.ISettingUsecase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +17,7 @@ import java.util.Optional;
 @Usecase
 @RequiredArgsConstructor
 @Slf4j
-public class SettingExpensesUsecase implements SettingUsecase<SettingExpenses> {
+public class SettingExpensesUsecase implements ISettingUsecase<SettingExpenses> {
 
     private final SettingExpensesRepository repository;
 

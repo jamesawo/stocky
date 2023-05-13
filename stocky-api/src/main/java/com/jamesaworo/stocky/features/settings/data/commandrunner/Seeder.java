@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import static com.jamesaworo.stocky.core.constants.Global.NO;
-import static com.jamesaworo.stocky.core.constants.Global.YES;
+import static com.jamesaworo.stocky.core.constants.Global.FALSE;
+import static com.jamesaworo.stocky.core.constants.Global.TRUE;
 import static com.jamesaworo.stocky.core.constants.Setting.*;
-import static com.jamesaworo.stocky.core.constants.enums.SettingField.INPUT;
-import static com.jamesaworo.stocky.core.constants.enums.SettingField.TOGGLE;
+import static com.jamesaworo.stocky.core.constants.enums.SettingField.*;
 import static java.util.Arrays.stream;
 
 /**
@@ -29,6 +29,7 @@ public class Seeder {
     private final SettingNotificationRepository notificationRepository;
     private final SettingPaymentMethodRepository paymentMethodRepository;
     private final SettingTaxRepository taxRepository;
+    private final SettingStockRepository stockRepository;
 
     @Autowired
     public Seeder(SettingBackupRestoreRepository backupRestoreRepository,
@@ -36,14 +37,16 @@ public class Seeder {
                   SettingExpensesRepository expensesRepository,
                   SettingNotificationRepository notificationRepository,
                   SettingPaymentMethodRepository paymentMethodRepository,
-                  SettingTaxRepository taxRepository) {
+                  SettingTaxRepository taxRepository, SettingStockRepository stockRepository) {
         this.backupRestoreRepository = backupRestoreRepository;
         this.dashboardRepository = dashboardRepository;
         this.expensesRepository = expensesRepository;
         this.notificationRepository = notificationRepository;
         this.paymentMethodRepository = paymentMethodRepository;
         this.taxRepository = taxRepository;
+        this.stockRepository = stockRepository;
     }
+
 
     public void run() {
         this.seedBackupAndRestore();
@@ -51,12 +54,14 @@ public class Seeder {
         this.seedExpensesSetting();
         this.seedTaxSetting();
         this.seedPaymentMethod();
+        this.seedStockSetting();
     }
 
     private void seedBackupAndRestore() {
         if (this.backupRestoreRepository.count() == 0) {
             var settings = List.of(
-                    new SettingBackUpRestore(ENABLE_AUTO_BACK_UP, NO, TOGGLE, getToggleOptions())
+                    new SettingBackUpRestore(SETTING_BACKUP_ENABLE_AUTO_BACK_UP, FALSE, TOGGLE, options(),
+                            strip(SETTING_BACKUP_ENABLE_AUTO_BACK_UP))
             );
             this.backupRestoreRepository.saveAll(settings);
             System.out.println("----- seed backup&restore settings -----");
@@ -66,8 +71,10 @@ public class Seeder {
     private void seedDashboardSetting() {
         if (this.dashboardRepository.count() == 0) {
             var settings = List.of(
-                    new SettingDashboard(SHOW_EMPLOYEE_PERFORMANCE, NO, TOGGLE, getToggleOptions()),
-                    new SettingDashboard(SHOW_PRODUCT_PERFORMANCE, NO, TOGGLE, getToggleOptions())
+                    new SettingDashboard(SETTING_DASHBOARD_SHOW_EMPLOYEE_PERFORMANCE, FALSE, TOGGLE, options(),
+                            strip(SETTING_DASHBOARD_SHOW_EMPLOYEE_PERFORMANCE)),
+                    new SettingDashboard(SETTING_DASHBOARD_SHOW_PRODUCT_PERFORMANCE, FALSE, TOGGLE, options(),
+                            strip(SETTING_DASHBOARD_SHOW_PRODUCT_PERFORMANCE))
             );
             this.dashboardRepository.saveAll(settings);
             System.out.println("----- seed dashboard settings -----");
@@ -77,7 +84,8 @@ public class Seeder {
     private void seedExpensesSetting() {
         if (this.expensesRepository.count() == 0) {
             var settings = List.of(
-                    new SettingExpenses(ENABLE_EXPENSES_APPROVAL, NO, TOGGLE, getToggleOptions())
+                    new SettingExpenses(SETTING_EXPENSES_ENABLE_EXPENSES_APPROVAL, FALSE, TOGGLE, options(),
+                            strip(SETTING_EXPENSES_ENABLE_EXPENSES_APPROVAL))
             );
             this.expensesRepository.saveAll(settings);
             System.out.println("----- seed expenses settings -----");
@@ -87,11 +95,33 @@ public class Seeder {
     private void seedTaxSetting() {
         if (this.taxRepository.count() == 0) {
             var settings = List.of(
-                    new SettingTax(ENABLE_TAX, NO, TOGGLE, getToggleOptions()),
-                    new SettingTax(ENABLE_TAX_VALUE, "0", INPUT, new String[]{})
+                    new SettingTax(SETTING_TAX_ENABLE_TAX, FALSE, TOGGLE, options(), strip(SETTING_TAX_ENABLE_TAX)),
+                    new SettingTax(SETTING_TAX_PERCENT_VALUE, "0", INPUT, new String[]{},
+                            strip(SETTING_TAX_PERCENT_VALUE))
             );
             this.taxRepository.saveAll(settings);
             System.out.println("----- seed tax settings -----");
+        }
+    }
+
+    private void seedStockSetting() {
+        if (this.stockRepository.count() == 0) {
+            var settings = List.of(
+                    new SettingStock(SETTING_STOCK_ENABLE_STOCK, FALSE, TOGGLE, options(),
+                            strip(SETTING_STOCK_ENABLE_STOCK)),
+
+                    new SettingStock(SETTING_STOCK_BATCH_PREFIX_VALUE, "STK_", INPUT, new String[]{},
+                            strip(SETTING_STOCK_BATCH_PREFIX_VALUE)),
+
+                    new SettingStock("TEST_001", "NA", TEXTAREA, new String[]{}, "Test Title Textarea"),
+                    new SettingStock("TEST_002", "N/A", SELECT, options(), "TEst Title Select"),
+                    new SettingStock("TEST_003", "N/A", RADIO, options(), "Test Title Radio"),
+                    new SettingStock("TEST_004", "2022-02-2", DATE, new String[]{}, "Test Title Date")
+            );
+
+
+            this.stockRepository.saveAll(settings);
+            System.out.println("----- seed stock settings -----");
         }
     }
 
@@ -105,8 +135,12 @@ public class Seeder {
         }
     }
 
+    private String[] options() {
+        return new String[]{TRUE, FALSE};
+    }
 
-    private String[] getToggleOptions() {
-        return new String[]{YES, NO};
+    private String strip(String input) {
+        String[] words = input.split("_");
+        return String.join(" ", Arrays.copyOfRange(words, 1, words.length));
     }
 }

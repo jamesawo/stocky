@@ -15,7 +15,7 @@ public class SettingTax extends Setting {
     public SettingTax() {
     }
 
-    public SettingTax(String key, String value, SettingField field, String[] options) {
-        super(key, value, field, options);
+    public SettingTax(String key, String value, SettingField field, String[] options, String title) {
+        super(key, value, field, options, title);
     }
 }

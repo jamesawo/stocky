@@ -14,7 +14,7 @@ public class SettingDashboard extends Setting {
     public SettingDashboard() {
     }
 
-    public SettingDashboard(String key, String value, SettingField field, String[] options) {
-        super(key, value, field, options);
+    public SettingDashboard(String key, String value, SettingField field, String[] options, String title) {
+        super(key, value, field, options, title);
     }
 }

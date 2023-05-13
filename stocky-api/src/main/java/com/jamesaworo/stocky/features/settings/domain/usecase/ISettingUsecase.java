@@ -7,7 +7,7 @@ import java.util.Optional;
  * @author Aworo James
  * @since 4/20/23
  */
-public interface SettingUsecase<T> {
+public interface ISettingUsecase<T> {
     List<T> all();
 
     Optional<T> get(String key);

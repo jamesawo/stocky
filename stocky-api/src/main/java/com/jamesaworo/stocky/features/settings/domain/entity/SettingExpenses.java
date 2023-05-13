@@ -15,7 +15,7 @@ public class SettingExpenses extends Setting {
     public SettingExpenses() {
     }
 
-    public SettingExpenses(String key, String value, SettingField field, String[] options) {
-        super(key, value, field, options);
+    public SettingExpenses(String key, String value, SettingField field, String[] options, String title) {
+        super(key, value, field, options, title);
     }
 }
