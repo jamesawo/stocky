@@ -7,118 +7,18 @@
 
 <nz-card>
     <div class='wd-100p'>
-        <form (ngSubmit)="submitForm()" [formGroup]="validateForm" nz-form>
-            <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="email" nzRequired>E-mail</nz-form-label>
-                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
-                    <input formControlName="email" id="email" nz-input/>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Password</nz-form-label>
-                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your password!">
-                    <input
-                        (ngModelChange)="updateConfirmValidator()"
-                        formControlName="password"
-                        id="password"
-                        nz-input
-                        type="password"
-                    />
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired>Confirm Password</nz-form-label>
-                <nz-form-control [nzErrorTip]="errorTpl" [nzSm]="14" [nzXs]="24">
-                    <input formControlName="checkPassword" id="checkPassword" nz-input type="password"/>
-                    <ng-template #errorTpl let-control>
-                        <ng-container *ngIf="control.hasError('required')">Please confirm your password!</ng-container>
-                        <ng-container *ngIf="control.hasError('confirm')">
-                            Two passwords that you enter is inconsistent!
-                        </ng-container>
-                    </ng-template>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-                <nz-form-label
-                    [nzSm]="6"
-                    [nzXs]="24"
-                    nzFor="nickname"
-                    nzRequired
-                    nzTooltipTitle="What do you want other to call you"
-                >
-                    <span>Nickname</span>
-                </nz-form-label>
-                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your nickname!">
-                    <input formControlName="nickname" id="nickname" nz-input/>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired>Phone Number</nz-form-label>
-                <nz-form-control
-                    [nzSm]="14"
-                    [nzValidateStatus]="validateForm.controls['phoneNumber']"
-                    [nzXs]="24"
-                    nzErrorTip="Please input your phone number!"
-                >
-                    <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
-                        <ng-template #addOnBeforeTemplate>
-                            <nz-select class="phone-select" formControlName="phoneNumberPrefix">
-                                <nz-option nzLabel="+86" nzValue="+86"></nz-option>
-                                <nz-option nzLabel="+87" nzValue="+87"></nz-option>
-                            </nz-select>
-                        </ng-template>
-                        <input formControlName="phoneNumber" id="'phoneNumber'" nz-input/>
-                    </nz-input-group>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="website" nzRequired>Website</nz-form-label>
-                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input website!">
-                    <input formControlName="website" id="website" nz-input placeholder="website"/>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-                <nz-form-label
-                    [nzSm]="6"
-                    [nzTooltipIcon]="captchaTooltipIcon"
-                    [nzXs]="24"
-                    nzFor="captcha"
-                    nzRequired
-                    nzTooltipTitle="Please click 'Get captcha'"
-                >
-                    Captcha
-                </nz-form-label>
-                <nz-form-control
-                    [nzSm]="14"
-                    [nzXs]="24"
-                    nzErrorTip="Please input the captcha you got!"
-                    nzExtra="We must make sure that your are a human."
-                >
-                    <div [nzGutter]="8" nz-row>
-                        <div [nzSpan]="12" nz-col>
-                            <input formControlName="captcha" id="captcha" nz-input/>
-                        </div>
-                        <div [nzSpan]="12" nz-col>
-                            <button (click)="getCaptcha($event)" nz-button>Get captcha</button>
-                        </div>
-                    </div>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item class="register-area" nz-row>
-                <nz-form-control [nzOffset]="6" [nzSpan]="14">
-                    <label formControlName="agree" nz-checkbox>
-            <span>
-              I have read the
-              <a>agreement</a>
-            </span>
-                    </label>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item class="register-area" nz-row>
-                <nz-form-control [nzOffset]="6" [nzSpan]="14">
-                    <button nz-button nzType="primary">Register</button>
-                </nz-form-control>
-            </nz-form-item>
-        </form>
+        <article nz-typography>
+            <h5 nz-typography>Configure Dashboard </h5>
+            <p nz-typography>
+                The Dashboard Setting Page allows you to customize and configure various settings related to your
+                dashboard.
+                <br>
+                Here, you can toggle on/off different features, adjust the layout and appearance of your
+                dashboard, and manage your data sources.
+            </p>
+        </article>
+        <nz-divider></nz-divider>
+
+        <app-setting-form (onSubmit)="submitForm($event)" [settings$]="settings"></app-setting-form>
     </div>
 </nz-card>

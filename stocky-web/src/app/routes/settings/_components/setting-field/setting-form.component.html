@@ -1,73 +1,100 @@
-<form
-    (ngSubmit)="onSubmitHandler()"
-    [formGroup]="form"
-    nz-form
-    nzLayout="horizontal"
->
-    <div *ngFor="let setting of settings">
+<ng-container *ngIf="settings as settings; else loading">
+
+    <form (ngSubmit)="submit()" [formGroup]="formGroup" nz-form nzLayout="horizontal">
+
+        <ng-container *ngFor="let setting of settings">
+
+            <nz-form-item>
+                <nz-form-label [nzSpan]="8" nzLabelAlign="left">{{setting.settingTitle}}</nz-form-label>
+                <nz-form-control [nzSpan]="12">
+                    <div [ngSwitch]="setting.settingField">
+
+                        <div *ngSwitchCase="input">
+                            <ng-container [ngTemplateOutletContext]="{ setting: setting }"
+                                          [ngTemplateOutlet]="inputTmpl"></ng-container>
+                        </div>
+
+                        <div *ngSwitchCase="select">
+                            <ng-container
+                                [ngTemplateOutletContext]="{ setting: setting }"
+                                [ngTemplateOutlet]="selectTmpl"></ng-container>
+                        </div>
+
+                        <div *ngSwitchCase="textarea">
+                            <ng-container
+                                [ngTemplateOutletContext]="{ setting: setting }"
+                                [ngTemplateOutlet]="textareaTmpl"></ng-container>
+                        </div>
+
+                        <div *ngSwitchCase="radio">
+                            <ng-container [ngTemplateOutletContext]="{ setting: setting }"
+                                          [ngTemplateOutlet]="radioTmpl"></ng-container>
+                        </div>
+
+                        <div *ngSwitchCase="date">
+                            <ng-container [ngTemplateOutletContext]="{ setting: setting }"
+                                          [ngTemplateOutlet]="dateTmpl"></ng-container>
+                        </div>
+
+                        <div *ngSwitchCase="toggle">
+                            <ng-container
+                                [ngTemplateOutletContext]="{ setting: setting }"
+                                [ngTemplateOutlet]="toggleTmpl"
+                            >
+                            </ng-container>
+                        </div>
+                    </div>
+                </nz-form-control>
+
+            </nz-form-item>
+
+        </ng-container>
 
         <nz-form-item>
-
-            <nz-form-label [nzSpan]="6">Form Layout</nz-form-label>
-
-            <div [ngSwitch]="setting.settingField">
-
-                <div *ngSwitchCase="select">
-                    <ng-container *ngTemplateOutlet="select; context: setting"></ng-container>
-                </div>
-
-            </div>
-
+            <nz-form-control>
+                <button nz-button nzType="primary" type="submit">Submit</button>
+            </nz-form-control>
         </nz-form-item>
 
-    </div>
-</form>
+        <ng-template #inputTmpl let-setting="setting">
+            <input [formControlName]="setting.settingKey" nz-input nzSize="default">
+        </ng-template>
 
-<ng-template #input>
-    <nz-form-control [nzSpan]="18">
-        <input nz-input nzSize="large" placeholder="large size"/>
-    </nz-form-control>
-</ng-template>
+        <ng-template #textareaTmpl let-setting="setting">
+            <textarea [formControlName]="setting.settingKey" nz-input rows="4"></textarea>
+        </ng-template>
 
-<ng-template #textarea>
-    <nz-form-control [nzSpan]="18">
-        <textarea nz-input rows="4"></textarea>
-    </nz-form-control>
-</ng-template>
+        <ng-template #radioTmpl let-setting="setting">
+            <nz-radio-group [formControlName]="setting.settingKey">
+                <label nz-radio nzValue="A">A</label>
+                <label nz-radio nzValue="B">B</label>
+            </nz-radio-group>
+        </ng-template>
 
-<ng-template #radio>
-    <nz-form-control [nzSpan]="18">
-        <nz-radio-group>
-            <label nz-radio nzValue="A">A</label>
-            <label nz-radio nzValue="B">B</label>
-            <label nz-radio nzValue="C">C</label>
-            <label nz-radio nzValue="D">D</label>
-        </nz-radio-group>
-    </nz-form-control>
+        <ng-template #dateTmpl let-setting="setting">
+            <nz-date-picker class="wd-100p"></nz-date-picker>
+        </ng-template>
 
-</ng-template>
+        <ng-template #toggleTmpl let-setting="setting">
+            <nz-switch
+                [formControlName]="setting.settingKey"
+                [nzCheckedChildren]="checkedTemplate"
+                [nzControl]="setting.settingValue === 'true'"
+                [nzUnCheckedChildren]="unCheckedTemplate"
+            ></nz-switch>
+            <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
+            <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
+        </ng-template>
 
-<ng-template #date>
-    <nz-form-control [nzSpan]="18">
-        <nz-date-picker></nz-date-picker>
-    </nz-form-control>
-</ng-template>
+        <ng-template #selectTmpl let-setting="setting">
+            <nz-select [formControlName]="setting.settingKey" class="wd-100p">
+                <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
+                <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
+            </nz-select>
+        </ng-template>
+    </form>
+</ng-container>
 
-<ng-template #toggle>
-    <nz-form-control [nzSpan]="18">
-        <nz-switch
-            [nzCheckedChildren]="checkedTemplate"
-            [nzUnCheckedChildren]="unCheckedTemplate"
-        ></nz-switch>
-        <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
-        <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
-    </nz-form-control>
-</ng-template>
-
-<ng-template #select let-setting>
-    <nz-select>
-        <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
-        <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
-        <nz-option nzDisabled nzLabel="Disabled" nzValue="disabled"></nz-option>
-    </nz-select>
+<ng-template #loading>
+    <app-loading-card></app-loading-card>
 </ng-template>

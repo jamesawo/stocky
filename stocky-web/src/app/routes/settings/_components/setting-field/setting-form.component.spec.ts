@@ -1,23 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SettingFieldComponent } from './setting-field.component';
+import { SettingFormComponent } from './setting-form.component';
 
 describe('SettingFieldComponent', () => {
-  let component: SettingFieldComponent;
-  let fixture: ComponentFixture<SettingFieldComponent>;
+    let component: SettingFormComponent;
+    let fixture: ComponentFixture<SettingFormComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ SettingFieldComponent ]
-    })
-    .compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [SettingFormComponent],
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(SettingFieldComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(SettingFormComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });
