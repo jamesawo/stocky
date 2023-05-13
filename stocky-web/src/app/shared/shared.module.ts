@@ -1,5 +1,5 @@
 import { NgModule, Type } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AlainThemeModule } from '@delon/theme';
@@ -25,6 +25,13 @@ import { ButtonComponent } from './components/button/button.component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { LoadingCardComponent } from './components/loading-card/loading-card.component';
 
 const THIRD_MODULES: Array<Type<void>> = [
     NzBreadCrumbModule,
@@ -34,6 +41,12 @@ const THIRD_MODULES: Array<Type<void>> = [
     NzSpaceModule,
     NzModalModule,
     NzFormModule,
+    NzRadioModule,
+    NzInputModule,
+    NzSelectModule,
+    NzSpinModule,
+    NzDividerModule,
+    NzTypographyModule,
 ];
 const COMPONENTS: Array<Type<void>> = [
     DatePickerComponent,
@@ -46,9 +59,11 @@ const COMPONENTS: Array<Type<void>> = [
     SwitchToggleComponent,
     BreadcrumbsComponent,
     ButtonComponent,
+    LoadingCardComponent,
 ];
 const DIRECTIVES: Array<Type<void>> = [];
 const ICONS: Array<Type<void>> = [];
+const PROVIDERS: Array<Type<void>> = [AsyncPipe];
 
 @NgModule({
     imports: [
@@ -80,5 +95,6 @@ const ICONS: Array<Type<void>> = [];
         ...COMPONENTS,
         ...DIRECTIVES,
     ],
+    providers: [...PROVIDERS],
 })
 export class SharedModule {}
