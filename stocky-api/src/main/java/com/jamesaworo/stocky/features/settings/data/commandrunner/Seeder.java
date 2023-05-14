@@ -2,18 +2,13 @@ package com.jamesaworo.stocky.features.settings.data.commandrunner;
 
 import com.jamesaworo.stocky.core.constants.enums.PaymentMethod;
 import com.jamesaworo.stocky.features.settings.data.repository.*;
-import com.jamesaworo.stocky.features.settings.domain.entity.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.jamesaworo.stocky.features.settings.domain.entity.SettingPaymentMethod;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import static com.jamesaworo.stocky.core.constants.Global.FALSE;
-import static com.jamesaworo.stocky.core.constants.Global.TRUE;
-import static com.jamesaworo.stocky.core.constants.Setting.*;
-import static com.jamesaworo.stocky.core.constants.enums.SettingField.*;
+import static com.jamesaworo.stocky.features.settings.data.commandrunner.Seeds.*;
 import static java.util.Arrays.stream;
 
 /**
@@ -21,6 +16,7 @@ import static java.util.Arrays.stream;
  * @since 4/21/23
  */
 @Component
+@RequiredArgsConstructor
 public class Seeder {
 
     private final SettingBackupRestoreRepository backupRestoreRepository;
@@ -30,22 +26,9 @@ public class Seeder {
     private final SettingPaymentMethodRepository paymentMethodRepository;
     private final SettingTaxRepository taxRepository;
     private final SettingStockRepository stockRepository;
-
-    @Autowired
-    public Seeder(SettingBackupRestoreRepository backupRestoreRepository,
-                  SettingDashboardRepository dashboardRepository,
-                  SettingExpensesRepository expensesRepository,
-                  SettingNotificationRepository notificationRepository,
-                  SettingPaymentMethodRepository paymentMethodRepository,
-                  SettingTaxRepository taxRepository, SettingStockRepository stockRepository) {
-        this.backupRestoreRepository = backupRestoreRepository;
-        this.dashboardRepository = dashboardRepository;
-        this.expensesRepository = expensesRepository;
-        this.notificationRepository = notificationRepository;
-        this.paymentMethodRepository = paymentMethodRepository;
-        this.taxRepository = taxRepository;
-        this.stockRepository = stockRepository;
-    }
+    private final SettingPeopleRepository peopleRepository;
+    private final SettingProductRepository productRepository;
+    private final SettingSaleRepository saleRepository;
 
 
     public void run() {
@@ -55,72 +38,43 @@ public class Seeder {
         this.seedTaxSetting();
         this.seedPaymentMethod();
         this.seedStockSetting();
+        this.seedPeopleSetting();
+        this.seedProductSetting();
+        this.seedSaleSetting();
     }
+
 
     private void seedBackupAndRestore() {
         if (this.backupRestoreRepository.count() == 0) {
-            var settings = List.of(
-                    new SettingBackUpRestore(SETTING_BACKUP_ENABLE_AUTO_BACK_UP, FALSE, TOGGLE, options(),
-                            strip(SETTING_BACKUP_ENABLE_AUTO_BACK_UP))
-            );
-            this.backupRestoreRepository.saveAll(settings);
+            this.backupRestoreRepository.saveAll(SETTING_BACK_UP_RESTORES);
             System.out.println("----- seed backup&restore settings -----");
         }
     }
 
     private void seedDashboardSetting() {
         if (this.dashboardRepository.count() == 0) {
-            var settings = List.of(
-                    new SettingDashboard(SETTING_DASHBOARD_SHOW_EMPLOYEE_PERFORMANCE, FALSE, TOGGLE, options(),
-                            strip(SETTING_DASHBOARD_SHOW_EMPLOYEE_PERFORMANCE)),
-                    new SettingDashboard(SETTING_DASHBOARD_SHOW_PRODUCT_PERFORMANCE, FALSE, TOGGLE, options(),
-                            strip(SETTING_DASHBOARD_SHOW_PRODUCT_PERFORMANCE))
-            );
-            this.dashboardRepository.saveAll(settings);
+            this.dashboardRepository.saveAll(SETTING_DASHBOARDS);
             System.out.println("----- seed dashboard settings -----");
         }
     }
 
     private void seedExpensesSetting() {
         if (this.expensesRepository.count() == 0) {
-            var settings = List.of(
-                    new SettingExpenses(SETTING_EXPENSES_ENABLE_EXPENSES_APPROVAL, FALSE, TOGGLE, options(),
-                            strip(SETTING_EXPENSES_ENABLE_EXPENSES_APPROVAL))
-            );
-            this.expensesRepository.saveAll(settings);
+            this.expensesRepository.saveAll(SETTING_EXPENSES);
             System.out.println("----- seed expenses settings -----");
         }
     }
 
     private void seedTaxSetting() {
         if (this.taxRepository.count() == 0) {
-            var settings = List.of(
-                    new SettingTax(SETTING_TAX_ENABLE_TAX, FALSE, TOGGLE, options(), strip(SETTING_TAX_ENABLE_TAX)),
-                    new SettingTax(SETTING_TAX_PERCENT_VALUE, "0", INPUT, new String[]{},
-                            strip(SETTING_TAX_PERCENT_VALUE))
-            );
-            this.taxRepository.saveAll(settings);
+            this.taxRepository.saveAll(SETTING_TAXES);
             System.out.println("----- seed tax settings -----");
         }
     }
 
     private void seedStockSetting() {
         if (this.stockRepository.count() == 0) {
-            var settings = List.of(
-                    new SettingStock(SETTING_STOCK_ENABLE_STOCK, FALSE, TOGGLE, options(),
-                            strip(SETTING_STOCK_ENABLE_STOCK)),
-
-                    new SettingStock(SETTING_STOCK_BATCH_PREFIX_VALUE, "STK_", INPUT, new String[]{},
-                            strip(SETTING_STOCK_BATCH_PREFIX_VALUE)),
-
-                    new SettingStock("TEST_001", "NA", TEXTAREA, new String[]{}, "Test Title Textarea"),
-                    new SettingStock("TEST_002", "N/A", SELECT, options(), "TEst Title Select"),
-                    new SettingStock("TEST_003", "N/A", RADIO, options(), "Test Title Radio"),
-                    new SettingStock("TEST_004", "2022-02-2", DATE, new String[]{}, "Test Title Date")
-            );
-
-
-            this.stockRepository.saveAll(settings);
+            this.stockRepository.saveAll(SETTING_STOCKS);
             System.out.println("----- seed stock settings -----");
         }
     }
@@ -135,12 +89,26 @@ public class Seeder {
         }
     }
 
-    private String[] options() {
-        return new String[]{TRUE, FALSE};
+    private void seedPeopleSetting() {
+        if (this.peopleRepository.count() == 0) {
+            this.peopleRepository.saveAll(SETTING_PEOPLE);
+            System.out.println("----- seed people setting -----");
+        }
     }
 
-    private String strip(String input) {
-        String[] words = input.split("_");
-        return String.join(" ", Arrays.copyOfRange(words, 1, words.length));
+    private void seedProductSetting() {
+        if (this.productRepository.count() == 0) {
+            this.productRepository.saveAll(SETTING_PRODUCTS);
+            System.out.println("----- seed product setting -----");
+        }
     }
+
+    private void seedSaleSetting() {
+        if (this.saleRepository.count() == 0) {
+            this.saleRepository.saveAll(SETTING_SALES);
+            System.out.println("----- seed sale setting -----");
+        }
+    }
+
+
 }
