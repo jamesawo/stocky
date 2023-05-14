@@ -1,6 +1,6 @@
-<page-header [action]='action' [breadcrumb]='breadcrumb' [content]='content' title="Product Categories">
+<page-header [action]='action' [breadcrumb]='breadcrumb' [content]='content' title='Product Categories'>
     <ng-template #breadcrumb>
-        <app-breadcrumbs [crumbs]="crumbs"></app-breadcrumbs>
+        <app-breadcrumbs [crumbs]='crumbs'></app-breadcrumbs>
     </ng-template>
 
     <ng-template #action>
@@ -8,12 +8,12 @@
     </ng-template>
 
     <ng-template #content>
-        <form *ngIf="isExpanded" autocomplete='off' nz-form>
+        <form *ngIf='isExpanded' autocomplete='off' nz-form>
             <div nz-row>
                 <div class='ph-main m-t-1em' nz-col nzSpan='24'>
                     <input name='productCategoryName'
                            nz-input
-                           placeholder='Enter category name' type='text'/>
+                           placeholder='Enter category name' type='text' />
                 </div>
 
                 <div [nzLg]='24' [nzXs]='24' class='ph-main m-t-2em m-t-sm-2em m-b-2em' nz-col nzSpan='24'>
@@ -21,18 +21,17 @@
                         <div [nzLg]='12' [nzSpan]='12' [nzXs]='10' nz-col>
                             <app-search-reset-button
                                 [props]='{
-                                onSearchAction: onOpenModal,
-                                isLoadingSearchResult: isLoading,
-                                onResetSearchPayload: onOpenModal,
-                                onCancelAction: onOpenModal
+                                onSearchAction: onSearchCategory,
+                                isLoadingSearchResult: isLoadingSearch,
+                                onResetSearchPayload: onResetSearch,
+                                onCancelAction: onCancelSearch
                                 }'
                             ></app-search-reset-button>
                         </div>
 
                         <div [nzLg]='12' [nzSpan]='12' [nzXs]='10' class='text-align-end' nz-col>
-                            <nz-space nzSize="small">
-                                <app-button *nzSpaceItem
-                                            [props]="{handler: onOpenModal, title: 'Add', icon: 'plus'}"
+                            <nz-space nzSize='small'>
+                                <app-button *nzSpaceItem [props]="{handler: onOpenModal, title: 'Add', icon: 'plus'}"
                                 ></app-button>
                                 <app-export-upload-button *nzSpaceItem [props]='{}'></app-export-upload-button>
                             </nz-space>
@@ -63,50 +62,54 @@
 </nz-card>
 
 <nz-modal
-    (nzOnCancel)="onCloseModal()"
-    (nzOnOk)="onCreateCategory()"
-    [(nzVisible)]="showModal"
-    nzTitle="Add New Category">
+    (nzOnCancel)='onCloseModal()'
+    (nzOnOk)='onAddCategory()'
+    [(nzVisible)]='showModal'
+    [nzMaskClosable]='false'
+    nzTitle='Add New Category'
+>
 
-    <ng-container *nzModalContent>
+    <div *nzModalContent [nzLg]='{ span: 24, offset: 0 }' [nzXs]='{ span: 24, offset: 0 }' nz-col>
+        <form (submit)='onAddCategory()'
+              [formGroup]='categoryForm'
+              autocomplete='off'
+              nz-form
+              nzLayout='vertical'
+        >
 
-        <div [nzLg]='{ span: 24, offset: 0 }' [nzXs]='{ span: 24, offset: 0 }' nz-col>
-            <form (submit)='onCreateCategory()'
-                  [formGroup]='categoryForm'
-                  autocomplete='off'
-                  nz-form
-                  nzLayout="vertical"
-            >
+            <div [nzSpan]='24' nz-col>
 
-                <div [nzSpan]='24' nz-col>
-
-                    <nz-form-item>
-                        <nz-form-label>Title</nz-form-label>
-                        <nz-form-control nzErrorTip='Title is required'>
-                            <input
-                                formControlName='title'
-                                nz-input
-                                placeholder='Enter Title'
-                                type='text'
-                            />
-                        </nz-form-control>
-                    </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Title</nz-form-label>
+                    <nz-form-control nzErrorTip='Title is required'>
+                        <input
+                            formControlName='title'
+                            nz-input
+                            placeholder='Enter Title'
+                            type='text'
+                        />
+                    </nz-form-control>
+                </nz-form-item>
 
 
-                    <nz-form-item>
-                        <nz-form-label>Description</nz-form-label>
-                        <nz-form-control>
-                                <textarea formControlName="description"
+                <nz-form-item>
+                    <nz-form-label>Description</nz-form-label>
+                    <nz-form-control>
+                                <textarea formControlName='description'
                                           nz-input
-                                          placeholder="Enter Description"
+                                          placeholder='Enter Description'
                                 ></textarea>
-                        </nz-form-control>
-                    </nz-form-item>
+                    </nz-form-control>
+                </nz-form-item>
 
-                </div>
+            </div>
 
-            </form>
-        </div>
+        </form>
+    </div>
 
-    </ng-container>
+    <div *nzModalFooter>
+        <button (click)='onCloseModal()' nz-button nzType='default'>Cancel</button>
+        <button (click)='onAddCategory()' [nzLoading]='isLoading' nz-button nzType='primary'>Submit</button>
+    </div>
+
 </nz-modal>

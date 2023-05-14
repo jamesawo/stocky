@@ -18,7 +18,11 @@ export class ProductCategoryUsecase {
     }
 
     public save(category: ProductCategoryPoayload) {
-        return this.http.post(`${this.url}`, category);
+        return this.http.post<ProductCategoryPoayload>(
+            `${this.url}`,
+            category,
+            { observe: 'response' }
+        );
     }
 
     public update(category: ProductCategoryPoayload) {
