@@ -44,7 +44,10 @@ export class ProductCategoryListComponent implements OnInit {
     };
 
     public onCreateCategory = () => {
-        console.log('saving ..');
+        if (this.categoryForm.invalid) {
+            return;
+        }
+
         console.log('submit', this.categoryForm.value);
     };
 }
