@@ -10,6 +10,7 @@ import { SettingPeopleComponent } from './setting-people/setting-people.componen
 import { SettingFormComponent } from './_components/setting-field/setting-form.component';
 import { DashboardSettingService } from './_service/dashboard-setting.service';
 import { StockSettingService } from './_service/stock-setting.service';
+import { ExpensesSettingService } from './_service/expenses-setting.service';
 
 export const COMPONENTS = [
     SettingDashboardComponent,
@@ -21,7 +22,11 @@ export const COMPONENTS = [
     SettingFormComponent,
 ];
 
-export const PROVIDERS = [DashboardSettingService, StockSettingService];
+export const PROVIDERS = [
+    DashboardSettingService,
+    StockSettingService,
+    ExpensesSettingService,
+];
 
 @NgModule({
     imports: [SharedModule, SettingRoutingModule],

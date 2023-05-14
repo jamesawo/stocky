@@ -1,1 +1,23 @@
-<p>setting-people works!</p>
+<page-header [breadcrumb]='breadcrumb' title="People Setting">
+    <ng-template #breadcrumb>
+        <app-breadcrumbs [crumbs]="crumbs"></app-breadcrumbs>
+    </ng-template>
+
+</page-header>
+
+<nz-card>
+    <div class='wd-100p'>
+        <article nz-typography>
+            <h5 nz-typography>People <small class="m-l-10px">(Customers, Employee, Suppliers)</small></h5>
+
+            <p nz-typography>
+                Effortlessly manage your contacts with our customizable people settings.<br>
+                With people settings feature, you can easily manage and set rules concerning business contacts, whether
+                they are customers, suppliers, or employees.
+            </p>
+        </article>
+        <nz-divider></nz-divider>
+
+        <app-setting-form (onSubmit)="submitForm($event)" [settings$]="settings"></app-setting-form>
+    </div>
+</nz-card>

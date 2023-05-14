@@ -5,7 +5,18 @@
         <ng-container *ngFor="let setting of settings">
 
             <nz-form-item>
-                <nz-form-label [nzSpan]="8" nzLabelAlign="left">{{setting.settingTitle}}</nz-form-label>
+                <nz-form-label [nzSpan]="8" nzLabelAlign="left">
+                    <ng-container *ngIf="setting.settingHint">
+                        <span [nzPopoverContent]="setting.settingHint" [nzPopoverTitle]="'Hint:'" class="m-r-10px"
+                              nz-icon
+                              nz-popover
+                              nzTheme="outline" nzType="info-circle"></span>
+                    </ng-container>
+
+                    {{setting.settingTitle}}
+
+
+                </nz-form-label>
                 <nz-form-control [nzSpan]="12">
                     <div [ngSwitch]="setting.settingField">
 

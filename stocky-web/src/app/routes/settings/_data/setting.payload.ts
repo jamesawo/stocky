@@ -12,4 +12,5 @@ export class SettingPayload {
     settingField?: SettingField;
     settingTitle?: string;
     settingOptions?: SettingOption[];
+    settingHint?: string;
 }
