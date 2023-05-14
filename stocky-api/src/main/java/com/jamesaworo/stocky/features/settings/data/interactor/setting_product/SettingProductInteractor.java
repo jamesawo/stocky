@@ -1,10 +1,10 @@
-package com.jamesaworo.stocky.features.settings.data.interactor.setting_sale;
+package com.jamesaworo.stocky.features.settings.data.interactor.setting_product;
 
 import com.jamesaworo.stocky.core.annotations.Interactor;
 import com.jamesaworo.stocky.core.mapper.Mapper;
 import com.jamesaworo.stocky.features.settings.data.dto.SettingDto;
-import com.jamesaworo.stocky.features.settings.data.usecases_impl.SettingSaleUsecase;
-import com.jamesaworo.stocky.features.settings.domain.entity.SettingSale;
+import com.jamesaworo.stocky.features.settings.data.usecases_impl.SettingProductUsecase;
+import com.jamesaworo.stocky.features.settings.domain.entity.SettingProduct;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +23,9 @@ import static org.springframework.http.ResponseEntity.ok;
 
 @Interactor
 @AllArgsConstructor
-public class SettingSaleInteractor implements ISettingSaleInteractor, Mapper<SettingDto, SettingSale> {
+public class SettingProductInteractor implements ISettingProductInteractor, Mapper<SettingDto, SettingProduct> {
 
-    private SettingSaleUsecase usecase;
+    private SettingProductUsecase usecase;
 
     @Override
     public ResponseEntity<SettingDto> get(String key) {
@@ -54,14 +54,14 @@ public class SettingSaleInteractor implements ISettingSaleInteractor, Mapper<Set
     }
 
     @Override
-    public SettingDto toRequest(SettingSale model) {
+    public SettingDto toRequest(SettingProduct model) {
         ModelMapper mapper = new ModelMapper();
         return mapper.map(model, SettingDto.class);
     }
 
     @Override
-    public SettingSale toModel(SettingDto request) {
+    public SettingProduct toModel(SettingDto request) {
         ModelMapper mapper = new ModelMapper();
-        return mapper.map(request, SettingSale.class);
+        return mapper.map(request, SettingProduct.class);
     }
 }

@@ -22,6 +22,7 @@ public class SettingDto {
     private SettingField settingField;
     private String settingTitle;
     private Collection<SettingOption> settingOptions;
+    private String settingHint;
 
     public SettingDto() {
     }

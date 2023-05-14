@@ -1,4 +1,4 @@
-package com.jamesaworo.stocky.features.settings.data.interactor.setting_tax;
+package com.jamesaworo.stocky.features.settings.data.interactor.setting_sale;
 
 import com.jamesaworo.stocky.features.settings.data.interactor.base.ISettingBaseInteractor;
 

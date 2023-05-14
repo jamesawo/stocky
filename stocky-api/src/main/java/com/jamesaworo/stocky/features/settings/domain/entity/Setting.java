@@ -37,9 +37,11 @@ public class Setting {
     @Column(columnDefinition = "json")
     private Collection<SettingOption> settingOptions;
 
+    private String settingHint;
+
     @Column(updatable = false)
     private LocalDateTime createdAt;
-    
+
 
     public Setting() {
     }
@@ -51,6 +53,17 @@ public class Setting {
         var map = stream(options).map(option -> new SettingOption(option, option)).collect(Collectors.toList());
         this.setSettingOptions(map);
         this.setSettingTitle(title);
+
+    }
+
+    public Setting(String key, String value, SettingField field, String[] options, String title, String hint) {
+        this.setSettingKey(key);
+        this.setSettingValue(value);
+        this.setSettingField(field);
+        var map = stream(options).map(option -> new SettingOption(option, option)).collect(Collectors.toList());
+        this.setSettingOptions(map);
+        this.setSettingTitle(title);
+        this.setSettingHint(hint);
 
     }
 
