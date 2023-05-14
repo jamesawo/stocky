@@ -4,8 +4,8 @@ import { environment } from '@env/environment';
 import { SettingPayload } from '../_data/setting.payload';
 
 @Injectable({ providedIn: 'root' })
-export class DashboardSettingService {
-    private url = environment.api.baseUrl + 'setting-dashboard';
+export class DashboardSettingUsecase {
+    private url = environment.api.baseUrl + '/setting-dashboard';
 
     constructor(private http: HttpClient) {}
 

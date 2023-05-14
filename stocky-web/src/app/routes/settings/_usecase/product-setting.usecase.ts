@@ -4,8 +4,8 @@ import { environment } from '@env/environment';
 import { SettingPayload } from '../_data/setting.payload';
 
 @Injectable({ providedIn: 'root' })
-export class ProductSettingService {
-    private url = environment.api.baseUrl + 'setting-product';
+export class ProductSettingUsecase {
+    private url = environment.api.baseUrl + '/setting-product';
 
     constructor(private http: HttpClient) {}
 
