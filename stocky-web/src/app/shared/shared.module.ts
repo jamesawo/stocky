@@ -33,6 +33,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { LoadingCardComponent } from './components/loading-card/loading-card.component';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
 const THIRD_MODULES: Array<Type<void>> = [
     NzBreadCrumbModule,
@@ -49,6 +50,7 @@ const THIRD_MODULES: Array<Type<void>> = [
     NzDividerModule,
     NzTypographyModule,
     NzPopoverModule,
+    NzNotificationModule,
 ];
 const COMPONENTS: Array<Type<void>> = [
     DatePickerComponent,
