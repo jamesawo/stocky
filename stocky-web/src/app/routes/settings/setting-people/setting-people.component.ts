@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Crumbs } from '../../../shared/components/breadcrumbs/breadcrumbs.component';
 import { Observable } from 'rxjs';
 import { SettingPayload } from '../_data/setting.payload';
-import { PeopleSettingService } from '../_service/people-setting.service';
+import { PeopleSettingUsecase } from '../_usecase/people-setting.usecase';
 
 @Component({
     selector: 'app-setting-people',
@@ -17,7 +17,7 @@ export class SettingPeopleComponent implements OnInit {
     ];
     public settings!: Observable<SettingPayload[]>;
 
-    constructor(private service: PeopleSettingService) {}
+    constructor(private service: PeopleSettingUsecase) {}
 
     ngOnInit(): void {
         this.settings = this.service.getSettings();

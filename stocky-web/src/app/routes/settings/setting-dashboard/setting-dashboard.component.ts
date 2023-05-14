@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Crumbs } from '../../../shared/components/breadcrumbs/breadcrumbs.component';
-import { DashboardSettingService } from '../_service/dashboard-setting.service';
+import { DashboardSettingUsecase } from '../_usecase/dashboard-setting.usecase';
 import { SettingPayload } from '../_data/setting.payload';
 import { Observable } from 'rxjs';
 
@@ -16,7 +16,7 @@ export class SettingDashboardComponent implements OnInit {
     ];
     public settings!: Observable<SettingPayload[]>;
 
-    constructor(private dashboardService: DashboardSettingService) {}
+    constructor(private dashboardService: DashboardSettingUsecase) {}
 
     ngOnInit(): void {
         this.settings = this.dashboardService.getSettings();

@@ -8,9 +8,9 @@ import { SettingStockComponent } from './setting-stock/setting-stock.component';
 import { SettingProductComponent } from './setting-product/setting-product.component';
 import { SettingPeopleComponent } from './setting-people/setting-people.component';
 import { SettingFormComponent } from './_components/setting-field/setting-form.component';
-import { DashboardSettingService } from './_service/dashboard-setting.service';
-import { StockSettingService } from './_service/stock-setting.service';
-import { ExpensesSettingService } from './_service/expenses-setting.service';
+import { DashboardSettingUsecase } from './_usecase/dashboard-setting.usecase';
+import { StockSettingUsecase } from './_usecase/stock-setting.usecase';
+import { ExpensesSettingUsecase } from './_usecase/expenses-setting.usecase';
 
 export const COMPONENTS = [
     SettingDashboardComponent,
@@ -23,9 +23,9 @@ export const COMPONENTS = [
 ];
 
 export const PROVIDERS = [
-    DashboardSettingService,
-    StockSettingService,
-    ExpensesSettingService,
+    DashboardSettingUsecase,
+    StockSettingUsecase,
+    ExpensesSettingUsecase,
 ];
 
 @NgModule({
