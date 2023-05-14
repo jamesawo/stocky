@@ -77,7 +77,7 @@ export const MENU_BAG: Menu[] = [
                 icon: { type: 'icon', value: 'setting' },
                 children: [
                     { text: 'Dashboard', link: '/settings/dashboard' },
-                    { text: 'Expense', link: '/settings/expenses' },
+                    { text: 'Expenses', link: '/settings/expenses' },
                     { text: 'Sales', link: '/settings/sales' },
                     { text: 'People', link: '/settings/people' },
                     { text: 'Stock', link: '/settings/stock' },

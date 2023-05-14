@@ -13,7 +13,7 @@ export class SettingSalesComponent implements OnInit {
     public crumbs: Crumbs[] = [
         { link: '/dashboard', title: 'Dashboard' },
         { title: 'Setting' },
-        { link: '/settings/stock', title: 'Stock Setting ' },
+        { link: '/settings/sales', title: 'Sales Setting ' },
     ];
     public settings!: Observable<SettingPayload[]>;
 
