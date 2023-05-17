@@ -1,0 +1,38 @@
+<div class="wd-100p">
+
+    <ng-container *ngIf="dataList | async as list; else noData">
+        <nz-table [nzData]="list" [nzBordered]="true" [nzSize]="'middle'">
+            <thead>
+            <tr>
+                <th [nzShowCheckbox]="true"></th>
+                <th *ngFor="let col of colHeadings">
+                    <span class="text-bold">
+                        {{col | uppercase }}
+                    </span>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of list">
+                <td [nzShowCheckbox]="true"></td>
+                <td *ngFor="let row of rowTemplates">
+                    <ng-template [ngTemplateOutletContext]="{ item: item }" [ngTemplateOutlet]="row">
+                    </ng-template>
+                </td>
+            </tr>
+            </tbody>
+        </nz-table>
+    </ng-container>
+</div>
+
+
+<ng-template #noData>
+    <nz-table [nzData]="[]">
+        <thead>
+        <tr></tr>
+        </thead>
+        <tbody>
+        <tr></tr>
+        </tbody>
+    </nz-table>
+</ng-template>
