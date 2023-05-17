@@ -4,8 +4,8 @@
         <nz-table [nzBordered]="true" [nzData]="list" [nzSize]="'middle'">
             <thead>
             <tr>
-                <th [nzShowCheckbox]="true"></th>
-                <th *ngFor="let col of colHeadings">
+                <th [nzShowCheckbox]="true" nzWidth="3%"></th>
+                <th *ngFor="let col of colHeadings" [nzWidth]="col.width + '%'">
                     <span class="text-bold">
                         {{col.title | uppercase }}
                     </span>
