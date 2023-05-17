@@ -1,7 +1,8 @@
-import {FormGroup} from '@angular/forms';
 import {formatCurrency} from '@angular/common';
 import {HttpResponse} from '@angular/common/http';
+import {FormGroup} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {from, map, Observable} from 'rxjs';
 
 export function isValidateFormControls(form: FormGroup): boolean {
     if (form && form.controls) {
@@ -19,10 +20,7 @@ export function isValidateFormControls(form: FormGroup): boolean {
     return false;
 }
 
-export function isFormControlInvalid(
-    controlName: string,
-    form: FormGroup
-): boolean {
+export function isFormControlInvalid(controlName: string, form: FormGroup): boolean {
     if (form && form.controls) {
         if (form.controls[controlName]) {
             return form.controls[controlName].invalid;
@@ -44,11 +42,7 @@ export function createPdfResourceUrl(blobFile: ArrayBuffer): string {
     return URL.createObjectURL(file);
 }
 
-export function showSuccessNotification(
-    service: any,
-    content: string = 'Your request was successful',
-    title: string = 'Successful'
-) {
+export function showSuccessNotification(service: any, content: string = 'Your request was successful', title: string = 'Successful') {
     if (service) {
         service.success(title, content);
     }
@@ -84,9 +78,7 @@ export function displayHttpError(
         } else {
             errorList = ['ACTION FAILED'];
             if (erObj.error.error && erObj.status) {
-                message += `${erObj.status}: ${erObj.error.path ?? ''} ${
-                    erObj.error.error
-                } <br>`;
+                message += `${erObj.status}: ${erObj.error.path ?? ''} ${erObj.error.error} <br>`;
                 errorList.push(message);
                 errorList.push(erObj.message ?? '');
             }
@@ -100,12 +92,11 @@ export function displayHttpError(
     }
 }
 
-
-export const handleHttpResponse = async (
+export async function handleHttpResponse(
     response: Promise<HttpResponse<any>>,
     nzNotificationService: NzNotificationService,
     opts?: {success?: string}
-): Promise<any> => {
+): Promise<any> {
     try {
         const value = await response;
 
@@ -119,4 +110,11 @@ export const handleHttpResponse = async (
     } catch (error: any) {
         displayHttpError(error, {service: nzNotificationService});
     }
-};
+}
+
+export function appendToObservableListIfStatus(source: Observable<any>, item: any, status: boolean): Observable<any> {
+    if (status) {
+        return from(source!.pipe(map((list) => [...list, {...item}])));
+    }
+    return source;
+}
