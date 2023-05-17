@@ -105,22 +105,80 @@
 </nz-modal>
 <!--title-->
 <ng-template #nameTmpl let-item="item">
-    <label>{{item.title}}</label>
+
+    <ng-container *ngIf="editObj[item.id]?.edit === true; else nameViewTmpl">
+        <input [(ngModel)]="editObj[item.id].data.title" class="w-min" name="title" nz-input type="text"/>
+    </ng-container>
+
+    <ng-template #nameViewTmpl>
+        <label>{{item.title}}</label>
+    </ng-template>
 </ng-template>
 <!--description-->
 <ng-template #descriptionTmpl let-item="item">
-    <label>{{item.description}}</label>
+    <ng-container *ngIf="editObj[item.id]?.edit === true; else descriptionViewTmpl">
+        <input [(ngModel)]="editObj[item.id].data.description" name="description" nz-input type="text"/>
+    </ng-container>
+
+    <ng-template #descriptionViewTmpl>
+        <label>{{item.description}}</label>
+    </ng-template>
 </ng-template>
 <!--action-->
 <ng-template #actionTmpl let-item="item">
-    <nz-space [nzSize]="10">
-        <button (click)="onToggleEdit(item.id)" *nzSpaceItem nz-button nzType="text">
-            <span nz-icon nzType="edit"></span>
-        </button>
+    <ng-container *ngIf="editObj[item.id]?.edit === true; else actionViewTmpl">
+        <nz-space [nzSize]="10">
 
-        <button (click)="onToggleEdit(item.id)" *nzSpaceItem nz-button nzType="text">
-            <span class="danger" nz-icon nzType="delete"></span>
-        </button>
+            <button (click)="onSaveEdit(item)"
+                    *nzSpaceItem
+                    [nzLoading]="editObj[item.id].loading === true"
+                    nz-button
+                    nz-tooltip
+                    nzTooltipTitle="Save changes"
+                    nzType="text"
+            >
+                <span nz-icon nzTheme="outline" nzType="check"></span>
+            </button>
 
-    </nz-space>
+            <button
+                (click)="onCancelEdit(item)"
+                *nzSpaceItem
+                nz-button
+                nz-tooltip
+                nzTooltipTitle="Cancel changes" nzType="text"
+            >
+
+                <span nz-icon nzTheme="outline" nzType="close"></span>
+            </button>
+
+        </nz-space>
+    </ng-container>
+
+    <ng-template #actionViewTmpl>
+        <nz-space [nzSize]="10">
+            <button (click)="onToggleEdit(item)"
+                    *nzSpaceItem nz-button
+                    nz-tooltip
+                    nzTooltipTitle="Edit"
+                    nzType="text"
+            >
+                <span nz-icon nzType="edit"></span>
+            </button>
+
+            <button (nzOnCancel)="onResetSearch()"
+                    (nzOnConfirm)="onResetSearch()"
+                    *nzSpaceItem
+                    nz-button
+                    nz-popconfirm
+                    nz-tooltip
+                    nzPopconfirmTitle="Are you sure, delete?"
+                    nzTooltipTitle="Delete"
+                    nzType="text"
+            >
+                <span class="danger" nz-icon nzType="delete"></span>
+            </button>
+
+        </nz-space>
+
+    </ng-template>
 </ng-template>
