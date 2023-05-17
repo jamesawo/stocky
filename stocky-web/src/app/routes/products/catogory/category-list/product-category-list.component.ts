@@ -5,7 +5,7 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {firstValueFrom, Observable, shareReplay} from 'rxjs';
 import {Crumbs} from 'src/app/shared/components/breadcrumbs/breadcrumbs.component';
 import {appendToObservableListIfStatus, handleHttpResponse, isValidateFormControls} from '../../../../shared/utils/util';
-import {ProductCategoryPayload} from '../../_data/product-category.payload';
+import {ProductCategoryPayload} from '../../_data/product.payload';
 import {ProductCategoryUsecase} from '../../_usecase/product-category.usecase';
 
 @Component({

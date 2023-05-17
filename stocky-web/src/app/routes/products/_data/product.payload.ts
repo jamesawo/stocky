@@ -1,6 +1,10 @@
-import {ProductCategoryPayload} from './product-category.payload';
 import {ProductVariantEnum} from './product.enum';
 
+export class ProductCategoryPayload {
+    id?: number;
+    title?: string;
+    description?: string;
+}
 
 export class ProductVariant {
     id?: number;
