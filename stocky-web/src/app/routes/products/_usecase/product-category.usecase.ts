@@ -1,31 +1,27 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '@env/environment';
-import { ProductCategoryPoayload } from '../_data/product-category.poayload';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {environment} from '@env/environment';
+import {ProductCategoryPayload} from '../_data/product-category.payload';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class ProductCategoryUsecase {
     private url = environment.api.baseUrl + '/product-category';
 
     constructor(private http: HttpClient) {}
 
     public get(id: number) {
-        return this.http.get<ProductCategoryPoayload>(`${this.url}/{id}`);
+        return this.http.get<ProductCategoryPayload>(`${this.url}/{id}`);
     }
 
     public getMany() {
-        return this.http.get<ProductCategoryPoayload[]>(`${this.url}`);
+        return this.http.get<ProductCategoryPayload[]>(`${this.url}`);
     }
 
-    public save(category: ProductCategoryPoayload) {
-        return this.http.post<ProductCategoryPoayload>(
-            `${this.url}`,
-            category,
-            { observe: 'response' }
-        );
+    public save(category: ProductCategoryPayload) {
+        return this.http.post<ProductCategoryPayload>(`${this.url}`, category, {observe: 'response'});
     }
 
-    public update(category: ProductCategoryPoayload) {
+    public update(category: ProductCategoryPayload) {
         return this.http.put(`${this.url}`, category);
     }
 }
