@@ -2,7 +2,7 @@ import {formatCurrency} from '@angular/common';
 import {HttpResponse} from '@angular/common/http';
 import {FormGroup} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {from, map, Observable} from 'rxjs';
+import {first, firstValueFrom, from, map, Observable, switchMap} from 'rxjs';
 
 export function isValidateFormControls(form: FormGroup): boolean {
     if (form && form.controls) {
@@ -42,7 +42,11 @@ export function createPdfResourceUrl(blobFile: ArrayBuffer): string {
     return URL.createObjectURL(file);
 }
 
-export function showSuccessNotification(service: any, content: string = 'Your request was successful', title: string = 'Successful') {
+export function showSuccessNotification(
+    service: any,
+    content: string = 'Your request was successful',
+    title: string = 'Successful'
+): void {
     if (service) {
         service.success(title, content);
     }
@@ -52,7 +56,7 @@ export function showErrorNotification(
     service: NzNotificationService,
     content: string = 'Failed, please try again!',
     title: string = 'There was a problem.'
-) {
+): void {
     if (service) {
         service.error(title, content);
     }
@@ -92,13 +96,13 @@ export function displayHttpError(
     }
 }
 
-export async function handleHttpResponse(
-    response: Promise<HttpResponse<any>>,
+export async function handleHttpResponse<T>(
+    response: T,
     nzNotificationService: NzNotificationService,
     opts?: {success?: string}
-): Promise<any> {
+): Promise<T> {
     try {
-        const value = await response;
+        const value: any = await response;
 
         if (value && value.ok) {
             showSuccessNotification(nzNotificationService, opts?.success);
@@ -109,12 +113,55 @@ export async function handleHttpResponse(
         return value;
     } catch (error: any) {
         displayHttpError(error, {service: nzNotificationService});
+        return response;
     }
 }
 
-export function appendToObservableListIfStatus(source: Observable<any>, item: any, status: boolean): Observable<any> {
-    if (status) {
-        return from(source!.pipe(map((list) => [...list, {...item}])));
+export function appendToObservableListIfResponseIsOk<T>(
+    source: Observable<T[]>,
+    item: HttpResponse<T>
+): Observable<T[]> | undefined {
+    if (item.ok && item.body) {
+        return from(source!.pipe(map((list) => [...list, {...item.body!}])));
     }
     return source;
+}
+
+export function updateObservableListIfStatus<T>(
+    source: Observable<T[]>,
+    itemToUpdate: any,
+    status: boolean
+): Observable<T[]> {
+    if (status) {
+        return from(
+            source.pipe(
+                map((list) => {
+                    const index = list.findIndex((item: any) => item.id === itemToUpdate.id);
+                    let listElement: any = list[index];
+                    Object.assign(listElement, itemToUpdate);
+                    return list;
+                })
+            )
+        );
+    }
+    return source;
+}
+
+export function findFromObservableList<T>(
+    source: Observable<T[]>,
+    opts: {key: string; value: number}
+): Promise<T> {
+    return firstValueFrom(
+        source.pipe(
+            switchMap((list: T[]) => {
+                const foundItem = list.find((item: any) => item[opts.key] === opts.value);
+                if (foundItem) {
+                    return Promise.resolve(foundItem);
+                } else {
+                    return Promise.reject(new Error('Item not found'));
+                }
+            }),
+            first()
+        )
+    );
 }
