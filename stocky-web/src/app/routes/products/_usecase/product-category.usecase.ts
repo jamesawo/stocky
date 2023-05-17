@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
-import {ProductCategoryPayload} from '../_data/product-category.payload';
+import {ProductCategoryPayload} from '../_data/product.payload';
 
 @Injectable({providedIn: 'root'})
 export class ProductCategoryUsecase {
