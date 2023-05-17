@@ -1,10 +1,15 @@
 import {Component, Input, TemplateRef} from '@angular/core';
 import {Observable} from 'rxjs';
 
+export type TableCol = {
+    title: string;
+    width?: number;
+};
+
 @Component({
     selector: 'app-table',
     templateUrl: './table.component.html',
-    styles: []
+    styles: [],
 })
 export class TableComponent {
     @Input()
@@ -14,7 +19,5 @@ export class TableComponent {
     public rowTemplates?: TemplateRef<any>[];
 
     @Input()
-    public colHeadings?: string[];
-
-
+    public colHeadings?: TableCol[];
 }
