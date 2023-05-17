@@ -1,11 +1,6 @@
-import { ProductVariantEnum } from './product.enum';
+import {ProductCategoryPayload} from './product-category.payload';
+import {ProductVariantEnum} from './product.enum';
 
-export class ProductCategory {
-    id?: number;
-    title!: string;
-    description?: string;
-    parent?: ProductCategory;
-}
 
 export class ProductVariant {
     id?: number;
@@ -17,7 +12,7 @@ export class ProductPayload {
     id?: number;
     title!: string;
     sku?: string;
-    category?: ProductCategory;
+    category?: ProductCategoryPayload;
     variants?: ProductVariant[];
     unitCost?: number;
     sellingPrice?: number;
