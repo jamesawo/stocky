@@ -1,9 +1,10 @@
 import {HttpResponse} from '@angular/common/http';
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {firstValueFrom, Observable, shareReplay} from 'rxjs';
 import {Crumbs} from 'src/app/shared/components/breadcrumbs/breadcrumbs.component';
+import {TableCol} from '../../../../shared/components/table/table.component';
 import {appendToObservableListIfStatus, handleHttpResponse, isValidateFormControls} from '../../../../shared/utils/util';
 import {ProductCategoryPayload} from '../../_data/product.payload';
 import {ProductCategoryUsecase} from '../../_usecase/product-category.usecase';
@@ -27,14 +28,8 @@ export class ProductCategoryListComponent implements OnInit {
         {link: '/products/category-list', title: 'Categories'},
     ];
 
-    @ViewChild('name', {static: true})
-    public tblName!: TemplateRef<any>;
-
-    @ViewChild('description', {static: true})
-    public tblDescription!: TemplateRef<any>;
-
     public categories?: Observable<ProductCategoryPayload[]>;
-    public cols = ['Title', 'Description'];
+    public cols: TableCol[] = [{title: 'Title'}, {title: 'Description'}, {title: 'Action'}];
 
     constructor(private fb: UntypedFormBuilder, private nzNotificationService: NzNotificationService, private usecase: ProductCategoryUsecase) {}
 
@@ -78,6 +73,10 @@ export class ProductCategoryListComponent implements OnInit {
         });
         this.categories = appendToObservableListIfStatus(this.categories!, response.body, response.ok);
         this.onResetPayload();
+    };
+
+    public onToggleEdit = (id: number) => {
+        console.log('Editing...', id);
     };
 
     private onResetPayload() {
