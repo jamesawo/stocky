@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import static com.jamesaworo.stocky.core.constants.Exception.RECORD_NOT_FOUND;
 import static com.jamesaworo.stocky.core.constants.Exception.REQUIRED_ID;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.ResponseEntity.notFound;
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -49,13 +50,19 @@ public class ProductCategoryInteractor implements IProductCategoryInteractor, Ma
 
 
     public ResponseEntity<Optional<ProductCategoryRequest>> save(ProductCategoryRequest request) {
-        Optional<ProductCategory> category = this.usecase.save(toModel(request));
+        var model = toModel(request);
+        Optional<ProductCategory> category = this.usecase.save(model);
         return ok().body(category.map(this::toRequest));
     }
 
     public ResponseEntity<Optional<ProductCategoryRequest>> update(ProductCategoryRequest request) {
         this.throwIfRequestNotValid(request);
         return this.save(request);
+    }
+
+    public ResponseEntity<Optional<Boolean>> remove(Long id) {
+        Optional<Boolean> remove = this.usecase.remove(id);
+        return new ResponseEntity<>(remove, OK);
     }
 
     private void throwIfRequestNotValid(ProductCategoryRequest request) {
@@ -77,4 +84,6 @@ public class ProductCategoryInteractor implements IProductCategoryInteractor, Ma
     public ProductCategory toModel(ProductCategoryRequest request) {
         return mapper.map(request, ProductCategory.class);
     }
+
+
 }

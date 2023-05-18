@@ -16,5 +16,6 @@ public interface IProductCategoryUsecase {
 
     Optional<ProductCategory> save(ProductCategory category);
 
+    Optional<Boolean> remove(Long id);
 
 }

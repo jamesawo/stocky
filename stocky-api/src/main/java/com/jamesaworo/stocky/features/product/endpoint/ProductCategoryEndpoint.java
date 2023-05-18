@@ -45,4 +45,9 @@ public class ProductCategoryEndpoint {
         return this.interactor.update(dto);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Optional<Boolean>> remove(@PathVariable Long id) {
+        return this.interactor.remove(id);
+    }
+
 }

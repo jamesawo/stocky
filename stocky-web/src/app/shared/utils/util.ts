@@ -37,7 +37,7 @@ export function currencyFormatter(value?: number): string {
     return '';
 }
 
-export function createPdfResourceUrl(blobFile: ArrayBuffer): string {
+export function handleCreatePdfResourceUrl(blobFile: ArrayBuffer): string {
     let file = new Blob([blobFile], {type: 'application/pdf'});
     return URL.createObjectURL(file);
 }
@@ -62,7 +62,7 @@ export function showErrorNotification(
     }
 }
 
-export function displayHttpError(
+export function handleHttpRequestError(
     erObj: any,
     opts?: {service?: NzNotificationService; title?: string},
     errorMessage?: string,
@@ -103,42 +103,60 @@ export async function handleHttpResponse<T>(
 ): Promise<T> {
     try {
         const value: any = await response;
-
         if (value && value.ok) {
             showSuccessNotification(nzNotificationService, opts?.success);
         } else {
             showErrorNotification(nzNotificationService);
         }
-
         return value;
     } catch (error: any) {
-        displayHttpError(error, {service: nzNotificationService});
+        handleHttpRequestError(error, {service: nzNotificationService});
         return response;
     }
 }
 
-export function appendToObservableListIfResponseIsOk<T>(
+export async function handleUsecaseRequest<T>(
+    arg: Observable<T>,
+    notificationService: NzNotificationService,
+    message?: {success: string; error: string}
+): Promise<T> {
+    try {
+        const value: any = await firstValueFrom(arg);
+        if (value && value.ok) {
+            showSuccessNotification(notificationService, message?.success);
+        } else {
+            showErrorNotification(notificationService, message?.error);
+        }
+        return value;
+    } catch (e: any) {
+        handleHttpRequestError(e, {service: notificationService});
+        const res: any = undefined;
+        return Promise.resolve(res);
+    }
+}
+
+export function handleAppendToObservableListIfResponse<T>(
     source: Observable<T[]>,
     item: HttpResponse<T>
 ): Observable<T[]> | undefined {
-    if (item.ok && item.body) {
+    if (item && item.ok && item.body) {
         return from(source!.pipe(map((list) => [...list, {...item.body!}])));
     }
     return source;
 }
 
-export function updateObservableListIfStatus<T>(
+export function handleUpdateObservableListIfResponse<T>(
     source: Observable<T[]>,
-    itemToUpdate: any,
-    status: boolean
+    response: HttpResponse<T>
 ): Observable<T[]> {
-    if (status) {
+    if (response && response.ok) {
+        const update: any = response.body;
         return from(
             source.pipe(
                 map((list) => {
-                    const index = list.findIndex((item: any) => item.id === itemToUpdate.id);
-                    let listElement: any = list[index];
-                    Object.assign(listElement, itemToUpdate);
+                    const index = list.findIndex((item: any) => item.id === update.id);
+                    let element: any = list[index];
+                    Object.assign(element, update);
                     return list;
                 })
             )
@@ -147,7 +165,7 @@ export function updateObservableListIfStatus<T>(
     return source;
 }
 
-export function findFromObservableList<T>(
+export function handleFindFromObservableList<T>(
     source: Observable<T[]>,
     opts: {key: string; value: number}
 ): Promise<T> {
@@ -164,4 +182,15 @@ export function findFromObservableList<T>(
             first()
         )
     );
+}
+
+export function handleRemoveFromObservableListIfStatus<T>(
+    source: Observable<T[]>,
+    opts: {key: string; value: number},
+    response: HttpResponse<any>
+): Observable<T[]> {
+    if (response.ok && response.body === true) {
+        return source.pipe(map((list: T[]) => list.filter((item: any) => item[opts.key] !== opts.value)));
+    }
+    return source;
 }

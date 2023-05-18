@@ -20,4 +20,6 @@ public interface IProductCategoryInteractor {
 
     ResponseEntity<Optional<ProductCategoryRequest>> update(ProductCategoryRequest request);
 
+    ResponseEntity<Optional<Boolean>> remove(Long id);
+
 }
