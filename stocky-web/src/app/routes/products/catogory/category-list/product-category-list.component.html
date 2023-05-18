@@ -131,7 +131,7 @@
 
             <button (click)="onSaveEdit(item)"
                     *nzSpaceItem
-                    [nzLoading]="editObj[item.id].loading === true"
+                    [nzLoading]="editObj[item.id].updating === true"
                     nz-button
                     nz-tooltip
                     nzTooltipTitle="Save changes"
@@ -165,9 +165,10 @@
                 <span nz-icon nzType="edit"></span>
             </button>
 
-            <button (nzOnCancel)="onResetSearch()"
-                    (nzOnConfirm)="onResetSearch()"
+            <button (nzOnCancel)="onCancelDelete()"
+                    (nzOnConfirm)="onConfirmDelete(item.id)"
                     *nzSpaceItem
+                    [nzLoading]="editObj[item.id] && editObj[item.id].deleting === true"
                     nz-button
                     nz-popconfirm
                     nz-tooltip

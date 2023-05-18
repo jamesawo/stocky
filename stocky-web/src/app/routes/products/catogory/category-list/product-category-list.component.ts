@@ -1,18 +1,17 @@
-import {HttpResponse} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {firstValueFrom, Observable, shareReplay} from 'rxjs';
+import {Observable, shareReplay} from 'rxjs';
 import {Crumbs} from 'src/app/shared/components/breadcrumbs/breadcrumbs.component';
 import {PRODUCT_CRUMBS} from '../../../../data/constant/crumb.constant';
-import {MessageConstant} from '../../../../data/constant/message.constant';
 import {TableCol} from '../../../../shared/components/table/table.component';
 import {
-    appendToObservableListIfResponseIsOk,
-    findFromObservableList,
-    handleHttpResponse,
+    handleAppendToObservableListIfResponse,
+    handleFindFromObservableList,
+    handleRemoveFromObservableListIfStatus,
+    handleUpdateObservableListIfResponse,
+    handleUsecaseRequest,
     isValidateFormControls,
-    updateObservableListIfStatus,
 } from '../../../../shared/utils/util';
 import {ProductCategoryPayload} from '../../_data/product.payload';
 import {ProductCategoryUsecase} from '../../_usecase/product-category.usecase';
@@ -32,7 +31,12 @@ export class ProductCategoryListComponent implements OnInit {
     public categoryForm!: UntypedFormGroup;
     public crumbs: Crumbs[] = PRODUCT_CRUMBS;
     public editObj: {
-        [key: string]: {loading: boolean; edit: boolean; data: ProductCategoryPayload};
+        [key: string]: {
+            deleting: boolean;
+            updating: boolean;
+            edit: boolean;
+            data: ProductCategoryPayload;
+        };
     } = {};
 
     public categories?: Observable<ProductCategoryPayload[]>;
@@ -40,7 +44,7 @@ export class ProductCategoryListComponent implements OnInit {
 
     constructor(
         private fb: UntypedFormBuilder,
-        private nzNotificationService: NzNotificationService,
+        private notification: NzNotificationService,
         private usecase: ProductCategoryUsecase
     ) {}
 
@@ -75,40 +79,48 @@ export class ProductCategoryListComponent implements OnInit {
         if (isInvalid) {
             return;
         }
-
         this.isLoading = true;
         const category = this.categoryForm.value;
-
-        let promise = firstValueFrom(this.usecase.save(category));
-        const response: HttpResponse<ProductCategoryPayload> = await handleHttpResponse(
-            promise,
-            this.nzNotificationService,
-            {success: MessageConstant.CATEGORY_SAVED}
-        );
-        this.categories = appendToObservableListIfResponseIsOk(this.categories!, response);
+        let response = await handleUsecaseRequest(this.usecase.save(category), this.notification);
+        this.categories = handleAppendToObservableListIfResponse(this.categories!, response);
         this.onResetPayload();
     };
 
     public onCancelEdit = async (item: ProductCategoryPayload): Promise<void> => {
-        let payload = await findFromObservableList(this.categories!, {key: 'id', value: item.id!});
+        let payload = await handleFindFromObservableList(this.categories!, {key: 'id', value: item.id!});
         this.editObj[item.id!] = {
             data: {...payload},
             edit: false,
-            loading: false,
+            updating: false,
+            deleting: false,
         };
     };
 
     public onToggleEdit = (item: ProductCategoryPayload) => {
-        this.editObj[item.id!] = {edit: true, data: {...item}, loading: false};
+        this.editObj[item.id!] = {edit: true, data: {...item}, updating: false, deleting: false};
     };
 
     public onSaveEdit = async (item: ProductCategoryPayload): Promise<void> => {
-        this.editObj[item.id!].loading = true;
-        let promise = firstValueFrom(this.usecase.update(this.editObj[item.id!].data));
-        const response = await handleHttpResponse(promise, this.nzNotificationService);
-        this.categories = updateObservableListIfStatus(this.categories!, response.body, response.ok);
+        debugger;
+        this.editObj[item.id!].updating = true;
+        const data = this.editObj[item.id!].data;
+        const response = await handleUsecaseRequest(this.usecase.update(data), this.notification);
+        this.categories = handleUpdateObservableListIfResponse(this.categories!, response);
         this.editObj[item.id!].edit = false;
     };
+
+    public onConfirmDelete = async (id: number) => {
+        this.editObj[id] = {edit: false, data: {}, updating: false, deleting: true};
+        const response = await handleUsecaseRequest(this.usecase.delete(id), this.notification);
+        this.categories = handleRemoveFromObservableListIfStatus(
+            this.categories!,
+            {key: 'id', value: id},
+            response
+        );
+        this.editObj[id].deleting = false;
+    };
+
+    public onCancelDelete = async () => {};
 
     private onResetPayload() {
         this.initForm();
