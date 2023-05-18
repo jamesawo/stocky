@@ -28,4 +28,8 @@ export class ProductCategoryUsecase {
             observe: 'response',
         });
     }
+
+    public delete(id: number) {
+        return this.http.delete(`${this.url}/${id}`, {observe: 'response'});
+    }
 }
