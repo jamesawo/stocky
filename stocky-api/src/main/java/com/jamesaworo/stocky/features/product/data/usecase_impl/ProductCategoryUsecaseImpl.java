@@ -25,26 +25,30 @@ public class ProductCategoryUsecaseImpl implements IProductCategoryUsecase {
     public static final String DUPLICATE = "CATEGORY WITH SAME TITLE ALREADY EXIST";
     private final ProductCategoryRepository repository;
 
-    @Override
+
     public Optional<ProductCategory> findOne(Long id) {
         return this.repository.findById(id);
     }
 
-    @Override
+
     public List<ProductCategory> findAll() {
         return this.repository.findAll();
     }
 
-    @Override
+
     public Optional<ProductCategory> save(ProductCategory category) {
         this.throwIfDuplicateEntry(category);
         return Optional.of(this.repository.save(category));
     }
 
-    @Override
+
     public Optional<Boolean> remove(Long id) {
         Optional<ProductCategory> optionalProductCategory = this.findOne(id);
         return this.removeProductCategoryIfPresentAndHasNoProduct(optionalProductCategory);
+    }
+
+    public List<ProductCategory> search(String term) {
+        return this.repository.findAllByTitleContainsIgnoreCase(term);
     }
 
     private void throwIfDuplicateEntry(ProductCategory category) {

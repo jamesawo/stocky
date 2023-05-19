@@ -1,4 +1,4 @@
-package com.jamesaworo.stocky.features.product.data.pojo;
+package com.jamesaworo.stocky.features.product.data.request;
 
 /**
  * @author Aworo James

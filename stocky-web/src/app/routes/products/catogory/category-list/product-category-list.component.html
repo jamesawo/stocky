@@ -47,7 +47,7 @@
 <nz-card>
     <app-table [colHeadings]="cols"
                [dataList]="categories"
-               [rowTemplates]="[nameTmpl, descriptionTmpl, actionTmpl]"
+               [rowTemplates]="[nameTmpl, descriptionTmpl, groupTmpl, actionTmpl]"
     ></app-table>
 </nz-card>
 
@@ -68,6 +68,31 @@
         >
 
             <div [nzSpan]="24" nz-col>
+                <nz-form-item>
+
+                    <nz-radio-group [(ngModel)]="isSubCategory" [ngModelOptions]="{standalone: true}">
+                        <label class="space-r">
+
+                            <span [nzPopoverContent]="popParent"
+                                  [nzPopoverTitle]="popTitle" class="m-r-10px"
+                                  nz-icon
+                                  nz-popover
+                                  nzTheme="outline" nzType="info-circle"></span>
+                            IS THIS A SUB CATEGORY?
+                        </label>
+                        <label [nzValue]="true" nz-radio>YES</label>
+                        <label [nzValue]="false" nz-radio>NO</label>
+                    </nz-radio-group>
+
+                    <ng-template #popParent>
+                        <span [innerHTML]="popParentHint"></span>
+                    </ng-template>
+
+                </nz-form-item>
+                <ng-container *ngIf="isSubCategory">
+                    <app-product-category-search (selected)="onParentCategorySelected($event)"></app-product-category-search>
+                </ng-container>
+
 
                 <nz-form-item>
                     <nz-form-label>Title</nz-form-label>
@@ -123,6 +148,17 @@
     <ng-template #descriptionViewTmpl>
         <label>{{item.description}}</label>
     </ng-template>
+</ng-template>
+<!-- group -->
+<ng-template #groupTmpl let-item="item">
+    <ng-container *ngIf="item.parent; else noParentTmpl">
+        <label>{{item.parent.title}}</label>
+    </ng-container>
+
+    <ng-template #noParentTmpl>
+        <label>-</label>
+    </ng-template>
+
 </ng-template>
 <!--action-->
 <ng-template #actionTmpl let-item="item">

@@ -3,7 +3,7 @@ package com.jamesaworo.stocky.features.product.data.interactor.implementation;
 import com.jamesaworo.stocky.core.annotations.Interactor;
 import com.jamesaworo.stocky.core.mapper.Mapper;
 import com.jamesaworo.stocky.features.product.data.interactor.contract.IProductVariantInteractor;
-import com.jamesaworo.stocky.features.product.data.pojo.ProductVariantRequest;
+import com.jamesaworo.stocky.features.product.data.request.ProductVariantRequest;
 import com.jamesaworo.stocky.features.product.domain.entity.ProductVariant;
 import com.jamesaworo.stocky.features.product.domain.usecase.IProductVariantUsecase;
 import lombok.RequiredArgsConstructor;

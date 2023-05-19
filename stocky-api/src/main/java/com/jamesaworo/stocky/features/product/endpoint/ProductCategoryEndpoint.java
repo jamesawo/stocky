@@ -1,7 +1,7 @@
 package com.jamesaworo.stocky.features.product.endpoint;
 
 import com.jamesaworo.stocky.features.product.data.interactor.contract.IProductCategoryInteractor;
-import com.jamesaworo.stocky.features.product.data.pojo.ProductCategoryRequest;
+import com.jamesaworo.stocky.features.product.data.request.ProductCategoryRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,32 +22,38 @@ import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 public class ProductCategoryEndpoint {
     private final IProductCategoryInteractor interactor;
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "get/{id}")
     public ResponseEntity<ProductCategoryRequest> find(@PathVariable Long id) {
         return this.interactor.find(id);
     }
 
-    @GetMapping()
+    @GetMapping("all")
     public ResponseEntity<List<ProductCategoryRequest>> findMany() {
         return this.interactor.findMany();
     }
 
-    @PostMapping()
+    @PostMapping("create")
     public ResponseEntity<Optional<ProductCategoryRequest>> save(
             @RequestBody @Valid ProductCategoryRequest dto) {
         return this.interactor.save(dto);
     }
 
-    @PutMapping()
+    @PutMapping("update")
     public ResponseEntity<Optional<ProductCategoryRequest>> update(
             @RequestBody @Valid ProductCategoryRequest dto
     ) {
         return this.interactor.update(dto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<Optional<Boolean>> remove(@PathVariable Long id) {
         return this.interactor.remove(id);
+    }
+
+    @GetMapping("search")
+    public ResponseEntity<List<ProductCategoryRequest>> search(
+            @RequestParam(value = "term") String term) {
+        return this.interactor.search(term);
     }
 
 }

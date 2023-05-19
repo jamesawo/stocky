@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SettingPayload } from '../../_data/setting.payload';
-import { FormControl, FormGroup } from '@angular/forms';
-import { SettingField } from '../../_data/setting.enum';
-import { Observable } from 'rxjs';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
+import {Observable} from 'rxjs';
+import {PopOverConstant} from '../../../../data/constant/message.constant';
+import {SettingField} from '../../_data/setting.enum';
+import {SettingPayload} from '../../_data/setting.payload';
 
 @Component({
     selector: 'app-setting-form',
@@ -15,14 +16,13 @@ export class SettingFormComponent implements OnInit {
     public toggle = SettingField.TOGGLE;
     public date = SettingField.DATE;
     public textarea = SettingField.TEXTAREA;
+    public popTitle = PopOverConstant.POP_TITLE;
 
     @Input()
     public settings$!: Observable<SettingPayload[]>;
     public settings: SettingPayload[] = [];
     @Output()
-    public onSubmit: EventEmitter<SettingPayload[]> = new EventEmitter<
-        SettingPayload[]
-    >();
+    public onSubmit: EventEmitter<SettingPayload[]> = new EventEmitter<SettingPayload[]>();
 
     public formGroup: FormGroup = new FormGroup({});
 
@@ -31,9 +31,7 @@ export class SettingFormComponent implements OnInit {
         this.settings$.subscribe({
             next: (res) => {
                 res.forEach((setting) => {
-                    controls[setting.settingKey!] = new FormControl(
-                        setting.settingValue
-                    );
+                    controls[setting.settingKey!] = new FormControl(setting.settingValue);
                 });
                 this.formGroup = new FormGroup(controls);
                 this.settings = res;

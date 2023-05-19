@@ -18,4 +18,6 @@ public interface IProductCategoryUsecase {
 
     Optional<Boolean> remove(Long id);
 
+    List<ProductCategory> search(String term);
+
 }

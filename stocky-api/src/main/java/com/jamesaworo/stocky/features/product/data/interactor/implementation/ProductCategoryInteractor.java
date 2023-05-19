@@ -3,7 +3,7 @@ package com.jamesaworo.stocky.features.product.data.interactor.implementation;
 import com.jamesaworo.stocky.core.annotations.Interactor;
 import com.jamesaworo.stocky.core.mapper.Mapper;
 import com.jamesaworo.stocky.features.product.data.interactor.contract.IProductCategoryInteractor;
-import com.jamesaworo.stocky.features.product.data.pojo.ProductCategoryRequest;
+import com.jamesaworo.stocky.features.product.data.request.ProductCategoryRequest;
 import com.jamesaworo.stocky.features.product.domain.entity.ProductCategory;
 import com.jamesaworo.stocky.features.product.domain.usecase.IProductCategoryUsecase;
 import lombok.RequiredArgsConstructor;
@@ -63,6 +63,12 @@ public class ProductCategoryInteractor implements IProductCategoryInteractor, Ma
     public ResponseEntity<Optional<Boolean>> remove(Long id) {
         Optional<Boolean> remove = this.usecase.remove(id);
         return new ResponseEntity<>(remove, OK);
+    }
+
+    public ResponseEntity<List<ProductCategoryRequest>> search(String term) {
+        List<ProductCategory> categories = this.usecase.search(term);
+        List<ProductCategoryRequest> requests = categories.stream().map(this::toRequest).collect(Collectors.toList());
+        return new ResponseEntity<>(requests, OK);
     }
 
     private void throwIfRequestNotValid(ProductCategoryRequest request) {
