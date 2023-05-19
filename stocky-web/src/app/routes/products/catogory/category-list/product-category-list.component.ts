@@ -43,7 +43,12 @@ export class ProductCategoryListComponent implements OnInit {
     } = {};
 
     public categories?: Observable<ProductCategoryPayload[]>;
-    public cols: TableCol[] = [{title: 'Title'}, {title: 'Description'}, {title: 'Action'}];
+    public cols: TableCol[] = [
+        {title: 'Title'},
+        {title: 'Description'},
+        {title: 'Parent'},
+        {title: 'Action'},
+    ];
     public isSubCategory = false;
 
     constructor(
@@ -61,6 +66,7 @@ export class ProductCategoryListComponent implements OnInit {
         this.categoryForm = this.fb.group({
             title: [null, [Validators.required]],
             description: [null],
+            parent: [null],
         });
     }
 
@@ -124,6 +130,12 @@ export class ProductCategoryListComponent implements OnInit {
     };
 
     public onCancelDelete = async () => {};
+
+    public onParentCategorySelected = (parent: ProductCategoryPayload) => {
+        if (parent) {
+            this.categoryForm.get('parent')?.setValue(parent);
+        }
+    };
 
     private onResetPayload() {
         this.initForm();
