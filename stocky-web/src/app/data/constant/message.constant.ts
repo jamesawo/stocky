@@ -5,7 +5,5 @@ export class MessageConstant {
 
 export class PopOverConstant {
     static POP_TITLE = 'HELP';
-    static PRODUCT_CATEGORY_PARENT =
-        'If you are creating a sub category, then ' +
-        'you have to select the parent to which this sub category belongs.';
+    static PRODUCT_CATEGORY_PARENT = `When creating a subcategory, <br> please select its parent category first.`;
 }
