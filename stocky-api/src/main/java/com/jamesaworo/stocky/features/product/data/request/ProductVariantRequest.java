@@ -1,4 +1,4 @@
-package com.jamesaworo.stocky.features.product.data.pojo;
+package com.jamesaworo.stocky.features.product.data.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -17,12 +17,12 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ProductCategoryRequest {
+public class ProductVariantRequest {
     private Long id;
 
-    @NotNull(message = "Title cannot be empty")
-    private String title;
-    private String description;
-    private ProductCategoryRequest parent;
+    @NotNull(message = "value cannot be empty")
+    private String variantValue;
 
+    @NotNull(message = "type cannot be empty")
+    private String variantType;
 }
