@@ -12,7 +12,7 @@ import static com.jamesaworo.stocky.core.constants.Table.PRODUCT_CATEGORY;
  * @since 5/10/23
  */
 @Entity
-@Table(name = PRODUCT_CATEGORY)
+@Table( name = PRODUCT_CATEGORY )
 @Getter
 @Data
 @Builder
@@ -20,20 +20,23 @@ import static com.jamesaworo.stocky.core.constants.Table.PRODUCT_CATEGORY;
 @NoArgsConstructor
 @ToString
 public class ProductCategory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue( strategy = GenerationType.IDENTITY )
+	private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String title;
+	@Column( unique = true, nullable = false )
+	private String title;
 
-    @Column
-    private String description;
+	@Column
+	private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private ProductCategory parent;
+	@ManyToOne( fetch = FetchType.LAZY )
+	@JoinColumn( name = "parent_id" )
+	private ProductCategory parent;
 
-    @OneToMany(mappedBy = "category")
-    private List<Product> products;
+	@OneToMany( mappedBy = "category" )
+	private List<Product> products;
+
+	private Boolean status = Boolean.TRUE;
+
 }
