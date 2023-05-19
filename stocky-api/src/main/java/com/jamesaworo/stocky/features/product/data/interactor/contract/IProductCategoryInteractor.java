@@ -1,6 +1,6 @@
 package com.jamesaworo.stocky.features.product.data.interactor.contract;
 
-import com.jamesaworo.stocky.features.product.data.pojo.ProductCategoryRequest;
+import com.jamesaworo.stocky.features.product.data.request.ProductCategoryRequest;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -21,5 +21,7 @@ public interface IProductCategoryInteractor {
     ResponseEntity<Optional<ProductCategoryRequest>> update(ProductCategoryRequest request);
 
     ResponseEntity<Optional<Boolean>> remove(Long id);
+
+    ResponseEntity<List<ProductCategoryRequest>> search(String term);
 
 }

@@ -1,6 +1,6 @@
 package com.jamesaworo.stocky.features.product.data.interactor.contract;
 
-import com.jamesaworo.stocky.features.product.data.pojo.ProductVariantRequest;
+import com.jamesaworo.stocky.features.product.data.request.ProductVariantRequest;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
