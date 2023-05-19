@@ -5,6 +5,7 @@ import {RouterModule} from '@angular/router';
 import {DelonACLModule} from '@delon/acl';
 import {DelonFormModule} from '@delon/form';
 import {AlainThemeModule} from '@delon/theme';
+import {NzAutocompleteModule} from 'ng-zorro-antd/auto-complete';
 import {NzBadgeModule} from 'ng-zorro-antd/badge';
 import {NzBreadCrumbModule} from 'ng-zorro-antd/breadcrumb';
 import {NzCheckboxModule} from 'ng-zorro-antd/checkbox';
@@ -62,6 +63,7 @@ const THIRD_MODULES: Array<Type<void>> = [
     NzPopconfirmModule,
     NzToolTipModule,
     NzCheckboxModule,
+    NzAutocompleteModule,
 ];
 const COMPONENTS: Array<Type<void>> = [
     DatePickerComponent,
