@@ -14,7 +14,7 @@ export class ProductCategorySearchComponent implements OnInit, OnDestroy {
     public options: ProductCategoryPayload[] = [];
     public isLoading = false;
     public searchInput$ = new Subject<string>();
-    public minLengthTerm = 4;
+    public minLengthTerm = 2;
     @Input() // use this to pass in a default value. when the component renders, this value will be selected in the dropdown
     public selectedPayload?: ProductCategoryPayload;
     @Output() // use this to get the selected value when the user click on the drop down option
@@ -23,7 +23,7 @@ export class ProductCategorySearchComponent implements OnInit, OnDestroy {
     public value: EventEmitter<string> = new EventEmitter<string>();
     @Input()
     public props?: {hasError?: boolean; autoFocus: boolean; required: boolean};
-    private url: string = environment.api.baseUrl + '/product-category/search';
+    private url: string = environment.api.baseUrl + '/product-category';
     private loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private subscription: Subscription = new Subscription();
 
@@ -78,7 +78,7 @@ export class ProductCategorySearchComponent implements OnInit, OnDestroy {
 
     private onPrepareSearch(value: string) {
         let extraUrlParams = ``;
-        const url = `${this.url}?term=${value}${extraUrlParams}`;
+        const url = `${this.url}/search?term=${value}`;
         this.onSearchData(url);
     }
 

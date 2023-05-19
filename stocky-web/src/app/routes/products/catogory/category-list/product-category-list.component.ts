@@ -105,7 +105,6 @@ export class ProductCategoryListComponent implements OnInit {
     };
 
     public onSaveEdit = async (item: ProductCategoryPayload): Promise<void> => {
-        debugger;
         this.editObj[item.id!].updating = true;
         const data = this.editObj[item.id!].data;
         const response = await handleUsecaseRequest(this.usecase.update(data), this.notification);
