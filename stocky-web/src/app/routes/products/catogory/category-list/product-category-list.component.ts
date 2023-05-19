@@ -4,6 +4,7 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, shareReplay} from 'rxjs';
 import {Crumbs} from 'src/app/shared/components/breadcrumbs/breadcrumbs.component';
 import {PRODUCT_CRUMBS} from '../../../../data/constant/crumb.constant';
+import {PopOverConstant} from '../../../../data/constant/message.constant';
 import {TableCol} from '../../../../shared/components/table/table.component';
 import {
     handleAppendToObservableListIfResponse,
@@ -30,6 +31,8 @@ export class ProductCategoryListComponent implements OnInit {
     public showModal = false;
     public categoryForm!: UntypedFormGroup;
     public crumbs: Crumbs[] = PRODUCT_CRUMBS;
+    public popParentHint = PopOverConstant.PRODUCT_CATEGORY_PARENT;
+    public popTitle = PopOverConstant.POP_TITLE;
     public editObj: {
         [key: string]: {
             deleting: boolean;
@@ -41,6 +44,7 @@ export class ProductCategoryListComponent implements OnInit {
 
     public categories?: Observable<ProductCategoryPayload[]>;
     public cols: TableCol[] = [{title: 'Title'}, {title: 'Description'}, {title: 'Action'}];
+    public isSubCategory = false;
 
     constructor(
         private fb: UntypedFormBuilder,

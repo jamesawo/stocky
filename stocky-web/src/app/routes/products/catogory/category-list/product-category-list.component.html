@@ -68,6 +68,31 @@
         >
 
             <div [nzSpan]="24" nz-col>
+                <nz-form-item>
+
+                    <nz-radio-group [(ngModel)]="isSubCategory" [ngModelOptions]="{standalone: true}">
+                        <label class="space-r">
+
+                            <span [nzPopoverContent]="popParent"
+                                  [nzPopoverTitle]="popTitle" class="m-r-10px"
+                                  nz-icon
+                                  nz-popover
+                                  nzTheme="outline" nzType="info-circle"></span>
+                            IS THIS A SUB CATEGORY?
+                        </label>
+                        <label [nzValue]="true" nz-radio>YES</label>
+                        <label [nzValue]="false" nz-radio>NO</label>
+                    </nz-radio-group>
+
+                    <ng-template #popParent>
+                        <span [innerHTML]="popParentHint"></span>
+                    </ng-template>
+
+                </nz-form-item>
+                <ng-container *ngIf="isSubCategory">
+                    <app-product-category-search></app-product-category-search>
+                </ng-container>
+
 
                 <nz-form-item>
                     <nz-form-label>Title</nz-form-label>
