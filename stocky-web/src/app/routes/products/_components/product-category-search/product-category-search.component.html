@@ -7,22 +7,24 @@
             </span>
             <small class="m-l-10px dm-none">(search by category title)</small>
         </nz-form-label>
-        <span (click)="onClear()" class="autocomplete-clear-text" nz-icon nz-tooltip="clear hospital" nzType="clear"></span>
-        <nz-input-group [nzSuffix]="suffixIconSearch" style="width: 100%">
-            <input (input)="onInput($event)" [(ngModel)]="selectedPayload" [autofocus]="props?.autoFocus" [nzAutocomplete]="auto"
-                   nz-input
-                   nzSize="large"
-                   placeholder="start typing to search..."
-                   type="text"
-            />
-        </nz-input-group>
-        <ng-template #suffixIconSearch>
-            <span [nzType]="!isLoading ? 'search': 'loading'" nz-icon></span>
-        </ng-template>
-        <nz-autocomplete #auto>
-            <nz-auto-option (click)="onSelected(data)" *ngFor="let data of options" [nzLabel]="data.title" [nzValue]="data">
-                {{data.title}}
-            </nz-auto-option>
-        </nz-autocomplete>
+        <nz-form-control [nzSpan]="props?.span??null">
+            <nz-input-group [nzSuffix]="suffixIconSearch" style="width: 100%">
+                <input (input)="onInput($event)" [(ngModel)]="selectedPayload" [autofocus]="props?.autoFocus" [nzAutocomplete]="auto"
+                       nz-input
+                       nzSize="large"
+                       placeholder="start typing to search..."
+                       type="text"
+                />
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+                <span [nzType]="!isLoading ? 'search': 'loading'" nz-icon></span>
+            </ng-template>
+            <nz-autocomplete #auto>
+                <nz-auto-option (click)="onSelected(data)" *ngFor="let data of options" [nzLabel]="data.title" [nzValue]="data">
+                    {{data.title}}
+                </nz-auto-option>
+            </nz-autocomplete>
+        </nz-form-control>
+
     </nz-form-control>
 </nz-form-item>
