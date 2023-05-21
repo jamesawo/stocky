@@ -1,7 +1,10 @@
 <div class="wd-100p">
 
     <ng-container *ngIf="dataList | async as list; else noData">
-        <nz-table [nzBordered]="true" [nzData]="list" [nzSize]="'middle'">
+        <nz-table [nzBordered]="true"
+                  [nzData]="list"
+                  [nzShowPagination]="props?.showPagination"
+                  [nzSize]="props?.tableSize!">
             <thead>
             <tr>
                 <th [nzShowCheckbox]="true" nzWidth="3%"></th>
@@ -23,8 +26,8 @@
             </tbody>
         </nz-table>
     </ng-container>
-</div>
 
+</div>
 
 <ng-template #noData>
     <nz-table [nzData]="[]">

@@ -3,12 +3,13 @@ import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, shareReplay} from 'rxjs';
 import {Crumbs} from 'src/app/shared/components/breadcrumbs/breadcrumbs.component';
-import {PRODUCT_CRUMBS} from '../../../../data/constant/crumb.constant';
+import {PRODUCT_CATEGORY_LIST_CRUMBS} from '../../../../data/constant/crumb.constant';
 import {PopOverConstant} from '../../../../data/constant/message.constant';
 import {TableCol} from '../../../../shared/components/table/table.component';
+import {EditCacheMap} from '../../../../shared/components/update-delete-action/update-delete-action.component';
 import {
     handleAppendToObservableListIfResponse,
-    handleFindFromObservableList,
+    handleCancelEditingTableItem,
     handleRemoveFromObservableListIfStatus,
     handleUpdateObservableListIfResponse,
     handleUsecaseRequest,
@@ -30,18 +31,10 @@ export class ProductCategoryListComponent implements OnInit {
     public indeterminate = false;
     public showModal = false;
     public categoryForm!: UntypedFormGroup;
-    public crumbs: Crumbs[] = PRODUCT_CRUMBS;
+    public crumbs: Crumbs[] = PRODUCT_CATEGORY_LIST_CRUMBS;
     public popParentHint = PopOverConstant.PRODUCT_CATEGORY_PARENT;
     public popTitle = PopOverConstant.POP_TITLE;
-    public editObj: {
-        [key: string]: {
-            deleting: boolean;
-            updating: boolean;
-            edit: boolean;
-            data: ProductCategoryPayload;
-        };
-    } = {};
-
+    public editObj: EditCacheMap<ProductCategoryPayload> = {};
     public categories?: Observable<ProductCategoryPayload[]>;
     public cols: TableCol[] = [
         {title: 'Title'},
@@ -84,7 +77,7 @@ export class ProductCategoryListComponent implements OnInit {
 
     public onCancelSearch = () => {};
 
-    public onAddCategory = async () => {
+    public onCreate = async () => {
         const isInvalid = isValidateFormControls(this.categoryForm);
         if (isInvalid) {
             return;
@@ -96,21 +89,17 @@ export class ProductCategoryListComponent implements OnInit {
         this.onResetPayload();
     };
 
-    public onCancelEdit = async (item: ProductCategoryPayload): Promise<void> => {
-        let payload = await handleFindFromObservableList(this.categories!, {key: 'id', value: item.id!});
-        this.editObj[item.id!] = {
-            data: {...payload},
-            edit: false,
-            updating: false,
-            deleting: false,
-        };
+    public onCancelEdit = async (item: ProductCategoryPayload) => {
+        if (item) {
+            this.editObj = await handleCancelEditingTableItem(item as any, this.categories!, this.editObj);
+        }
     };
 
     public onToggleEdit = (item: ProductCategoryPayload) => {
-        this.editObj[item.id!] = {edit: true, data: {...item}, updating: false, deleting: false};
+        if (item) this.editObj[item.id!] = {edit: true, data: {...item}, updating: false, deleting: false};
     };
 
-    public onSaveEdit = async (item: ProductCategoryPayload): Promise<void> => {
+    public onSaveEdit = async (item: ProductCategoryPayload) => {
         this.editObj[item.id!].updating = true;
         const data = this.editObj[item.id!].data;
         const response = await handleUsecaseRequest(this.usecase.update(data), this.notification);
@@ -136,6 +125,15 @@ export class ProductCategoryListComponent implements OnInit {
             this.categoryForm.get('parent')?.setValue(parent);
         }
     };
+
+    public onCacheValueChange = (change: any, item: ProductCategoryPayload, field: string) => {
+        const data: any = this.editObj[item.id!].data;
+        data[field] = change;
+    };
+
+    public canEditItem(item: any) {
+        return this.editObj[item.id] && this.editObj[item.id].edit;
+    }
 
     private onResetPayload() {
         this.initForm();

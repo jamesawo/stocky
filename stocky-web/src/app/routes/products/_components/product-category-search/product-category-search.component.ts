@@ -22,7 +22,7 @@ export class ProductCategorySearchComponent implements OnInit, OnDestroy {
     @Output() // use this to get the search text as the user is typing
     public value: EventEmitter<string> = new EventEmitter<string>();
     @Input()
-    public props?: {hasError?: boolean; autoFocus: boolean; required: boolean};
+    public props?: {hasError?: boolean; autoFocus?: boolean; required?: boolean; span?: number};
     private url: string = environment.api.baseUrl + '/product-category';
     private loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private subscription: Subscription = new Subscription();
