@@ -1,1 +1,7 @@
-<p>table-item-editable works!</p>
+<ng-container *ngIf="props && props.isEditMode === true; else descriptionViewTmpl">
+    <input (input)="onInput($event)" [(ngModel)]="value" [class]="class" [name]="props.fieldName" nz-input type="text"/>
+</ng-container>
+
+<ng-template #descriptionViewTmpl>
+    <label>{{props?.initialValue}}</label>
+</ng-template>
