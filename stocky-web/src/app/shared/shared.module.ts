@@ -12,6 +12,7 @@ import {NzCheckboxModule} from 'ng-zorro-antd/checkbox';
 import {NzDatePickerModule} from 'ng-zorro-antd/date-picker';
 import {NzDividerModule} from 'ng-zorro-antd/divider';
 import {NzFormModule} from 'ng-zorro-antd/form';
+import {NzGridModule} from 'ng-zorro-antd/grid';
 import {NzInputModule} from 'ng-zorro-antd/input';
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {NzNotificationModule} from 'ng-zorro-antd/notification';
@@ -24,6 +25,7 @@ import {NzSpaceModule} from 'ng-zorro-antd/space';
 import {NzSpinModule} from 'ng-zorro-antd/spin';
 import {NzSwitchModule} from 'ng-zorro-antd/switch';
 import {NzTableModule} from 'ng-zorro-antd/table';
+import {NzTabsModule} from 'ng-zorro-antd/tabs';
 import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
 import {NzTypographyModule} from 'ng-zorro-antd/typography';
 import {BreadcrumbsComponent} from './components/breadcrumbs/breadcrumbs.component';
@@ -31,13 +33,16 @@ import {ButtonComponent} from './components/button/button.component';
 import {DatePickerComponent} from './components/date-picker/date-picker.component';
 import {ExpandCollapseButtonComponent} from './components/expand-collapse-button/expand-collapse-button.component';
 import {ExportUploadButtonComponent} from './components/export-upload-button/export-upload-button.component';
+import {HintComponent} from './components/hint/hint.component';
 import {LoadingCardComponent} from './components/loading-card/loading-card.component';
 import {RangeDatePickerComponent} from './components/range-date-picker/range-date-picker.component';
 import {SearchResetButtonComponent} from './components/search-reset-button/search-reset-button.component';
 import {SearchResultTableComponent} from './components/search-result-table/search-result-table.component';
 import {StatusBadgeComponent} from './components/status-badge/status-badge.component';
 import {SwitchToggleComponent} from './components/switch-toggle/switch-toggle.component';
+import {TableItemEditableComponent} from './components/table-item-editable/table-item-editable.component';
 import {TableComponent} from './components/table/table.component';
+import {UpdateDeleteActionComponent} from './components/update-delete-action/update-delete-action.component';
 
 import {SHARED_DELON_MODULES} from './shared-delon.module';
 import {SHARED_ZORRO_MODULES} from './shared-zorro.module';
@@ -64,6 +69,8 @@ const THIRD_MODULES: Array<Type<void>> = [
     NzToolTipModule,
     NzCheckboxModule,
     NzAutocompleteModule,
+    NzTabsModule,
+    NzGridModule,
 ];
 const COMPONENTS: Array<Type<void>> = [
     DatePickerComponent,
@@ -78,6 +85,9 @@ const COMPONENTS: Array<Type<void>> = [
     ButtonComponent,
     LoadingCardComponent,
     TableComponent,
+    HintComponent,
+    UpdateDeleteActionComponent,
+    TableItemEditableComponent,
 ];
 const DIRECTIVES: Array<Type<void>> = [];
 const ICONS: Array<Type<void>> = [];
