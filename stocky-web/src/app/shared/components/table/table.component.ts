@@ -1,9 +1,15 @@
 import {Component, Input, TemplateRef} from '@angular/core';
+import {NzTableSize} from 'ng-zorro-antd/table';
 import {Observable} from 'rxjs';
 
 export type TableCol = {
     title: string;
     width?: number;
+};
+
+export type TableProps = {
+    tableSize?: NzTableSize;
+    showPagination?: boolean;
 };
 
 @Component({
@@ -20,4 +26,7 @@ export class TableComponent {
 
     @Input()
     public colHeadings?: TableCol[];
+
+    @Input()
+    public props?: TableProps = {tableSize: 'middle'};
 }
