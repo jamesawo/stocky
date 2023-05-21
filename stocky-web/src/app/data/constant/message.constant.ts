@@ -7,3 +7,12 @@ export class PopOverConstant {
     static POP_TITLE = 'HELP';
     static PRODUCT_CATEGORY_PARENT = `When creating a subcategory, <br> please select its parent category first.`;
 }
+
+export class PRODUCT_CREATE_POPOVER {
+    static PRODUCT_BASIC_DETAIL = `Provide essential information about the product, such as its category, title, etc.`;
+    static PRODUCT_BRAND = `Specify the brand or manufacturer of the product. <br> Enter the name of the company or brand that produces or markets the product`;
+    static PRODUCT_SKU = `Enter the unique Stock Keeping Unit (SKU) for the product. <br> The SKU is a distinct identifier used to track inventory and manage product variations`;
+    static PRODUCT_UNIT_MEASURE = `Specify the unit of measure for the product. <br> This refers to the standard unit used to quantify or measure the product's quantity or size. <br> Examples include kilograms (kg), meters (m), liters (L), or pieces (pcs)`;
+    static PRODUCT_STATUS = `Indicate the current status of the product. <br> Select the appropriate option that reflects the availability or condition of the product.`;
+    static PRODUCT_DESCRIPTION = `Provide a brief and informative description of the product.`;
+}
