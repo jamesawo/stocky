@@ -3,6 +3,7 @@ import {HttpResponse} from '@angular/common/http';
 import {FormGroup} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {first, firstValueFrom, from, map, Observable, switchMap} from 'rxjs';
+import {EditCacheMap} from '../components/update-delete-action/update-delete-action.component';
 
 export function isValidateFormControls(form: FormGroup): boolean {
     if (form && form.controls) {
@@ -193,4 +194,22 @@ export function handleRemoveFromObservableListIfStatus<T>(
         return source.pipe(map((list: T[]) => list.filter((item: any) => item[opts.key] !== opts.value)));
     }
     return source;
+}
+
+export async function handleCancelEditingTableItem<T extends {id: any}>(
+    item: T,
+    list: Observable<T[]>,
+    editMap: EditCacheMap<T>
+) {
+    if (item) {
+        let payload = await handleFindFromObservableList(list, {key: 'id', value: item.id});
+        editMap[item.id] = {
+            data: {...payload},
+            edit: false,
+            updating: false,
+            deleting: false,
+        };
+        return editMap;
+    }
+    return editMap;
 }
