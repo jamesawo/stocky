@@ -13,8 +13,8 @@ import {
     handleUsecaseRequest,
     isValidateFormControls,
 } from '../../../../shared/utils/util';
-import {UnitOfMeasurePayload} from '../../_data/unit-of-measure.payload';
-import {UnitOfMeasureUsecase} from '../../_usecase/unit-of-measure-usecase';
+import {UnitOfMeasurePayload} from '../../_data/unit-of-measurement.payload';
+import {UnitOfMeasureUsecase} from '../../_usecase/unit-of-measurement-usecase';
 
 @Component({
     selector: 'app-add-unit-of-measurement',

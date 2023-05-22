@@ -5,7 +5,7 @@ import {UnitOfMeasurePayload} from '../_data/unit-of-measure.payload';
 
 @Injectable({providedIn: 'root'})
 export class UnitOfMeasureUsecase {
-    private url = environment.api.baseUrl + '/product-unit-of-measure';
+    private url = environment.api.baseUrl + '/product-unit-of-measurement';
 
     constructor(private http: HttpClient) {}
 
