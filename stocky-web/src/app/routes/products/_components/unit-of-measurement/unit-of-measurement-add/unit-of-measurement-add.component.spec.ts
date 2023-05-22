@@ -1,23 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AddUnitOfMeasurementComponent } from './add-unit-of-measurement.component';
+import {UnitOfMeasurementAddComponent} from './unit-of-measurement-add.component';
 
 describe('AddUnitOfMeasurementComponent', () => {
-  let component: AddUnitOfMeasurementComponent;
-  let fixture: ComponentFixture<AddUnitOfMeasurementComponent>;
+    let component: UnitOfMeasurementAddComponent;
+    let fixture: ComponentFixture<UnitOfMeasurementAddComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ AddUnitOfMeasurementComponent ]
-    })
-    .compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [UnitOfMeasurementAddComponent],
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(AddUnitOfMeasurementComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(UnitOfMeasurementAddComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -1,1 +1,5 @@
-<p>unit-of-measure-dropdown works!</p>
+<nz-select (ngModelChange)="onValueChange($event)" [(ngModel)]="value" [nzLoading]="isLoading" nzAllowClear nzPlaceHolder="Select .." nzShowSearch>
+    <ng-container *ngIf="measures | async as list">
+        <nz-option *ngFor="let data of list" [nzLabel]="getLabel(data)" [nzValue]="data"></nz-option>
+    </ng-container>
+</nz-select>
