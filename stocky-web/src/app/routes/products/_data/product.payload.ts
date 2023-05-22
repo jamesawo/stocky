@@ -1,3 +1,4 @@
+import {CommonPayload} from '../../../data/payload/common.payload';
 import {ProductVariantEnum} from './product.enum';
 
 export class ProductCategoryPayload {
@@ -11,6 +12,8 @@ export class ProductVariant {
     type?: ProductVariantEnum;
     value?: string;
 }
+
+export class ProductStatusPayload extends CommonPayload {}
 
 export class ProductPayload {
     id?: number;
