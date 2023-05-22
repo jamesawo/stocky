@@ -1,11 +1,15 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {UnitOfMeasurePayload} from '../_data/unit-of-measure.payload';
 
 @Injectable({providedIn: 'root'})
 export class UnitOfMeasureUsecase {
-    private url = environment.api.baseUrl + '/product-unit-of-measure';
+    public trigger: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public trigger$: Observable<boolean> = this.trigger.asObservable();
+
+    private url = environment.api.baseUrl + '/product-unit-of-measurement';
 
     constructor(private http: HttpClient) {}
 
@@ -31,5 +35,9 @@ export class UnitOfMeasureUsecase {
 
     public delete(id: number) {
         return this.http.delete(`${this.url}/delete/${id}`, {observe: 'response'});
+    }
+
+    public triggerChange(status: boolean) {
+        this.trigger.next(status);
     }
 }

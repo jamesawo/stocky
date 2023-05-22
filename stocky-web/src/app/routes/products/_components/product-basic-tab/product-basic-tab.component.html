@@ -1,0 +1,183 @@
+<nz-card>
+    <h3 class="m-b-1em">
+        <app-hint [props]="{content: popBasicTmpl}"></app-hint>
+        <ng-template #popBasicTmpl><span [innerHTML]="popover.PRODUCT_BASIC_DETAIL"></span></ng-template>
+        Product Basic Details
+    </h3>
+
+    <div>
+        <app-product-category-search [props]="{span: 12}"></app-product-category-search>
+    </div>
+
+    <nz-form-item>
+        <nz-form-label>Product Name:</nz-form-label>
+        <nz-form-control
+            [nzSpan]="12"
+            nzErrorTip="Enter product name"
+            nzValidateStatus="success"
+        >
+            <input [ngModel]="''" name="productName" nz-input/>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label>
+            <app-hint [props]="{content: popBrandTmpl}"></app-hint>
+            <ng-template #popBrandTmpl><span [innerHTML]="popover.PRODUCT_BRAND"></span></ng-template>
+            Product Brand:
+        </nz-form-label>
+        <nz-form-control
+            [nzSpan]="12"
+            nzErrorTip=""
+            nzValidateStatus="success"
+        >
+            <input [ngModel]="''" name="brandName" nz-input/>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label>
+            <app-hint [props]="{title: 'HINT', content: popoverSkuTmpl}"></app-hint>
+            <ng-template #popoverSkuTmpl><span [innerHTML]="popover.PRODUCT_SKU"></span></ng-template>
+            Product SKU:
+        </nz-form-label>
+        <nz-form-control
+            [nzSpan]="12"
+            nzErrorTip=""
+            nzValidateStatus="success"
+        >
+            <input [ngModel]="''" name="brandName" nz-input/>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label>Product Barcode:</nz-form-label>
+        <nz-form-control
+            [nzSpan]="12"
+            nzErrorTip=""
+            nzValidateStatus="success"
+        >
+            <input [ngModel]="''" name="brandName" nz-input/>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label>
+            <app-hint [props]="{title: 'HINT', content: popoverUMTmpl}"></app-hint>
+            <ng-template #popoverUMTmpl><span [innerHTML]="popover.PRODUCT_UNIT_MEASURE"></span></ng-template>
+            Unit of measurement
+        </nz-form-label>
+        <nz-form-control
+            [nzSpan]="12"
+            nzErrorTip=""
+            nzValidateStatus="success"
+        >
+            <div nz-row nzGutter="4">
+                <div nz-col nzFlex="auto">
+                    <app-unit-of-measure-dropdown (valueChange)="onUnitOfMeasureSelected($event)"></app-unit-of-measure-dropdown>
+                </div>
+                <div nz-col nz-tooltip nzFlex="30px" nzTooltipPlacement="top" nzTooltipTitle="Update Unit of Measurements">
+                    <app-unit-of-measurement-add></app-unit-of-measurement-add>
+                </div>
+
+            </div>
+
+        </nz-form-control>
+
+
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label>
+            Active
+        </nz-form-label>
+        <nz-form-control
+            [nzSpan]="12"
+            nzErrorTip=""
+            nzValidateStatus="success"
+        >
+            <nz-switch [ngModel]="false" nzCheckedChildren="ACTIVE" nzUnCheckedChildren="INACTIVE"></nz-switch>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label>
+            <app-hint [props]="{title: 'HINT', content: popoverStatusTmpl}"></app-hint>
+            <template #popoverStatusTmpl><span [innerHTML]="popover.PRODUCT_STATUS"></span></template>
+            Product Status
+        </nz-form-label>
+
+        <nz-form-control
+            [nzSpan]="12"
+            nzErrorTip=""
+            nzValidateStatus="success"
+        >
+            <div nz-row nzGutter="4">
+                <div nz-col nzFlex="auto">
+                    <app-product-status-dropdown
+                        (valueChange)="onProductStatusSelected($event)"
+                    ></app-product-status-dropdown>
+                </div>
+                <div nz-col nz-tooltip nzFlex="30px" nzTooltipPlacement="top" nzTooltipTitle="Update Unit of Measurements">
+                    <app-product-status-add-btn></app-product-status-add-btn>
+                </div>
+
+            </div>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label>
+            Use Quantity
+        </nz-form-label>
+        <nz-form-control
+            [nzSpan]="12"
+            nzErrorTip=""
+            nzValidateStatus="success"
+        >
+            <nz-switch [ngModel]="false" nzCheckedChildren="YES" nzUnCheckedChildren="NO"></nz-switch>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label>
+            Service (Not using stock)
+        </nz-form-label>
+        <nz-form-control
+            [nzSpan]="12"
+            nzErrorTip=""
+            nzValidateStatus="success"
+        >
+            <nz-switch [ngModel]="false" nzCheckedChildren="YES" nzUnCheckedChildren="NO"></nz-switch>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label>
+            <app-hint [props]="{title: 'HINT', content: 'Unique product identifier code'}"></app-hint>
+            Age Restriction
+        </nz-form-label>
+        <nz-form-control
+            [nzSpan]="12"
+            nzErrorTip=""
+            nzValidateStatus="success"
+        >
+            <input [ngModel]="''" name="brandName" nz-input/>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label>
+            <app-hint [props]="{content: descPopoverTmpl}"></app-hint>
+            <ng-template #descPopoverTmpl><span [innerHTML]="popover.PRODUCT_DESCRIPTION"></span></ng-template>
+            Product description
+        </nz-form-label>
+        <nz-form-control
+            [nzSpan]="12"
+            nzErrorTip=""
+            nzValidateStatus="success"
+        >
+            <textarea nz-input rows="4"></textarea>
+        </nz-form-control>
+    </nz-form-item>
+
+</nz-card>

@@ -4,6 +4,8 @@
         [nzType]="props.type!"
         nz-button
 >
-    <span *ngIf="showTitle" [innerText]="props.title ?? ''"></span>
+    <ng-container *ngIf="props.title">
+        <span *ngIf="showTitle" [innerText]="props.title"></span>
+    </ng-container>
     <span nz-icon nzType="{{props.icon}}"></span>
 </button>

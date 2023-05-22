@@ -1,9 +1,12 @@
+import {HttpResponse} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, shareReplay} from 'rxjs';
-import {TableCol} from '../../../../shared/components/table/table.component';
-import {EditCacheMap} from '../../../../shared/components/update-delete-action/update-delete-action.component';
+import {UnitOfMeasurePayload} from 'src/app/routes/products/_data/unit-of-measure.payload';
+import {UnitOfMeasureUsecase} from 'src/app/routes/products/_usecase/unit-of-measure.usecase';
+import {TableCol} from 'src/app/shared/components/table/table.component';
+import {EditCacheMap} from 'src/app/shared/components/update-delete-action/update-delete-action.component';
 import {
     handleAppendToObservableListIfResponse,
     handleCancelEditingTableItem,
@@ -11,16 +14,14 @@ import {
     handleUpdateObservableListIfResponse,
     handleUsecaseRequest,
     isValidateFormControls,
-} from '../../../../shared/utils/util';
-import {UnitOfMeasurePayload} from '../../_data/unit-of-measure.payload';
-import {UnitOfMeasureUsecase} from '../../_usecase/unit-of-measure-usecase';
+} from 'src/app/shared/utils/util';
 
 @Component({
-    selector: 'app-add-unit-of-measurement',
-    templateUrl: './add-unit-of-measurement.component.html',
+    selector: 'app-unit-of-measurement-add',
+    templateUrl: './unit-of-measurement-add.component.html',
     styles: [],
 })
-export class AddUnitOfMeasurementComponent implements OnInit {
+export class UnitOfMeasurementAddComponent implements OnInit {
     public isVisible = false;
     public form!: UntypedFormGroup;
     public editMap: EditCacheMap<UnitOfMeasurePayload> = {};
@@ -58,6 +59,7 @@ export class AddUnitOfMeasurementComponent implements OnInit {
         const formValue = this.form.value;
         let response = await handleUsecaseRequest(this.usecase.save(formValue), this.notification);
         this.data = handleAppendToObservableListIfResponse(this.data!, response);
+        this.onAfterCreate(response);
     }
 
     public onConfirmDelete = async (id: number) => {
@@ -65,6 +67,7 @@ export class AddUnitOfMeasurementComponent implements OnInit {
         const response = await handleUsecaseRequest(this.usecase.delete(id), this.notification);
         this.data = handleRemoveFromObservableListIfStatus(this.data!, {key: 'id', value: id}, response);
         this.editMap[id].deleting = false;
+        this.notifyChange();
     };
 
     public onSaveEdit = async (item: UnitOfMeasurePayload) => {
@@ -73,6 +76,7 @@ export class AddUnitOfMeasurementComponent implements OnInit {
         const response = await handleUsecaseRequest(this.usecase.update(data), this.notification);
         this.data = handleUpdateObservableListIfResponse(this.data!, response);
         this.editMap[item.id!].edit = false;
+        this.notifyChange();
     };
 
     public onCancelDelete = async () => {};
@@ -94,5 +98,16 @@ export class AddUnitOfMeasurementComponent implements OnInit {
 
     public canEditItem(item: any) {
         return this.editMap[item.id] && this.editMap[item.id].edit;
+    }
+
+    private onAfterCreate = (response: HttpResponse<any>) => {
+        if (response.ok) {
+            this.form.reset();
+            this.notifyChange();
+        }
+    };
+
+    private notifyChange() {
+        this.usecase.triggerChange(true);
     }
 }
