@@ -32,6 +32,7 @@ export class ProductStatusAddComponent {
     ];
 
     public data?: Observable<ProductStatusPayload[]>;
+    public isSaving = false;
 
     constructor(
         private fb: UntypedFormBuilder,
@@ -56,6 +57,7 @@ export class ProductStatusAddComponent {
             this.notification.info('INVALID FIELDS', 'SOME FIELDS ARE INVALID, CHECK AND RETRY.');
             return;
         }
+        this.isSaving = true;
         const formValue = this.form.value;
         let response = await handleUsecaseRequest(this.usecase.save(formValue), this.notification);
         this.data = handleAppendToObservableListIfResponse(this.data!, response);
@@ -101,6 +103,7 @@ export class ProductStatusAddComponent {
     }
 
     private onAfterCreate = (response: HttpResponse<any>) => {
+        this.isSaving = false;
         if (response.ok) {
             this.form.reset();
             this.notifyChange();

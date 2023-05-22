@@ -20,7 +20,7 @@
             </nz-form-item>
             <nz-form-item>
                 <nz-form-control>
-                    <button [disabled]="!form.valid" nz-button nzType="primary">
+                    <button [disabled]="!form.valid" [nzLoading]="isSaving" nz-button nzType="primary">
                         <span nz-icon nzTheme="outline" nzType="save"></span>
                     </button>
                 </nz-form-control>
