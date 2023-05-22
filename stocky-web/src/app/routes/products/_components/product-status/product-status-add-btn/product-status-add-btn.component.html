@@ -1,1 +1,14 @@
-<p>product-status-add-btn works!</p>
+<app-button [props]="{icon: 'edit', handler: showModal, size: 'default'}"></app-button>
+
+<nz-modal (nzOnCancel)="isVisible = false"
+          [(nzVisible)]="isVisible"
+          [nzFooter]="' '"
+          nzTitle="Product Status"
+>
+    <ng-container *nzModalContent>
+
+        <app-product-status-add></app-product-status-add>
+
+    </ng-container>
+</nz-modal>
+
