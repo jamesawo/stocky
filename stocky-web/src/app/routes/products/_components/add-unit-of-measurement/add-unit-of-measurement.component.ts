@@ -1,3 +1,4 @@
+import {HttpResponse} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
@@ -58,6 +59,7 @@ export class AddUnitOfMeasurementComponent implements OnInit {
         const formValue = this.form.value;
         let response = await handleUsecaseRequest(this.usecase.save(formValue), this.notification);
         this.data = handleAppendToObservableListIfResponse(this.data!, response);
+        this.onAfterCreate(response);
     }
 
     public onConfirmDelete = async (id: number) => {
@@ -95,4 +97,10 @@ export class AddUnitOfMeasurementComponent implements OnInit {
     public canEditItem(item: any) {
         return this.editMap[item.id] && this.editMap[item.id].edit;
     }
+
+    private onAfterCreate = (response: HttpResponse<any>) => {
+        if (response.ok) {
+            this.form.reset();
+        }
+    };
 }
