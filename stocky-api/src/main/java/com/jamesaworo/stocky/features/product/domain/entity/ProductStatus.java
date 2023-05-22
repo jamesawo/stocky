@@ -12,19 +12,18 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
 
-import static com.jamesaworo.stocky.core.constants.Table.PRODUCT_UNIT_OF_MEASURE;
+import static com.jamesaworo.stocky.core.constants.Table.PRODUCT_STATUS;
 
 @Entity
-@Table(name = PRODUCT_UNIT_OF_MEASURE)
+@Table(name = PRODUCT_STATUS)
 @Data
-public class ProductUnitOfMeasure {
-
+public class ProductStatus {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String title;
-	private String unit;
+	private String description;
 
-	@OneToMany(mappedBy = "unitOfMeasure", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
 	private List<Product> products;
 }

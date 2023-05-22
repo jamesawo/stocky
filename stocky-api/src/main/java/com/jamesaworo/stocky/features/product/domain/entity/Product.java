@@ -21,24 +21,21 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "title", nullable = false)
+	@Column(nullable = false)
 	@NotNull
 	private String title;
 	private String description;
 	private String sku;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "category_id")
+	@JoinColumn
 	private ProductCategory category;
 
-	@Column(name = "unit_cost")
 	private Double unitCost;
 
-	@Column(name = "selling_price")
 	private Double sellingPrice;
 
-	@Column(name = "status")
-	private Boolean status;
+	private Boolean active;
 
 	@ManyToMany
 	@JoinTable(
@@ -50,5 +47,8 @@ public class Product {
 
 	@ManyToOne
 	private ProductUnitOfMeasure unitOfMeasure;
+
+	@ManyToOne
+	private ProductStatus status;
 
 }
