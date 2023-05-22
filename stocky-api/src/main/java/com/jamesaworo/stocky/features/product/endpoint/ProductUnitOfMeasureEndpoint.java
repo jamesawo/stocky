@@ -20,7 +20,7 @@ import java.util.Optional;
 import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 
 @RestController
-@RequestMapping(value = API_PREFIX + "/product-unit-of-measure")
+@RequestMapping(value = API_PREFIX + "/product-unit-of-measurement")
 @RequiredArgsConstructor
 public class ProductUnitOfMeasureEndpoint {
 
