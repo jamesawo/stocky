@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface ProductUnitOfMeasureRepository extends JpaRepository<ProductUnitOfMeasure, Long> {
-	Optional<ProductUnitOfMeasure> findByTypeEqualsIgnoreCaseAndUnitEqualsIgnoreCase(String type, String unit);
+	Optional<ProductUnitOfMeasure> findByTitleEqualsIgnoreCaseAndUnitEqualsIgnoreCase(String type, String unit);
 }

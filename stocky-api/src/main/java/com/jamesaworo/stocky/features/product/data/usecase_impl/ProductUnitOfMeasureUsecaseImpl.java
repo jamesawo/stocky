@@ -51,8 +51,8 @@ public class ProductUnitOfMeasureUsecaseImpl implements IProductUnitOfMeasureUse
 	}
 
 	private void throwIfDuplicateExist(ProductUnitOfMeasure unitOfMeasure) {
-		Optional<ProductUnitOfMeasure> optional = this.repository.findByTypeEqualsIgnoreCaseAndUnitEqualsIgnoreCase(
-				unitOfMeasure.getType(),
+		Optional<ProductUnitOfMeasure> optional = this.repository.findByTitleEqualsIgnoreCaseAndUnitEqualsIgnoreCase(
+				unitOfMeasure.getTitle(),
 				unitOfMeasure.getUnit()
 		);
 

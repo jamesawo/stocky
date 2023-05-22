@@ -22,9 +22,7 @@ public class ProductUnitOfMeasure {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	private String type;
-
+	private String title;
 	private String unit;
 
 	@OneToMany(mappedBy = "unitOfMeasure")

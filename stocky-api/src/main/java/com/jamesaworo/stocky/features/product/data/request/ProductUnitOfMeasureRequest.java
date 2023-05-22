@@ -17,9 +17,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude( JsonInclude.Include.NON_NULL )
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductUnitOfMeasureRequest {
 	private Long id;
-	private String type;
+	private String title;
 	private String unit;
 }
