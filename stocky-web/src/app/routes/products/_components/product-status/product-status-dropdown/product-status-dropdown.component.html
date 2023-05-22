@@ -1,1 +1,7 @@
-<p>product-status-dropdown works!</p>
+<nz-select (ngModelChange)="onValueChange($event)" [(ngModel)]="value" [nzLoading]="isLoading" nzAllowClear nzPlaceHolder="Select .." nzShowSearch>
+    <ng-container *ngIf="statusList | async as list">
+        <nz-option *ngFor="let data of list" [nzLabel]="data.title!" [nzValue]="data"></nz-option>
+    </ng-container>
+</nz-select>
+
+
