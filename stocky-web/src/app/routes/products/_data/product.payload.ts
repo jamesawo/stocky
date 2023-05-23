@@ -15,6 +15,10 @@ export class ProductVariant {
 
 export class ProductStatusPayload extends CommonPayload {}
 
+export class ProductTaxPayload extends CommonPayload {
+    percent?: number = 0;
+}
+
 export class ProductPayload {
     id?: number;
     title!: string;
