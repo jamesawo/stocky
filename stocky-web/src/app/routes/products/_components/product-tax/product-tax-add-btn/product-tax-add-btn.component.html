@@ -1,0 +1,11 @@
+<app-button [props]="{icon: 'edit', handler: showModal, size: 'default'}"></app-button>
+
+<nz-modal (nzOnCancel)="isVisible = false"
+          [(nzVisible)]="isVisible"
+          [nzFooter]="' '"
+          nzTitle="Tax Setup"
+>
+    <ng-container *nzModalContent>
+        <app-product-tax-add></app-product-tax-add>
+    </ng-container>
+</nz-modal>
