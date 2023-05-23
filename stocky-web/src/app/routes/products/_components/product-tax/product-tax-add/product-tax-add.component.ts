@@ -27,7 +27,8 @@ export class ProductTaxAddComponent implements OnInit {
     public editMap: EditCacheMap<ProductTaxPayload> = {};
     public cols: TableCol[] = [
         {title: 'TITLE', width: 30},
-        {title: 'DESCRIPTION', width: 40},
+        {title: 'PERCENT', width: 20},
+        {title: 'DESCRIPTION', width: 30},
         {title: '', width: 20},
     ];
 
@@ -45,6 +46,7 @@ export class ProductTaxAddComponent implements OnInit {
     public ngOnInit(): void {
         this.form = this.fb.group({
             title: [null, [Validators.required]],
+            percent: [null, [Validators.required]],
             description: [null],
         });
 
