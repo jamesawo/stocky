@@ -15,4 +15,6 @@ export class PRODUCT_CREATE_POPOVER {
     static PRODUCT_UNIT_MEASURE = `Specify the unit of measure for the product. <br> This refers to the standard unit used to quantify or measure the product's quantity or size. <br> Examples include kilograms (kg), meters (m), liters (L), or pieces (pcs)`;
     static PRODUCT_STATUS = `Indicate the current status of the product. <br> Select the appropriate option that reflects the availability or condition of the product.`;
     static PRODUCT_DESCRIPTION = `Provide a brief and informative description of the product.`;
+    // price
+    static PRODUCT_PRICE_DETAIL = `To ensure accurate pricing and tax calculations for your products, <br> it's essential to properly configure the price and tax settings.`;
 }

@@ -1,0 +1,6 @@
+<nz-select (ngModelChange)="onValueChange($event)" [(ngModel)]="value" [nzLoading]="isLoading" nzAllowClear nzMode="tags" nzPlaceHolder="Select .."
+           nzShowSearch>
+    <ng-container *ngIf="dataList | async as list">
+        <nz-option *ngFor="let data of list" [nzLabel]="data.title!" [nzValue]="data"></nz-option>
+    </ng-container>
+</nz-select>

@@ -14,6 +14,7 @@ import {NzDividerModule} from 'ng-zorro-antd/divider';
 import {NzFormModule} from 'ng-zorro-antd/form';
 import {NzGridModule} from 'ng-zorro-antd/grid';
 import {NzInputModule} from 'ng-zorro-antd/input';
+import {NzInputNumberModule} from 'ng-zorro-antd/input-number';
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {NzNotificationModule} from 'ng-zorro-antd/notification';
 import {NzPaginationModule} from 'ng-zorro-antd/pagination';
@@ -71,6 +72,7 @@ const THIRD_MODULES: Array<Type<void>> = [
     NzAutocompleteModule,
     NzTabsModule,
     NzGridModule,
+    NzInputNumberModule,
 ];
 const COMPONENTS: Array<Type<void>> = [
     DatePickerComponent,

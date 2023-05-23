@@ -13,30 +13,31 @@ import {
     handleUsecaseRequest,
     isValidateFormControls,
 } from '../../../../../shared/utils/util';
-import {ProductStatusPayload} from '../../../_data/product.payload';
-import {ProductStatusUsecase} from '../../../_usecase/product-status.usecase';
+import {ProductTaxPayload} from '../../../_data/product.payload';
+import {ProductTaxUsecase} from '../../../_usecase/product-tax.usecase';
 
 @Component({
-    selector: 'app-product-status-add',
-    templateUrl: './product-status-add.component.html',
+    selector: 'app-product-tax-add',
+    templateUrl: './product-tax-add.component.html',
     styles: [],
 })
-export class ProductStatusAddComponent implements OnInit {
+export class ProductTaxAddComponent implements OnInit {
     public isVisible = false;
     public form!: UntypedFormGroup;
-    public editMap: EditCacheMap<ProductStatusPayload> = {};
+    public editMap: EditCacheMap<ProductTaxPayload> = {};
     public cols: TableCol[] = [
         {title: 'TITLE', width: 30},
-        {title: 'DESCRIPTION', width: 40},
+        {title: 'PERCENT', width: 20},
+        {title: 'DESCRIPTION', width: 30},
         {title: '', width: 20},
     ];
 
-    public data?: Observable<ProductStatusPayload[]>;
+    public data?: Observable<ProductTaxPayload[]>;
     public isSaving = false;
 
     constructor(
         private fb: UntypedFormBuilder,
-        private usecase: ProductStatusUsecase,
+        private usecase: ProductTaxUsecase,
         private notification: NzNotificationService
     ) {}
 
@@ -45,6 +46,7 @@ export class ProductStatusAddComponent implements OnInit {
     public ngOnInit(): void {
         this.form = this.fb.group({
             title: [null, [Validators.required]],
+            percent: [null, [Validators.required]],
             description: [null],
         });
 
@@ -72,7 +74,7 @@ export class ProductStatusAddComponent implements OnInit {
         this.notifyChange();
     };
 
-    public onSaveEdit = async (item: ProductStatusPayload) => {
+    public onSaveEdit = async (item: ProductTaxPayload) => {
         this.editMap[item.id!].updating = true;
         const data = this.editMap[item.id!].data;
         const response = await handleUsecaseRequest(this.usecase.update(data), this.notification);
@@ -83,17 +85,17 @@ export class ProductStatusAddComponent implements OnInit {
 
     public onCancelDelete = async () => {};
 
-    public onCancelEdit = async (item: ProductStatusPayload) => {
+    public onCancelEdit = async (item: ProductTaxPayload) => {
         if (item) {
             this.editMap = await handleCancelEditingTableItem(item as any, this.data!, this.editMap);
         }
     };
 
-    public onToggleEdit = (item: ProductStatusPayload) => {
+    public onToggleEdit = (item: ProductTaxPayload) => {
         if (item) this.editMap[item.id!] = {edit: true, data: {...item}, updating: false, deleting: false};
     };
 
-    public onCacheValueChange = (change: any, item: ProductStatusPayload, field: string) => {
+    public onCacheValueChange = (change: any, item: ProductTaxPayload, field: string) => {
         const data: any = this.editMap[item.id!].data;
         data[field] = change;
     };

@@ -27,6 +27,7 @@ public class Table {
 	public static final String PRODUCT_VARIATIONS = PRODUCT + "_VARIATIONS";
 	public static final String PRODUCT_UNIT_OF_MEASURE = PRODUCT + "_UNIT_OF_MEASURES";
 	public static final String PRODUCT_STATUS = PRODUCT + "_STATUS";
+	public static final String PRODUCT_TAX = PRODUCT + "_TAX";
 
 
 }
