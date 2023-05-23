@@ -51,4 +51,7 @@ public class Product {
 	@ManyToOne
 	private ProductStatus status;
 
+	@ManyToOne
+	private ProductTax tax;
+
 }
