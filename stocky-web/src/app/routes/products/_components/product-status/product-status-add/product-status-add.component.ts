@@ -1,5 +1,5 @@
 import {HttpResponse} from '@angular/common/http';
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, shareReplay} from 'rxjs';
@@ -21,7 +21,7 @@ import {ProductStatusUsecase} from '../../../_usecase/product-status.usecase';
     templateUrl: './product-status-add.component.html',
     styles: [],
 })
-export class ProductStatusAddComponent {
+export class ProductStatusAddComponent implements OnInit {
     public isVisible = false;
     public form!: UntypedFormGroup;
     public editMap: EditCacheMap<ProductStatusPayload> = {};
