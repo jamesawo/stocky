@@ -1,22 +1,28 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {map, Observable} from 'rxjs';
-import {UnitOfMeasurePayload} from '../../../_data/unit-of-measure.payload';
+import {map, Observable, Subscription} from 'rxjs';
+import {ProductUnitOfMeasurePayload} from '../../../_data/product-unit-of-measure.payload';
+import {FormProps} from '../../../_data/product.types';
 import {UnitOfMeasureUsecase} from '../../../_usecase/unit-of-measure.usecase';
 
 @Component({
     selector: 'app-unit-of-measure-dropdown',
     templateUrl: './unit-of-measurement-dropdown.component.html',
-    styles: [],
+    styles: []
 })
 export class UnitOfMeasurementDropdownComponent implements OnInit {
     public isLoading = false;
+    public measures?: Observable<ProductUnitOfMeasurePayload[]>;
+
     @Input()
-    public value?: UnitOfMeasurePayload;
+    public formProps?: FormProps;
+
+    @Input()
+    public value?: ProductUnitOfMeasurePayload;
 
     @Output()
-    public valueChange: EventEmitter<UnitOfMeasurePayload> = new EventEmitter<UnitOfMeasurePayload>();
+    public valueChange: EventEmitter<ProductUnitOfMeasurePayload> =
+        new EventEmitter<ProductUnitOfMeasurePayload>();
 
-    public measures?: Observable<UnitOfMeasurePayload[]>;
 
     constructor(private usecase: UnitOfMeasureUsecase) {}
 
@@ -25,17 +31,17 @@ export class UnitOfMeasurementDropdownComponent implements OnInit {
         this.usecase.trigger$.subscribe((change) => this.onLoadData());
     }
 
-    public getLabel(data: UnitOfMeasurePayload) {
+    public getLabel(data: ProductUnitOfMeasurePayload): string {
         return `${data.title} (${data.unit?.toLowerCase()})`;
     }
 
-    public onValueChange(value: UnitOfMeasurePayload) {
+    public onValueChange(value: ProductUnitOfMeasurePayload): void {
         if (value) {
             this.valueChange?.emit(value);
         }
     }
 
-    private onLoadData() {
+    private onLoadData(): void {
         this.isLoading = true;
         this.measures = this.usecase.getMany().pipe(
             map((value1) => {
@@ -44,4 +50,12 @@ export class UnitOfMeasurementDropdownComponent implements OnInit {
             })
         );
     }
+
+    public hasFormGroup(): boolean {
+        if (this.formProps) {
+            return !!this.formProps.formGroup && !!this.formProps.controlName;
+        }
+        return false;
+    }
+
 }

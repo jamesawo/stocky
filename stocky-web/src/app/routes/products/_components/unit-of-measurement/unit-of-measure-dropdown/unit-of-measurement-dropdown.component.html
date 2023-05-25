@@ -1,5 +1,19 @@
-<nz-select (ngModelChange)="onValueChange($event)" [(ngModel)]="value" [nzLoading]="isLoading" nzAllowClear nzPlaceHolder="Select .." nzShowSearch>
-    <ng-container *ngIf="measures | async as list">
-        <nz-option *ngFor="let data of list" [nzLabel]="getLabel(data)" [nzValue]="data"></nz-option>
-    </ng-container>
-</nz-select>
+<ng-container *ngIf="hasFormGroup(); else modelTmpl">
+
+    <fieldset [formGroup]="formProps!.formGroup">
+        <nz-select [formControlName]="formProps!.controlName" [nzLoading]="isLoading" nzAllowClear nzPlaceHolder="Select .." nzShowSearch>
+            <ng-container *ngIf="measures | async as list">
+                <nz-option *ngFor="let data of list" [nzLabel]="getLabel(data)" [nzValue]="data"></nz-option>
+            </ng-container>
+        </nz-select>
+    </fieldset>
+
+</ng-container>
+
+<ng-template #modelTmpl>
+    <nz-select (ngModelChange)="onValueChange($event)" [(ngModel)]="value" [nzLoading]="isLoading" nzAllowClear nzPlaceHolder="Select .." nzShowSearch>
+        <ng-container *ngIf="measures | async as list">
+            <nz-option *ngFor="let data of list" [nzLabel]="getLabel(data)" [nzValue]="data"></nz-option>
+        </ng-container>
+    </nz-select>
+</ng-template>
