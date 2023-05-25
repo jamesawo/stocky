@@ -10,7 +10,8 @@
     <nz-tabset [(nzSelectedIndex)]="startPoint" nzType="line">
         <nz-tab *ngFor="let tab of tabs; let i = index" [nzTitle]="tab.title" nzClosable>
             <form nz-form nzLayout="vertical">
-                <ng-container [ngTemplateOutlet]="tab.template"></ng-container>
+                <ng-container [ngTemplateOutlet]="tab.template"
+			  [ngTemplateOutletContext]="{form: form}"></ng-container>
             </form>
         </nz-tab>
     </nz-tabset>
@@ -23,16 +24,11 @@
 
 </div>
 
-<ng-template #basicTmpl>
-    <app-product-basic-tab></app-product-basic-tab>
+<ng-template #basicTmpl let-form="form">
+    <app-product-basic-tab [formGroup]="form" ></app-product-basic-tab>
 </ng-template>
 
-<ng-template #priceTmpl>
+<ng-template #priceTmpl let-form="form">
     <app-product-price-tab></app-product-price-tab>
 </ng-template>
 
-<ng-template #newTmpl>
-    <nz-card>
-        <h3>Hello Price Template</h3>
-    </nz-card>
-</ng-template>
