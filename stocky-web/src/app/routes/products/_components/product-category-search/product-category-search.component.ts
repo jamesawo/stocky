@@ -1,9 +1,11 @@
 import {HttpClient} from '@angular/common/http';
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {FormGroup} from '@angular/forms';
 import {environment} from '@env/environment';
 import {BehaviorSubject, Subject, Subscription} from 'rxjs';
 import {distinctUntilChanged, filter, tap} from 'rxjs/operators';
 import {ProductCategoryPayload} from '../../_data/product.payload';
+import {FormProps} from '../../_data/product.types';
 
 @Component({
     selector: 'app-product-category-search',
@@ -12,20 +14,28 @@ import {ProductCategoryPayload} from '../../_data/product.payload';
 })
 export class ProductCategorySearchComponent implements OnInit, OnDestroy {
     public options: ProductCategoryPayload[] = [];
-    public isLoading = false;
-    public searchInput$ = new Subject<string>();
-    public minLengthTerm = 2;
-    @Input() // use this to pass in a default value. when the component renders, this value will be selected in the dropdown
-    public selectedPayload?: ProductCategoryPayload;
-    @Output() // use this to get the selected value when the user click on the drop down option
-    public selected: EventEmitter<ProductCategoryPayload> = new EventEmitter<ProductCategoryPayload>();
-    @Output() // use this to get the search text as the user is typing
-    public value: EventEmitter<string> = new EventEmitter<string>();
-    @Input()
-    public props?: {hasError?: boolean; autoFocus?: boolean; required?: boolean; span?: number};
     private url: string = environment.api.baseUrl + '/product-category';
     private loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private subscription: Subscription = new Subscription();
+    public searchInput$ = new Subject<string>();
+    public isLoading = false;
+    public minLengthTerm = 2;
+
+    @Input()
+    form?: FormProps;
+
+    @Input() // use this to pass in a default value. when the component renders, this value will be selected in the dropdown
+    public selectedPayload?: ProductCategoryPayload;
+
+    @Output() // use this to get the selected value when the user click on the dropdown option
+    public selected: EventEmitter<ProductCategoryPayload> = new EventEmitter<ProductCategoryPayload>();
+
+    @Output() // use this to get the search text as the user is typing
+    public value: EventEmitter<string> = new EventEmitter<string>();
+
+    @Input()
+    public props?: {hasError?: boolean; autoFocus?: boolean; required?: boolean; span?: number};
+
 
     constructor(private http: HttpClient) {}
 
@@ -40,7 +50,7 @@ export class ProductCategorySearchComponent implements OnInit, OnDestroy {
         this.onInitialize();
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         this.subscription.unsubscribe();
     }
 
@@ -89,5 +99,12 @@ export class ProductCategorySearchComponent implements OnInit, OnDestroy {
                 this.loading.next(false);
             })
         );
+    }
+
+    public canUseFormGroup() {
+        if (this.form){
+            return !!this.form.formGroup && !!this.form.controlName;
+        }
+        return false;
     }
 }
