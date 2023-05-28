@@ -1,8 +1,9 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {PRODUCT_ADD_CRUMBS} from '../../../../data/constant/crumb.constant';
-import {PRODUCT_CREATE_POPOVER} from '../../../../data/constant/message.constant';
-import {ProductPayload} from '../../_data/product.payload';
+import {Message, PRODUCT_CREATE_POPOVER} from '../../../../data/constant/message.constant';
+import {isFormInvalid} from '../../../../shared/utils/util';
 
 @Component({
     selector: 'app-product-add',
@@ -29,7 +30,12 @@ export class ProductAddComponent implements OnInit {
         sku: [null],
         barcode: [null],
         description: [null],
-        price: [null],
+        price: this.fb.group({
+            markup: [null],
+            taxes: [[], null],
+            costPrice: [null],
+            sellingPrice: [null],
+        }),
     });
 
     @ViewChild('basicTmpl', {static: true})
@@ -38,10 +44,7 @@ export class ProductAddComponent implements OnInit {
     @ViewChild('priceTmpl', {static: true})
     public priceTmpl!: TemplateRef<any>;
 
-    @ViewChild('newTmpl', {static: true})
-    public newTmpl!: TemplateRef<any>;
-
-    constructor(private fb: FormBuilder) {}
+    constructor(private fb: FormBuilder, private notification: NzNotificationService) {}
 
     public ngOnInit(): void {
         this.tabs = [
@@ -50,8 +53,13 @@ export class ProductAddComponent implements OnInit {
         ];
     }
 
-    public onSaveProduct = () => {
-        console.log('saving product');
+    public onSaveProduct = (): void => {
+        const invalid = isFormInvalid(this.form);
+        console.log(invalid);
+        if (invalid) {
+            this.notification.warning(Message.INVALID_FORM_FIELDS, Message.INVALID_ENTRY_TRY_AGAIN);
+            return;
+        }
         console.log(this.form.value);
     };
 
