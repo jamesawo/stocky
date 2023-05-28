@@ -1,8 +1,28 @@
-<nz-select (ngModelChange)="onValueChange($event)" [(ngModel)]="value" [nzLoading]="isLoading" nzAllowClear nzMode="tags" nzPlaceHolder="Select .."
-           nzShowSearch>
-    <ng-container *ngIf="dataList | async as list">
-        <nz-option *ngFor="let data of list" [nzCustomContent]="true" [nzLabel]="data.title!" [nzValue]="data">
-            <label>{{data.title | lowercase}} ({{data.percent}}%) </label>
-        </nz-option>
-    </ng-container>
-</nz-select>
+<ng-container *ngIf="canUseFormGroup(); else modelTmpl">
+    <fieldset [formGroup]="form!.formGroup">
+        <nz-select (ngModelChange)="onValueChange($event)"
+                   [formControl]="selectedControl"
+                   [nzLoading]="isLoading" nzAllowClear nzMode="tags"
+                   nzPlaceHolder="Select .."
+                   nzShowSearch>
+            <ng-container *ngIf="dataList | async as list">
+                <nz-option *ngFor="let data of list" [nzCustomContent]="true" [nzLabel]="data.title!" [nzValue]="data">
+                    <label>{{data.title | lowercase}} ({{data.percent}}%) </label>
+                </nz-option>
+            </ng-container>
+        </nz-select>
+    </fieldset>
+</ng-container>
+
+<ng-template #modelTmpl>
+    <nz-select (ngModelChange)="onValueChange($event)" [(ngModel)]="value" [nzLoading]="isLoading" nzAllowClear nzMode="tags"
+               nzPlaceHolder="Select .."
+               nzShowSearch>
+        <ng-container *ngIf="dataList | async as list">
+            <nz-option *ngFor="let data of list" [nzCustomContent]="true" [nzLabel]="data.title!" [nzValue]="data">
+                <label>{{data.title | lowercase}} ({{data.percent}}%) </label>
+            </nz-option>
+        </ng-container>
+    </nz-select>
+
+</ng-template>
