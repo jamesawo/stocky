@@ -21,10 +21,10 @@ export class ProductTaxPayload extends CommonPayload {
 }
 
 export class ProductPriceTab {
-    costPrice: number = 0;
-    markupPercent: number = 0;
-    sellingPrice: number = 0;
+    markup: number = 0;
     taxes: ProductTaxPayload[] = [];
+    costPrice: number = 0;
+    sellingPrice: number = 0;
 }
 
 export class ProductPayload {
