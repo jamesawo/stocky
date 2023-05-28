@@ -13,7 +13,7 @@ import {
     handleRemoveFromObservableListIfStatus,
     handleUpdateObservableListIfResponse,
     handleUsecaseRequest,
-    isValidateFormControls,
+    isFormInvalid
 } from '../../../../shared/utils/util';
 import {ProductCategoryPayload} from '../../_data/product.payload';
 import {ProductCategoryUsecase} from '../../_usecase/product-category.usecase';
@@ -78,7 +78,7 @@ export class ProductCategoryListComponent implements OnInit {
     public onCancelSearch = () => {};
 
     public onCreate = async () => {
-        const isInvalid = isValidateFormControls(this.categoryForm);
+        const isInvalid = isFormInvalid(this.categoryForm);
         if (isInvalid) {
             return;
         }
