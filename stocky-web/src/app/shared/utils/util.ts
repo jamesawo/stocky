@@ -5,7 +5,7 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {first, firstValueFrom, from, map, Observable, switchMap} from 'rxjs';
 import {EditCacheMap} from '../components/update-delete-action/update-delete-action.component';
 
-export function isValidateFormControls(form: FormGroup): boolean {
+export function isFormInvalid(form: FormGroup): boolean {
     if (form && form.controls) {
         let isFormInvalid = form.invalid;
         if (isFormInvalid) {
