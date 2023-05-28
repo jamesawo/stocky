@@ -1,35 +1,28 @@
 import {Component, Input} from '@angular/core';
-import {AbstractControl, FormGroup} from '@angular/forms';
-import {Observable, of} from 'rxjs';
+import {FormGroup} from '@angular/forms';
 import {PRODUCT_CREATE_POPOVER} from '../../../../data/constant/message.constant';
-import {ProductUnitOfMeasurePayload} from '../../_data/product-unit-of-measure.payload';
-import {ProductCategoryPayload, ProductStatusPayload} from '../../_data/product.payload';
-import {FormProps} from '../../_data/product.types';
+import {isFormControlInvalid} from '../../../../shared/utils/util';
 
 @Component({
     selector: 'app-product-basic-tab',
     templateUrl: './product-basic-tab.component.html',
-    styles: [],
+    styles: [
+        `
+            ::ng-deep .ng-tns-c18-16.ant-form-item-explain-error {
+                margin-bottom: 5px;
+            }
+        `
+    ],
 })
 export class ProductBasicTabComponent {
+    public popover = PRODUCT_CREATE_POPOVER;
 
     @Input()
-    formGroup?: FormGroup;
+    public formGroup?: FormGroup;
+    protected readonly isFormControlInvalid = isFormControlInvalid;
 
-    public popover = PRODUCT_CREATE_POPOVER;
-    public statusList: Observable<ProductStatusPayload[]> = of([]);
-
-
-    public onUnitOfMeasureSelected(payload?: ProductUnitOfMeasurePayload) {
-        console.log(payload);
+    public isControlValid(controlName: string): any {
+        const control = this.formGroup!.get(controlName);
+        return control && control.invalid && control.dirty ? 'error' : 'success';
     }
-
-    public onProductStatusSelected(payload: ProductStatusPayload) {
-        console.log(payload);
-    }
-
-    public onProductCategorySelected(category: ProductCategoryPayload) {
-        console.log(category);
-    }
-
 }
