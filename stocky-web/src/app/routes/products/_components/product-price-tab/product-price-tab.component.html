@@ -1,62 +1,71 @@
 <nz-card>
-    <h3 class="m-b-1em">
-        <app-hint [props]="{content: popBasicTmpl}"></app-hint>
-        <ng-template #popBasicTmpl><span [innerHTML]="popover.PRODUCT_PRICE_DETAIL"></span></ng-template>
-        Product Price & Tax
-    </h3>
+    <fieldset [formGroup]="formGroup!">
+        <h3 class="m-b-1em">
+            <app-hint>
+                <span [innerHTML]="popover.PRODUCT_PRICE_DETAIL"></span>
+            </app-hint>
+            Product Price & Tax
+        </h3>
 
-    <nz-form-item>
-        <nz-form-label>Cost Price:</nz-form-label>
-        <nz-form-control
-            [nzSpan]="12"
-            nzErrorTip="Enter cost price"
-            nzValidateStatus="success"
-        >
-            <nz-input-number [nzMin]="1" [nzStep]="1" class="wd-100p"></nz-input-number>
-        </nz-form-control>
-    </nz-form-item>
+        <fieldset formGroupName="price">
 
-    <nz-form-item>
-        <nz-form-label>Markup %:</nz-form-label>
-        <nz-form-control
-            [nzSpan]="12"
-            nzErrorTip="Enter cost price"
-            nzValidateStatus="success"
-        >
-            <nz-input-number [nzMin]="1" [nzStep]="1" class="wd-100p"></nz-input-number>
-        </nz-form-control>
-    </nz-form-item>
+            <nz-form-item>
+                <nz-form-label>Cost Price:</nz-form-label>
+                <nz-form-control
+                    [nzSpan]="12"
+                    nzErrorTip="Enter cost price"
+                    nzValidateStatus="success"
+                >
+                    <nz-input-number [nzMin]="1" [nzPlaceHolder]="'Enter cost price'" [nzStep]="1" class="wd-100p"
+                                     formControlName="costPrice"></nz-input-number>
+                </nz-form-control>
+            </nz-form-item>
 
-    <nz-form-item>
-        <nz-form-label>Selling Price:</nz-form-label>
-        <nz-form-control
-            [nzSpan]="12"
-            nzErrorTip="Enter cost price"
-            nzValidateStatus="success"
-        >
-            <nz-input-number [nzMin]="1" [nzStep]="1" class="wd-100p"></nz-input-number>
-        </nz-form-control>
-    </nz-form-item>
+            <nz-form-item>
+                <nz-form-label>Markup %:</nz-form-label>
+                <nz-form-control
+                    [nzSpan]="12"
+                    nzErrorTip="Enter markup percent"
+                    nzValidateStatus="success"
+                >
+                    <nz-input-number [nzMin]="1" [nzStep]="1" class="wd-100p" formControlName="markup"
+                                     nzPlaceHolder="Enter markup percent"></nz-input-number>
+                </nz-form-control>
+            </nz-form-item>
 
-    <nz-form-item>
-        <nz-form-label>Apply Tax:</nz-form-label>
+            <nz-form-item>
+                <nz-form-label>Selling Price:</nz-form-label>
+                <nz-form-control
+                    [nzSpan]="12"
+                    nzErrorTip="Enter cost price"
+                    nzValidateStatus="success"
+                >
+                    <nz-input-number [nzMin]="1" [nzStep]="1" class="wd-100p" formControlName="sellingPrice"
+                                     nzPlaceHolder="Enter selling price or leave it blank"></nz-input-number>
+                </nz-form-control>
+            </nz-form-item>
 
-        <nz-form-control
-            [nzSpan]="12"
-            nzErrorTip=""
-            nzValidateStatus="success"
-        >
-            <div nz-row nzGutter="4">
-                <div nz-col nzFlex="auto">
+            <nz-form-item>
+                <nz-form-label>Apply Tax:</nz-form-label>
 
-                    <app-product-tax-dropdown></app-product-tax-dropdown>
+                <nz-form-control
+                    [nzSpan]="12"
+                    nzErrorTip=""
+                    nzValidateStatus="success"
+                >
+                    <div nz-row nzGutter="4">
+                        <div nz-col nzFlex="auto">
 
-                </div>
-                <div nz-col nz-tooltip nzFlex="30px" nzTooltipPlacement="top" nzTooltipTitle="Update tax setup">
-                    <app-product-tax-add-btn></app-product-tax-add-btn>
-                </div>
+                            <app-product-tax-dropdown [form]="{formGroup: getForm(), controlName: 'taxes'}"></app-product-tax-dropdown>
 
-            </div>
-        </nz-form-control>
-    </nz-form-item>
+                        </div>
+                        <div nz-col nz-tooltip nzFlex="30px" nzTooltipPlacement="top" nzTooltipTitle="Update tax setup">
+                            <app-product-tax-add-btn></app-product-tax-add-btn>
+                        </div>
+
+                    </div>
+                </nz-form-control>
+            </nz-form-item>
+        </fieldset>
+    </fieldset>
 </nz-card>
