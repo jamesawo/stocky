@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {map, Observable} from 'rxjs';
 import {CommonPayload} from '../../../../../data/payload/common.payload';
+import {getFormControlValidityStatus} from '../../../../../shared/utils/util';
 import {ProductStatusPayload} from '../../../_data/product.payload';
 import {FormProps} from '../../../_data/product.types';
 import {ProductStatusUsecase} from '../../../_usecase/product-status.usecase';
@@ -8,7 +9,7 @@ import {ProductStatusUsecase} from '../../../_usecase/product-status.usecase';
 @Component({
     selector: 'app-product-status-dropdown',
     templateUrl: './product-status-dropdown.component.html',
-    styles: [],
+    styles: []
 })
 export class ProductStatusDropdownComponent implements OnInit {
     @Input()
@@ -22,6 +23,7 @@ export class ProductStatusDropdownComponent implements OnInit {
 
     public isLoading = false;
     public statusList?: Observable<ProductStatusPayload[]>;
+    protected readonly getFormControlValidityStatus = getFormControlValidityStatus;
 
     constructor(private usecase: ProductStatusUsecase) {}
 
