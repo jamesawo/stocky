@@ -14,7 +14,8 @@ export class ProductVariant {
     value?: string;
 }
 
-export class ProductStatusPayload extends CommonPayload {}
+export class ProductStatusPayload extends CommonPayload {
+}
 
 export class ProductTaxPayload extends CommonPayload {
     percent?: number = 0;
@@ -27,19 +28,23 @@ export class ProductPriceTab {
     sellingPrice: number = 0;
 }
 
-export class ProductPayload {
-    id?: number;
+export class ProductBasicTab {
     productCategory?: ProductCategoryPayload;
     unitOfMeasure?: ProductUnitOfMeasurePayload;
     status?: ProductStatusPayload;
-    isActive?: boolean;
-    useQuantity?: boolean;
-    isService?: boolean;
+    isActive: boolean = true;
+    useQuantity: boolean = true;
+    isService: boolean = false;
     minAgeLimit: number = 13;
     productName?: string;
     brandName?: string;
     sku?: string;
     barcode?: string;
     description?: string;
-    price?: ProductPriceTab;
+}
+
+export class ProductPayload {
+    id?: number;
+    basic: ProductBasicTab = new ProductBasicTab();
+    price?: ProductPriceTab = new ProductPriceTab();
 }
