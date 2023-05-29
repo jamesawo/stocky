@@ -7,17 +7,20 @@
 
 package com.jamesaworo.stocky.features.product.domain.entity;
 
+import com.jamesaworo.stocky.core.base.BaseModel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.List;
 
 import static com.jamesaworo.stocky.core.constants.Table.PRODUCT_UNIT_OF_MEASURE;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = PRODUCT_UNIT_OF_MEASURE)
 @Data
-public class ProductUnitOfMeasure {
+public class ProductUnitOfMeasure extends BaseModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,5 +29,5 @@ public class ProductUnitOfMeasure {
 	private String unit;
 
 	@OneToMany(mappedBy = "unitOfMeasure", fetch = FetchType.LAZY)
-	private List<Product> products;
+	private List<ProductBasic> products;
 }
