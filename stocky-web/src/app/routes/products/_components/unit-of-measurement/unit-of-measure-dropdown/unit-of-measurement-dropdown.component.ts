@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {map, Observable, Subscription} from 'rxjs';
+import {map, Observable} from 'rxjs';
+import {getFormControlValidityStatus} from '../../../../../shared/utils/util';
 import {ProductUnitOfMeasurePayload} from '../../../_data/product-unit-of-measure.payload';
 import {FormProps} from '../../../_data/product.types';
 import {UnitOfMeasureUsecase} from '../../../_usecase/unit-of-measure.usecase';
@@ -22,7 +23,7 @@ export class UnitOfMeasurementDropdownComponent implements OnInit {
     @Output()
     public valueChange: EventEmitter<ProductUnitOfMeasurePayload> =
         new EventEmitter<ProductUnitOfMeasurePayload>();
-
+    protected readonly getFormControlValidityStatus = getFormControlValidityStatus;
 
     constructor(private usecase: UnitOfMeasureUsecase) {}
 
@@ -41,6 +42,13 @@ export class UnitOfMeasurementDropdownComponent implements OnInit {
         }
     }
 
+    public hasFormGroup(): boolean {
+        if (this.formProps) {
+            return !!this.formProps.formGroup && !!this.formProps.controlName;
+        }
+        return false;
+    }
+
     private onLoadData(): void {
         this.isLoading = true;
         this.measures = this.usecase.getMany().pipe(
@@ -50,12 +58,4 @@ export class UnitOfMeasurementDropdownComponent implements OnInit {
             })
         );
     }
-
-    public hasFormGroup(): boolean {
-        if (this.formProps) {
-            return !!this.formProps.formGroup && !!this.formProps.controlName;
-        }
-        return false;
-    }
-
 }
