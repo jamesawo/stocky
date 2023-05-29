@@ -1,8 +1,9 @@
 export class Message {
     static GENERIC_SUCCESS_MESSAGE = 'Action Successful';
     static CATEGORY_SAVED = 'Category saved!';
-    static INVALID_FORM_FIELDS = 'Some fields are invalid';
+    static INVALID_FORM_FIELDS = `Some fields are invalid. <br>Please fix it and try again`;
     static INVALID_ENTRY_TRY_AGAIN = 'Please check your form entries and try again!';
+    static VALIDATION_ERROR = 'Validation Error';
 }
 
 export class PopOverConstant {
