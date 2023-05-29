@@ -10,16 +10,17 @@
         </nz-form-label>
 
         <ng-container *ngIf="canUseFormGroup(); else modelTmpl">
+
             <nz-form-control [formGroup]="form!.formGroup" [nzSpan]="props?.span??null">
                 <nz-input-group [nzSuffix]="suffixIconSearch" style="width: 100%">
                             <input (input)="onInput($event)"
                                    [autofocus]="props?.autoFocus"
+                                   [formControlName]="form!.controlName"
                                    [nzAutocomplete]="auto"
                                    nz-input
                                    nzSize="large"
                                    placeholder="Start typing ..."
                                    type="text"
-                                   [formControlName]="form!.controlName"
                             />
 
                 </nz-input-group>
