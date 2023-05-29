@@ -1,9 +1,12 @@
+import {HttpResponse} from '@angular/common/http';
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {PRODUCT_ADD_CRUMBS} from '../../../../data/constant/crumb.constant';
 import {Message, PRODUCT_CREATE_POPOVER} from '../../../../data/constant/message.constant';
-import {markFormFieldsAsDirtyAndTouched} from '../../../../shared/utils/util';
+import {handleUsecaseRequest, markFormFieldsAsDirtyAndTouched} from '../../../../shared/utils/util';
+import {ProductPayload} from '../../_data/product.payload';
+import {ProductUsecase} from '../../_usecase/product.usecase';
 
 @Component({
     selector: 'app-product-add',
@@ -12,6 +15,8 @@ import {markFormFieldsAsDirtyAndTouched} from '../../../../shared/utils/util';
 })
 export class ProductAddComponent implements OnInit {
     public startPoint = 0;
+    public isLoading = false;
+
     public tabs?: {title: string; template: TemplateRef<any>}[];
     public showPageHeader = false;
     public crumbs = PRODUCT_ADD_CRUMBS;
@@ -46,7 +51,11 @@ export class ProductAddComponent implements OnInit {
     @ViewChild('priceTmpl', {static: true})
     public priceTmpl!: TemplateRef<any>;
 
-    constructor(private fb: FormBuilder, private notification: NzNotificationService) {}
+    constructor(
+        private fb: FormBuilder,
+        private notification: NzNotificationService,
+        private usecase: ProductUsecase
+    ) {}
 
     public ngOnInit(): void {
         this.tabs = [
@@ -55,7 +64,7 @@ export class ProductAddComponent implements OnInit {
         ];
     }
 
-    public onSaveProduct = (): void => {
+    public onSaveProduct = async (): Promise<void> => {
         if (this.form.invalid) {
             markFormFieldsAsDirtyAndTouched(this.form);
             this.notification.create(
@@ -65,10 +74,22 @@ export class ProductAddComponent implements OnInit {
             return;
         }
 
-        console.log(this.form.value);
+        this.isLoading = true;
+        const product = this.form.value as ProductPayload;
+        const response = await handleUsecaseRequest(this.usecase.create(product), this.notification);
+        this.resetForm(response);
+
     };
 
     public onCancelSaveProduct = () => {
         console.log('cancelled saving product');
     };
+
+    private resetForm(response: HttpResponse<ProductPayload>): void {
+        this.isLoading = false;
+        if (response.ok) {
+            this.form.reset();
+        }
+
+    }
 }
