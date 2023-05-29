@@ -36,8 +36,6 @@ export class ProductTaxDropdownComponent implements OnInit {
     }
 
     public onValueChange(value: any) {
-        console.log(typeof value);
-        console.log(value);
         if (value) {
             this.valueChange?.emit(value);
             this.updateFormGroupIfPresent(value);
