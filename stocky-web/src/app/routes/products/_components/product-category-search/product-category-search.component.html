@@ -1,5 +1,6 @@
 <nz-form-item>
     <nz-form-control [nzValidateStatus]="props?.hasError?'error': 'success' " nzErrorTip="Product category is required">
+
         <nz-form-label [nzNoColon]="true" nzFor="">
             <span>
             <span *ngIf="props?.required === true" class="text-red-dark m-r-3px">*</span>
@@ -7,24 +8,55 @@
             </span>
             <small class="m-l-10px dm-none">(search by category title)</small>
         </nz-form-label>
-        <nz-form-control [nzSpan]="props?.span??null">
-            <nz-input-group [nzSuffix]="suffixIconSearch" style="width: 100%">
-                <input (input)="onInput($event)" [(ngModel)]="selectedPayload" [autofocus]="props?.autoFocus" [nzAutocomplete]="auto"
-                       nz-input
-                       nzSize="large"
-                       placeholder="start typing to search..."
-                       type="text"
-                />
-            </nz-input-group>
-            <ng-template #suffixIconSearch>
-                <span [nzType]="!isLoading ? 'search': 'loading'" nz-icon></span>
-            </ng-template>
-            <nz-autocomplete #auto>
-                <nz-auto-option (click)="onSelected(data)" *ngFor="let data of options" [nzLabel]="data.title" [nzValue]="data">
-                    {{data.title}}
-                </nz-auto-option>
-            </nz-autocomplete>
-        </nz-form-control>
+
+        <ng-container *ngIf="canUseFormGroup(); else modelTmpl">
+
+            <nz-form-control [formGroup]="form!.formGroup" [nzSpan]="props?.span??null">
+                <nz-input-group [nzSuffix]="suffixIconSearch" style="width: 100%">
+                            <input (input)="onInput($event)"
+                                   [autofocus]="props?.autoFocus"
+                                   [formControlName]="form!.controlName"
+                                   [nzAutocomplete]="auto"
+                                   nz-input
+                                   nzSize="large"
+                                   placeholder="Start typing ..."
+                                   type="text"
+                            />
+
+                </nz-input-group>
+            </nz-form-control>
+        </ng-container>
 
     </nz-form-control>
 </nz-form-item>
+
+<ng-template #modelTmpl>
+    <nz-form-control [nzSpan]="props?.span??null">
+        <nz-input-group [nzSuffix]="suffixIconSearch" style="width: 100%">
+            <input (input)="onInput($event)"
+                   [(ngModel)]="selectedPayload"
+                   [autofocus]="props?.autoFocus"
+                   [nzAutocomplete]="auto"
+                   nz-input
+                   nzSize="large"
+                   placeholder="start typing to search..."
+                   type="text"
+            />
+        </nz-input-group>
+    </nz-form-control>
+</ng-template>
+
+<ng-template #suffixIconSearch>
+    <span [nzType]="!isLoading ? 'search': 'loading'" nz-icon></span>
+</ng-template>
+
+<nz-autocomplete #auto>
+    <nz-auto-option
+        (click)="onSelected(data)"
+        *ngFor="let data of options"
+        [nzLabel]="data.title"
+        [nzValue]="data"
+    >
+        {{data.title}}
+    </nz-auto-option>
+</nz-autocomplete>

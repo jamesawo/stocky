@@ -1,4 +1,5 @@
 import {CommonPayload} from '../../../data/payload/common.payload';
+import {ProductUnitOfMeasurePayload} from './product-unit-of-measure.payload';
 import {ProductVariantEnum} from './product.enum';
 
 export class ProductCategoryPayload {
@@ -19,14 +20,26 @@ export class ProductTaxPayload extends CommonPayload {
     percent?: number = 0;
 }
 
+export class ProductPriceTab {
+    markup: number = 0;
+    taxes: ProductTaxPayload[] = [];
+    costPrice: number = 0;
+    sellingPrice: number = 0;
+}
+
 export class ProductPayload {
     id?: number;
-    title!: string;
+    productCategory?: ProductCategoryPayload;
+    unitOfMeasure?: ProductUnitOfMeasurePayload;
+    status?: ProductStatusPayload;
+    isActive?: boolean;
+    useQuantity?: boolean;
+    isService?: boolean;
+    minAgeLimit: number = 13;
+    productName?: string;
+    brandName?: string;
     sku?: string;
-    category?: ProductCategoryPayload;
-    variants?: ProductVariant[];
-    unitCost?: number;
-    sellingPrice?: number;
+    barcode?: string;
     description?: string;
-    status?: boolean;
+    price?: ProductPriceTab;
 }

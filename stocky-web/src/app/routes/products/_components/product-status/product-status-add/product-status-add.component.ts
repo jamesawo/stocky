@@ -11,7 +11,7 @@ import {
     handleRemoveFromObservableListIfStatus,
     handleUpdateObservableListIfResponse,
     handleUsecaseRequest,
-    isValidateFormControls,
+    isFormInvalid
 } from '../../../../../shared/utils/util';
 import {ProductStatusPayload} from '../../../_data/product.payload';
 import {ProductStatusUsecase} from '../../../_usecase/product-status.usecase';
@@ -52,7 +52,7 @@ export class ProductStatusAddComponent implements OnInit {
     }
 
     public async onCreate(): Promise<void> {
-        const isInvalid = isValidateFormControls(this.form);
+        const isInvalid = isFormInvalid(this.form);
         if (isInvalid) {
             this.notification.info('INVALID FIELDS', 'SOME FIELDS ARE INVALID, CHECK AND RETRY.');
             return;

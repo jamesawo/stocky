@@ -1,14 +1,14 @@
 import {formatCurrency} from '@angular/common';
 import {HttpResponse} from '@angular/common/http';
-import {FormGroup} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {first, firstValueFrom, from, map, Observable, switchMap} from 'rxjs';
 import {EditCacheMap} from '../components/update-delete-action/update-delete-action.component';
 
-export function isValidateFormControls(form: FormGroup): boolean {
+export function isFormInvalid(form: FormGroup): boolean {
     if (form && form.controls) {
-        let isFormInvalid = form.invalid;
-        if (isFormInvalid) {
+        let invalid = form.invalid;
+        if (invalid) {
             Object.keys(form.controls).forEach((key) => {
                 if (key) {
                     form.get(`${key}`)?.markAsDirty();
@@ -16,9 +16,28 @@ export function isValidateFormControls(form: FormGroup): boolean {
                 }
             });
         }
-        return isFormInvalid;
+        return invalid;
     }
     return false;
+}
+
+export function markFormFieldsAsDirtyAndTouched(form: FormGroup): void {
+    if (form && form.controls) {
+        Object.values(form.controls).forEach((control, index) => {
+            if (control instanceof FormControl) {
+                const currentControl = control as FormControl;
+                currentControl.markAsDirty();
+                currentControl.updateValueAndValidity();
+            } else if (control instanceof FormGroup) {
+                const currentGroup = control as FormGroup;
+                currentGroup.markAllAsTouched();
+                currentGroup.markAsDirty();
+                markFormFieldsAsDirtyAndTouched(currentGroup);
+            }
+        });
+        return;
+    }
+    return;
 }
 
 export function isFormControlInvalid(controlName: string, form: FormGroup): boolean {
@@ -207,9 +226,19 @@ export async function handleCancelEditingTableItem<T extends {id: any}>(
             data: {...payload},
             edit: false,
             updating: false,
-            deleting: false,
+            deleting: false
         };
         return editMap;
     }
     return editMap;
+}
+
+
+export function getFormGroupFromParent(mainForm: FormGroup, childFormName: string): FormGroup<any> {
+    return mainForm.get(childFormName) as FormGroup;
+}
+
+export function getFormControlValidityStatus(formGroup: FormGroup, controlName: string): any {
+    const control = formGroup.get(controlName);
+    return control && control.invalid && control.dirty ? 'error' : 'success';
 }

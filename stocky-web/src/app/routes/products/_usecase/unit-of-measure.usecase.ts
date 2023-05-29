@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {UnitOfMeasurePayload} from '../_data/unit-of-measure.payload';
+import {ProductUnitOfMeasurePayload} from '../_data/product-unit-of-measure.payload';
 
 @Injectable({providedIn: 'root'})
 export class UnitOfMeasureUsecase {
@@ -14,21 +14,21 @@ export class UnitOfMeasureUsecase {
     constructor(private http: HttpClient) {}
 
     public get(id: number) {
-        return this.http.get<UnitOfMeasurePayload>(`${this.url}/get/{id}`);
+        return this.http.get<ProductUnitOfMeasurePayload>(`${this.url}/get/{id}`);
     }
 
     public getMany() {
-        return this.http.get<UnitOfMeasurePayload[]>(`${this.url}/all`);
+        return this.http.get<ProductUnitOfMeasurePayload[]>(`${this.url}/all`);
     }
 
-    public save(category: UnitOfMeasurePayload) {
-        return this.http.post<UnitOfMeasurePayload>(`${this.url}/create`, category, {
+    public save(category: ProductUnitOfMeasurePayload) {
+        return this.http.post<ProductUnitOfMeasurePayload>(`${this.url}/create`, category, {
             observe: 'response',
         });
     }
 
-    public update(category: UnitOfMeasurePayload) {
-        return this.http.put<UnitOfMeasurePayload>(`${this.url}/update`, category, {
+    public update(category: ProductUnitOfMeasurePayload) {
+        return this.http.put<ProductUnitOfMeasurePayload>(`${this.url}/update`, category, {
             observe: 'response',
         });
     }

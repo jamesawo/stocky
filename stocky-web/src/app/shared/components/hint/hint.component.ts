@@ -11,4 +11,5 @@ export class HintComponent {
 
     @Input()
     public content?: string;
+
 }

@@ -1,23 +1,33 @@
-import {Component} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {Component, Input} from '@angular/core';
+import {FormGroup} from '@angular/forms';
 import {PRODUCT_CREATE_POPOVER} from '../../../../data/constant/message.constant';
-import {ProductStatusPayload} from '../../_data/product.payload';
-import {UnitOfMeasurePayload} from '../../_data/unit-of-measure.payload';
+import {getFormControlValidityStatus, getFormGroupFromParent} from '../../../../shared/utils/util';
 
 @Component({
     selector: 'app-product-basic-tab',
     templateUrl: './product-basic-tab.component.html',
-    styles: [],
+    styles: [
+        `
+            :host ::ng-deep div[role="alert"] {
+                margin-bottom: 25px;
+            }
+
+        `
+    ]
 })
 export class ProductBasicTabComponent {
     public popover = PRODUCT_CREATE_POPOVER;
-    public statusList: Observable<ProductStatusPayload[]> = of([]);
 
-    public onUnitOfMeasureSelected(payload?: UnitOfMeasurePayload) {
-        console.log(payload);
+    @Input()
+    public formGroup?: FormGroup;
+
+    valid(name: string) {
+        return getFormControlValidityStatus(this.getForm(), name);
     }
 
-    public onProductStatusSelected(payload: ProductStatusPayload) {
-        console.log(payload);
+    public getForm() {
+        return getFormGroupFromParent(this.formGroup!, 'basic');
     }
+
+
 }
