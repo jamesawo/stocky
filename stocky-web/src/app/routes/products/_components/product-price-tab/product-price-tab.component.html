@@ -16,8 +16,12 @@
                     nzErrorTip="Enter cost price"
                     nzValidateStatus="success"
                 >
-                    <nz-input-number [nzMin]="1" [nzPlaceHolder]="'Enter cost price'" [nzStep]="1" class="wd-100p"
-                                     formControlName="costPrice"></nz-input-number>
+                    <nz-input-number
+                        (nzBlur)="calculateSellingPrice()"
+                        [nzMin]="1"
+                        [nzPlaceHolder]="'Enter cost price'"
+                        [nzStep]="1" class="wd-100p"
+                        formControlName="costPrice"></nz-input-number>
                 </nz-form-control>
             </nz-form-item>
 
@@ -28,8 +32,13 @@
                     nzErrorTip="Enter markup percent"
                     nzValidateStatus="success"
                 >
-                    <nz-input-number [nzMin]="1" [nzStep]="1" class="wd-100p" formControlName="markup"
-                                     nzPlaceHolder="Enter markup percent"></nz-input-number>
+                    <nz-input-number
+                        (nzBlur)="calculateSellingPrice()"
+                        [nzMin]="1"
+                        [nzStep]="1"
+                        class="wd-100p"
+                        formControlName="markup"
+                        nzPlaceHolder="Enter markup percent"></nz-input-number>
                 </nz-form-control>
             </nz-form-item>
 
