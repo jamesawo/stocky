@@ -26,8 +26,7 @@ export class ProductTaxDropdownComponent implements OnInit {
     public valueChange: EventEmitter<ProductTaxPayload> = new EventEmitter<ProductTaxPayload>();
 
     public selectedControl: FormControl = new FormControl();
-
-
+    
     constructor(private usecase: ProductTaxUsecase) {}
 
     public ngOnInit(): void {
