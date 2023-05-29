@@ -64,9 +64,12 @@ public class ProductTaxUsecaseImpl implements IProductTaxUsecase {
 	}
 
 	private Optional<Boolean> removeIfNoProducts(ProductTax model) {
+		// todo:: implement soft delete
+		/*
 		if (model.getProducts().size() > 0) {
 			return of(Boolean.FALSE);
 		}
+		 */
 		return this.delete(model);
 	}
 
