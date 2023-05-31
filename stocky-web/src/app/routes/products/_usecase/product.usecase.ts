@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
-import {ProductPayload} from '../_data/product.payload';
+import {ProductPayload, ProductSearchPayload} from '../_data/product.payload';
 
 @Injectable({providedIn: 'root'})
 export class ProductUsecase {
@@ -24,6 +24,10 @@ export class ProductUsecase {
 
     public updateOne(product: ProductPayload) {
         // implement method
+    }
+
+    public searchProducts(searchPayload: ProductSearchPayload) {
+        return this.http.post(`${this.url}/search-products`, searchPayload, {observe: 'response'});
     }
 
 
