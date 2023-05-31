@@ -48,3 +48,12 @@ export class ProductPayload {
     basic: ProductBasicTab = new ProductBasicTab();
     price?: ProductPriceTab = new ProductPriceTab();
 }
+
+export class ProductSearchPayload {
+    category?: ProductCategoryPayload;
+    productName?: string;
+    productBrand?: string;
+    taxes: ProductTaxPayload[] = [];
+    sku?: string;
+    isService: boolean = false;
+}
