@@ -1,6 +1,5 @@
 import {HttpClient} from '@angular/common/http';
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {FormGroup} from '@angular/forms';
 import {environment} from '@env/environment';
 import {BehaviorSubject, Subject, Subscription} from 'rxjs';
 import {distinctUntilChanged, filter, tap} from 'rxjs/operators';
@@ -10,41 +9,35 @@ import {FormProps} from '../../_data/product.types';
 @Component({
     selector: 'app-product-category-search',
     templateUrl: './product-category-search.component.html',
-    styles: [],
+    styles: []
 })
 export class ProductCategorySearchComponent implements OnInit, OnDestroy {
     public options: ProductCategoryPayload[] = [];
-    private url: string = environment.api.baseUrl + '/product-category';
-    private loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    private subscription: Subscription = new Subscription();
     public searchInput$ = new Subject<string>();
     public isLoading = false;
     public minLengthTerm = 2;
-
     @Input()
     form?: FormProps;
-
     @Input() // use this to pass in a default value. when the component renders, this value will be selected in the dropdown
-    public selectedPayload?: ProductCategoryPayload;
-
+    public selected?: ProductCategoryPayload;
     @Output() // use this to get the selected value when the user click on the dropdown option
-    public selected: EventEmitter<ProductCategoryPayload> = new EventEmitter<ProductCategoryPayload>();
-
+    public selectedChange: EventEmitter<ProductCategoryPayload> = new EventEmitter<ProductCategoryPayload>();
     @Output() // use this to get the search text as the user is typing
     public value: EventEmitter<string> = new EventEmitter<string>();
-
     @Input()
     public props?: {hasError?: boolean; autoFocus?: boolean; required?: boolean; span?: number};
-
+    private url: string = environment.api.baseUrl + '/product-category';
+    private loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    private subscription: Subscription = new Subscription();
 
     constructor(private http: HttpClient) {}
 
-    ngOnInit(): void {
-        if (this.selectedPayload) {
-            if (this.selectedPayload.id) {
-                this.options.push(this.selectedPayload);
+    public ngOnInit(): void {
+        if (this.selected) {
+            if (this.selected.id) {
+                this.options.push(this.selected);
             } else {
-                this.selectedPayload = undefined;
+                this.selected = undefined;
             }
         }
         this.onInitialize();
@@ -62,14 +55,21 @@ export class ProductCategorySearchComponent implements OnInit, OnDestroy {
 
     public onSelected(value: ProductCategoryPayload) {
         if (value) {
-            this.selectedPayload = value;
-            this.selected.emit(value);
+            this.selected = value;
+            this.selectedChange.emit(value);
         }
     }
 
     public onClear() {
-        this.selectedPayload = undefined;
+        this.selected = undefined;
         this.options = [];
+    }
+
+    public canUseFormGroup() {
+        if (this.form) {
+            return !!this.form.formGroup && !!this.form.controlName;
+        }
+        return false;
     }
 
     private onInitialize() {
@@ -99,12 +99,5 @@ export class ProductCategorySearchComponent implements OnInit, OnDestroy {
                 this.loading.next(false);
             })
         );
-    }
-
-    public canUseFormGroup() {
-        if (this.form){
-            return !!this.form.formGroup && !!this.form.controlName;
-        }
-        return false;
     }
 }
