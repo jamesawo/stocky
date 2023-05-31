@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
     selector: 'app-switch-toggle',
     templateUrl: './switch-toggle.component.html',
-    styles: [],
+    styles: []
 })
 export class SwitchToggleComponent implements OnInit {
 
@@ -11,7 +11,7 @@ export class SwitchToggleComponent implements OnInit {
     hasError: boolean = false;
 
     @Input()
-    public props: { showLabel: boolean, trueText: string, falseText: string} =
+    public props: {showLabel: boolean, trueText: string, falseText: string} =
         {showLabel: false, trueText: 'ACTIVE', falseText: 'INACTIVE'};
 
 
