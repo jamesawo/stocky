@@ -20,6 +20,7 @@ import java.util.Optional;
 
 import static java.util.Optional.of;
 import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 @Usecase
 @RequiredArgsConstructor
@@ -51,12 +52,14 @@ public class ProductTaxUsecaseImpl implements IProductTaxUsecase {
 	}
 
 	private void throwIfDuplicateExist(ProductTax model) {
-		Optional<ProductTax> optional = this.repository.findByTitleEqualsIgnoreCaseAndPercent(
-				model.getTitle(), model.getPercent());
+		if (isEmpty(model.getId())) {
+			Optional<ProductTax> optional = this.repository.findByTitleEqualsIgnoreCaseAndPercent(
+					model.getTitle(), model.getPercent());
 
-		optional.ifPresent(e -> {
-			throw new ResponseStatusException(CONFLICT, DUPLICATE_RECORD);
-		});
+			optional.ifPresent(e -> {
+				throw new ResponseStatusException(CONFLICT, DUPLICATE_RECORD);
+			});
+		}
 	}
 
 	private Optional<Boolean> removeIfPresentAndHasNoProduct(Optional<ProductTax> optional) {
@@ -65,11 +68,6 @@ public class ProductTaxUsecaseImpl implements IProductTaxUsecase {
 
 	private Optional<Boolean> removeIfNoProducts(ProductTax model) {
 		// todo:: implement soft delete
-		/*
-		if (model.getProducts().size() > 0) {
-			return of(Boolean.FALSE);
-		}
-		 */
 		return this.delete(model);
 	}
 

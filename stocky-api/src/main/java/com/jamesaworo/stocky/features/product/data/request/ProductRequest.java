@@ -22,5 +22,6 @@ public class ProductRequest {
 	private Long id;
 	private ProductBasicRequest basic;
 	private ProductPriceRequest price;
+	private String createdAt;
 
 }
