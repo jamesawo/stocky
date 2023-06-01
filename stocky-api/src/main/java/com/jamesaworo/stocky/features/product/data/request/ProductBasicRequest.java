@@ -32,5 +32,6 @@ public class ProductBasicRequest {
 	private String sku;
 	private String barcode;
 	private String description;
+	private Integer lowStockPoint;
 
 }
