@@ -36,6 +36,9 @@ public class ProductBasic extends BaseModel {
 	@ManyToOne
 	private ProductStatus status;
 
+	@OneToOne(mappedBy = "basic", fetch = FetchType.LAZY)
+	private Product product;
+
 	@Column(nullable = false)
 	private String productName;
 	private String brandName;
@@ -46,5 +49,6 @@ public class ProductBasic extends BaseModel {
 	private Boolean useQuantity;
 	private Boolean isService;
 	private Integer minAgeLimit;
+	private Integer lowStockPoint;
 
 }

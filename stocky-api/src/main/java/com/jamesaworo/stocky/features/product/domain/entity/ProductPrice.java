@@ -34,4 +34,7 @@ public class ProductPrice extends BaseModel {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_price_id")
 	private List<ProductTax> taxes;
+
+	@OneToOne(mappedBy = "price", fetch = FetchType.LAZY)
+	private Product product;
 }
