@@ -95,19 +95,41 @@
 </page-header>
 
 <nz-card>
-    <div class="wd-100p">
-        <nz-table>
-            <thead>
-            <tr class="text-uppercase">
-                <th></th>
-                <th>Category</th>
-                <th>Product Name</th>
-                <th>Brand Name</th>
-                <th>SKU</th>
-                <th>Type</th>
-                <th>Date Created</th>
-            </tr>
-            </thead>
-        </nz-table>
-    </div>
+    <app-table
+        (pageIndexChange)="onPageIndexChange($event)"
+        (pageSizeChange)="onPageSizeChange($event)"
+        [(pageIndex)]="pageRequest.pageNumber"
+        [(pageSize)]="pageRequest.pageSize"
+        [colHeadings]="tableCols"
+        [dataList]="tableData"
+        [props]="{showPagination: true, isLoading: isLoadingTable}"
+        [rowTemplates]="[categoryTmpl, prodNameTmpl, brandNameTmpl, skuTmpl, typeTmpl, dateTmpl]"
+    ></app-table>
 </nz-card>
+
+
+<ng-template #categoryTmpl let-item="item">
+    <app-table-item [content]="item.basic.productCategory.title"></app-table-item>
+</ng-template>
+
+<ng-template #prodNameTmpl let-item="item">
+    <app-table-item [content]="item.basic.productName"></app-table-item>
+</ng-template>
+
+<ng-template #brandNameTmpl let-item="item">
+    <app-table-item [content]="item.basic.brandName"></app-table-item>
+</ng-template>
+
+<ng-template #skuTmpl let-item="item">
+    <app-table-item [content]="item.basic.sku"></app-table-item>
+</ng-template>
+
+<ng-template #typeTmpl let-item="item">
+    <app-table-item [content]="item.basic.isService === true ? 'SERVICE' : 'PRODUCT'"></app-table-item>
+</ng-template>
+
+<ng-template #dateTmpl let-item="item">
+    <app-table-item [props]="{useProjection: true}">
+        <label>{{item?.createdAt | date}}</label>
+    </app-table-item>
+</ng-template>

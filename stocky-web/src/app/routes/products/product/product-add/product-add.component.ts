@@ -21,30 +21,7 @@ export class ProductAddComponent implements OnInit {
     public showPageHeader = false;
     public crumbs = PRODUCT_ADD_CRUMBS;
     public popover = PRODUCT_CREATE_POPOVER;
-    public form: FormGroup = this.fb.group({
-        id: [null],
-        basic: this.fb.group({
-            productCategory: [null, [Validators.required]],
-            unitOfMeasure: [null, [Validators.required]],
-            status: [null, [Validators.required]],
-            isActive: [true, [Validators.required]],
-            useQuantity: [true, [Validators.required]],
-            isService: [false, [Validators.required]],
-            minAgeLimit: [13],
-            productName: [null, [Validators.required]],
-            brandName: [null, [Validators.required]],
-            sku: [null],
-            barcode: [null],
-            description: [null],
-            lowStockPoint: [20]
-        }),
-        price: this.fb.group({
-            markup: [null],
-            taxes: [[], null],
-            costPrice: [null],
-            sellingPrice: [null]
-        })
-    });
+    public form!: FormGroup;
 
     @ViewChild('basicTmpl', {static: true})
     public basicTmpl!: TemplateRef<any>;
@@ -63,6 +40,8 @@ export class ProductAddComponent implements OnInit {
             {title: 'BASIC DETAILS', template: this.basicTmpl},
             {title: 'PRICE & TAX', template: this.priceTmpl}
         ];
+
+        this.initForm();
     }
 
     public onSaveProduct = async (): Promise<void> => {
@@ -86,10 +65,38 @@ export class ProductAddComponent implements OnInit {
         console.log('cancelled saving product');
     };
 
+    private initForm() {
+        this.form = this.fb.group({
+            id: [null],
+            basic: this.fb.group({
+                productCategory: [null, [Validators.required]],
+                unitOfMeasure: [null, [Validators.required]],
+                status: [null, [Validators.required]],
+                isActive: [true, [Validators.required]],
+                useQuantity: [true, [Validators.required]],
+                isService: [false, [Validators.required]],
+                minAgeLimit: [13],
+                productName: [null, [Validators.required]],
+                brandName: [null, [Validators.required]],
+                sku: [null],
+                barcode: [null],
+                description: [null],
+                lowStockPoint: [20]
+            }),
+            price: this.fb.group({
+                markup: [null],
+                taxes: [[], null],
+                costPrice: [null],
+                sellingPrice: [null]
+            })
+        });
+    }
+
     private resetForm(response: HttpResponse<ProductPayload>): void {
         this.isLoading = false;
         if (response.ok) {
             this.form.reset();
+            this.initForm();
         }
 
     }
