@@ -42,6 +42,7 @@ import {SearchResultTableComponent} from './components/search-result-table/searc
 import {StatusBadgeComponent} from './components/status-badge/status-badge.component';
 import {SwitchToggleComponent} from './components/switch-toggle/switch-toggle.component';
 import {TableItemEditableComponent} from './components/table-item-editable/table-item-editable.component';
+import {TableItemComponent} from './components/table-item/table-item.component';
 import {TableComponent} from './components/table/table.component';
 import {UpdateDeleteActionComponent} from './components/update-delete-action/update-delete-action.component';
 
@@ -72,7 +73,7 @@ const THIRD_MODULES: Array<Type<void>> = [
     NzAutocompleteModule,
     NzTabsModule,
     NzGridModule,
-    NzInputNumberModule,
+    NzInputNumberModule
 ];
 const COMPONENTS: Array<Type<void>> = [
     DatePickerComponent,
@@ -90,6 +91,7 @@ const COMPONENTS: Array<Type<void>> = [
     HintComponent,
     UpdateDeleteActionComponent,
     TableItemEditableComponent,
+    TableItemComponent
 ];
 const DIRECTIVES: Array<Type<void>> = [];
 const ICONS: Array<Type<void>> = [];
@@ -108,7 +110,7 @@ const PROVIDERS: Array<Type<void>> = [AsyncPipe, UpperCasePipe];
         ...SHARED_ZORRO_MODULES,
         // third libs
         ...THIRD_MODULES,
-        ...ICONS,
+        ...ICONS
     ],
     declarations: [...COMPONENTS, ...DIRECTIVES],
     exports: [
@@ -124,8 +126,9 @@ const PROVIDERS: Array<Type<void>> = [AsyncPipe, UpperCasePipe];
         ...THIRD_MODULES,
         ...COMPONENTS,
         ...DIRECTIVES,
-        ...PROVIDERS,
+        ...PROVIDERS
     ],
-    providers: [...PROVIDERS],
+    providers: [...PROVIDERS]
 })
-export class SharedModule {}
+export class SharedModule {
+}

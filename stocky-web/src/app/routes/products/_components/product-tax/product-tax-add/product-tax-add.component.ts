@@ -19,7 +19,7 @@ import {ProductTaxUsecase} from '../../../_usecase/product-tax.usecase';
 @Component({
     selector: 'app-product-tax-add',
     templateUrl: './product-tax-add.component.html',
-    styles: [],
+    styles: []
 })
 export class ProductTaxAddComponent implements OnInit {
     public isVisible = false;
@@ -29,7 +29,7 @@ export class ProductTaxAddComponent implements OnInit {
         {title: 'TITLE', width: 30},
         {title: 'PERCENT', width: 20},
         {title: 'DESCRIPTION', width: 30},
-        {title: '', width: 20},
+        {title: '', width: 20}
     ];
 
     public data?: Observable<ProductTaxPayload[]>;
@@ -47,7 +47,7 @@ export class ProductTaxAddComponent implements OnInit {
         this.form = this.fb.group({
             title: [null, [Validators.required]],
             percent: [null, [Validators.required]],
-            description: [null],
+            description: [null]
         });
 
         this.data = this.usecase.getMany().pipe(shareReplay());

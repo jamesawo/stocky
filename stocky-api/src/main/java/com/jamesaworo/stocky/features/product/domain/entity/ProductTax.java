@@ -7,17 +7,19 @@
 
 package com.jamesaworo.stocky.features.product.domain.entity;
 
+import com.jamesaworo.stocky.core.base.BaseModel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.List;
 
 import static com.jamesaworo.stocky.core.constants.Table.PRODUCT_TAX;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = PRODUCT_TAX)
 @Data
-public class ProductTax {
+public class ProductTax extends BaseModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -25,6 +27,7 @@ public class ProductTax {
 	private String description;
 	private double percent;
 
-	@OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
-	private List<Product> products;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "product_price_id")
+	private ProductPrice productPrice;
 }

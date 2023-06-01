@@ -1,10 +1,21 @@
 <div class="wd-100p">
 
     <ng-container *ngIf="dataList | async as list; else noData">
-        <nz-table [nzBordered]="true"
-                  [nzData]="list"
-                  [nzShowPagination]="props?.showPagination"
-                  [nzSize]="props?.tableSize!">
+        <nz-table
+            (nzPageIndexChange)="onPageIndexChange($event)"
+            (nzPageSizeChange)="onPageSizeChange($event)"
+            [nzBordered]="true"
+            [nzData]="list"
+            [nzLoading]="props?.isLoading === true"
+            [nzPageIndex]="pageIndex"
+            [nzPageSize]="pageSize"
+            [nzShowPagination]="props?.showPagination"
+            [nzShowSizeChanger]="true"
+            [nzSize]="props?.tableSize!"
+            nzPaginationType="small"
+            nzTableLayout="fixed"
+
+        >
             <thead>
             <tr>
                 <th [nzShowCheckbox]="true" nzWidth="3%"></th>

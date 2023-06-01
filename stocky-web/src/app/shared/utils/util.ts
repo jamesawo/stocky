@@ -142,7 +142,7 @@ export async function handleUsecaseRequest<T>(
 ): Promise<T> {
     try {
         const value: any = await firstValueFrom(arg);
-        if (value && value.ok) {
+        if (value && value?.ok) {
             showSuccessNotification(notificationService, message?.success);
         } else {
             showErrorNotification(notificationService, message?.error);

@@ -1,34 +1,34 @@
 <nz-form-item>
-    <nz-form-label nzFor='switchToggle'
-               [nzNoColon]='true' class=''
-               *ngIf='props.showLabel === true'
->Status
-    <span
-        nz-tooltip
-        nzTooltipTitle='click on switch to toggle the value'
-        class='m-l-3px'
-        nz-icon
-        nzType='info-circle'
-        nzTheme='outline'
-    ></span>
+    <nz-form-label *ngIf="props.showLabel === true"
+                   [nzNoColon]="true" class=""
+                   nzFor="switchToggle"
+    >Status
+        <span
+            class="m-l-3px"
+            nz-icon
+            nz-tooltip
+            nzTheme="outline"
+            nzTooltipTitle="click on switch to toggle the value"
+            nzType="info-circle"
+        ></span>
 
-</nz-form-label>
-    <nz-form-control nzErrorTip='Please select' [nzValidateStatus]="hasError?'error': 'success' ">
-    <nz-switch
-        id='switchToggle'
-        name='switchToggle'
-        [ngModel]="value"
-        [nzCheckedChildren]="checkedTemplate"
-        [nzUnCheckedChildren]="unCheckedTemplate"
-        (ngModelChange)="onSwitchToggled($event)"
-    ></nz-switch>
-    <ng-template #checkedTemplate>
-        <span [innerText]='props.trueText'></span>
-        <span nz-icon nzType="check"></span>
-    </ng-template>
-    <ng-template #unCheckedTemplate>
-        <span [innerText]='props.falseText'></span>
-        <span nz-icon nzType="close"></span>
-    </ng-template>
-</nz-form-control>
+    </nz-form-label>
+    <nz-form-control [nzValidateStatus]="hasError?'error': 'success' " nzErrorTip="Please select">
+        <nz-switch
+            (ngModelChange)="onSwitchToggled($event)"
+            [ngModel]="value"
+            [nzCheckedChildren]="checkedTemplate"
+            [nzUnCheckedChildren]="unCheckedTemplate"
+            id="switchToggle"
+            name="switchToggle"
+        ></nz-switch>
+        <ng-template #checkedTemplate>
+            <span [innerText]="props.trueText"></span>
+            <span nz-icon nzType="check"></span>
+        </ng-template>
+        <ng-template #unCheckedTemplate>
+            <span [innerText]="props.falseText"></span>
+            <span nz-icon nzType="close"></span>
+        </ng-template>
+    </nz-form-control>
 </nz-form-item>

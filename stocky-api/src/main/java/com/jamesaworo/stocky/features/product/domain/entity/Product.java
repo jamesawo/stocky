@@ -1,57 +1,34 @@
 package com.jamesaworo.stocky.features.product.domain.entity;
 
-import lombok.Getter;
+import com.jamesaworo.stocky.core.base.BaseModel;
+import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.Set;
 
-import static com.jamesaworo.stocky.core.constants.Table.PREFIX;
 import static com.jamesaworo.stocky.core.constants.Table.PRODUCT;
 
 /**
  * @author Aworo James
  * @since 5/10/23
  */
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = PRODUCT)
 @Getter
-public class Product {
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Product extends BaseModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
-	@NotNull
-	private String title;
-	private String description;
-	private String sku;
+	@OneToOne
+	private ProductBasic basic;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn
-	private ProductCategory category;
+	@OneToOne
+	private ProductPrice price;
 
-	private Double unitCost;
-
-	private Double sellingPrice;
-
-	private Boolean active;
-
-	@ManyToMany
-	@JoinTable(
-			name = PREFIX + "PRODUCT_VARIANT",
-			joinColumns = @JoinColumn(name = "product_id"),
-			inverseJoinColumns = @JoinColumn(name = "product_variation_id")
-	)
-	private Set<ProductVariant> variants;
-
-	@ManyToOne
-	private ProductUnitOfMeasure unitOfMeasure;
-
-	@ManyToOne
-	private ProductStatus status;
-
-	@ManyToOne
-	private ProductTax tax;
 
 }

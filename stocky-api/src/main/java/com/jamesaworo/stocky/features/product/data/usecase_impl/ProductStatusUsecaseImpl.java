@@ -65,9 +65,12 @@ public class ProductStatusUsecaseImpl implements IProductStatusUsecase {
 	}
 
 	private Optional<Boolean> removeIfNoProducts(ProductStatus model) {
+		// todo:: implement soft delete
+		/*
 		if (model.getProducts().size() > 0) {
 			return of(Boolean.FALSE);
 		}
+		 */
 		return this.delete(model);
 	}
 

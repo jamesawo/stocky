@@ -4,7 +4,7 @@
         <nz-form-label [nzNoColon]="true" nzFor="">
             <span>
             <span *ngIf="props?.required === true" class="text-red-dark m-r-3px">*</span>
-            Product Category
+                Product Category
             </span>
             <small class="m-l-10px dm-none">(search by category title)</small>
         </nz-form-label>
@@ -13,15 +13,15 @@
 
             <nz-form-control [formGroup]="form!.formGroup" [nzSpan]="props?.span??null">
                 <nz-input-group [nzSuffix]="suffixIconSearch" style="width: 100%">
-                            <input (input)="onInput($event)"
-                                   [autofocus]="props?.autoFocus"
-                                   [formControlName]="form!.controlName"
-                                   [nzAutocomplete]="auto"
-                                   nz-input
-                                   nzSize="large"
-                                   placeholder="Start typing ..."
-                                   type="text"
-                            />
+                    <input (input)="onInput($event)"
+                           [autofocus]="props?.autoFocus"
+                           [formControlName]="form!.controlName"
+                           [nzAutocomplete]="auto"
+                           nz-input
+                           nzSize="large"
+                           placeholder="Start typing ..."
+                           type="text"
+                    />
 
                 </nz-input-group>
             </nz-form-control>
@@ -34,7 +34,7 @@
     <nz-form-control [nzSpan]="props?.span??null">
         <nz-input-group [nzSuffix]="suffixIconSearch" style="width: 100%">
             <input (input)="onInput($event)"
-                   [(ngModel)]="selectedPayload"
+                   [(ngModel)]="selected"
                    [autofocus]="props?.autoFocus"
                    [nzAutocomplete]="auto"
                    nz-input

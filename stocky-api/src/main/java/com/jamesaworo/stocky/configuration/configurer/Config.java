@@ -11,10 +11,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class Config {
 
-    @Bean
-    public ModelMapper modelMapper() {
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setSkipNullEnabled(true);
-        return mapper;
-    }
+	@Bean
+	public ModelMapper modelMapper() {
+		ModelMapper mapper = new ModelMapper();
+		mapper.getConfiguration().setSkipNullEnabled(true);
+		mapper.getConfiguration().setAmbiguityIgnored(true);
+        
+		return mapper;
+	}
 }

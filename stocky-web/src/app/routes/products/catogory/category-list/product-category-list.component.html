@@ -84,7 +84,7 @@
                 </nz-form-item>
 
                 <ng-container *ngIf="isSubCategory">
-                    <app-product-category-search (selected)="onParentCategorySelected($event)"></app-product-category-search>
+                    <app-product-category-search (selectedChange)="onParentCategorySelected($event)"></app-product-category-search>
                 </ng-container>
 
                 <nz-form-item>

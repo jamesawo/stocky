@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 import {map, Observable} from 'rxjs';
-import {CommonPayload} from '../../../../../data/payload/common.payload';
 import {ProductTaxPayload} from '../../../_data/product.payload';
 import {FormProps} from '../../../_data/product.types';
 import {ProductTaxUsecase} from '../../../_usecase/product-tax.usecase';
@@ -17,16 +16,18 @@ export class ProductTaxDropdownComponent implements OnInit {
     public dataList?: Observable<ProductTaxPayload[]>;
 
     @Input()
+    class?: string;
+
+    @Input()
     form?: FormProps;
 
     @Input()
-    public value?: CommonPayload;
+    public value?: ProductTaxPayload[] = [];
 
     @Output()
-    public valueChange: EventEmitter<ProductTaxPayload> = new EventEmitter<ProductTaxPayload>();
+    public valueChange: EventEmitter<ProductTaxPayload[]> = new EventEmitter<ProductTaxPayload[]>();
 
     public selectedControl: FormControl = new FormControl();
-
 
     constructor(private usecase: ProductTaxUsecase) {}
 
@@ -35,7 +36,7 @@ export class ProductTaxDropdownComponent implements OnInit {
         this.usecase.trigger$.subscribe((change) => this.onLoadData());
     }
 
-    public onValueChange(value: any) {
+    public onValueChange(value: ProductTaxPayload[]) {
         if (value) {
             this.valueChange?.emit(value);
             this.updateFormGroupIfPresent(value);
@@ -59,7 +60,7 @@ export class ProductTaxDropdownComponent implements OnInit {
         return false;
     }
 
-    private updateFormGroupIfPresent(value: ProductTaxPayload) {
+    private updateFormGroupIfPresent(value: ProductTaxPayload[]) {
         if (this.form && this.form.formGroup && this.form.controlName) {
             let control = this.form.controlName;
             this.form.formGroup.get(control)?.setValue(value);
