@@ -43,12 +43,14 @@ export class ProductBasicTab {
     barcode?: string;
     description?: string;
     lowStockPoint: number = 20;
+
 }
 
 export class ProductPayload {
     id?: number;
     basic: ProductBasicTab = new ProductBasicTab();
     price?: ProductPriceTab = new ProductPriceTab();
+    createdAt?: string;
 }
 
 export class ProductSearchPayload {
