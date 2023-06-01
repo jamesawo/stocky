@@ -1,1 +1,8 @@
-<p>table-item works!</p>
+<ng-container *ngIf="props?.useProjection === true; else contentTmpl">
+    <ng-content></ng-content>
+</ng-container>
+
+
+<ng-template #contentTmpl>
+    <label>{{content}}</label>
+</ng-template>
