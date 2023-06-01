@@ -23,30 +23,39 @@ import org.springframework.data.domain.Sort;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PageParam {
-    private int pageNumber = 1;
-    private int pageSize = 10;
-    private int totalPages;
-    private long totalElements;
-    private Sort sort;
+	private int pageNumber = 1;
+	private int pageSize = 10;
+	private int totalPages;
+	private long totalElements;
+	private Sort sort;
 
-    public PageParam(int pageNumber, int pageSize, int totalPages, long totalElements) {
-        this.pageNumber = pageNumber;
-        this.pageSize = pageSize;
-        this.totalPages = totalPages;
-        this.totalElements = totalElements;
-    }
+	public PageParam(int pageNumber, int pageSize, int totalPages, long totalElements) {
+		this.pageNumber = pageNumber;
+		this.pageSize = pageSize;
+		this.totalPages = totalPages;
+		this.totalElements = totalElements;
+	}
 
-    public Pageable toPageable() {
-        return PageRequest.of(pageNumber - 1, pageSize);
-    }
+	public static <T, U> PageSearchResult<T> toPageSearchResult(T list, Page<U> page) {
+		PageParam param = new PageParam();
+		param.setPageNumber(page.getPageable().getPageNumber() + 1);
+		param.setPageSize(page.getPageable().getPageSize());
+		param.setTotalPages(page.getTotalPages());
+		param.setTotalElements(page.getTotalElements());
+		return new PageSearchResult<>(new PageParam().fromPage(page), list);
+	}
 
-    public PageParam fromPage(Page page) {
-        PageParam param = new PageParam();
-        param.setPageNumber(page.getPageable().getPageNumber() + 1);
-        param.setPageSize(page.getPageable().getPageSize());
-        param.setTotalPages(page.getTotalPages());
-        param.setTotalElements(page.getTotalElements());
-        return param;
-    }
+	public Pageable toPageable() {
+		return PageRequest.of(pageNumber - 1, pageSize);
+	}
+
+	public PageParam fromPage(Page<?> page) {
+		PageParam param = new PageParam();
+		param.setPageNumber(page.getPageable().getPageNumber() + 1);
+		param.setPageSize(page.getPageable().getPageSize());
+		param.setTotalPages(page.getTotalPages());
+		param.setTotalElements(page.getTotalElements());
+		return param;
+	}
 
 }
