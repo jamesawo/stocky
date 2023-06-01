@@ -1,3 +1,4 @@
+import {DateRangeParam, MinMaxAmountParam} from '../../../data/param/common.param';
 import {CommonPayload} from '../../../data/payload/common.payload';
 import {ProductUnitOfMeasurePayload} from './product-unit-of-measure.payload';
 import {ProductVariantEnum} from './product.enum';
@@ -41,6 +42,7 @@ export class ProductBasicTab {
     sku?: string;
     barcode?: string;
     description?: string;
+    lowStockPoint: number = 20;
 }
 
 export class ProductPayload {
@@ -50,10 +52,16 @@ export class ProductPayload {
 }
 
 export class ProductSearchPayload {
+    id?: number;
     category?: ProductCategoryPayload;
     productName?: string;
-    productBrand?: string;
+    brandName?: string;
     taxes: ProductTaxPayload[] = [];
     sku?: string;
     isService: boolean = false;
+    status?: ProductStatusPayload;
+    isActive?: boolean;
+    dateRange?: DateRangeParam;
+    sellingPriceParam?: MinMaxAmountParam;
+    costPriceParam?: MinMaxAmountParam;
 }

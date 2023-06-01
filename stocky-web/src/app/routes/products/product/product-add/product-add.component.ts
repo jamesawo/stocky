@@ -35,7 +35,8 @@ export class ProductAddComponent implements OnInit {
             brandName: [null, [Validators.required]],
             sku: [null],
             barcode: [null],
-            description: [null]
+            description: [null],
+            lowStockPoint: [20]
         }),
         price: this.fb.group({
             markup: [null],

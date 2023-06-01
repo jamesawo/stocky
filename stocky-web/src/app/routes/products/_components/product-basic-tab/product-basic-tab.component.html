@@ -112,6 +112,21 @@
 
             <nz-form-item>
                 <nz-form-label>
+                    <app-hint
+                        [props]="{title: 'HINT', content: 'When products in stock gets to this count, system will send notification for low stock reminder'}"></app-hint>
+                    Alert Low Stock
+                </nz-form-label>
+                <nz-form-control
+                    [nzSpan]="12"
+                    nzErrorTip=""
+                    nzValidateStatus="success"
+                >
+                    <input formControlName="lowStockPoint" name="lowStockPoint" nz-input placeholder="Enter low stock point"/>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-label>
                     <app-hint [props]="{title: 'HINT', content: popoverStatusTmpl}"></app-hint>
                     <template #popoverStatusTmpl><span [innerHTML]="popover.PRODUCT_STATUS"></span></template>
                     Product Status
