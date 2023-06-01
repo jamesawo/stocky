@@ -1,4 +1,4 @@
-import {Component, Input, TemplateRef} from '@angular/core';
+import {Component, EventEmitter, Input, Output, TemplateRef} from '@angular/core';
 import {NzTableSize} from 'ng-zorro-antd/table';
 import {Observable} from 'rxjs';
 
@@ -10,14 +10,27 @@ export type TableCol = {
 export type TableProps = {
     tableSize?: NzTableSize;
     showPagination?: boolean;
+    isLoading?: boolean;
 };
 
 @Component({
     selector: 'app-table',
     templateUrl: './table.component.html',
-    styles: [],
+    styles: []
 })
 export class TableComponent {
+    @Input()
+    public pageIndex = 0;
+
+    @Output()
+    public pageIndexChange = new EventEmitter<number>();
+
+    @Input()
+    public pageSize = 0;
+
+    @Output()
+    public pageSizeChange = new EventEmitter<number>();
+
     @Input()
     public dataList?: Observable<any[]>;
 
@@ -29,4 +42,18 @@ export class TableComponent {
 
     @Input()
     public props?: TableProps = {tableSize: 'middle'};
+
+    public onPageIndexChange(value: number) {
+        this.pageIndexChange.emit(value);
+    }
+
+    public onPageSizeChange(value: number) {
+        this.pageSizeChange.emit(value);
+    }
+
+    public onAllChecked(value: boolean) {
+    }
+
+    public onItemChecked(id?: number, value?: boolean) {
+    }
 }
