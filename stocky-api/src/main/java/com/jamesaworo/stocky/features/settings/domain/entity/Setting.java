@@ -1,5 +1,6 @@
 package com.jamesaworo.stocky.features.settings.domain.entity;
 
+import com.jamesaworo.stocky.core.base.BaseModel;
 import com.jamesaworo.stocky.core.constants.enums.SettingField;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import lombok.Getter;
@@ -18,59 +19,56 @@ import static java.util.Arrays.stream;
 @TypeDef(name = "json", typeClass = JsonType.class)
 @Setter
 @Getter
-public class Setting {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Setting extends BaseModel {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String settingKey;
+	@Column(unique = true, nullable = false)
+	private String settingKey;
 
-    private String settingValue;
+	private String settingValue;
 
-    private SettingField settingField;
+	private SettingField settingField;
 
-    @Column(nullable = false)
-    private String settingTitle;
+	@Column(nullable = false)
+	private String settingTitle;
 
-    @Type(type = "json")
-    @Column(columnDefinition = "json")
-    private Collection<SettingOption> settingOptions;
+	@Type(type = "json")
+	@Column(columnDefinition = "json")
+	private Collection<SettingOption> settingOptions;
 
-    private String settingHint;
-
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
+	private String settingHint;
 
 
-    public Setting() {
-    }
+	public Setting() {
+	}
 
-    public Setting(String key, String value, SettingField field, String[] options, String title) {
-        this.setSettingKey(key);
-        this.setSettingValue(value);
-        this.setSettingField(field);
-        var map = stream(options).map(option -> new SettingOption(option, option)).collect(Collectors.toList());
-        this.setSettingOptions(map);
-        this.setSettingTitle(title);
+	public Setting(String key, String value, SettingField field, String[] options, String title) {
+		this.setSettingKey(key);
+		this.setSettingValue(value);
+		this.setSettingField(field);
+		var map = stream(options).map(option -> new SettingOption(option, option)).collect(Collectors.toList());
+		this.setSettingOptions(map);
+		this.setSettingTitle(title);
 
-    }
+	}
 
-    public Setting(String key, String value, SettingField field, String[] options, String title, String hint) {
-        this.setSettingKey(key);
-        this.setSettingValue(value);
-        this.setSettingField(field);
-        var map = stream(options).map(option -> new SettingOption(option, option)).collect(Collectors.toList());
-        this.setSettingOptions(map);
-        this.setSettingTitle(title);
-        this.setSettingHint(hint);
+	public Setting(String key, String value, SettingField field, String[] options, String title, String hint) {
+		this.setSettingKey(key);
+		this.setSettingValue(value);
+		this.setSettingField(field);
+		var map = stream(options).map(option -> new SettingOption(option, option)).collect(Collectors.toList());
+		this.setSettingOptions(map);
+		this.setSettingTitle(title);
+		this.setSettingHint(hint);
 
-    }
+	}
 
 
-    @PrePersist()
-    void prePersist() {
-        this.setCreatedAt(LocalDateTime.now());
-    }
+	@PrePersist()
+	void prePersist() {
+		this.setCreatedAt(LocalDateTime.now());
+	}
 
 }
