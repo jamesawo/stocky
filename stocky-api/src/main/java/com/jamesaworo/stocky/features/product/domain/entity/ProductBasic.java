@@ -33,6 +33,7 @@ public class ProductBasic extends BaseModel {
 
 	@ManyToOne
 	private ProductUnitOfMeasure unitOfMeasure;
+	
 	@ManyToOne
 	private ProductStatus status;
 
