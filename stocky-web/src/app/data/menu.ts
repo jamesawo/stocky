@@ -8,7 +8,7 @@ export const MENU_BAG: Menu[] = [
             {
                 text: 'Dashboard',
                 link: '/dashboard',
-                icon: {type: 'icon', value: 'appstore'},
+                icon: {type: 'icon', value: 'appstore'}
             },
 
             {
@@ -17,14 +17,14 @@ export const MENU_BAG: Menu[] = [
                 children: [
                     {
                         text: 'Categories',
-                        link: '/products/category-list',
+                        link: '/products/category-list'
                     },
 
                     {
                         text: 'Products',
-                        link: '/products/product-list',
-                    },
-                ],
+                        link: '/products/product-list'
+                    }
+                ]
             },
 
             {
@@ -33,18 +33,20 @@ export const MENU_BAG: Menu[] = [
                 children: [
                     {text: 'Sale', link: '/sales/sale'},
                     {text: 'Order', link: '/sales/order'},
-                    {text: 'Refund', link: '/sales/refund'},
-                ],
+                    {text: 'Refund', link: '/sales/refund'}
+                ]
             },
             {
                 text: 'Stock',
                 icon: {type: 'icon', value: 'appstore-add'},
                 children: [
-                    {text: 'Manage', link: '/stock/manage'},
-                    {text: 'Count Stock', link: '/stock/count'},
-                    {text: 'Reorder Alert', link: 'stock/reorder-alert'},
-                    {text: 'Reconciliation', link: '/stock/reconcile'},
-                ],
+                    {text: 'Manage Stock', link: '/stock/manage-stock'},
+                    {text: 'Count Stock', link: '/stock/view-stock-count'},
+                    {text: 'View Low Stock', link: 'stock/view-low-stock'},
+                    {text: 'Reconcile Stock', link: '/stock/reconcile-stock'},
+                    {text: 'Record Stock Balance', link: '/stock/record-stock-balance'},
+                    {text: 'Record Damaged Stock', link: '/stock/record-damaged-stock'}
+                ]
             },
             {
                 text: 'Company',
@@ -54,8 +56,8 @@ export const MENU_BAG: Menu[] = [
                     {text: 'Tax', link: '/company/tax'},
                     {text: 'People', link: '/company/people'},
                     {text: 'Location', link: '/company/location'},
-                    {text: 'Expenses', link: '/company/expenses'},
-                ],
+                    {text: 'Expenses', link: '/company/expenses'}
+                ]
             },
             {
                 text: 'Report',
@@ -65,8 +67,8 @@ export const MENU_BAG: Menu[] = [
                     {text: 'Expense', link: '/report/expenses'},
                     {text: 'Employee', link: '/report/employees'},
                     {text: 'Customer', link: '/report/customers'},
-                    {text: 'Stock', link: '/report/stock'},
-                ],
+                    {text: 'Stock', link: '/report/stock'}
+                ]
             },
 
             {
@@ -78,9 +80,9 @@ export const MENU_BAG: Menu[] = [
                     {text: 'Sales', link: '/settings/sales'},
                     {text: 'People', link: '/settings/people'},
                     {text: 'Stock', link: '/settings/stock'},
-                    {text: 'Product', link: '/settings/product'},
-                ],
-            },
-        ],
-    },
+                    {text: 'Product', link: '/settings/product'}
+                ]
+            }
+        ]
+    }
 ];
