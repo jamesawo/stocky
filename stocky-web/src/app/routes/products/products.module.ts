@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {NgModule, Type} from '@angular/core';
 import {SharedModule} from '@shared';
 import {ProductBasicTabComponent} from './_components/product-basic-tab/product-basic-tab.component';
 import {ProductCategorySearchComponent} from './_components/product-category-search/product-category-search.component';
@@ -18,7 +18,7 @@ import {ProductListComponent} from './product/product-list/product-list.componen
 import {ProductRoutingModule} from './products-routing.module';
 import {ProductVariantListComponent} from './variant/variant-list/product-variant-list.component';
 
-export const PRODUCT_COMPONENTS = [
+export const PRODUCT_COMPONENTS: Array<Type<void>> = [
     ProductListComponent,
     ProductAddComponent,
     ProductCategoryListComponent,
@@ -33,12 +33,13 @@ export const PRODUCT_COMPONENTS = [
     ProductStatusAddBtnComponent,
     ProductTaxDropdownComponent,
     ProductTaxAddBtnComponent,
-    ProductTaxAddComponent,
+    ProductTaxAddComponent
 ];
 
 @NgModule({
     imports: [ProductRoutingModule, SharedModule],
     declarations: [...PRODUCT_COMPONENTS],
-    exports: [...PRODUCT_COMPONENTS],
+    exports: [...PRODUCT_COMPONENTS]
 })
-export class ProductsModule {}
+export class ProductsModule {
+}
