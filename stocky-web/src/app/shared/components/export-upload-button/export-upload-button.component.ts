@@ -1,11 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { BreakPoints, ResponsiveService } from '../../utils/responsive.service';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs';
+import {BreakPoints, ResponsiveService} from '../../utils/responsive.service';
 
 @Component({
     selector: 'app-export-upload-button',
     templateUrl: './export-upload-button.component.html',
-    styles: [],
+    styles: []
 })
 export class ExportUploadButtonComponent implements OnInit, OnDestroy {
 
@@ -20,7 +20,11 @@ export class ExportUploadButtonComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.service.mediaBreakpoint$.subscribe(value => this.onBreakPointChange(value));
+        this.sub.add(
+            this.service.mediaBreakpoint$.subscribe(
+                value => this.onBreakPointChange(value)
+            )
+        );
     }
 
     ngOnDestroy() {
