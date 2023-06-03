@@ -1,5 +1,5 @@
 import {HttpResponse} from '@angular/common/http';
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, shareReplay} from 'rxjs';
@@ -16,12 +16,26 @@ import {
 import {ProductTaxPayload} from '../../../_data/product.payload';
 import {ProductTaxUsecase} from '../../../_usecase/product-tax.usecase';
 
+export type TaxAddProps = {
+    showForm?: boolean,
+    showTable?: boolean
+}
+
 @Component({
     selector: 'app-product-tax-add',
     templateUrl: './product-tax-add.component.html',
-    styles: []
+    styles: [`.mbt-2 {
+        margin-top: 10px;
+        margin-bottom: 10px
+    }`]
 })
 export class ProductTaxAddComponent implements OnInit {
+    @Input()
+    public props: TaxAddProps = {
+        showForm: true,
+        showTable: true
+    };
+
     public isVisible = false;
     public form!: UntypedFormGroup;
     public editMap: EditCacheMap<ProductTaxPayload> = {};
@@ -102,6 +116,17 @@ export class ProductTaxAddComponent implements OnInit {
 
     public canEditItem(item: any) {
         return this.editMap[item.id] && this.editMap[item.id].edit;
+    }
+
+    public checkCharacterLimit(value: any) {
+        const formControl = this.form.get('description');
+        if (formControl) {
+            const description = formControl.value;
+
+            if (description.length > 50) {
+                formControl.setValue(description.slice(0, 50));
+            }
+        }
     }
 
     private onAfterCreate = (response: HttpResponse<any>) => {
