@@ -27,3 +27,14 @@ export const STOCK_VIEW_COUNT: Crumbs[] = [
     {link: '/stock', title: 'Stock'},
     {link: '/stock/view-stock-count', title: 'View Stock Count'}
 ];
+
+export const STOCK_VIEW_LOW_PRODUCT: Crumbs[] = [
+    {link: '/stock', title: 'Stock'},
+    {link: '/stock/view-low-stock', title: 'View Low Stock'}
+];
+
+export const STOCK_RECONCILE: Crumbs[] = [
+    {link: '/stock', title: 'Stock'},
+    {link: '/stock/reconcile-stock', title: 'Reconcile Stock'}
+];
+
