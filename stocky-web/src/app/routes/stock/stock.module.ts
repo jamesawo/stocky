@@ -1,6 +1,9 @@
 import {NgModule, Type} from '@angular/core';
 import {SharedModule} from '@shared';
+import {CompanyModule} from '../company/company.module';
 import {ProductsModule} from '../products/products.module';
+import {StockCodeSearchComponent} from './_components/stock-code-search/stock-code-search.component';
+import {StockProductLocationFormComponent} from './_components/stock-product-location-form/stock-product-location-form.component';
 import {ManageStockComponent} from './manage-stock/manage-stock.component';
 import {ReconcileStockComponent} from './reconcile-stock/reconcile-stock.component';
 import {RecordDamagedStockComponent} from './record-damaged-stock/record-damaged-stock.component';
@@ -15,11 +18,13 @@ export const STOCK_COMPONENTS: Array<Type<void>> = [
     ViewLowStockComponent,
     ReconcileStockComponent,
     RecordStockBalanceComponent,
-    RecordDamagedStockComponent
+    RecordDamagedStockComponent,
+    StockProductLocationFormComponent,
+    StockCodeSearchComponent
 ];
 
 @NgModule({
-    imports: [StockRoutingModule, SharedModule, ProductsModule],
+    imports: [StockRoutingModule, SharedModule, ProductsModule, CompanyModule],
     declarations: [...STOCK_COMPONENTS
     ],
     exports: [...STOCK_COMPONENTS]
