@@ -1,5 +1,7 @@
 import {NgModule, Type} from '@angular/core';
 import {SharedModule} from '@shared';
+import {NzCalendarModule} from 'ng-zorro-antd/calendar';
+import {ProductsModule} from '../products/products.module';
 import {CompanyLocationSearchComponent} from './_components/company-location-search/company-location-search.component';
 import {CompanyUserSearchComponent} from './_components/company-user-search/company-user-search.component';
 import {CompanyBasicSetupComponent} from './company-basic-setup/company-basic-setup.component';
@@ -26,7 +28,7 @@ export const COMPANY_COMPONENTS: Array<Type<void>> = [
 ];
 
 @NgModule({
-    imports: [CompanyRoutingModule, SharedModule],
+    imports: [CompanyRoutingModule, SharedModule, NzCalendarModule, ProductsModule],
     declarations: [
         ...COMPANY_COMPONENTS
     ],
