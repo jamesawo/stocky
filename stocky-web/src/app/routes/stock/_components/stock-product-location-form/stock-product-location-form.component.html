@@ -1,0 +1,38 @@
+<div [nzGutter]="[12, 16]" nz-row>
+    <div [nzLg]="12" [nzSpan]="12" [nzXs]="24" nz-col>
+        <nz-form-item>
+            <app-hint content="Enter a product name to narrow the search down to a particular product"></app-hint>
+            <nz-form-label>Product Name</nz-form-label>
+
+            <input name="productName" nz-input placeholder="Enter product name"
+                   type="text"/>
+        </nz-form-item>
+    </div>
+
+    <div [nzLg]="12" [nzSpan]="12" [nzXs]="24" nz-col>
+        <nz-form-item>
+            <app-hint content="Enter a brand name to narrow the search down to a brand"></app-hint>
+            <nz-form-label>Brand Name</nz-form-label>
+            <input name="brandName" nz-input placeholder="Enter brand name"
+                   type="text"/>
+        </nz-form-item>
+    </div>
+
+</div>
+<div [nzGutter]="[12, 16]" nz-row>
+    <div [nzLg]="12" [nzSpan]="12" [nzXs]="24" nz-col>
+        <nz-form-item>
+            <app-product-category-search class="wd-100p"></app-product-category-search>
+        </nz-form-item>
+    </div>
+
+    <div [nzLg]="12" [nzSpan]="12" [nzXs]="24" nz-col>
+        <nz-form-item>
+            <nz-form-label>Location</nz-form-label>
+            <input name="location" nz-input placeholder="Enter location name"
+                   type="text"/>
+        </nz-form-item>
+    </div>
+
+</div>
+

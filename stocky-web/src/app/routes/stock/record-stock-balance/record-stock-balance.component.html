@@ -1,0 +1,69 @@
+<page-header [action]="action" [breadcrumb]="breadcrumb" [content]="content" title="Record Stock & Inventory Balance ">
+    <ng-template #breadcrumb>
+        <app-breadcrumbs [crumbs]="crumbs"></app-breadcrumbs>
+    </ng-template>
+
+    <ng-template #action>
+        <app-expand-collapse-button [(open)]="isOpenHeader"></app-expand-collapse-button>
+    </ng-template>
+
+    <ng-template #content>
+
+        <form *ngIf="isOpenHeader" autocomplete="off" class="ph-main" nz-form>
+
+            <div [nzGutter]="[12, 24]" nz-row>
+
+                <div nz-col nzSpan="24">
+                    <div [nzGutter]="[12, 16]" nz-row>
+                        <div [nzLg]="12" [nzSpan]="8" [nzXs]="24" nz-col>
+                            <app-company-user-search></app-company-user-search>
+                        </div>
+
+                        <div [nzLg]="12" [nzSpan]="8" [nzXs]="24" nz-col>
+                            <app-company-location-search></app-company-location-search>
+                        </div>
+                    </div>
+                    <div [nzGutter]="[12, 16]" nz-row>
+                        <div [nzLg]="24" [nzSpan]="8" [nzXs]="24" nz-col>
+                            <nz-form-label>Date Range</nz-form-label>
+                            <app-range-date-picker></app-range-date-picker>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="m-t-1em" nz-col nzSpan="24">
+
+                <div nz-row nzJustify="space-between">
+                    <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" nz-col>
+                        <app-search-reset-button
+                            [props]="{
+                                onSearchAction: onSearch,
+                                isLoadingSearchResult: isLoading,
+                                onResetSearchPayload: onReset,
+                                onCancelAction: onCancel
+                                }"
+                        ></app-search-reset-button>
+                    </div>
+
+                    <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" class="text-align-end" nz-col>
+                        <nz-space nzSize="small">
+                            <app-button *nzSpaceItem [props]="{title: 'Add', icon: 'plus', handler: onCreate}"></app-button>
+                            <app-export-upload-button *nzSpaceItem [props]="{}"></app-export-upload-button>
+                        </nz-space>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+    </ng-template>
+
+</page-header>
+
+<nz-card>
+    <app-table [colHeadings]="tableCols"></app-table>
+</nz-card>

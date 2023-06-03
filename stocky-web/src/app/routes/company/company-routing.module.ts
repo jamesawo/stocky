@@ -1,10 +1,35 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {CompanyBasicSetupComponent} from './company-basic-setup/company-basic-setup.component';
+import {CompanyExpensesSetupComponent} from './company-expenses-setup/company-expenses-setup.component';
+import {CompanyLocationSetupComponent} from './company-location-setup/company-location-setup.component';
+import {CompanyPaymentOptionsComponent} from './company-payment-options/company-payment-options.component';
+import {CompanyPeopleCustomerComponent} from './company-people/company-people-customer/company-people-customer.component';
+import {CompanyPeopleEmployeesComponent} from './company-people/company-people-employees/company-people-employees.component';
+import {CompanyPeopleSupplierComponent} from './company-people/company-people-supplier/company-people-supplier.component';
+import {CompanyTaxSetupComponent} from './company-tax-setup/company-tax-setup.component';
 
-const routes: Routes = [];
+
+const routes: Routes = [
+    {path: 'basic-setup', component: CompanyBasicSetupComponent},
+    {path: 'tax-setup', component: CompanyTaxSetupComponent},
+    {path: 'payment-options', component: CompanyPaymentOptionsComponent},
+
+    {
+        path: 'people', component: undefined, children: [
+            {path: 'customers', component: CompanyPeopleCustomerComponent},
+            {path: 'employees', component: CompanyPeopleEmployeesComponent},
+            {path: 'suppliers', component: CompanyPeopleSupplierComponent}
+        ]
+    },
+    {path: 'location-setup', component: CompanyLocationSetupComponent},
+    {path: 'expenses-setup', component: CompanyExpensesSetupComponent}
+
+];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule],
+    exports: [RouterModule]
 })
-export class CompanyRoutingModule {}
+export class CompanyRoutingModule {
+}
