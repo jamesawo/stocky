@@ -52,11 +52,20 @@ export const MENU_BAG: Menu[] = [
                 text: 'Company',
                 icon: {type: 'icon', value: 'shop'},
                 children: [
-                    {text: 'Basic', link: '/company/basic'},
-                    {text: 'Tax', link: '/company/tax'},
-                    {text: 'People', link: '/company/people'},
-                    {text: 'Location', link: '/company/location'},
-                    {text: 'Expenses', link: '/company/expenses'}
+                    {text: 'Basic Setup', link: '/company/basic-setup'},
+                    {text: 'Tax Setup', link: '/company/tax-setup'},
+                    {text: 'Payment Options', link: '/company/payment-options'},
+                    {
+                        text: 'People Setup',
+                        link: '/company/people',
+                        children: [
+                            {text: 'Customers', link: '/company/people/customers'},
+                            {text: 'Employees', link: '/company/people/employees'},
+                            {text: 'Suppliers', link: '/company/people/suppliers'}
+                        ]
+                    },
+                    {text: 'Location Setup', link: '/company/location-setup'},
+                    {text: 'Expenses Setup', link: '/company/expenses-setup'}
                 ]
             },
             {
