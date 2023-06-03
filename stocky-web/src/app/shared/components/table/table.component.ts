@@ -16,7 +16,22 @@ export type TableProps = {
 @Component({
     selector: 'app-table',
     templateUrl: './table.component.html',
-    styles: []
+    styles: [
+        `.table-container {
+            width: 100%;
+            overflow-x: auto; /* Add horizontal scrollbar when content exceeds width */
+        }
+
+        table {
+            /*table-layout: fixed;*/
+        }
+
+        th.no-wrap {
+            white-space: nowrap;
+        }
+
+        `
+    ]
 })
 export class TableComponent {
     @Input()

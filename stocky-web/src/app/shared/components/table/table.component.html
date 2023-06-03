@@ -1,4 +1,4 @@
-<div class="wd-100p">
+<div class="table-container" style="overflow-x:auto;">
 
     <ng-container *ngIf="dataList | async as list; else noData">
         <nz-table
@@ -18,8 +18,13 @@
         >
             <thead>
             <tr>
-                <th [nzShowCheckbox]="true" nzWidth="3%"></th>
-                <th *ngFor="let col of colHeadings" [nzWidth]="col.width + '%'">
+                <th [nzShowCheckbox]="true" nzWidth="8%"></th>
+
+                <th *ngFor="let col of colHeadings"
+                    [nzWidth]="col.width + '%'"
+                    class="no-wrap"
+                    scope="col"
+                >
                     <span class="text-bold">
                         {{col.title | uppercase }}
                     </span>
