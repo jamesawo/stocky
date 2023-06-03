@@ -38,3 +38,7 @@ export const STOCK_RECONCILE: Crumbs[] = [
     {link: '/stock/reconcile-stock', title: 'Reconcile Stock'}
 ];
 
+export const TAX_SETUP: Crumbs[] = [
+    {link: '/dashboard', title: 'Company'},
+    {link: '/company/tax-setup', title: 'Tax Setup'}
+];
