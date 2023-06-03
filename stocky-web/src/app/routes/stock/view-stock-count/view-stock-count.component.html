@@ -12,23 +12,10 @@
         <form *ngIf="isOpenHeader" autocomplete="off" class="ph-main" nz-form>
 
             <div [nzGutter]="[12, 24]" nz-row>
-
                 <div nz-col nzSpan="24">
-                    <div [nzGutter]="[12, 16]" nz-row>
-                        <div [nzLg]="24" [nzSpan]="24" [nzXs]="24" nz-col>
-                            <nz-form-item>
-                                <nz-form-label>Stock #</nz-form-label>
-                                <input name="stockNumber" nz-input placeholder="Enter stock number or code"
-                                       type="text"/>
-                            </nz-form-item>
-                        </div>
-
-                    </div>
-
+                    <app-stock-product-location-form></app-stock-product-location-form>
                 </div>
-
             </div>
-
             <div nz-col nzSpan="24">
 
                 <div nz-row nzJustify="space-between">
@@ -50,7 +37,6 @@
                     </div>
                 </div>
             </div>
-
         </form>
 
     </ng-template>

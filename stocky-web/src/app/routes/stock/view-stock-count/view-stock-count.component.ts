@@ -14,13 +14,11 @@ export class ViewStockCountComponent {
     public isLoading = false;
 
     public tableCols: TableCol[] = [
-        {title: 'Stock #'},
-        {title: 'Recorded By'},
-        {title: 'Recorded Date'},
-        {title: 'Recorded items'},
-        {title: 'Total Product Qty'},
-        {title: 'Details'},
-        {title: 'Action'}
+        {title: 'Product'},
+        {title: 'Brand'},
+        {title: 'Category'},
+        {title: 'Location'},
+        {title: 'Qty Count'}
     ];
 
     public onSearchStock = async (): Promise<void> => {};
