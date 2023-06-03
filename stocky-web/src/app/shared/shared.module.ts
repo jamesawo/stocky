@@ -9,6 +9,7 @@ import {NzAutocompleteModule} from 'ng-zorro-antd/auto-complete';
 import {NzBadgeModule} from 'ng-zorro-antd/badge';
 import {NzBreadCrumbModule} from 'ng-zorro-antd/breadcrumb';
 import {NzCheckboxModule} from 'ng-zorro-antd/checkbox';
+import {NzCollapseModule} from 'ng-zorro-antd/collapse';
 import {NzDatePickerModule} from 'ng-zorro-antd/date-picker';
 import {NzDividerModule} from 'ng-zorro-antd/divider';
 import {NzFormModule} from 'ng-zorro-antd/form';
@@ -73,7 +74,9 @@ const THIRD_MODULES: Array<Type<void>> = [
     NzAutocompleteModule,
     NzTabsModule,
     NzGridModule,
-    NzInputNumberModule
+    NzInputNumberModule,
+    NzCollapseModule
+
 ];
 const COMPONENTS: Array<Type<void>> = [
     DatePickerComponent,
