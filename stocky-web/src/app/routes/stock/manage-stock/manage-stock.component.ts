@@ -23,13 +23,13 @@ export class ManageStockComponent {
         {title: 'Action'}
     ];
 
-    public onSearchStock = async (): Promise<void> => {};
+    public onSearch = async (): Promise<void> => {};
 
-    public onResetSearchForm = (): void => {};
+    public onReset = (): void => {};
 
-    public onCancelHandler = (): void => {};
+    public onCancel = (): void => {};
 
-    public handleCreateStock = (): void => {};
+    public onCreate = (): void => {};
 
 
 }

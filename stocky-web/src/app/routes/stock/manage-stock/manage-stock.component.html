@@ -16,24 +16,17 @@
                 <div nz-col nzSpan="24">
                     <div [nzGutter]="[12, 16]" nz-row>
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
-                            <nz-form-item>
-                                <nz-form-label>Stock #</nz-form-label>
-                                <input name="stockNumber" nz-input placeholder="Enter stock number or code"
-                                       type="text"/>
-                            </nz-form-item>
+                            <app-stock-code-search></app-stock-code-search>
                         </div>
 
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
-                            <nz-form-item>
-                                <nz-form-label>Registered By</nz-form-label>
-                                <input name="registeredBy" nz-input placeholder="Enter user" type="text"/>
-                            </nz-form-item>
+                            <app-company-user-search></app-company-user-search>
                         </div>
 
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Date Range</nz-form-label>
-                                <app-range-date-picker></app-range-date-picker>
+                                <app-range-date-picker class="wd-100p"></app-range-date-picker>
                             </nz-form-item>
                         </div>
                     </div>
@@ -48,17 +41,17 @@
                     <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" nz-col>
                         <app-search-reset-button
                             [props]="{
-                                onSearchAction: onSearchStock,
+                                onSearchAction: onSearch,
                                 isLoadingSearchResult: isLoading,
-                                onResetSearchPayload: onResetSearchForm,
-                                onCancelAction: onCancelHandler
+                                onResetSearchPayload: onReset,
+                                onCancelAction: onCancel
                                 }"
                         ></app-search-reset-button>
                     </div>
 
                     <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" class="text-align-end" nz-col>
                         <nz-space nzSize="small">
-                            <app-button *nzSpaceItem [props]="{title: 'Add', icon: 'plus', handler: handleCreateStock}"></app-button>
+                            <app-button *nzSpaceItem [props]="{title: 'Add', icon: 'plus', handler: onCreate}"></app-button>
                             <app-export-upload-button *nzSpaceItem [props]="{}"></app-export-upload-button>
                         </nz-space>
                     </div>
