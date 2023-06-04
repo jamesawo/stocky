@@ -7,6 +7,12 @@ import {CompanyUserSearchComponent} from './_components/company-user-search/comp
 import {CompanyBasicSetupComponent} from './company-basic-setup/company-basic-setup.component';
 import {CompanyExpensesSetupComponent} from './company-expenses-setup/company-expenses-setup.component';
 import {CompanyLocationSetupComponent} from './company-location-setup/company-location-setup.component';
+import {CompanyPaymentOptionButtonComponent} from './company-payment-options/company-payment-option-button/company-payment-option-button.component';
+import {
+    CompanyPaymentOptionFormTableComponent
+} from './company-payment-options/company-payment-option-form-table/company-payment-option-form-table.component';
+import {CompanyPaymentOptionFormComponent} from './company-payment-options/company-payment-option-form/company-payment-option-form.component';
+import {CompanyPaymentOptionTableComponent} from './company-payment-options/company-payment-option-table/company-payment-option-table.component';
 import {CompanyPaymentOptionsComponent} from './company-payment-options/company-payment-options.component';
 import {CompanyPeopleCustomerComponent} from './company-people/company-people-customer/company-people-customer.component';
 import {CompanyPeopleEmployeesComponent} from './company-people/company-people-employees/company-people-employees.component';
@@ -24,13 +30,18 @@ export const COMPANY_COMPONENTS: Array<Type<void>> = [
     CompanyPeopleEmployeesComponent,
     CompanyPeopleSupplierComponent,
     CompanyLocationSetupComponent,
-    CompanyExpensesSetupComponent
+    CompanyExpensesSetupComponent,
+    CompanyPaymentOptionFormComponent,
+    CompanyPaymentOptionTableComponent,
+    CompanyPaymentOptionButtonComponent
 ];
 
 @NgModule({
     imports: [CompanyRoutingModule, SharedModule, NzCalendarModule, ProductsModule],
     declarations: [
-        ...COMPANY_COMPONENTS
+        ...COMPANY_COMPONENTS,
+        CompanyPaymentOptionFormTableComponent
+
     ],
     exports: [
         ...COMPANY_COMPONENTS
