@@ -1,1 +1,12 @@
-<p>company-payment-options works!</p>
+<page-header></page-header>
+
+<nz-card>
+    <app-company-payment-option-button [props]="{
+            size: 'large',
+            title: 'Add Payment Option',
+            icon: 'plus',
+            showTable: false,
+            showForm: true
+        }"></app-company-payment-option-button>
+    <app-company-payment-option-table></app-company-payment-option-table>
+</nz-card>
