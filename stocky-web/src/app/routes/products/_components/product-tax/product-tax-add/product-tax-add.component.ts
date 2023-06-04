@@ -3,6 +3,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, shareReplay} from 'rxjs';
+import {CommonAddProps} from '../../../../../data/payload/common.types';
 import {TableCol} from '../../../../../shared/components/table/table.component';
 import {EditCacheMap} from '../../../../../shared/components/update-delete-action/update-delete-action.component';
 import {
@@ -16,10 +17,6 @@ import {
 import {ProductTaxPayload} from '../../../_data/product.payload';
 import {ProductTaxUsecase} from '../../../_usecase/product-tax.usecase';
 
-export type TaxAddProps = {
-    showForm?: boolean,
-    showTable?: boolean
-}
 
 @Component({
     selector: 'app-product-tax-add',
@@ -31,7 +28,7 @@ export type TaxAddProps = {
 })
 export class ProductTaxAddComponent implements OnInit {
     @Input()
-    public props: TaxAddProps = {
+    public props: CommonAddProps = {
         showForm: true,
         showTable: true
     };

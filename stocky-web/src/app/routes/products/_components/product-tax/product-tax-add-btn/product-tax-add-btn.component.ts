@@ -1,13 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {NzButtonSize} from 'ng-zorro-antd/button';
+import {CommonInputProps} from '../../../../../data/payload/common.types';
 
-export type TaxInputProps = {
-    size?: NzButtonSize,
-    title?: string,
-    icon?: string,
-    showTable: boolean,
-    showForm: boolean,
-}
 
 @Component({
     selector: 'app-product-tax-add-btn',
@@ -16,7 +9,7 @@ export type TaxInputProps = {
 })
 export class ProductTaxAddBtnComponent {
     @Input()
-    public props: TaxInputProps = {
+    public props: CommonInputProps = {
         size: 'default',
         title: '',
         icon: 'edit',
