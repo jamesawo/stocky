@@ -45,7 +45,8 @@ export const MENU_BAG: Menu[] = [
                     {text: 'View Low Stock', link: 'stock/view-low-stock'},
                     {text: 'Reconcile Stock', link: '/stock/reconcile-stock'},
                     {text: 'Record Stock Balance', link: '/stock/record-stock-balance'},
-                    {text: 'Record Damaged Stock', link: '/stock/record-damaged-stock'}
+                    {text: 'Record Damaged Stock', link: '/stock/record-damaged-stock'},
+                    {text: 'Move Stock Items', link: '/stock/move-stock-items'}
                 ]
             },
             {

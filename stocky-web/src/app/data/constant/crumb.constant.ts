@@ -42,3 +42,9 @@ export const TAX_SETUP: Crumbs[] = [
     {link: '/dashboard', title: 'Company'},
     {link: '/company/tax-setup', title: 'Tax Setup'}
 ];
+
+
+export const EXPENSES_SETUP: Crumbs[] = [
+    {link: '/dashboard', title: 'Company'},
+    {link: '/company/expenses-setup', title: 'Manage Expenses'}
+];
