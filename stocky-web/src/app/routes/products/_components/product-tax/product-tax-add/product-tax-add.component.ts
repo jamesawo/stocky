@@ -114,17 +114,7 @@ export class ProductTaxAddComponent implements OnInit {
     public canEditItem(item: any) {
         return this.editMap[item.id] && this.editMap[item.id].edit;
     }
-
-    public checkCharacterLimit(value: any) {
-        const formControl = this.form.get('description');
-        if (formControl) {
-            const description = formControl.value;
-
-            if (description.length > 50) {
-                formControl.setValue(description.slice(0, 50));
-            }
-        }
-    }
+    
 
     private onAfterCreate = (response: HttpResponse<any>) => {
         this.isSaving = false;

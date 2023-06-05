@@ -21,14 +21,13 @@
 
 
             <div nz-col nzSpan="24">
-                <nz-form-item>
-                    <nz-form-control [nzSpan]="24" nzErrorTip="Please write something here!" nzHasFeedback>
-                        <nz-textarea-count [nzMaxCharacterCount]="50">
-                        <textarea (input)="checkCharacterLimit($event)" formControlName="description" nz-input placeholder="write a description"
-                                  rows="2"></textarea>
-                        </nz-textarea-count>
-                    </nz-form-control>
-                </nz-form-item>
+                <app-textarea-limit
+                    [props]="{
+                        fromControlName: 'description',
+                        formGroup: form,
+                        labelText: 'Description'
+                   }"
+                ></app-textarea-limit>
 
                 <nz-form-item nz-col nzSpan="6">
                     <nz-form-control>
