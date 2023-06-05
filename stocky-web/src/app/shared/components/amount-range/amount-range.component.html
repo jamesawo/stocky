@@ -1,1 +1,59 @@
-<p>amount-range works!</p>
+<div nz-row nzGutter="8">
+
+    <ng-container *ngIf="isAmountRange; else normalAmountTmpl">
+        <div nz-col nzSpan="12">
+            <nz-form-item>
+                <nz-form-label>
+                    Min Amount
+                    <span class="text-end">
+                        <nz-switch (ngModelChange)="isAmountRange = !isAmountRange" [ngModel]="isAmountRange"
+                                   nzCheckedChildren="Range"
+                                   nzSize="small"
+                                   nzUnCheckedChildren="Normal"
+                        ></nz-switch>
+                    </span>
+                </nz-form-label>
+
+                <nz-form-control nzErrorTip="Please enter a valid input!">
+                    <input name="minAmount" nz-input placeholder="Min Amount"/>
+                </nz-form-control>
+
+            </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="12">
+            <nz-form-item>
+                <nz-form-label>
+                    Max Amount
+                </nz-form-label>
+
+                <nz-form-control nzErrorTip="Please enter a valid input!">
+                    <input name="maxAmount " nz-input placeholder="Max Amount"/>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </ng-container>
+
+    <ng-template #normalAmountTmpl>
+        <div nz-col nzSpan="24">
+            <nz-form-item>
+                <nz-form-label>
+                    Amount
+                    <span class="text-end">
+                        <nz-switch (ngModelChange)="isAmountRange = !isAmountRange" [ngModel]="isAmountRange"
+                                   nzCheckedChildren="Range"
+                                   nzSize="small"
+                                   nzUnCheckedChildren="Normal"
+                        ></nz-switch>
+                    </span>
+                </nz-form-label>
+                <nz-form-control nzErrorTip="Please enter a valid input!">
+                    <input name="minAmount" nz-input placeholder="Amount"/>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </ng-template>
+
+
+</div>
+
