@@ -1,1 +1,56 @@
-<p>company-expense-add-btn works!</p>
+<app-button [props]="{handler: onOpenModal, title: 'Add', icon: 'plus'}"
+></app-button>
+
+<nz-modal
+    (nzOnCancel)="onCloseModal()"
+    (nzOnOk)="onCreate()"
+    [(nzVisible)]="showModal"
+    [nzMaskClosable]="false"
+    nzTitle="Add New Expenses"
+>
+
+    <div *nzModalContent [nzLg]="{ span: 24, offset: 0 }" [nzXs]="{ span: 24, offset: 0 }" nz-col>
+        <form (submit)="onCreate()"
+              [formGroup]="categoryForm"
+              autocomplete="off"
+              nz-form
+              nzLayout="vertical"
+        >
+            <div [nzSpan]="24" nz-col>
+
+                <app-company-expense-category></app-company-expense-category>
+                
+                <nz-form-item>
+                    <nz-form-label>Amount</nz-form-label>
+                    <nz-form-control nzErrorTip="Title is required">
+                        <input
+                            name="title"
+                            nz-input
+                            placeholder="Enter Amount"
+                            type="text"
+                        />
+                    </nz-form-control>
+                </nz-form-item>
+
+
+                <nz-form-item>
+                    <nz-form-label>Comment</nz-form-label>
+                    <nz-form-control>
+                        <textarea name="comment"
+                                  nz-input
+                                  placeholder="Enter comment about the expenses"
+                        ></textarea>
+                    </nz-form-control>
+                </nz-form-item>
+
+            </div>
+
+        </form>
+    </div>
+
+    <div *nzModalFooter>
+        <button (click)="onCloseModal()" nz-button nzType="default">Cancel</button>
+        <button (click)="onCreate()" [nzLoading]="isLoading" nz-button nzType="primary">Submit</button>
+    </div>
+
+</nz-modal>
