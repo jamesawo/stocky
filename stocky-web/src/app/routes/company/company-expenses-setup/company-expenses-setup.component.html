@@ -17,7 +17,7 @@
 
                     <div nz-row nzGutter="10">
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
-                            <app-company-expense-category></app-company-expense-category>
+                            <app-company-expense-category-dropdown [props]="{showLabel: true}"></app-company-expense-category-dropdown>
                         </div>
 
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
@@ -52,7 +52,6 @@
 
             </div>
 
-
             <div nz-col nzSpan="24">
 
                 <div nz-row nzJustify="space-between">
@@ -69,7 +68,7 @@
 
                     <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" class="text-align-end" nz-col>
                         <nz-space nzSize="small">
-                            <app-company-expense-add-btn *nzSpaceItem></app-company-expense-add-btn>
+                            <app-company-expense-add-btn *nzSpaceItem [props]="{display: 'drawer'}"></app-company-expense-add-btn>
                             <app-export-upload-button *nzSpaceItem [props]="{}"></app-export-upload-button>
                         </nz-space>
                     </div>

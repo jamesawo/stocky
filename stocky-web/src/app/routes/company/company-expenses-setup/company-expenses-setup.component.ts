@@ -12,6 +12,7 @@ export class CompanyExpensesSetupComponent {
     public isOpenHeader = true;
     public isLoading = false;
 
+
     public tableCols: TableCol[] = [
         {title: 'Amount'},
         {title: 'Category'},
@@ -30,5 +31,6 @@ export class CompanyExpensesSetupComponent {
     public onReset = (): void => {};
 
     public onCancel = (): void => {};
+
 
 }
