@@ -1,7 +1,19 @@
 import {NgModule, Type} from '@angular/core';
 import {SharedModule} from '@shared';
 import {ProductsModule} from '../products/products.module';
-import {CompanyExpenseCategoryComponent} from './_components/company-expense-category/company-expense-category.component';
+import {CompanyExpenseAddBtnComponent} from './_components/company-expense-add-btn/company-expense-add-btn.component';
+import {
+    CompanyExpenseCategoryAddBtnComponent
+} from './_components/company-expense-category/company-expense-category-add-btn/company-expense-category-add-btn.component';
+import {
+    CompanyExpenseCategoryDropdownComponent
+} from './_components/company-expense-category/company-expense-category-dropdown/company-expense-category-dropdown.component';
+import {
+    CompanyExpenseCategoryFormComponent
+} from './_components/company-expense-category/company-expense-category-form/company-expense-category-form.component';
+import {
+    CompanyExpenseCategoryTableComponent
+} from './_components/company-expense-category/company-expense-category-table/company-expense-category-table.component';
 import {CompanyLocationSearchComponent} from './_components/company-location-search/company-location-search.component';
 import {CompanyUserSearchComponent} from './_components/company-user-search/company-user-search.component';
 import {CompanyBasicSetupComponent} from './company-basic-setup/company-basic-setup.component';
@@ -19,7 +31,6 @@ import {CompanyPeopleEmployeesComponent} from './company-people/company-people-e
 import {CompanyPeopleSupplierComponent} from './company-people/company-people-supplier/company-people-supplier.component';
 import {CompanyRoutingModule} from './company-routing.module';
 import {CompanyTaxSetupComponent} from './company-tax-setup/company-tax-setup.component';
-import { CompanyExpenseAddBtnComponent } from './_components/company-expense-add-btn/company-expense-add-btn.component';
 
 export const COMPANY_COMPONENTS: Array<Type<void>> = [
     CompanyLocationSearchComponent,
@@ -34,19 +45,21 @@ export const COMPANY_COMPONENTS: Array<Type<void>> = [
     CompanyExpensesSetupComponent,
     CompanyPaymentOptionFormComponent,
     CompanyPaymentOptionTableComponent,
-    CompanyPaymentOptionButtonComponent
+    CompanyPaymentOptionButtonComponent,
+    CompanyLocationFormComponent,
+    CompanyLocationTableComponent,
+    CompanyLocationAddBtnComponent,
+    CompanyExpenseAddBtnComponent
 ];
 
 @NgModule({
     imports: [CompanyRoutingModule, SharedModule, ProductsModule],
     declarations: [
         ...COMPANY_COMPONENTS,
-        CompanyLocationFormComponent,
-        CompanyLocationTableComponent,
-        CompanyLocationAddBtnComponent,
-        CompanyExpenseCategoryComponent,
-        CompanyExpenseAddBtnComponent
-
+        CompanyExpenseCategoryAddBtnComponent,
+        CompanyExpenseCategoryFormComponent,
+        CompanyExpenseCategoryTableComponent,
+        CompanyExpenseCategoryDropdownComponent
     ],
     exports: [
         ...COMPANY_COMPONENTS

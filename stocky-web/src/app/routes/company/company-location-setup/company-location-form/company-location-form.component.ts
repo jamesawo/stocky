@@ -22,7 +22,6 @@ export class CompanyLocationFormComponent implements OnInit {
 
     public ngOnInit() {
         this.initForm();
-        // Object.keys(LocationTypeEnum).map(value => value);
     }
 
     public async onCreate(): Promise<void> {
