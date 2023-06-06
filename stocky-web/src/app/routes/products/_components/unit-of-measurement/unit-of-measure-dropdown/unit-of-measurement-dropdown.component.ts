@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {map, Observable} from 'rxjs';
+import {FormProps} from '../../../../../data/payload/common.types';
 import {getFormControlValidityStatus} from '../../../../../shared/utils/util';
 import {ProductUnitOfMeasurePayload} from '../../../_data/product-unit-of-measure.payload';
-import {FormProps} from '../../../_data/product.types';
 import {UnitOfMeasureUsecase} from '../../../_usecase/unit-of-measure.usecase';
 
 @Component({

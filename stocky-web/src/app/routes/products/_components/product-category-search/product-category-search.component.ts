@@ -3,8 +3,8 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {environment} from '@env/environment';
 import {BehaviorSubject, Subject, Subscription} from 'rxjs';
 import {distinctUntilChanged, filter, tap} from 'rxjs/operators';
+import {FormProps} from '../../../../data/payload/common.types';
 import {ProductCategoryPayload} from '../../_data/product.payload';
-import {FormProps} from '../../_data/product.types';
 
 @Component({
     selector: 'app-product-category-search',
