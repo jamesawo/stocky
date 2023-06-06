@@ -13,6 +13,7 @@ import {NzCheckboxModule} from 'ng-zorro-antd/checkbox';
 import {NzCollapseModule} from 'ng-zorro-antd/collapse';
 import {NzDatePickerModule} from 'ng-zorro-antd/date-picker';
 import {NzDividerModule} from 'ng-zorro-antd/divider';
+import {NzDrawerModule} from 'ng-zorro-antd/drawer';
 import {NzFormModule} from 'ng-zorro-antd/form';
 import {NzGridModule} from 'ng-zorro-antd/grid';
 import {NzInputModule} from 'ng-zorro-antd/input';
@@ -31,6 +32,9 @@ import {NzTableModule} from 'ng-zorro-antd/table';
 import {NzTabsModule} from 'ng-zorro-antd/tabs';
 import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
 import {NzTypographyModule} from 'ng-zorro-antd/typography';
+import {NzUploadModule} from 'ng-zorro-antd/upload';
+
+
 import {AmountRangeComponent} from './components/amount-range/amount-range.component';
 import {BreadcrumbsComponent} from './components/breadcrumbs/breadcrumbs.component';
 import {ButtonComponent} from './components/button/button.component';
@@ -49,6 +53,7 @@ import {TableItemComponent} from './components/table-item/table-item.component';
 import {TableComponent} from './components/table/table.component';
 import {TextareaLimitComponent} from './components/textarea-limit/textarea-limit.component';
 import {UpdateDeleteActionComponent} from './components/update-delete-action/update-delete-action.component';
+import {UploadFileComponent} from './components/upload-file/upload-file.component';
 
 import {SHARED_DELON_MODULES} from './shared-delon.module';
 import {SHARED_ZORRO_MODULES} from './shared-zorro.module';
@@ -79,7 +84,10 @@ const THIRD_MODULES: Array<Type<void>> = [
     NzGridModule,
     NzInputNumberModule,
     NzCollapseModule,
-    NzCalendarModule
+    NzCalendarModule,
+    NzDrawerModule,
+    NzUploadModule
+
 ];
 const COMPONENTS: Array<Type<void>> = [
     DatePickerComponent,
@@ -99,7 +107,8 @@ const COMPONENTS: Array<Type<void>> = [
     TableItemEditableComponent,
     TableItemComponent,
     AmountRangeComponent,
-    TextareaLimitComponent
+    TextareaLimitComponent,
+    UploadFileComponent
 ];
 const DIRECTIVES: Array<Type<void>> = [];
 const ICONS: Array<Type<void>> = [];
