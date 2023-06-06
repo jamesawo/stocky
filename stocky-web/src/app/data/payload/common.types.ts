@@ -1,3 +1,4 @@
+import {FormGroup} from '@angular/forms';
 import {NzButtonSize} from 'ng-zorro-antd/button';
 
 export type CommonInputProps = {
@@ -12,3 +13,9 @@ export type CommonAddProps = {
     showForm?: boolean,
     showTable?: boolean
 }
+
+
+export type FormProps = {
+    formGroup: FormGroup,
+    controlName: string
+};
