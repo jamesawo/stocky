@@ -1,1 +1,14 @@
-<p>upload-file works!</p>
+<nz-upload
+    (nzChange)="handleChange($event)"
+    [nzMultiple]="true"
+    nzAction="#"
+    nzType="drag"
+>
+    <p class="ant-upload-drag-icon">
+        <span nz-icon nzType="inbox"></span>
+    </p>
+    <p class="ant-upload-text">Click or drag file to this area to upload</p>
+    <p class="ant-upload-hint">
+        Support for a single or bulk upload.
+    </p>
+</nz-upload>
