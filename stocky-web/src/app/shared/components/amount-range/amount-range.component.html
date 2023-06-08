@@ -1,0 +1,63 @@
+<div nz-row nzGutter="8">
+
+    <ng-container *ngIf="isAmountRange; else normalAmountTmpl">
+        <div nz-col nzSpan="12">
+            <nz-form-item>
+                <nz-form-label>
+                    Min Amount
+                </nz-form-label>
+
+                <nz-form-control nzErrorTip="Please enter a valid input!">
+                    <input name="minAmount" nz-input placeholder="Min Amount"/>
+                </nz-form-control>
+
+            </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="12">
+            <nz-form-item>
+                <div class="flex justify-between">
+                    <nz-form-label>
+                        Max Amount
+                    </nz-form-label>
+                    <span class="switch">
+                        <nz-switch (ngModelChange)="isAmountRange = !isAmountRange" [ngModel]="isAmountRange" nzCheckedChildren="Range"
+                                   nzSize="small"
+                                   nzUnCheckedChildren="Fixed"
+                        ></nz-switch>
+                    </span>
+                </div>
+
+
+                <nz-form-control nzErrorTip="Please enter a valid input!">
+                    <input name="maxAmount " nz-input placeholder="Max Amount"/>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </ng-container>
+
+    <ng-template #normalAmountTmpl>
+        <div nz-col nzSpan="24">
+            <nz-form-item>
+                <div class="flex justify-between">
+                    <nz-form-label>
+                        Amount
+                    </nz-form-label>
+                    <span class="switch">
+                        <nz-switch (ngModelChange)="isAmountRange = !isAmountRange" [ngModel]="isAmountRange"
+                                   nzCheckedChildren="Range"
+                                   nzSize="small"
+                                   nzUnCheckedChildren="Fixed"
+                        ></nz-switch>
+                    </span>
+                </div>
+                <nz-form-control nzErrorTip="Please enter a valid input!">
+                    <input name="minAmount" nz-input placeholder="Amount"/>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </ng-template>
+
+
+</div>
+

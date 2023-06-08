@@ -1,21 +1,22 @@
-<button (click)="props.onSearchAction()" *ngIf='!props?.hideSearchBtn === true' [nzLoading]="props.isLoadingSearchResult"
+<button (click)="props.onSearchAction()" *ngIf="!props?.hideSearchBtn === true" [nzLoading]="props.isLoadingSearchResult"
         [nzSize]="'large'"
         nz-button
-        nzType='primary'
+        nzType="primary"
 >
-    <span *ngIf='showTitle'>Search</span>
-    <span nz-icon nzType='search'></span>
+    <span *ngIf="showTitle">Search</span>
+    <span nz-icon nzType="search"></span>
 </button>
+
 <button (nzOnCancel)="props.onCancelAction()" (nzOnConfirm)="props.onResetSearchPayload()"
         [nzSize]="'large'"
         nz-button
         nz-popconfirm
-        nzPopconfirmPlacement='topLeft'
-        nzPopconfirmTitle='Are you sure you want to reset?'
-        nzType='default'
+        nzPopconfirmPlacement="topLeft"
+        nzPopconfirmTitle="Are you sure you want to reset?"
+        nzType="default"
 >
-    <span *ngIf='showTitle'> Reset</span>
-    <span nz-icon nzType='clear'></span>
+    <span *ngIf="showTitle"> Reset</span>
+    <span nz-icon nzType="clear"></span>
 </button>
 
 

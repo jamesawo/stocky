@@ -1,0 +1,24 @@
+<app-button
+    [props]="{
+    icon: props.icon,
+    handler: showModal,
+    size: props.size,
+    title: props.title
+    }"
+></app-button>
+
+<nz-modal (nzOnCancel)="isVisible = false"
+          [(nzVisible)]="isVisible"
+          [nzFooter]="' '"
+          nzTitle="Location Setup"
+>
+    <ng-container *nzModalContent>
+        <ng-container *ngIf="props.showForm">
+            <app-company-location-form></app-company-location-form>
+        </ng-container>
+
+        <ng-container *ngIf="props.showTable">
+            <app-company-location-table></app-company-location-table>
+        </ng-container>
+    </ng-container>
+</nz-modal>

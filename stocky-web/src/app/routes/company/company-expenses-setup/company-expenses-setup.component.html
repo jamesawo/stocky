@@ -1,1 +1,85 @@
-<p>company-expenses-setup works!</p>
+<page-header [action]="action" [breadcrumb]="breadcrumb" [content]="content" title="Manage Expenses">
+    <ng-template #breadcrumb>
+        <app-breadcrumbs [crumbs]="crumbs"></app-breadcrumbs>
+    </ng-template>
+
+    <ng-template #action>
+        <app-expand-collapse-button [(open)]="isOpenHeader"></app-expand-collapse-button>
+    </ng-template>
+
+    <ng-template #content>
+
+        <form *ngIf="isOpenHeader" autocomplete="off" class="ph-main" nz-form nzLayout="vertical">
+
+            <div [nzGutter]="[12, 24]" nz-row>
+
+                <div nz-col nzSpan="24">
+
+                    <div nz-row nzGutter="10">
+                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
+                            <app-company-expense-category-dropdown [props]="{showLabel: true}"></app-company-expense-category-dropdown>
+                        </div>
+
+                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
+                            <nz-form-label>Registered By</nz-form-label>
+                            <app-company-user-search [props]="{showLabel: false}"></app-company-user-search>
+                        </div>
+
+                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
+                            <nz-form-label>Approved By</nz-form-label>
+                            <app-company-user-search [props]="{showLabel: false}"></app-company-user-search>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div nz-col nzSpan="24">
+                    <div nz-row nzGutter="10">
+
+                        <div [nzLg]="12" [nzSpan]="12" [nzXs]="24" nz-col>
+                            <app-amount-range></app-amount-range>
+                        </div>
+
+                        <div [nzLg]="12" [nzSpan]="12" [nzXs]="24" nz-col>
+                            <nz-form-item>
+                                <nz-form-label>Date Range</nz-form-label>
+                                <app-range-date-picker></app-range-date-picker>
+                            </nz-form-item>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div nz-col nzSpan="24">
+
+                <div nz-row nzJustify="space-between">
+                    <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" nz-col>
+                        <app-search-reset-button
+                            [props]="{
+                                        onSearchAction: onSearch,
+                                        isLoadingSearchResult: isLoading,
+                                        onResetSearchPayload: onReset,
+                                        onCancelAction: onCancel
+                                        }"
+                        ></app-search-reset-button>
+                    </div>
+
+                    <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" class="text-align-end" nz-col>
+                        <nz-space nzSize="small">
+                            <app-company-expense-add-btn *nzSpaceItem [props]="{display: 'drawer'}"></app-company-expense-add-btn>
+                            <app-export-upload-button *nzSpaceItem [props]="{}"></app-export-upload-button>
+                        </nz-space>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </ng-template>
+
+</page-header>
+
+<nz-card>
+    <app-table [colHeadings]="tableCols"></app-table>
+</nz-card>

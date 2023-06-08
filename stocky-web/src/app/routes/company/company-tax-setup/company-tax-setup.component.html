@@ -1,1 +1,21 @@
-<p>company-tax-setup works!</p>
+<page-header [breadcrumb]="breadcrumb" title="Tax Setup">
+    <ng-template #breadcrumb>
+        <app-breadcrumbs [crumbs]="crumbs"></app-breadcrumbs>
+    </ng-template>
+
+</page-header>
+
+<nz-card>
+
+    <app-product-tax-add-btn
+        [props]="{
+            size: 'large',
+            title: 'Add Tax',
+            icon: 'plus',
+            showTable: false,
+            showForm: true
+        }"
+    ></app-product-tax-add-btn>
+
+    <app-product-tax-add [props]="{showForm: false, showTable: true}"></app-product-tax-add>
+</nz-card>

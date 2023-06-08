@@ -5,6 +5,7 @@ import {ProductsModule} from '../products/products.module';
 import {StockCodeSearchComponent} from './_components/stock-code-search/stock-code-search.component';
 import {StockProductLocationFormComponent} from './_components/stock-product-location-form/stock-product-location-form.component';
 import {ManageStockComponent} from './manage-stock/manage-stock.component';
+import {MoveStockItemComponent} from './move-stock-item/move-stock-item.component';
 import {ReconcileStockComponent} from './reconcile-stock/reconcile-stock.component';
 import {RecordDamagedStockComponent} from './record-damaged-stock/record-damaged-stock.component';
 import {RecordStockBalanceComponent} from './record-stock-balance/record-stock-balance.component';
@@ -20,7 +21,8 @@ export const STOCK_COMPONENTS: Array<Type<void>> = [
     RecordStockBalanceComponent,
     RecordDamagedStockComponent,
     StockProductLocationFormComponent,
-    StockCodeSearchComponent
+    StockCodeSearchComponent,
+    MoveStockItemComponent
 ];
 
 @NgModule({

@@ -1,0 +1,37 @@
+<ng-container *ngIf="props?.formGroup && props?.fromControlName else modelTmpl">
+
+    <fieldset [formGroup]="props?.formGroup!">
+        <nz-form-item>
+            <nz-form-label *ngIf="props?.showLabel === true">{{props?.labelText}}</nz-form-label>
+            <nz-form-control [nzSpan]="24" nzErrorTip="Please write something here!" nzHasFeedback>
+                <nz-textarea-count [nzMaxCharacterCount]="limit">
+                        <textarea (input)="checkCharacterLimit($event)"
+                                  [formControlName]="props?.fromControlName!" nz-input
+                                  placeholder="write a {{props?.labelText?.toLowerCase()}}"
+                                  rows="2"
+                        ></textarea>
+                </nz-textarea-count>
+            </nz-form-control>
+        </nz-form-item>
+    </fieldset>
+
+</ng-container>
+
+<ng-template #modelTmpl>
+
+    <nz-form-item>
+        <nz-form-label *ngIf="props?.showLabel === true">{{props?.labelText}}</nz-form-label>
+        <nz-form-control [nzSpan]="24" nzErrorTip="Please write something here!" nzHasFeedback>
+            <nz-textarea-count [nzMaxCharacterCount]="limit">
+                 <textarea #textAreaElement
+                           (ngModelChange)="onValueChange($event)"
+                           [(ngModel)]="value"
+                           nz-input
+                           placeholder="Enter {{props?.labelText}}" rows="2"
+                 ></textarea>
+            </nz-textarea-count>
+        </nz-form-control>
+    </nz-form-item>
+
+</ng-template>
+

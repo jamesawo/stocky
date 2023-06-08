@@ -1,8 +1,9 @@
 import {HttpResponse} from '@angular/common/http';
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, shareReplay} from 'rxjs';
+import {CommonAddProps} from '../../../../../data/payload/common.types';
 import {TableCol} from '../../../../../shared/components/table/table.component';
 import {EditCacheMap} from '../../../../../shared/components/update-delete-action/update-delete-action.component';
 import {
@@ -16,12 +17,22 @@ import {
 import {ProductTaxPayload} from '../../../_data/product.payload';
 import {ProductTaxUsecase} from '../../../_usecase/product-tax.usecase';
 
+
 @Component({
     selector: 'app-product-tax-add',
     templateUrl: './product-tax-add.component.html',
-    styles: []
+    styles: [`.mbt-2 {
+        margin-top: 10px;
+        margin-bottom: 10px
+    }`]
 })
 export class ProductTaxAddComponent implements OnInit {
+    @Input()
+    public props: CommonAddProps = {
+        showForm: true,
+        showTable: true
+    };
+
     public isVisible = false;
     public form!: UntypedFormGroup;
     public editMap: EditCacheMap<ProductTaxPayload> = {};
@@ -103,6 +114,7 @@ export class ProductTaxAddComponent implements OnInit {
     public canEditItem(item: any) {
         return this.editMap[item.id] && this.editMap[item.id].edit;
     }
+    
 
     private onAfterCreate = (response: HttpResponse<any>) => {
         this.isSaving = false;

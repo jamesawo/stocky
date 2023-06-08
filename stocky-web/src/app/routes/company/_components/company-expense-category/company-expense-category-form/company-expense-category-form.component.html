@@ -1,0 +1,30 @@
+<form (ngSubmit)="onCreate()" [formGroup]="form" [nzLayout]="'inline'" nz-form>
+    <div [nzGutter]="[8, 8]" nz-row nzAlign="bottom">
+        <div nz-col nzSpan="24">
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Please enter title">
+                    <input formControlName="title" nz-input placeholder="Enter title"/>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="24">
+            <nz-form-item>
+                <nz-form-control [nzSpan]="24" nzErrorTip="Please write something here!" nzHasFeedback>
+                    <nz-textarea-count [nzMaxCharacterCount]="50">
+                        <textarea (input)="checkCharacterLimit($event)" formControlName="description" nz-input placeholder="write a description"
+                                  rows="2"></textarea>
+                    </nz-textarea-count>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item nz-col nzSpan="24">
+                <nz-form-control>
+                    <button [disabled]="!form.valid" [nzLoading]="isSaving" nz-button nzType="primary">
+                        Save <span nz-icon nzTheme="outline" nzType="save"></span>
+                    </button>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+</form>

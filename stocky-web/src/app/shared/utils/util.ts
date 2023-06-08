@@ -1,6 +1,6 @@
 import {formatCurrency} from '@angular/common';
 import {HttpResponse} from '@angular/common/http';
-import {FormControl, FormGroup} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {first, firstValueFrom, from, map, Observable, switchMap} from 'rxjs';
 import {EditCacheMap} from '../components/update-delete-action/update-delete-action.component';
@@ -242,3 +242,15 @@ export function getFormControlValidityStatus(formGroup: FormGroup, controlName: 
     const control = formGroup.get(controlName);
     return control && control.invalid && control.dirty ? 'error' : 'success';
 }
+
+export function checkFormControlCharacterLimit(formControl: AbstractControl, limit: number = 50) {
+    if (formControl) {
+        const description = formControl.value;
+
+        if (description.length > limit) {
+            formControl.setValue(description.slice(0, limit));
+        }
+    }
+}
+
+

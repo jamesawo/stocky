@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { BreakPoints, ResponsiveService } from '../../utils/responsive.service';
-import { NzButtonSize, NzButtonType } from 'ng-zorro-antd/button';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {NzButtonSize, NzButtonType} from 'ng-zorro-antd/button';
+import {Subscription} from 'rxjs';
+import {BreakPoints, ResponsiveService} from '../../utils/responsive.service';
 
 export type ButtonProps = {
     handler: () => void;
@@ -14,9 +14,9 @@ export type ButtonProps = {
 
 @Component({
     selector: 'app-button',
-    templateUrl: './button.component.html',
+    templateUrl: './button.component.html'
 })
-export class ButtonComponent {
+export class ButtonComponent implements OnDestroy, OnInit {
     public showTitle = true;
 
     @Input()
@@ -26,7 +26,7 @@ export class ButtonComponent {
         isLoading: false,
         type: 'primary',
         size: 'large',
-        icon: '',
+        icon: ''
     };
 
     private sub = new Subscription();

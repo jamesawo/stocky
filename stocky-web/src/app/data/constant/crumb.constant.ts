@@ -38,3 +38,25 @@ export const STOCK_RECONCILE: Crumbs[] = [
     {link: '/stock/reconcile-stock', title: 'Reconcile Stock'}
 ];
 
+export const TAX_SETUP: Crumbs[] = [
+    {link: '/dashboard', title: 'Company'},
+    {link: '/company/tax-setup', title: 'Tax Setup'}
+];
+
+
+export const EXPENSES_SETUP: Crumbs[] = [
+    {link: '/dashboard', title: 'Company'},
+    {link: '/company/expenses-setup', title: 'Manage Expenses'}
+];
+
+
+export const CUSTOMER_SETUP: Crumbs[] = [
+    {link: '/dashboard', title: 'Company'},
+    {link: '/dashboard', title: 'People'},
+    {link: '/company/people/customers', title: 'Manage Customers'}
+];
+export const EMPLOYEE_SETUP: Crumbs[] = [
+    {link: '/dashboard', title: 'Company'},
+    {link: '/dashboard', title: 'People'},
+    {link: '/company/people/employees', title: 'Manage Employee'}
+];

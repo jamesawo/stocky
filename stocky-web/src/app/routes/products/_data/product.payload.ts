@@ -1,4 +1,4 @@
-import {DateRangeParam, MinMaxAmountParam} from '../../../data/param/common.param';
+import {AmountRangeParam, DateRangeParam} from '../../../data/param/common.param';
 import {CommonPayload} from '../../../data/payload/common.payload';
 import {ProductUnitOfMeasurePayload} from './product-unit-of-measure.payload';
 import {ProductVariantEnum} from './product.enum';
@@ -53,7 +53,7 @@ export class ProductPayload {
     createdAt?: string;
 }
 
-export class ProductSearchPayload {
+export class ProductSearchRequestPayload {
     id?: number;
     category?: ProductCategoryPayload;
     productName?: string;
@@ -64,6 +64,13 @@ export class ProductSearchPayload {
     status?: ProductStatusPayload;
     isActive?: boolean;
     dateRange?: DateRangeParam;
-    sellingPriceParam?: MinMaxAmountParam;
-    costPriceParam?: MinMaxAmountParam;
+    sellingPriceParam?: AmountRangeParam;
+    costPriceParam?: AmountRangeParam;
+}
+
+export class ProductSearchResultPayload {
+    id?: number;
+    productName?: string;
+    brandName?: string;
+    category?: ProductCategoryPayload;
 }

@@ -1,11 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { BreakPoints, ResponsiveService } from '../../utils/responsive.service';
-import { Subscription } from 'rxjs';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs';
+import {BreakPoints, ResponsiveService} from '../../utils/responsive.service';
 
 @Component({
     selector: 'app-search-reset-button',
     templateUrl: './search-reset-button.component.html',
-    styles: [],
+    styles: []
 })
 export class SearchResetButtonComponent implements OnInit, OnDestroy {
     public showTitle = true;
@@ -21,7 +21,7 @@ export class SearchResetButtonComponent implements OnInit, OnDestroy {
         onSearchAction: () => {},
         isLoadingSearchResult: false,
         onResetSearchPayload: () => {},
-        onCancelAction: () => {},
+        onCancelAction: () => {}
     };
 
     private sub = new Subscription();
@@ -39,6 +39,8 @@ export class SearchResetButtonComponent implements OnInit, OnDestroy {
     }
 
     public onBreakPointChange(value: string) {
-        this.showTitle = value !== BreakPoints.XS;
+        setTimeout(() => {
+            this.showTitle = value !== BreakPoints.XS;
+        }, 10);
     }
 }

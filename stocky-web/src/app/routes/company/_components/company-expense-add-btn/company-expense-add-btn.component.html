@@ -1,0 +1,113 @@
+<app-button [props]="{handler: isDrawer ?  onOpenDrawer: onOpenModal, title: 'Add', icon: 'plus'}"></app-button>
+
+<ng-container *ngIf="isDrawer; else modalTmpl">
+    <nz-drawer
+        (nzOnClose)="onCloseDrawer()"
+        [nzBodyStyle]="{ overflow: 'auto' }"
+        [nzFooter]="footerTpl"
+        [nzMaskClosable]="false"
+        [nzVisible]="showDrawer"
+        [nzWidth]="720"
+        nzTitle="Create"
+    >
+        <div *nzDrawerContent>
+            <ng-container [ngTemplateOutletContext]="{form: categoryForm}" [ngTemplateOutlet]="contentFormTmpl"></ng-container>
+        </div>
+
+        <ng-template #footerTpl>
+            <div style="float: right">
+                <button (click)="onCloseDrawer()" nz-button style="margin-right: 8px;">Cancel</button>
+                <button (click)="onCloseDrawer()" nz-button nzType="primary">Submit</button>
+            </div>
+        </ng-template>
+    </nz-drawer>
+</ng-container>
+<ng-template #modalTmpl>
+    <nz-modal
+        (nzOnCancel)="onCloseModal()"
+        (nzOnOk)="onCreate()"
+        [(nzVisible)]="showModal"
+        [nzMaskClosable]="false"
+        nzTitle="Add New Expenses"
+    >
+        <div *nzModalContent [nzLg]="{ span: 24, offset: 0 }" [nzXs]="{ span: 24, offset: 0 }" nz-col>
+            <ng-container [ngTemplateOutletContext]="{form: categoryForm}" [ngTemplateOutlet]="contentFormTmpl"></ng-container>
+        </div>
+        <div *nzModalFooter>
+            <ng-container [ngTemplateOutlet]="contentFooterBtnTmpl"></ng-container>
+        </div>
+
+    </nz-modal>
+</ng-template>
+
+<ng-template #contentFormTmpl let-form="form">
+    <form (submit)="onCreate()"
+          autocomplete="off"
+          nz-form
+          nzLayout="vertical"
+    >
+        <div [nzSpan]="24" nz-col>
+
+            <nz-form-item>
+                <nz-form-label>Expenses Category:</nz-form-label>
+
+                <nz-form-control
+                    [nzSpan]="24"
+                    nzErrorTip=""
+                    nzValidateStatus="success"
+                >
+                    <div nz-row nzGutter="4">
+                        <div nz-col nzFlex="auto">
+                            <app-company-expense-category-dropdown></app-company-expense-category-dropdown>
+                        </div>
+                        <div nz-col nz-tooltip nzFlex="30px" nzTooltipPlacement="top" nzTooltipTitle="Update expenses categories">
+                            <app-company-expense-category-add-btn></app-company-expense-category-add-btn>
+                        </div>
+
+                    </div>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-label>Amount</nz-form-label>
+                <nz-form-control nzErrorTip="Title is required">
+                    <input
+                        name="title"
+                        nz-input
+                        placeholder="Enter Amount"
+                        type="text"
+                    />
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-label>Date</nz-form-label>
+                <nz-form-control nzErrorTip="Date is required">
+                    <app-date-picker></app-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-label>Comment</nz-form-label>
+                <nz-form-control>
+                        <textarea name="comment"
+                                  nz-input
+                                  placeholder="Enter comment about the expenses"
+                        ></textarea>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-label>Attach File</nz-form-label>
+                <app-upload-file></app-upload-file>
+            </nz-form-item>
+
+        </div>
+
+    </form>
+</ng-template>
+
+<ng-template #contentFooterBtnTmpl>
+    <button (click)="onCloseModal()" nz-button nzType="default">Cancel</button>
+    <button (click)="onCreate()" [nzLoading]="isLoading" nz-button nzType="primary">Submit</button>
+</ng-template>

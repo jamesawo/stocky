@@ -2,8 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 import {map, Observable} from 'rxjs';
+import {FormProps} from '../../../../../data/payload/common.types';
 import {ProductTaxPayload} from '../../../_data/product.payload';
-import {FormProps} from '../../../_data/product.types';
 import {ProductTaxUsecase} from '../../../_usecase/product-tax.usecase';
 
 @Component({

@@ -1,0 +1,24 @@
+<app-button
+    [props]="{
+    icon: props.icon,
+    handler: showModal,
+    size: props.size,
+    title: props.title
+    }"
+></app-button>
+
+<nz-modal (nzOnCancel)="isVisible = false"
+          [(nzVisible)]="isVisible"
+          [nzFooter]="' '"
+          nzTitle="Payment Option Setup"
+>
+    <ng-container *nzModalContent>
+        <ng-container *ngIf="props.showForm">
+            <app-company-payment-option-form></app-company-payment-option-form>
+        </ng-container>
+
+        <ng-container *ngIf="props.showTable">
+            <app-company-payment-option-table></app-company-payment-option-table>
+        </ng-container>
+    </ng-container>
+</nz-modal>

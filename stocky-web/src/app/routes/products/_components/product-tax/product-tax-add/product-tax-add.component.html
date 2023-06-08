@@ -1,42 +1,55 @@
-<form (ngSubmit)="onCreate()" [formGroup]="form" [nzLayout]="'inline'" nz-form>
+<ng-container *ngIf="props.showForm">
+    <form (ngSubmit)="onCreate()" [formGroup]="form" [nzLayout]="'inline'" nz-form>
 
-    <nz-row [nzGutter]="8" nzAlign="bottom">
-        <nz-form-item nz-col>
-            <nz-form-control nzErrorTip="Please enter title">
-                <input formControlName="title" nz-input placeholder="Enter title"/>
-            </nz-form-control>
-        </nz-form-item>
+        <div [nzGutter]="[8, 8]" nz-row nzAlign="bottom">
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Please enter title">
+                        <input formControlName="title" nz-input placeholder="Enter title"/>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
 
-        <nz-form-item nz-col>
-            <nz-form-control nzErrorTip="Please enter percent">
-                <nz-input-number [nzMin]="1" [nzStep]="1" class="wd-100p" formControlName="percent" nzPlaceHolder="Enter percent"></nz-input-number>
-            </nz-form-control>
-        </nz-form-item>
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Please enter percent">
+                        <nz-input-number [nzMin]="1" [nzStep]="1" class="wd-100p" formControlName="percent"
+                                         nzPlaceHolder="Enter percent"></nz-input-number>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
 
-        <nz-form-item nz-col nzSpan="24">
-            <nz-form-control nzErrorTip="">
-                <input formControlName="description" nz-input placeholder="Enter description" type="text"/>
-            </nz-form-control>
-        </nz-form-item>
 
-        <nz-form-item>
-            <nz-form-control>
-                <button [disabled]="!form.valid" [nzLoading]="isSaving" nz-button nzType="primary">
-                    <span nz-icon nzTheme="outline" nzType="save"></span>
-                </button>
-            </nz-form-control>
-        </nz-form-item>
-    </nz-row>
-    
-</form>
+            <div nz-col nzSpan="24">
+                <app-textarea-limit
+                    [props]="{
+                        fromControlName: 'description',
+                        formGroup: form,
+                        labelText: 'Description'
+                   }"
+                ></app-textarea-limit>
 
-<div class="wd-100p m-t-1em">
-    <app-table [colHeadings]="cols"
-               [dataList]="data"
-               [props]="{tableSize: 'small'}"
-               [rowTemplates]="[titleTmpl, percentTmpl, descTmpl, actionTmpl]"
-    ></app-table>
-</div>
+                <nz-form-item nz-col nzSpan="6">
+                    <nz-form-control>
+                        <button [disabled]="!form.valid" [nzLoading]="isSaving" nz-button nzType="primary">
+                            Save <span nz-icon nzTheme="outline" nzType="save"></span>
+                        </button>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </form>
+</ng-container>
+
+<ng-container *ngIf="props.showTable">
+    <div class="mbt-2">
+        <app-table [colHeadings]="cols"
+                   [dataList]="data"
+                   [props]="{tableSize: 'small'}"
+                   [rowTemplates]="[titleTmpl, percentTmpl, descTmpl, actionTmpl]"
+        ></app-table>
+    </div>
+</ng-container>
 
 <ng-template #titleTmpl let-item="item">
     <app-table-item-editable
