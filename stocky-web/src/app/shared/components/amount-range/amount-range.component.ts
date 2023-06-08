@@ -5,7 +5,7 @@ import {Component} from '@angular/core';
     templateUrl: './amount-range.component.html',
     styles: [`
       ::ng-deep .switch > nz-switch > button {
-        background-color: #475fd0;
+
       }
     `]
 })

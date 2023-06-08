@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output, TemplateRef} from '@angular/core';
-import {NzTableSize} from 'ng-zorro-antd/table';
+import {NzTableLayout, NzTableSize} from 'ng-zorro-antd/table';
 import {Observable} from 'rxjs';
 
 export type TableCol = {
@@ -11,6 +11,7 @@ export type TableProps = {
     tableSize?: NzTableSize;
     showPagination?: boolean;
     isLoading?: boolean;
+    tableLayout?: NzTableLayout
 };
 
 @Component({
@@ -18,16 +19,16 @@ export type TableProps = {
     templateUrl: './table.component.html',
     styles: [
         `.table-container {
-            width: 100%;
-            overflow-x: auto; /* Add horizontal scrollbar when content exceeds width */
+          width: 100%;
+          overflow-x: auto; /* Add horizontal scrollbar when content exceeds width */
         }
 
         table {
-            /*table-layout: fixed;*/
+          /*table-layout: fixed;*/
         }
 
         th.no-wrap {
-            white-space: nowrap;
+          white-space: nowrap;
         }
 
         `
@@ -56,7 +57,7 @@ export class TableComponent {
     public colHeadings?: TableCol[];
 
     @Input()
-    public props?: TableProps = {tableSize: 'middle'};
+    public props?: TableProps = {tableSize: 'middle', tableLayout: 'fixed'};
 
     public onPageIndexChange(value: number) {
         this.pageIndexChange.emit(value);
