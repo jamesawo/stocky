@@ -1,1 +1,62 @@
-<p>product-search works!</p>
+<nz-form-item>
+    <nz-form-control [nzValidateStatus]="'success'" nzErrorTip="Product is required">
+
+        <nz-form-label [nzNoColon]="true" nzFor="">
+            <span>
+            <span *ngIf="props?.required === true" class="text-red-dark m-r-3px">*</span>
+                Product Name or Brand
+            </span>
+            <small class="m-l-10px dm-none"></small>
+        </nz-form-label>
+
+        <ng-container *ngIf="canUseFormGroup(); else modelTmpl">
+
+            <nz-form-control [formGroup]="form!.formGroup" [nzSpan]="props?.span??null">
+                <nz-input-group [nzSuffix]="suffixIconSearch" style="width: 100%">
+                    <input (input)="onInput($event)"
+                           [autofocus]="props?.autoFocus"
+                           [formControlName]="form!.controlName"
+                           [nzAutocomplete]="auto"
+                           nz-input
+                           nzSize="large"
+                           placeholder="Start typing ..."
+                           type="text"
+                    />
+
+                </nz-input-group>
+            </nz-form-control>
+        </ng-container>
+
+    </nz-form-control>
+</nz-form-item>
+
+<ng-template #modelTmpl>
+    <nz-form-control [nzSpan]="props?.span??null">
+        <nz-input-group [nzSuffix]="suffixIconSearch" style="width: 100%">
+            <input (input)="onInput($event)"
+                   [(ngModel)]="selected"
+                   [autofocus]="props?.autoFocus"
+                   [nzAutocomplete]="auto"
+                   nz-input
+                   nzSize="large"
+                   placeholder="start typing to search..."
+                   type="text"
+            />
+        </nz-input-group>
+    </nz-form-control>
+</ng-template>
+
+<ng-template #suffixIconSearch>
+    <span [nzType]="!isLoading ? 'search': 'loading'" nz-icon></span>
+</ng-template>
+
+<nz-autocomplete #auto>
+    <nz-auto-option
+        (click)="onSelected(data)"
+        *ngFor="let data of options"
+        [nzLabel]="data.productName"
+        [nzValue]="data"
+    >
+        {{data.productName}}
+    </nz-auto-option>
+</nz-autocomplete>

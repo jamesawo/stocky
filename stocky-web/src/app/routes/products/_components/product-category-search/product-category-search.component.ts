@@ -3,7 +3,7 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {environment} from '@env/environment';
 import {BehaviorSubject, Subject, Subscription} from 'rxjs';
 import {distinctUntilChanged, filter, tap} from 'rxjs/operators';
-import {FormProps} from '../../../../data/payload/common.types';
+import {FormProps, SearchProps} from '../../../../data/payload/common.types';
 import {ProductCategoryPayload} from '../../_data/product.payload';
 
 @Component({
@@ -25,7 +25,7 @@ export class ProductCategorySearchComponent implements OnInit, OnDestroy {
     @Output() // use this to get the search text as the user is typing
     public value: EventEmitter<string> = new EventEmitter<string>();
     @Input()
-    public props?: {hasError?: boolean; autoFocus?: boolean; required?: boolean; span?: number};
+    public props?: SearchProps;
     private url: string = environment.api.baseUrl + '/product-category';
     private loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private subscription: Subscription = new Subscription();
