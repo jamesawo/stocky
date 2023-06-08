@@ -3,6 +3,7 @@ import {SharedModule} from '@shared';
 import {ProductBasicTabComponent} from './_components/product-basic-tab/product-basic-tab.component';
 import {ProductCategorySearchComponent} from './_components/product-category-search/product-category-search.component';
 import {ProductPriceTabComponent} from './_components/product-price-tab/product-price-tab.component';
+import {ProductSearchComponent} from './_components/product-search/product-search.component';
 import {ProductStatusAddBtnComponent} from './_components/product-status/product-status-add-btn/product-status-add-btn.component';
 import {ProductStatusAddComponent} from './_components/product-status/product-status-add/product-status-add.component';
 import {ProductStatusDropdownComponent} from './_components/product-status/product-status-dropdown/product-status-dropdown.component';
@@ -38,8 +39,8 @@ export const PRODUCT_COMPONENTS: Array<Type<void>> = [
 
 @NgModule({
     imports: [ProductRoutingModule, SharedModule],
-    declarations: [...PRODUCT_COMPONENTS],
-    exports: [...PRODUCT_COMPONENTS]
+    declarations: [...PRODUCT_COMPONENTS, ProductSearchComponent],
+    exports: [...PRODUCT_COMPONENTS, ProductSearchComponent]
 })
 export class ProductsModule {
 }

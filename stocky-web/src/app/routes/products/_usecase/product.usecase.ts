@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
 import {PageResultPayload, PageSearchPayload} from '../../../data/payload/common.interface';
-import {ProductPayload, ProductSearchPayload} from '../_data/product.payload';
+import {ProductPayload, ProductSearchRequestPayload} from '../_data/product.payload';
 
 @Injectable({providedIn: 'root'})
 export class ProductUsecase {
@@ -27,7 +27,7 @@ export class ProductUsecase {
         // implement method
     }
 
-    public searchProducts(searchPayload: PageSearchPayload<ProductSearchPayload>) {
+    public searchProducts(searchPayload: PageSearchPayload<ProductSearchRequestPayload>) {
         return this.http.post<PageResultPayload<ProductPayload[]>>(`${this.url}/search`, searchPayload, {observe: 'response'});
     }
 

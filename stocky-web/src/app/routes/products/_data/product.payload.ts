@@ -53,7 +53,7 @@ export class ProductPayload {
     createdAt?: string;
 }
 
-export class ProductSearchPayload {
+export class ProductSearchRequestPayload {
     id?: number;
     category?: ProductCategoryPayload;
     productName?: string;
@@ -66,4 +66,11 @@ export class ProductSearchPayload {
     dateRange?: DateRangeParam;
     sellingPriceParam?: AmountRangeParam;
     costPriceParam?: AmountRangeParam;
+}
+
+export class ProductSearchResultPayload {
+    id?: number;
+    productName?: string;
+    brandName?: string;
+    category?: ProductCategoryPayload;
 }
