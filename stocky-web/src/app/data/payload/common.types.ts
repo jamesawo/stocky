@@ -19,3 +19,11 @@ export type FormProps = {
     formGroup: FormGroup,
     controlName: string
 };
+
+
+export type SearchProps = {
+    hasError?: boolean;
+    autoFocus?: boolean;
+    required?: boolean;
+    span?: number
+}
