@@ -15,6 +15,14 @@ import {
     CompanyExpenseCategoryTableComponent
 } from './_components/company-expense-category/company-expense-category-table/company-expense-category-table.component';
 import {CompanyLocationSearchComponent} from './_components/company-location-search/company-location-search.component';
+import {
+    CompanyPeopleCustomerAddBtnComponent
+} from './_components/company-people/people-customer/company-people-customer-add-btn/company-people-customer-add-btn.component';
+import {
+    CompanyPeopleEmployeeAddBtnComponent
+} from './_components/company-people/people-employee/company-people-employee-add-btn/company-people-employee-add-btn.component';
+import {CompanyRoleAddBtnComponent} from './_components/company-role/company-role-add-btn/company-role-add-btn.component';
+import {CompanyRoleSearchDropdownComponent} from './_components/company-role/company-role-search-dropdown/company-role-search-dropdown.component';
 import {CompanyUserSearchComponent} from './_components/company-user-search/company-user-search.component';
 import {CompanyBasicSetupComponent} from './company-basic-setup/company-basic-setup.component';
 import {CompanyExpensesSetupComponent} from './company-expenses-setup/company-expenses-setup.component';
@@ -29,11 +37,11 @@ import {CompanyPaymentOptionsComponent} from './company-payment-options/company-
 import {CompanyPeopleCustomerComponent} from './company-people/company-people-customer/company-people-customer.component';
 import {CompanyPeopleEmployeesComponent} from './company-people/company-people-employees/company-people-employees.component';
 import {CompanyPeopleSupplierComponent} from './company-people/company-people-supplier/company-people-supplier.component';
+import {CompanyRoleSetupComponent} from './company-role-setup/company-role-setup.component';
 import {CompanyRoutingModule} from './company-routing.module';
 import {CompanyTaxSetupComponent} from './company-tax-setup/company-tax-setup.component';
 
 export const COMPANY_COMPONENTS: Array<Type<void>> = [
-    CompanyLocationSearchComponent,
     CompanyUserSearchComponent,
     CompanyBasicSetupComponent,
     CompanyTaxSetupComponent,
@@ -41,29 +49,32 @@ export const COMPANY_COMPONENTS: Array<Type<void>> = [
     CompanyPeopleCustomerComponent,
     CompanyPeopleEmployeesComponent,
     CompanyPeopleSupplierComponent,
-    CompanyLocationSetupComponent,
-    CompanyExpensesSetupComponent,
     CompanyPaymentOptionFormComponent,
     CompanyPaymentOptionTableComponent,
     CompanyPaymentOptionButtonComponent,
+    CompanyLocationSetupComponent,
     CompanyLocationFormComponent,
     CompanyLocationTableComponent,
     CompanyLocationAddBtnComponent,
-    CompanyExpenseAddBtnComponent
+    CompanyExpensesSetupComponent,
+    CompanyLocationSearchComponent,
+    CompanyExpenseAddBtnComponent,
+    CompanyExpenseCategoryDropdownComponent,
+    CompanyExpenseCategoryAddBtnComponent,
+    CompanyExpenseCategoryTableComponent,
+    CompanyExpenseCategoryFormComponent,
+    CompanyPeopleEmployeeAddBtnComponent,
+    CompanyRoleSetupComponent,
+    CompanyRoleSearchDropdownComponent,
+    CompanyRoleAddBtnComponent,
+    CompanyPeopleCustomerAddBtnComponent
+
 ];
 
 @NgModule({
     imports: [CompanyRoutingModule, SharedModule, ProductsModule],
-    declarations: [
-        ...COMPANY_COMPONENTS,
-        CompanyExpenseCategoryAddBtnComponent,
-        CompanyExpenseCategoryFormComponent,
-        CompanyExpenseCategoryTableComponent,
-        CompanyExpenseCategoryDropdownComponent
-    ],
-    exports: [
-        ...COMPANY_COMPONENTS
-    ]
+    declarations: [...COMPANY_COMPONENTS],
+    exports: [...COMPANY_COMPONENTS]
 })
 export class CompanyModule {
 }

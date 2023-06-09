@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {UntypedFormGroup} from '@angular/forms';
-import {CommonAddProps, PopupViewProps} from '../../../../data/payload/common.types';
+import {CommonAddProps, PopupViewProps} from 'src/app/data/payload/common.types';
 
 export type ExpensesAddBtnProps = {
     showTable?: boolean;
@@ -8,11 +8,11 @@ export type ExpensesAddBtnProps = {
 }
 
 @Component({
-    selector: 'app-company-expense-add-btn',
-    templateUrl: './company-expense-add-btn.component.html',
+    selector: 'app-company-people-customer-add-btn',
+    templateUrl: './company-people-customer-add-btn.component.html',
     styles: []
 })
-export class CompanyExpenseAddBtnComponent {
+export class CompanyPeopleCustomerAddBtnComponent {
     public showDrawer = false;
     public isLoading = false;
     public showModal = false;
@@ -23,6 +23,7 @@ export class CompanyExpenseAddBtnComponent {
 
     @Input()
     public popup: PopupViewProps = {display: 'drawer'};
+    public pageTitle = 'Add New Customer';
 
     get isDrawer() {
         return this.popup.display == 'drawer';

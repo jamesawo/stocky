@@ -27,8 +27,7 @@ export const STOCK_COMPONENTS: Array<Type<void>> = [
 
 @NgModule({
     imports: [StockRoutingModule, SharedModule, ProductsModule, CompanyModule],
-    declarations: [...STOCK_COMPONENTS
-    ],
+    declarations: [...STOCK_COMPONENTS],
     exports: [...STOCK_COMPONENTS]
 })
 export class StockModule {

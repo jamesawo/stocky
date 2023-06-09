@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {UntypedFormGroup} from '@angular/forms';
-import {CommonAddProps, PopupViewProps} from '../../../../data/payload/common.types';
+import {CommonAddProps, PopupViewProps} from 'src/app/data/payload/common.types';
 
 export type ExpensesAddBtnProps = {
     showTable?: boolean;
@@ -8,11 +8,11 @@ export type ExpensesAddBtnProps = {
 }
 
 @Component({
-    selector: 'app-company-expense-add-btn',
-    templateUrl: './company-expense-add-btn.component.html',
+    selector: 'app-company-people-employee-add-btn',
+    templateUrl: './company-people-employee-add-btn.component.html',
     styles: []
 })
-export class CompanyExpenseAddBtnComponent {
+export class CompanyPeopleEmployeeAddBtnComponent {
     public showDrawer = false;
     public isLoading = false;
     public showModal = false;

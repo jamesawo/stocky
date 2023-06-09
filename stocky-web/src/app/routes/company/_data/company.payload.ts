@@ -10,3 +10,10 @@ export class LocationPayload {
     description?: string;
     status?: boolean;
 }
+
+export class RolePayload {
+    id?: number;
+    title?: string;
+    description?: string;
+    permissions?: any[];
+}
