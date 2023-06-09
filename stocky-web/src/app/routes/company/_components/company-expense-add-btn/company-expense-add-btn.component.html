@@ -8,20 +8,21 @@
         [nzMaskClosable]="false"
         [nzVisible]="showDrawer"
         [nzWidth]="720"
-        nzTitle="Create"
+        nzTitle="Create Expenses"
     >
         <div *nzDrawerContent>
             <ng-container [ngTemplateOutletContext]="{form: categoryForm}" [ngTemplateOutlet]="contentFormTmpl"></ng-container>
         </div>
 
         <ng-template #footerTpl>
-            <div style="float: right">
+            <div class="fr">
                 <button (click)="onCloseDrawer()" nz-button style="margin-right: 8px;">Cancel</button>
                 <button (click)="onCloseDrawer()" nz-button nzType="primary">Submit</button>
             </div>
         </ng-template>
     </nz-drawer>
 </ng-container>
+
 <ng-template #modalTmpl>
     <nz-modal
         (nzOnCancel)="onCloseModal()"
