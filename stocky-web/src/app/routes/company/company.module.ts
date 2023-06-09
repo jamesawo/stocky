@@ -21,6 +21,9 @@ import {
 import {
     CompanyPeopleEmployeeAddBtnComponent
 } from './_components/company-people/people-employee/company-people-employee-add-btn/company-people-employee-add-btn.component';
+import {
+    CompanyPeopleSupplierAddBtnComponent
+} from './_components/company-people/people-supplier/company-people-supplier-add-btn/company-people-supplier-add-btn.component';
 import {CompanyRoleAddBtnComponent} from './_components/company-role/company-role-add-btn/company-role-add-btn.component';
 import {CompanyRoleSearchDropdownComponent} from './_components/company-role/company-role-search-dropdown/company-role-search-dropdown.component';
 import {CompanyUserSearchComponent} from './_components/company-user-search/company-user-search.component';
@@ -67,7 +70,8 @@ export const COMPANY_COMPONENTS: Array<Type<void>> = [
     CompanyRoleSetupComponent,
     CompanyRoleSearchDropdownComponent,
     CompanyRoleAddBtnComponent,
-    CompanyPeopleCustomerAddBtnComponent
+    CompanyPeopleCustomerAddBtnComponent,
+    CompanyPeopleSupplierAddBtnComponent
 
 ];
 
