@@ -1,0 +1,134 @@
+<app-button [props]="{handler: isDrawer ?  onOpenDrawer: onOpenModal, title: 'Add', icon: 'plus'}"></app-button>
+
+<ng-container *ngIf="isDrawer; else modalTmpl">
+    <nz-drawer
+        (nzOnClose)="onCloseDrawer()"
+        [nzBodyStyle]="{ overflow: 'auto' }"
+        [nzFooter]="footerTpl"
+        [nzMaskClosable]="false"
+        [nzTitle]="pageTitle"
+        [nzVisible]="showDrawer"
+        [nzWidth]="720"
+    >
+        <div *nzDrawerContent>
+            <ng-container [ngTemplateOutletContext]="{form: categoryForm}" [ngTemplateOutlet]="contentFormTmpl"></ng-container>
+        </div>
+
+        <ng-template #footerTpl>
+            <div class="fr">
+                <button (click)="onCloseDrawer()" nz-button style="margin-right: 8px;">Cancel</button>
+                <button (click)="onCloseDrawer()" nz-button nzType="primary">Submit</button>
+            </div>
+
+        </ng-template>
+    </nz-drawer>
+</ng-container>
+
+<ng-template #modalTmpl>
+    <nz-modal
+        (nzOnCancel)="onCloseModal()"
+        (nzOnOk)="onCreate()"
+        [(nzVisible)]="showModal"
+        [nzMaskClosable]="false"
+        [nzTitle]="pageTitle"
+    >
+        <div *nzModalContent [nzLg]="{ span: 24, offset: 0 }" [nzXs]="{ span: 24, offset: 0 }" nz-col>
+            <ng-container [ngTemplateOutletContext]="{form: categoryForm}" [ngTemplateOutlet]="contentFormTmpl"></ng-container>
+        </div>
+        <div *nzModalFooter>
+            <ng-container [ngTemplateOutlet]="contentFooterBtnTmpl"></ng-container>
+        </div>
+
+    </nz-modal>
+</ng-template>
+
+<ng-template #contentFormTmpl let-form="form">
+
+    <form (submit)="onCreate()"
+          autocomplete="off"
+          nz-form
+          nzLayout="vertical"
+    >
+        <div [nzSpan]="24" nz-col>
+
+            <nz-form-item>
+                <nz-form-label>Business Name</nz-form-label>
+                <nz-form-control nzErrorTip="First name is required">
+                    <input
+                        name="firstName"
+                        nz-input
+                        placeholder="Enter first name"
+                        type="text"
+                    />
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-label>First Name</nz-form-label>
+                <nz-form-control nzErrorTip="First name is required">
+                    <input
+                        name="firstName"
+                        nz-input
+                        placeholder="Enter first name"
+                        type="text"
+                    />
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-label>Last Name</nz-form-label>
+                <nz-form-control nzErrorTip="Last name is required">
+                    <input
+                        name="lastName"
+                        nz-input
+                        placeholder="Enter last name"
+                        type="text"
+                    />
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-label>Email</nz-form-label>
+                <nz-form-control nzErrorTip="Email is required">
+                    <input
+                        name="email"
+                        nz-input
+                        placeholder="Enter email"
+                        type="text"
+                    />
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-label>Phone</nz-form-label>
+                <nz-form-control nzErrorTip="Phone is required">
+                    <input
+                        name="phone"
+                        nz-input
+                        placeholder="Enter phone number"
+                        type="text"
+                    />
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-label>Address</nz-form-label>
+                <nz-form-control>
+                        <textarea name="comment"
+                                  nz-input
+                                  placeholder="Enter address "
+                        ></textarea>
+                </nz-form-control>
+            </nz-form-item>
+
+            <app-product-category-search></app-product-category-search>
+
+        </div>
+
+    </form>
+</ng-template>
+
+<ng-template #contentFooterBtnTmpl>
+    <button (click)="onCloseModal()" nz-button nzType="default">Cancel</button>
+    <button (click)="onCreate()" [nzLoading]="isLoading" nz-button nzType="primary">Submit</button>
+</ng-template>
