@@ -14,6 +14,7 @@ import {NzCollapseModule} from 'ng-zorro-antd/collapse';
 import {NzDatePickerModule} from 'ng-zorro-antd/date-picker';
 import {NzDividerModule} from 'ng-zorro-antd/divider';
 import {NzDrawerModule} from 'ng-zorro-antd/drawer';
+import {NzEmptyModule} from 'ng-zorro-antd/empty';
 import {NzFormModule} from 'ng-zorro-antd/form';
 import {NzGridModule} from 'ng-zorro-antd/grid';
 import {NzInputModule} from 'ng-zorro-antd/input';
@@ -86,7 +87,8 @@ const THIRD_MODULES: Array<Type<void>> = [
     NzCollapseModule,
     NzCalendarModule,
     NzDrawerModule,
-    NzUploadModule
+    NzUploadModule,
+    NzEmptyModule
 
 ];
 const COMPONENTS: Array<Type<void>> = [
