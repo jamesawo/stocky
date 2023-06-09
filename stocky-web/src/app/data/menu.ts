@@ -66,7 +66,9 @@ export const MENU_BAG: Menu[] = [
                         ]
                     },
                     {text: 'Location Setup', link: '/company/location-setup'},
-                    {text: 'Expenses Setup', link: '/company/expenses-setup'}
+                    {text: 'Expenses Setup', link: '/company/expenses-setup'},
+                    {text: 'Role Setup', link: '/company/role-setup'}
+
                 ]
             },
             {
