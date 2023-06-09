@@ -11,14 +11,14 @@
 
         <form *ngIf="isOpenHeader" autocomplete="off" class="ph-main" nz-form nzLayout="vertical">
 
-            <div [nzGutter]="[12, 24]" nz-row>
+            <div [nzGutter]="[8, 8]" nz-row>
 
                 <div nz-col nzSpan="24">
 
                     <div nz-row nzGutter="10">
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
-                                <nz-form-label>Customer #</nz-form-label>
+                                <nz-form-label>Employee #</nz-form-label>
                                 <input name="customerNumber" nz-input placeholder="Enter customer number" type="text"/>
                             </nz-form-item>
                         </div>
@@ -60,13 +60,12 @@
 
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
-                                <nz-form-label>Customer Tag</nz-form-label>
-                                <nz-select nzPlaceHolder="Select tag">
+                                <nz-form-label>Role</nz-form-label>
+                                <nz-select nzPlaceHolder="Select Role">
                                     <nz-option></nz-option>
                                 </nz-select>
                             </nz-form-item>
                         </div>
-
                     </div>
 
                 </div>
@@ -76,32 +75,15 @@
                     <div nz-row nzGutter="10">
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
-                                <app-product-category-search></app-product-category-search>
-                            </nz-form-item>
-                        </div>
-
-                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
-                            <nz-form-item>
-                                <app-product-search></app-product-search>
-
-                            </nz-form-item>
-                        </div>
-
-                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
-                            <nz-form-item>
-                                <nz-form-label>Promotion
-                                    <small class="m-l-10px dm-none">(disabled)</small>
-                                </nz-form-label>
-                                <nz-select [nzDisabled]="true" nzPlaceHolder="Select Promotion">
-                                    <nz-option></nz-option>
+                                <nz-form-label>Account Expiration</nz-form-label>
+                                <nz-select nzPlaceHolder="Select Period">
+                                    <nz-option nzLabel="NEXT 1 MONTH"></nz-option>
                                 </nz-select>
                             </nz-form-item>
                         </div>
-
                     </div>
 
                 </div>
-
 
             </div>
 
@@ -120,7 +102,7 @@
 
                     <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" class="text-align-end" nz-col>
                         <nz-space nzSize="small">
-                            <app-company-expense-add-btn *nzSpaceItem [props]="{display: 'drawer'}"></app-company-expense-add-btn>
+                            <app-company-people-employee-add-btn *nzSpaceItem [popup]="{display: 'drawer'}"></app-company-people-employee-add-btn>
                             <app-export-upload-button *nzSpaceItem [props]="{}"></app-export-upload-button>
                         </nz-space>
                     </div>

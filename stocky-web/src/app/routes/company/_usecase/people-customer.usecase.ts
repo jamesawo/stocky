@@ -5,12 +5,12 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {CommonPayload} from '../../../data/payload/common.payload';
 
 @Injectable({providedIn: 'root'})
-export class PeopleCutomerUsecase {
+export class PeopleCustomerUsecase {
 
     public trigger: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public trigger$: Observable<boolean> = this.trigger.asObservable();
 
-    private url = environment.api.baseUrl + '/company/expenses-category';
+    private url = environment.api.baseUrl + '/company/people-customer';
 
     constructor(private http: HttpClient) {}
 

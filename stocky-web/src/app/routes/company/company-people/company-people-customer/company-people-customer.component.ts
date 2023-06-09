@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {of} from 'rxjs';
-import {CUSTOMER_SETUP} from '../../../../data/constant/crumb.constant';
-import {TableCol} from '../../../../shared/components/table/table.component';
+import {CUSTOMER_SETUP} from 'src/app/data/constant/crumb.constant';
+import {TableCol} from 'src/app/shared/components/table/table.component';
 
 @Component({
     selector: 'app-company-people-customer',

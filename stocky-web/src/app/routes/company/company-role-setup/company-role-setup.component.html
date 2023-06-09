@@ -1,1 +1,12 @@
-<p>company-role-setup works!</p>
+<page-header></page-header>
+
+<nz-card>
+    <div nz-row nzJustify="space-between">
+
+        <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" class="mb4" nz-col>
+            <app-company-role-add-btn [props]="{title: 'Add Role', icon: 'plus', showTable: false, showForm: true}"></app-company-role-add-btn>
+        </div>
+
+    </div>
+    <app-table [colHeadings]="tableCols" [dataList]="list" [props]="{tableLayout: 'auto'}"></app-table>
+</nz-card>

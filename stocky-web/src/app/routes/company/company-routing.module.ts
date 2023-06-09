@@ -7,6 +7,7 @@ import {CompanyPaymentOptionsComponent} from './company-payment-options/company-
 import {CompanyPeopleCustomerComponent} from './company-people/company-people-customer/company-people-customer.component';
 import {CompanyPeopleEmployeesComponent} from './company-people/company-people-employees/company-people-employees.component';
 import {CompanyPeopleSupplierComponent} from './company-people/company-people-supplier/company-people-supplier.component';
+import {CompanyRoleSetupComponent} from './company-role-setup/company-role-setup.component';
 import {CompanyTaxSetupComponent} from './company-tax-setup/company-tax-setup.component';
 
 
@@ -23,7 +24,8 @@ const routes: Routes = [
         ]
     },
     {path: 'location-setup', component: CompanyLocationSetupComponent},
-    {path: 'expenses-setup', component: CompanyExpensesSetupComponent}
+    {path: 'expenses-setup', component: CompanyExpensesSetupComponent},
+    {path: 'role-setup', component: CompanyRoleSetupComponent}
 
 ];
 
