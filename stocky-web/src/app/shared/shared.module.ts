@@ -114,6 +114,7 @@ const DIRECTIVES: Array<Type<void>> = [];
 const ICONS: Array<Type<void>> = [];
 const PROVIDERS: Array<Type<void>> = [AsyncPipe, UpperCasePipe];
 
+
 @NgModule({
     imports: [
         CommonModule,
