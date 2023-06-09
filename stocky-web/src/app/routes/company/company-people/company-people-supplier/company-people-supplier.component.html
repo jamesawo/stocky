@@ -1,1 +1,116 @@
-<p>company-people-supplier works!</p>
+<page-header [action]="action" [breadcrumb]="breadcrumb" [content]="content" title="Manage Suppliers">
+    <ng-template #breadcrumb>
+        <app-breadcrumbs [crumbs]="crumbs"></app-breadcrumbs>
+    </ng-template>
+
+    <ng-template #action>
+        <app-expand-collapse-button [(open)]="isOpenHeader"></app-expand-collapse-button>
+    </ng-template>
+
+    <ng-template #content>
+
+        <form *ngIf="isOpenHeader" autocomplete="off" class="ph-main" nz-form nzLayout="vertical">
+
+            <div [nzGutter]="[8, 8]" nz-row>
+
+                <div nz-col nzSpan="24">
+
+                    <div nz-row nzGutter="10">
+                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
+                            <nz-form-item>
+                                <nz-form-label>Supplier #</nz-form-label>
+                                <input name="customerNumber" nz-input placeholder="Enter supplier number" type="text"/>
+                            </nz-form-item>
+                        </div>
+
+                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
+                            <nz-form-item>
+                                <nz-form-label>Full Name</nz-form-label>
+                                <input name="fullName" nz-input placeholder="Enter full name" type="text"/>
+                            </nz-form-item>
+                        </div>
+
+                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
+                            <nz-form-item>
+                                <nz-form-label>Phone number</nz-form-label>
+                                <input name="phoneNumber" nz-input placeholder="Enter phone number" type="text"/>
+                            </nz-form-item>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div nz-col nzSpan="24">
+
+                    <div nz-row nzGutter="10">
+                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
+                            <nz-form-item>
+                                <nz-form-label>Email</nz-form-label>
+                                <input name="email" nz-input placeholder="Enter email address" type="text"/>
+                            </nz-form-item>
+                        </div>
+
+                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
+                            <nz-form-item>
+                                <nz-form-label>Date Range</nz-form-label>
+                                <app-range-date-picker></app-range-date-picker>
+                            </nz-form-item>
+                        </div>
+
+                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
+                            <nz-form-item>
+                                <app-company-user-search></app-company-user-search>
+                            </nz-form-item>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div nz-col nzSpan="24">
+
+                    <div nz-row nzGutter="10">
+                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
+                            <nz-form-item>
+                                <app-product-category-search></app-product-category-search>
+                            </nz-form-item>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div nz-col nzSpan="24">
+                <div nz-row nzJustify="space-between">
+                    <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" nz-col>
+                        <app-search-reset-button
+                            [props]="{
+                                        onSearchAction: onSearch,
+                                        isLoadingSearchResult: isLoading,
+                                        onResetSearchPayload: onReset,
+                                        onCancelAction: onCancel
+                                        }"
+                        ></app-search-reset-button>
+                    </div>
+
+                    <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" class="text-align-end" nz-col>
+                        <nz-space nzSize="small">
+                            <app-company-people-supplier-add-btn *nzSpaceItem></app-company-people-supplier-add-btn>
+                            <app-export-upload-button *nzSpaceItem [props]="{}"></app-export-upload-button>
+                        </nz-space>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </ng-template>
+
+</page-header>
+
+<nz-card>
+    <app-table [colHeadings]="tableCols" [dataList]="list" [props]="{tableLayout: 'auto'}"></app-table>
+</nz-card>

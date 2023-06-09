@@ -60,3 +60,10 @@ export const EMPLOYEE_SETUP: Crumbs[] = [
     {link: '/dashboard', title: 'People'},
     {link: '/company/people/employees', title: 'Manage Employee'}
 ];
+
+
+export const SUPPLIER_SETUP: Crumbs[] = [
+    {link: '/dashboard', title: 'Company'},
+    {link: '/dashboard', title: 'People'},
+    {link: '/company/people/supplier', title: 'Manage Supplier'}
+];
