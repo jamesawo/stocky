@@ -8,11 +8,11 @@ export type ExpensesAddBtnProps = {
 }
 
 @Component({
-    selector: 'app-company-people-employee-add-btn',
-    templateUrl: './company-people-employee-add-btn.component.html',
+    selector: 'app-company-people-customer-add-btn',
+    templateUrl: './company-people-customer-add-btn.component.html',
     styles: []
 })
-export class CompanyPeopleEmployeeAddBtnComponent {
+export class CompanyPeopleCustomerAddBtnComponent {
     public showDrawer = false;
     public isLoading = false;
     public showModal = false;
@@ -23,6 +23,7 @@ export class CompanyPeopleEmployeeAddBtnComponent {
 
     @Input()
     public popup: PopupViewProps = {display: 'drawer'};
+    public pageTitle = 'Add New Customer';
 
     get isDrawer() {
         return this.popup.display == 'drawer';

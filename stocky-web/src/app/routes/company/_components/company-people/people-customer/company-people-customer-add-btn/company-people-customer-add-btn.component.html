@@ -6,9 +6,9 @@
         [nzBodyStyle]="{ overflow: 'auto' }"
         [nzFooter]="footerTpl"
         [nzMaskClosable]="false"
+        [nzTitle]="pageTitle"
         [nzVisible]="showDrawer"
         [nzWidth]="720"
-        nzTitle="Add New Employee"
     >
         <div *nzDrawerContent>
             <ng-container [ngTemplateOutletContext]="{form: categoryForm}" [ngTemplateOutlet]="contentFormTmpl"></ng-container>
@@ -30,7 +30,7 @@
         (nzOnOk)="onCreate()"
         [(nzVisible)]="showModal"
         [nzMaskClosable]="false"
-        nzTitle="Add New Employee"
+        [nzTitle]="pageTitle"
     >
         <div *nzModalContent [nzLg]="{ span: 24, offset: 0 }" [nzXs]="{ span: 24, offset: 0 }" nz-col>
             <ng-container [ngTemplateOutletContext]="{form: categoryForm}" [ngTemplateOutlet]="contentFormTmpl"></ng-container>
@@ -51,175 +51,63 @@
     >
         <div [nzSpan]="24" nz-col>
 
-            <nz-collapse nzAccordion>
+            <nz-form-item>
+                <nz-form-label>First Name</nz-form-label>
+                <nz-form-control nzErrorTip="First name is required">
+                    <input
+                        name="firstName"
+                        nz-input
+                        placeholder="Enter first name"
+                        type="text"
+                    />
+                </nz-form-control>
+            </nz-form-item>
 
-                <nz-collapse-panel nzHeader="Personal Basic Details">
-                    <nz-form-item>
-                        <nz-form-label>First Name</nz-form-label>
-                        <nz-form-control nzErrorTip="First name is required">
-                            <input
-                                name="firstName"
-                                nz-input
-                                placeholder="Enter first name"
-                                type="text"
-                            />
-                        </nz-form-control>
-                    </nz-form-item>
+            <nz-form-item>
+                <nz-form-label>Last Name</nz-form-label>
+                <nz-form-control nzErrorTip="Last name is required">
+                    <input
+                        name="lastName"
+                        nz-input
+                        placeholder="Enter last name"
+                        type="text"
+                    />
+                </nz-form-control>
+            </nz-form-item>
 
-                    <nz-form-item>
-                        <nz-form-label>Last Name</nz-form-label>
-                        <nz-form-control nzErrorTip="Last name is required">
-                            <input
-                                name="lastName"
-                                nz-input
-                                placeholder="Enter last name"
-                                type="text"
-                            />
-                        </nz-form-control>
-                    </nz-form-item>
+            <nz-form-item>
+                <nz-form-label>Email</nz-form-label>
+                <nz-form-control nzErrorTip="Email is required">
+                    <input
+                        name="email"
+                        nz-input
+                        placeholder="Enter email"
+                        type="text"
+                    />
+                </nz-form-control>
+            </nz-form-item>
 
-                    <nz-form-item>
-                        <nz-form-label>Email</nz-form-label>
-                        <nz-form-control nzErrorTip="Email is required">
-                            <input
-                                name="email"
-                                nz-input
-                                placeholder="Enter email"
-                                type="text"
-                            />
-                        </nz-form-control>
-                    </nz-form-item>
+            <nz-form-item>
+                <nz-form-label>Phone</nz-form-label>
+                <nz-form-control nzErrorTip="Phone is required">
+                    <input
+                        name="phone"
+                        nz-input
+                        placeholder="Enter phone number"
+                        type="text"
+                    />
+                </nz-form-control>
+            </nz-form-item>
 
-                    <nz-form-item>
-                        <nz-form-label>Phone</nz-form-label>
-                        <nz-form-control nzErrorTip="Phone is required">
-                            <input
-                                name="phone"
-                                nz-input
-                                placeholder="Enter phone number"
-                                type="text"
-                            />
-                        </nz-form-control>
-                    </nz-form-item>
-
-                    <nz-form-item>
-                        <nz-form-label>Date of birth</nz-form-label>
-                        <nz-form-control nzErrorTip="Dob is required">
-                            <app-date-picker></app-date-picker>
-                        </nz-form-control>
-                    </nz-form-item>
-
-
-                    <nz-form-item>
-                        <nz-form-label>Address</nz-form-label>
-                        <nz-form-control>
+            <nz-form-item>
+                <nz-form-label>Address</nz-form-label>
+                <nz-form-control>
                         <textarea name="comment"
                                   nz-input
                                   placeholder="Enter address "
                         ></textarea>
-                        </nz-form-control>
-                    </nz-form-item>
-                </nz-collapse-panel>
-
-                <nz-collapse-panel nzHeader="Emergency Contact Details">
-                    <nz-form-item>
-                        <nz-form-label>Nok. Full Name</nz-form-label>
-                        <nz-form-control nzErrorTip="First name is required">
-                            <input
-                                name="firstName"
-                                nz-input
-                                placeholder="Enter first name"
-                                type="text"
-                            />
-                        </nz-form-control>
-                    </nz-form-item>
-
-                    <nz-form-item>
-                        <nz-form-label>Nok. Phone</nz-form-label>
-                        <nz-form-control nzErrorTip="Phone is required">
-                            <input
-                                name="phone"
-                                nz-input
-                                placeholder="Enter phone number"
-                                type="text"
-                            />
-                        </nz-form-control>
-                    </nz-form-item>
-
-                    <nz-form-item>
-                        <nz-form-label>Nok. Address</nz-form-label>
-                        <nz-form-control>
-                        <textarea name="nokAddress"
-                                  nz-input
-                                  placeholder="Enter address "
-                        ></textarea>
-                        </nz-form-control>
-                    </nz-form-item>
-
-                    <nz-form-item>
-                        <nz-form-label>Relationship with Nok.</nz-form-label>
-                        <nz-form-control>
-                            <nz-select></nz-select>
-                        </nz-form-control>
-                    </nz-form-item>
-
-                </nz-collapse-panel>
-
-                <nz-collapse-panel nzHeader="Account Details">
-
-                    <nz-form-item>
-                        <nz-form-label>Account Role</nz-form-label>
-                        <nz-form-control
-                            [nzSpan]="24"
-                            nzErrorTip=""
-                            nzValidateStatus="success"
-                        >
-                            <div nz-row nzGutter="4">
-                                <div nz-col nzFlex="auto">
-                                    <app-company-role-search-dropdown></app-company-role-search-dropdown>
-                                </div>
-                                <div nz-col nz-tooltip nzFlex="30px" nzTooltipPlacement="top" nzTooltipTitle="Update roles">
-                                    <app-company-role-add-btn
-                                        [popup]="{display: 'modal'}"
-                                        class="mt3"
-                                    ></app-company-role-add-btn>
-                                </div>
-
-                            </div>
-                        </nz-form-control>
-                    </nz-form-item>
-
-                    <nz-form-item>
-                        <nz-form-label>Account Expiration Date</nz-form-label>
-                        <nz-form-control nzErrorTip="Date is required">
-                            <app-date-picker></app-date-picker>
-                        </nz-form-control>
-                    </nz-form-item>
-
-                    <nz-form-item>
-                        <nz-form-label>Account Username</nz-form-label>
-                        <nz-form-control
-                            [nzSpan]="24"
-                            nzErrorTip=""
-                            nzValidateStatus="success"
-                        >
-                            <input nz-input placeholder="Enter username"/>
-                        </nz-form-control>
-                    </nz-form-item>
-
-                    <nz-form-item>
-                        <nz-form-label>Account Password</nz-form-label>
-                        <nz-form-control
-                            [nzSpan]="24"
-                            nzErrorTip=""
-                            nzValidateStatus="success"
-                        >
-                            <input nz-input placeholder="Enter password" type="password"/>
-                        </nz-form-control>
-                    </nz-form-item>
-                </nz-collapse-panel>
-
-            </nz-collapse>
+                </nz-form-control>
+            </nz-form-item>
 
         </div>
 
