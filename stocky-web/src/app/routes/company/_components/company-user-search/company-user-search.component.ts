@@ -1,8 +1,5 @@
 import {Component, Input} from '@angular/core';
-
-export type UserSearchProps = {
-    showLabel?: boolean;
-}
+import {SearchProps} from '../../../../data/payload/common.types';
 
 @Component({
     selector: 'app-company-user-search',
@@ -12,6 +9,6 @@ export type UserSearchProps = {
 export class CompanyUserSearchComponent {
 
     @Input()
-    public props: UserSearchProps = {showLabel: true};
+    public props: SearchProps = {showLabel: true};
 
 }
