@@ -25,5 +25,12 @@ export type SearchProps = {
     hasError?: boolean;
     autoFocus?: boolean;
     required?: boolean;
-    span?: number
+    span?: number;
+    showLabel?: boolean;
 }
+
+export type PopupViewProps = {
+    display: 'drawer' | 'modal'
+}
+
+
