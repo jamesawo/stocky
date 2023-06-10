@@ -1,7 +1,24 @@
-import { NgModule } from '@angular/core';
-import { ReportRoutingModule } from './report-routing.module';
+import {NgModule, Type} from '@angular/core';
+import {SharedModule} from '@shared';
+import {ReportCustomerComponent} from './report-customer/report-customer.component';
+import {ReportEmployeeComponent} from './report-employee/report-employee.component';
+import {ReportExpenseComponent} from './report-expense/report-expense.component';
+import {ReportRoutingModule} from './report-routing.module';
+import {ReportSalesComponent} from './report-sales/report-sales.component';
+import {ReportStockComponent} from './report-stock/report-stock.component';
+
+const COMPONENTS: Array<Type<void>> = [
+    ReportSalesComponent,
+    ReportExpenseComponent,
+    ReportEmployeeComponent,
+    ReportCustomerComponent,
+    ReportStockComponent
+];
 
 @NgModule({
-    imports: [ReportRoutingModule],
+    imports: [ReportRoutingModule, SharedModule],
+    declarations: [...COMPONENTS],
+    exports: [...COMPONENTS]
 })
-export class ReportModule {}
+export class ReportModule {
+}
