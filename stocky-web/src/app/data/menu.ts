@@ -75,11 +75,11 @@ export const MENU_BAG: Menu[] = [
                 text: 'Report',
                 icon: {type: 'icon', value: 'file-pdf'},
                 children: [
-                    {text: 'Sales', link: '/report/sales'},
-                    {text: 'Expense', link: '/report/expenses'},
-                    {text: 'Employee', link: '/report/employees'},
-                    {text: 'Customer', link: '/report/customers'},
-                    {text: 'Stock', link: '/report/stock'}
+                    {text: 'Sales', link: '/report/sales-report'},
+                    {text: 'Expense', link: '/report/expenses-report'},
+                    {text: 'Employee', link: '/report/employees-report'},
+                    {text: 'Customer', link: '/report/customers-report'},
+                    {text: 'Stock', link: '/report/stock-report'}
                 ]
             },
 
