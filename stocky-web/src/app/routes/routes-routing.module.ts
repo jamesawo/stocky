@@ -1,20 +1,20 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { startPageGuard } from '@core';
-import { SimpleGuard } from '@delon/auth';
-import { environment } from '@env/environment';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {startPageGuard} from '@core';
+import {SimpleGuard} from '@delon/auth';
+import {environment} from '@env/environment';
 // layout
-import { LayoutBasicComponent } from '../layout/basic/basic.component';
-import { LayoutPassportComponent } from '../layout/passport/passport.component';
+import {LayoutBasicComponent} from '../layout/basic/basic.component';
+import {LayoutPassportComponent} from '../layout/passport/passport.component';
 // dashboard pages
-import { DashboardComponent } from './dashboard/dashboard.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
 // single pages
-import { CallbackComponent } from './passport/callback.component';
-import { UserLockComponent } from './passport/lock/lock.component';
+import {CallbackComponent} from './passport/callback.component';
+import {UserLockComponent} from './passport/lock/lock.component';
 // passport pages
-import { UserLoginComponent } from './passport/login/login.component';
-import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
-import { UserRegisterComponent } from './passport/register/register.component';
+import {UserLoginComponent} from './passport/login/login.component';
+import {UserRegisterResultComponent} from './passport/register-result/register-result.component';
+import {UserRegisterComponent} from './passport/register/register.component';
 
 const routes: Routes = [
     {
@@ -22,20 +22,20 @@ const routes: Routes = [
         component: LayoutBasicComponent,
         canActivate: [startPageGuard, SimpleGuard],
         children: [
-            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+            {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
             {
                 path: 'dashboard',
                 component: DashboardComponent,
-                data: { title: '仪表盘' },
+                data: {title: 'Dashboard'}
             },
             {
                 path: 'exception',
                 loadChildren: () =>
                     import('./exception/exception.module').then(
                         (m) => m.ExceptionModule
-                    ),
-            },
-        ],
+                    )
+            }
+        ]
     },
 
     {
@@ -45,24 +45,24 @@ const routes: Routes = [
             {
                 path: 'login',
                 component: UserLoginComponent,
-                data: { title: 'Login' },
+                data: {title: 'Login'}
             },
             {
                 path: 'register',
                 component: UserRegisterComponent,
-                data: { title: 'Register' },
+                data: {title: 'Register'}
             },
             {
                 path: 'register-result',
                 component: UserRegisterResultComponent,
-                data: { title: 'Register Result' },
+                data: {title: 'Register Result'}
             },
             {
                 path: 'lock',
                 component: UserLockComponent,
-                data: { title: 'Lock' },
-            },
-        ],
+                data: {title: 'Lock'}
+            }
+        ]
     },
 
     {
@@ -72,7 +72,7 @@ const routes: Routes = [
         loadChildren: () =>
             import('src/app/routes/company/company.module').then(
                 (m) => m.CompanyModule
-            ),
+            )
     },
 
     {
@@ -82,7 +82,7 @@ const routes: Routes = [
         loadChildren: () =>
             import('src/app/routes/products/products.module').then(
                 (m) => m.ProductsModule
-            ),
+            )
     },
     {
         path: 'report',
@@ -91,7 +91,7 @@ const routes: Routes = [
         loadChildren: () =>
             import('src/app/routes/report/report.module').then(
                 (m) => m.ReportModule
-            ),
+            )
     },
     {
         path: 'sales',
@@ -100,7 +100,7 @@ const routes: Routes = [
         loadChildren: () =>
             import('src/app/routes/sales/sales.module').then(
                 (m) => m.SalesModule
-            ),
+            )
     },
     {
         path: 'settings',
@@ -109,7 +109,7 @@ const routes: Routes = [
         loadChildren: () =>
             import('src/app/routes/settings/settings.module').then(
                 (m) => m.SettingsModule
-            ),
+            )
     },
     {
         path: 'stock',
@@ -118,20 +118,32 @@ const routes: Routes = [
         loadChildren: () =>
             import('src/app/routes/stock/stock.module').then(
                 (m) => m.StockModule
-            ),
+            )
     },
 
-    { path: 'passport/callback/:type', component: CallbackComponent },
-    { path: '**', redirectTo: 'exception/404' },
+    {
+        path: 'paywall',
+        component: LayoutBasicComponent,
+        canActivate: [startPageGuard, SimpleGuard],
+        loadChildren: () =>
+            import('src/app/routes/paywall/paywall.module').then(
+                (m) => m.PaywallModule
+            )
+    },
+
+
+    {path: 'passport/callback/:type', component: CallbackComponent},
+    {path: '**', redirectTo: 'exception/404'}
 ];
 
 @NgModule({
     imports: [
         RouterModule.forRoot(routes, {
             useHash: environment.useHash,
-            scrollPositionRestoration: 'top',
-        }),
+            scrollPositionRestoration: 'top'
+        })
     ],
-    exports: [RouterModule],
+    exports: [RouterModule]
 })
-export class RouteRoutingModule {}
+export class RouteRoutingModule {
+}
