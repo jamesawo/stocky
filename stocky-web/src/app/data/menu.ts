@@ -31,7 +31,7 @@ export const MENU_BAG: Menu[] = [
                 text: 'Sales',
                 icon: {type: 'icon', value: 'credit-card'},
                 children: [
-                    {text: 'Sale', link: '/sales/sale'},
+                    {text: 'Sale', link: '/sales/sale-pos'},
                     {text: 'Order', link: '/sales/order'},
                     {text: 'Refund', link: '/sales/refund'}
                 ]
@@ -75,14 +75,14 @@ export const MENU_BAG: Menu[] = [
             },
 
             {
-                text: 'Report',
+                text: 'Reports',
                 icon: {type: 'icon', value: 'file-pdf'},
                 children: [
-                    {text: 'Sales', link: '/report/sales-report'},
-                    {text: 'Expense', link: '/report/expenses-report'},
-                    {text: 'Employee', link: '/report/employees-report'},
-                    {text: 'Customer', link: '/report/customers-report'},
-                    {text: 'Stock', link: '/report/stock-report'}
+                    {text: 'Sales', link: '/reports/sales-report'},
+                    {text: 'Expense', link: '/reports/expenses-report'},
+                    {text: 'Employee', link: '/reports/employees-report'},
+                    {text: 'Customer', link: '/reports/customers-report'},
+                    {text: 'Stock', link: '/reports/stock-report'}
                 ]
             },
 
@@ -101,7 +101,7 @@ export const MENU_BAG: Menu[] = [
 
             {
                 text: 'Subscription',
-                icon: {type: 'icon', value: 'credit-card'},
+                icon: {type: 'icon', value: 'wallet'},
                 children: [
                     {text: 'Plan', link: '/paywall/plan'},
                     {text: 'Payments', link: '/paywall/payments'},
