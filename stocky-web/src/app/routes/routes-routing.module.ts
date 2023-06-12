@@ -85,15 +85,6 @@ const routes: Routes = [
             )
     },
     {
-        path: 'report',
-        component: LayoutBasicComponent,
-        canActivate: [startPageGuard, SimpleGuard],
-        loadChildren: () =>
-            import('src/app/routes/report/report.module').then(
-                (m) => m.ReportModule
-            )
-    },
-    {
         path: 'sales',
         component: LayoutBasicComponent,
         canActivate: [startPageGuard, SimpleGuard],
@@ -109,6 +100,15 @@ const routes: Routes = [
         loadChildren: () =>
             import('src/app/routes/settings/settings.module').then(
                 (m) => m.SettingsModule
+            )
+    },
+    {
+        path: 'reports',
+        component: LayoutBasicComponent,
+        canActivate: [startPageGuard, SimpleGuard],
+        loadChildren: () =>
+            import('src/app/routes/report/report.module').then(
+                (m) => m.ReportModule
             )
     },
     {
