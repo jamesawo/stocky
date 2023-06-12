@@ -58,3 +58,13 @@ export class SupplierPayload {
     date?: string;
     recordedBy?: string;
 }
+
+
+export class ExpensesPayload {
+    id?: number;
+    amount?: number;
+    comment?: string;
+    fileId?: string;
+    user?: UserPayload;
+    transactionDate?: string;
+}

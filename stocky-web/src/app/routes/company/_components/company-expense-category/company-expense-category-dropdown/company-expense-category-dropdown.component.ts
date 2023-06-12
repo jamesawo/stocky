@@ -1,28 +1,23 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {Observable, of, shareReplay} from 'rxjs';
 import {CommonPayload} from '../../../../../data/payload/common.payload';
 import {FormProps} from '../../../../../data/payload/common.types';
-
-export const expensesCategoryData: CommonPayload[] = [
-    {title: 'FOOD', id: 1},
-    {title: 'TRANSPORT', id: 2},
-    {title: 'FUEL', id: 3},
-    {title: 'PURCHASE', id: 4},
-    {title: 'MAINTENANCE', id: 5}
-];
+import {ExpenseCategoryUsecase} from '../../../_usecase/company-expenses/expense-category.usecase';
 
 @Component({
     selector: 'app-company-expense-category-dropdown',
     templateUrl: './company-expense-category-dropdown.component.html',
     styles: []
 })
-export class CompanyExpenseCategoryDropdownComponent {
+export class CompanyExpenseCategoryDropdownComponent implements OnInit {
     @Input()
     public formProps?: FormProps;
 
     @Input()
     public props: {showLabel: boolean} = {showLabel: false};
 
-    public list = expensesCategoryData;
+    public categories: Observable<CommonPayload[]> = of();
 
     @Input()
     public select?: CommonPayload;
@@ -30,10 +25,25 @@ export class CompanyExpenseCategoryDropdownComponent {
     @Output()
     public selectChange = new EventEmitter<CommonPayload>();
 
+    constructor(
+        private usecase: ExpenseCategoryUsecase,
+        private notification: NzNotificationService
+    ) {}
+
+    public ngOnInit() {
+        this.loadList();
+        this.usecase.trigger$.subscribe(value => this.loadList());
+    }
+
     public onCategorySelected(selected: CommonPayload) {
         if (selected) {
             this.selectChange.emit(selected);
         }
     }
+
+    private loadList() {
+        this.categories = this.usecase.getAll().pipe(shareReplay());
+    }
+
 
 }

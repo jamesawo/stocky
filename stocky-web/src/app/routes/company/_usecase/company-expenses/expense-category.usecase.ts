@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {CommonPayload} from '../../../data/payload/common.payload';
+import {CommonPayload} from '../../../../data/payload/common.payload';
 
 @Injectable({providedIn: 'root'})
 export class ExpenseCategoryUsecase {

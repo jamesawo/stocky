@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, shareReplay} from 'rxjs';
 import {CommonPayload} from '../../../../../data/payload/common.payload';
+import {TextTruncateProps} from '../../../../../shared/components/table-item-editable/table-item-editable.component';
 import {TableCol} from '../../../../../shared/components/table/table.component';
 import {EditCacheMap} from '../../../../../shared/components/update-delete-action/update-delete-action.component';
 import {
@@ -10,7 +11,7 @@ import {
     handleUpdateObservableListIfResponse,
     handleUsecaseRequest
 } from '../../../../../shared/utils/util';
-import {ExpenseCategoryUsecase} from '../../../_usecase/expense-category.usecase';
+import {ExpenseCategoryUsecase} from '../../../_usecase/company-expenses/expense-category.usecase';
 
 @Component({
     selector: 'app-company-expense-category-table',
@@ -18,15 +19,20 @@ import {ExpenseCategoryUsecase} from '../../../_usecase/expense-category.usecase
     styles: []
 })
 export class CompanyExpenseCategoryTableComponent {
+    @Input() public class?: string;
+
+    public truncateProps: TextTruncateProps = {
+        truncateAfter: 10,
+        canTruncateText: true
+    };
 
     public cols: TableCol[] = [
-        {title: 'TITLE'},
-        {title: 'DESCRIPTION'},
+        {title: 'TITLE', width: 30},
+        {title: 'DESCRIPTION', width: 40},
         {title: '', width: 20}
     ];
-    public data?: Observable<any[]>;
     public editMap: EditCacheMap<any> = {};
-    public paymentOptions?: Observable<CommonPayload[]>;
+    public data?: Observable<CommonPayload[]>;
 
     constructor(
         private usecase: ExpenseCategoryUsecase,
@@ -39,7 +45,7 @@ export class CompanyExpenseCategoryTableComponent {
     }
 
     public loadData() {
-        this.paymentOptions = this.usecase.getAll().pipe(shareReplay());
+        this.data = this.usecase.getAll().pipe(shareReplay());
     }
 
     public onConfirmDelete = async (id: number) => {
