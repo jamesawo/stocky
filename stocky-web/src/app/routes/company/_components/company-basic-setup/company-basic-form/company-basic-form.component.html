@@ -1,0 +1,156 @@
+<form (ngSubmit)="onSaveBasicDetails()" [autocomplete]="false" [formGroup]="basicDetailForm" nz-form nzLayout="vertical">
+
+    <div nz-row nzGutter="8">
+        <div nz-col nzLg="12" nzMd="12" nzSm="24" nzSpan="12" nzXl="12" nzXs="24">
+            <nz-form-item nz-col>
+                <nz-form-label nzFor="businessName" nzRequired>Business Name</nz-form-label>
+                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="">
+                    <input formControlName="businessName" id="businessName" name="businessOrCompanyName" nz-input
+                           placeholder="Enter your business name"/>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+
+        <div nz-col nzLg="12" nzMd="12" nzSm="24" nzSpan="12" nzXl="12" nzXs="24">
+            <nz-form-item nz-col>
+                <nz-form-label nzFor="address" nzRequired>Business Address</nz-form-label>
+                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="">
+                    <input formControlName="businessAddress" id="address" name="businessOrCompanyAddress" nz-input
+                           placeholder="Enter your business address"/>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+
+    </div>
+
+    <div nz-row nzGutter="8">
+        <div nz-col nzLg="12" nzMd="12" nzSm="24" nzSpan="12" nzXl="12" nzXs="24">
+            <nz-form-item>
+                <nz-form-label nzFor="category" nzRequired>Industry Category</nz-form-label>
+                <app-business-category-dropdown
+                    [formProps]="{formGroup: basicDetailForm, controlName: 'businessCategory'}"
+                ></app-business-category-dropdown>
+            </nz-form-item>
+        </div>
+
+        <div nz-col nzLg="12" nzMd="12" nzSm="24" nzSpan="12" nzXl="12" nzXs="24">
+            <nz-form-item>
+                <nz-form-label nzRequired>Employee Size</nz-form-label>
+                <app-business-number-of-employees
+                    [formProps]="{formGroup: basicDetailForm, controlName: 'businessEmployeeSize'}"
+                ></app-business-number-of-employees>
+            </nz-form-item>
+        </div>
+    </div>
+
+    <div nz-row nzGutter="8">
+        <div nz-col nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzRequired>Years in business</nz-form-label>
+                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="">
+
+                    <nz-input-number
+                        [nzMin]="1"
+                        [nzPlaceHolder]="'Enter number of years'"
+                        [nzStep]="1" class="wd-100p"
+                        formControlName="businessNumberOfYearsOfOperation"></nz-input-number>
+
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzRequired>Number of branch</nz-form-label>
+                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="">
+                    <nz-input-number
+                        [nzMin]="1"
+                        [nzPlaceHolder]="'Enter number of branches'"
+                        [nzStep]="1" class="wd-100p"
+                        formControlName="businessNumberOfBranch"></nz-input-number>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+
+    <!--
+    <div nz-row nzGutter="24">
+
+        <fieldset formGroupName="businessAddress" nz-col nzSpan="24">
+
+            <legend>Address:</legend>
+
+            <div nz-row nzGutter="6">
+
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzRequired>Country</nz-form-label>
+                        <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input is not valid!">
+                            <nz-select formControlName="country">
+                                <nz-option [nzValue]="1" nzLabel="Nigeria"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzRequired>State</nz-form-label>
+                        <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input is not valid!">
+                            <nz-select formControlName="state">
+                                <nz-option [nzValue]="1" nzLabel="Lagos"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzRequired>LGA</nz-form-label>
+                        <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input is not valid!">
+                            <nz-select formControlName="lga">
+                                <nz-option [nzValue]="1" nzLabel="Gbagada"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+            <div nz-row nzGutter="6">
+
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label>City</nz-form-label>
+                        <nz-form-control>
+                            <input formControlName="city" nz-input>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzRequired>Street</nz-form-label>
+                        <nz-form-control>
+                            <input formControlName="street" nz-input>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label>Postal Code</nz-form-label>
+                        <nz-form-control [nzDisableAutoTips]="true">
+                            <input formControlName="postal" nz-input>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+        </fieldset>
+    </div>
+    -->
+
+    <div nz-col nzSpan="24">
+        <button [nzLoading]="loading" nz-button nzType="primary" type="submit">Save Basic Details</button>
+    </div>
+</form>
