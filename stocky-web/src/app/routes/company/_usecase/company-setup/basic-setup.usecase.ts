@@ -8,7 +8,7 @@ import {CompanyBasicDetailsPayload} from '../_data/company-setup.payload';
 })
 export class BasicSetupUsecase {
 
-    private url = environment.api.baseUrl + '/company/expenses-category';
+    private url = environment.api.baseUrl + '/company/setup/basic';
 
     constructor(private http: HttpClient) {}
 
