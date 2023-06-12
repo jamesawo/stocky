@@ -36,6 +36,7 @@ export const MENU_BAG: Menu[] = [
                     {text: 'Refund', link: '/sales/refund'}
                 ]
             },
+
             {
                 text: 'Stock',
                 icon: {type: 'icon', value: 'appstore-add'},
@@ -49,6 +50,7 @@ export const MENU_BAG: Menu[] = [
                     {text: 'Move Stock Items', link: '/stock/move-stock-items'}
                 ]
             },
+
             {
                 text: 'Company',
                 icon: {type: 'icon', value: 'shop'},
@@ -71,6 +73,7 @@ export const MENU_BAG: Menu[] = [
 
                 ]
             },
+
             {
                 text: 'Report',
                 icon: {type: 'icon', value: 'file-pdf'},
@@ -93,6 +96,18 @@ export const MENU_BAG: Menu[] = [
                     {text: 'People', link: '/settings/people'},
                     {text: 'Stock', link: '/settings/stock'},
                     {text: 'Product', link: '/settings/product'}
+                ]
+            },
+
+            {
+                text: 'Subscription',
+                icon: {type: 'icon', value: 'credit-card'},
+                children: [
+                    {text: 'Plan', link: '/paywall/plan'},
+                    {text: 'Payments', link: '/paywall/payments'},
+                    {text: 'Settings', link: '/paywall/settings'},
+                    {text: 'Billing', link: '/paywall/billing'},
+                    {text: 'Notification', link: '/paywall/notification'}
                 ]
             }
         ]

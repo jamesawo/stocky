@@ -1,0 +1,50 @@
+<form (ngSubmit)="onSave()" [autocomplete]="'off'" [formGroup]="form" nz-form nzLayout="vertical">
+
+    <div nz-row nzGutter="8">
+        <div nz-col nzLg="12" nzMd="12" nzSm="24" nzSpan="24" nzXl="12" nzXs="24">
+            <nz-form-item>
+                <nz-form-label nzFor="profileName" nzRequired>Profile Name</nz-form-label>
+                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="">
+                    <input formControlName="profileName" id="profileName" name="adminProfileName" nz-input/>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+
+        <div nz-col nzLg="12" nzMd="12" nzSm="24" nzSpan="24" nzXl="12" nzXs="24">
+            <nz-form-item>
+                <nz-form-label nzFor="phoneNumber" nzRequired>Phone Number</nz-form-label>
+                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="">
+                    <input formControlName="phoneNumber" id="phoneNumber" name="adminPhoneNumber" nz-input/>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+
+    </div>
+
+    <div nz-row nzGutter="8">
+        <div nz-col nzLg="12" nzMd="12" nzSm="24" nzSpan="24" nzXl="12" nzXs="24">
+            <nz-form-item>
+                <nz-form-label nzFor="profileEmail" nzRequired>Profile Email</nz-form-label>
+                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="">
+                    <input autocomplete="never" email="true" formControlName="profileEmail" id="profileEmail" name="apEmail" nz-input/>
+                </nz-form-control>
+            </nz-form-item>
+
+        </div>
+
+        <div nz-col nzLg="12" nzMd="12" nzSm="24" nzSpan="24" nzXl="12" nzXs="24">
+            <nz-form-item>
+                <nz-form-label nzFor="officePosition">Office Position</nz-form-label>
+                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input is invalid!">
+                    <input formControlName="profilePosition" id="officePosition" name="adminProfilePositions" nz-input/>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+
+    </div>
+
+    <div nz-col nzSpan="24">
+        <button [nzLoading]="isLoading" nz-button nzType="primary" type="submit">Save Administrators Details</button>
+    </div>
+
+</form>

@@ -14,16 +14,11 @@ export type PanelData = {
 })
 export class CompanyBasicSetupComponent implements OnInit {
     public panels: PanelData[] = [];
-    public data: any;
 
-    @ViewChild('basicTmpl', {static: true})
-    public basicTmpl!: TemplateRef<any>;
+    @ViewChild('basicTmpl', {static: true}) public basicTmpl!: TemplateRef<any>;
+    @ViewChild('administratorTmpl', {static: true}) public administratorTmpl!: TemplateRef<any>;
+    @ViewChild('regionTmpl', {static: true}) public regionTmpl!: TemplateRef<any>;
 
-    @ViewChild('administratorTmpl', {static: true})
-    public administratorTmpl!: TemplateRef<any>;
-
-    @ViewChild('regionTmpl', {static: true})
-    public regionTmpl!: TemplateRef<any>;
 
     public ngOnInit(): void {
         this.panels = [
@@ -46,6 +41,8 @@ export class CompanyBasicSetupComponent implements OnInit {
                 tmpl: this.regionTmpl
             }
         ];
+
     }
+
 
 }

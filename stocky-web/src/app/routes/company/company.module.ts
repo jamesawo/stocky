@@ -1,6 +1,9 @@
 import {NgModule, Type} from '@angular/core';
 import {SharedModule} from '@shared';
 import {ProductsModule} from '../products/products.module';
+import {CompanyAdministratorFormComponent} from './_components/company-basic-setup/company-administrator-form/company-administrator-form.component';
+import {CompanyBasicFormComponent} from './_components/company-basic-setup/company-basic-form/company-basic-form.component';
+import {CompanyRegionFormComponent} from './_components/company-basic-setup/company-region-form/company-region-form.component';
 import {CompanyExpenseAddBtnComponent} from './_components/company-expense-add-btn/company-expense-add-btn.component';
 import {
     CompanyExpenseCategoryAddBtnComponent
@@ -71,7 +74,10 @@ export const COMPANY_COMPONENTS: Array<Type<void>> = [
     CompanyRoleSearchDropdownComponent,
     CompanyRoleAddBtnComponent,
     CompanyPeopleCustomerAddBtnComponent,
-    CompanyPeopleSupplierAddBtnComponent
+    CompanyPeopleSupplierAddBtnComponent,
+    CompanyBasicFormComponent,
+    CompanyAdministratorFormComponent,
+    CompanyRegionFormComponent
 
 ];
 

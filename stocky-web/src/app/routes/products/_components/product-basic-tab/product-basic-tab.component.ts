@@ -8,9 +8,9 @@ import {getFormControlValidityStatus, getFormGroupFromParent} from '../../../../
     templateUrl: './product-basic-tab.component.html',
     styles: [
         `
-            :host ::ng-deep div[role="alert"] {
-                margin-bottom: 25px;
-            }
+          :host ::ng-deep div[role="alert"] {
+            margin-bottom: 25px;
+          }
 
         `
     ]
@@ -21,7 +21,7 @@ export class ProductBasicTabComponent {
     @Input()
     public formGroup?: FormGroup;
 
-    valid(name: string) {
+    public valid(name: string) {
         return getFormControlValidityStatus(this.getForm(), name);
     }
 

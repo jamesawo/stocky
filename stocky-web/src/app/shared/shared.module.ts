@@ -25,6 +25,7 @@ import {NzPaginationModule} from 'ng-zorro-antd/pagination';
 import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
 import {NzPopoverModule} from 'ng-zorro-antd/popover';
 import {NzRadioModule} from 'ng-zorro-antd/radio';
+import {NzResultModule} from 'ng-zorro-antd/result';
 import {NzSelectModule} from 'ng-zorro-antd/select';
 import {NzSpaceModule} from 'ng-zorro-antd/space';
 import {NzSpinModule} from 'ng-zorro-antd/spin';
@@ -38,7 +39,10 @@ import {NzUploadModule} from 'ng-zorro-antd/upload';
 
 import {AmountRangeComponent} from './components/amount-range/amount-range.component';
 import {BreadcrumbsComponent} from './components/breadcrumbs/breadcrumbs.component';
+import {BusinessCategoryDropdownComponent} from './components/business-category-dropdown/business-category-dropdown.component';
+import {BusinessNumberOfEmployeesComponent} from './components/business-number-of-employees/business-number-of-employees.component';
 import {ButtonComponent} from './components/button/button.component';
+import {ComingSoonComponent} from './components/coming-soon/coming-soon.component';
 import {DatePickerComponent} from './components/date-picker/date-picker.component';
 import {ExpandCollapseButtonComponent} from './components/expand-collapse-button/expand-collapse-button.component';
 import {ExportUploadButtonComponent} from './components/export-upload-button/export-upload-button.component';
@@ -88,7 +92,8 @@ const THIRD_MODULES: Array<Type<void>> = [
     NzCalendarModule,
     NzDrawerModule,
     NzUploadModule,
-    NzEmptyModule
+    NzEmptyModule,
+    NzResultModule
 
 ];
 const COMPONENTS: Array<Type<void>> = [
@@ -110,7 +115,10 @@ const COMPONENTS: Array<Type<void>> = [
     TableItemComponent,
     AmountRangeComponent,
     TextareaLimitComponent,
-    UploadFileComponent
+    UploadFileComponent,
+    ComingSoonComponent,
+    BusinessCategoryDropdownComponent,
+    BusinessNumberOfEmployeesComponent
 ];
 const DIRECTIVES: Array<Type<void>> = [];
 const ICONS: Array<Type<void>> = [];
