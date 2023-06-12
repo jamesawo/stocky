@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSaveBasicDetails()" [autocomplete]="false" [formGroup]="basicDetailForm" nz-form nzLayout="vertical">
+<form (ngSubmit)="onSaveBasicDetails()" [autocomplete]="false" [formGroup]="form" nz-form nzLayout="vertical">
 
     <div nz-row nzGutter="8">
         <div nz-col nzLg="12" nzMd="12" nzSm="24" nzSpan="12" nzXl="12" nzXs="24">
@@ -28,7 +28,7 @@
             <nz-form-item>
                 <nz-form-label nzFor="category" nzRequired>Industry Category</nz-form-label>
                 <app-business-category-dropdown
-                    [formProps]="{formGroup: basicDetailForm, controlName: 'businessCategory'}"
+                    [formProps]="{formGroup: form, controlName: 'businessCategory'}"
                 ></app-business-category-dropdown>
             </nz-form-item>
         </div>
@@ -37,7 +37,7 @@
             <nz-form-item>
                 <nz-form-label nzRequired>Employee Size</nz-form-label>
                 <app-business-number-of-employees
-                    [formProps]="{formGroup: basicDetailForm, controlName: 'businessEmployeeSize'}"
+                    [formProps]="{formGroup: form, controlName: 'businessEmployeeSize'}"
                 ></app-business-number-of-employees>
             </nz-form-item>
         </div>
@@ -151,6 +151,6 @@
     -->
 
     <div nz-col nzSpan="24">
-        <button [nzLoading]="loading" nz-button nzType="primary" type="submit">Save Basic Details</button>
+        <button [nzLoading]="isLoading" nz-button nzType="primary" type="submit">Save Basic Details</button>
     </div>
 </form>

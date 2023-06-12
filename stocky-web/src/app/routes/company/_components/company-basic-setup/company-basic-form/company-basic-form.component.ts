@@ -4,7 +4,7 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {handleUsecaseRequest, markFormFieldsAsDirtyAndTouched} from 'src/app/shared/utils/util';
 import {CompanyBasicDetailsPayload} from '../../../_data/company-setup.payload';
-import {BasicSetupUsecase} from '../../../_usecase/basic-setup.usecase';
+import {BasicSetupUsecase} from '../../../_usecase/company-setup/basic-setup.usecase';
 
 @Component({
     selector: 'app-company-basic-form',
@@ -13,18 +13,16 @@ import {BasicSetupUsecase} from '../../../_usecase/basic-setup.usecase';
 })
 export class CompanyBasicFormComponent {
 
-    public basicDetailForm = this.basicForm;
-    public loading = false;
-
-
+    public form = this.buildForm;
+    public isLoading = false;
+    
     constructor(
         private fb: FormBuilder,
         private usecase: BasicSetupUsecase,
         private notification: NzNotificationService
     ) {}
 
-    get basicForm() {
-
+    get buildForm() {
         return this.fb.group({
             businessName: [null, [Validators.required]],
             businessCategory: [null, [Validators.required]],
@@ -32,6 +30,8 @@ export class CompanyBasicFormComponent {
             businessNumberOfYearsOfOperation: [null, [Validators.required]],
             businessNumberOfBranch: [null, [Validators.required]],
             businessAddress: [null, [Validators.required]]
+
+            //todo:: make businessAddress an object of its own
             // businessAddress: this.fb.group({
             //     country: [null],
             //     state: [null],
@@ -46,23 +46,23 @@ export class CompanyBasicFormComponent {
 
     public async onSaveBasicDetails() {
 
-        if (this.basicDetailForm.invalid) {
-            markFormFieldsAsDirtyAndTouched(this.basicDetailForm);
+        if (this.form.invalid) {
+            markFormFieldsAsDirtyAndTouched(this.form);
             return;
         }
 
-        this.loading = true;
-        const form = <CompanyBasicDetailsPayload>this.basicForm.value;
-        const response = await handleUsecaseRequest(this.usecase.saveBasicDetails(form), this.notification);
+        this.isLoading = true;
+        const form = <CompanyBasicDetailsPayload>this.buildForm.value;
+        const response = await handleUsecaseRequest(this.usecase.save(form), this.notification);
         this.onResetForm(response);
 
     }
 
     private onResetForm(response: HttpResponse<CompanyBasicDetailsPayload>): void {
-        this.loading = false;
+        this.isLoading = false;
         if (response.ok) {
-            this.basicDetailForm.reset();
-            this.basicDetailForm = this.basicForm;
+            this.form.reset();
+            this.form = this.buildForm;
         }
     }
 
