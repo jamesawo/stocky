@@ -1,0 +1,14 @@
+<ng-container *ngIf="formProps?.formGroup && formProps?.controlName" [formGroup]="formProps?.formGroup!">
+    <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input is not valid!">
+        <nz-select [formControlName]="formProps?.controlName!" [nzOptions]="list" [nzShowSearch]="true" id="category"
+                   nzMode="default" nzPlaceHolder="Select your category"></nz-select>
+    </nz-form-control>
+</ng-container>
+
+
+<ng-template #modelTmpl>
+    <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input is not valid!">
+        <nz-select (ngModelChange)="onModelChange($event)" [(ngModel)]="value" [nzOptions]="list" [nzShowSearch]="true"
+                   nzPlaceHolder="Select your category"></nz-select>
+    </nz-form-control>
+</ng-template>
