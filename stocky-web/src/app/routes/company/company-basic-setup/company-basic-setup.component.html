@@ -2,150 +2,34 @@
 
 <div [nzGutter]="[16, 24]" nz-row>
     <div nz-col nzSpan="24">
+
         <nz-collapse>
+
             <nz-collapse-panel
                 *ngFor="let panel of panels"
                 [nzActive]="panel.active"
                 [nzDisabled]="panel.disabled"
                 [nzHeader]="panel.name"
             >
-                <form nz-form nzLayout="vertical">
-                    <div class="m-l-15px">
-                        <ng-container
-                            [ngTemplateOutletContext]="{data: data}"
-                            [ngTemplateOutlet]="panel.tmpl"
-                        ></ng-container>
-                    </div>
-                </form>
-
+                <div class="m-l-15px">
+                    <ng-container [ngTemplateOutlet]="panel.tmpl"></ng-container>
+                </div>
             </nz-collapse-panel>
-        </nz-collapse>
-    </div>
 
-    <div nz-col nzSpan="24">
-        <button nz-button nzType="primary">Update Details</button>
+        </nz-collapse>
     </div>
 
 </div>
 
 
 <ng-template #basicTmpl>
-
-    <div nz-row nzGutter="8">
-
-        <div nz-col nzLg="12" nzMd="12" nzSm="24" nzSpan="12" nzXl="12" nzXs="24">
-            <nz-form-item nz-col>
-                <nz-form-label nzFor="businessName" nzRequired>Business Name</nz-form-label>
-                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input is invalid!">
-                    <input formControlName="businessName" id="businessName" nz-input/>
-                </nz-form-control>
-            </nz-form-item>
-        </div>
-
-        <div nz-col nzLg="12" nzMd="12" nzSm="24" nzSpan="12" nzXl="12" nzXs="24">
-            <nz-form-item nz-col>
-                <nz-form-label nzFor="address" nzRequired>Business Address</nz-form-label>
-                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input is not valid!">
-                    <input formControlName="address" id="address" nz-input/>
-                </nz-form-control>
-            </nz-form-item>
-        </div>
-
-    </div>
-
-    <div nz-row nzGutter="8">
-        <div nz-col nzLg="12" nzMd="12" nzSm="24" nzSpan="12" nzXl="12" nzXs="24">
-            <nz-form-item>
-                <nz-form-label nzFor="category" nzRequired>Industry Category</nz-form-label>
-                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input is not valid!">
-                    <input formControlName="category" id="category" nz-input/>
-                </nz-form-control>
-            </nz-form-item>
-        </div>
-
-        <div nz-col nzLg="12" nzMd="12" nzSm="24" nzSpan="12" nzXl="12" nzXs="24">
-            <nz-form-item>
-                <nz-form-label nzRequired>Employee Size</nz-form-label>
-                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input is not valid!">
-                    <input nz-input/>
-                </nz-form-control>
-            </nz-form-item>
-        </div>
-    </div>
-
-    <div nz-row nzGutter="8">
-        <div nz-col nzSpan="12">
-            <nz-form-item>
-                <nz-form-label nzRequired>Years in business</nz-form-label>
-                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input is not valid!">
-                    <input nz-input/>
-                </nz-form-control>
-            </nz-form-item>
-        </div>
-
-        <div nz-col nzSpan="12">
-            <nz-form-item>
-                <nz-form-label nzRequired>Number of branch</nz-form-label>
-                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input is not valid!">
-                    <input nz-input/>
-                </nz-form-control>
-            </nz-form-item>
-        </div>
-    </div>
-
+    <app-company-basic-form></app-company-basic-form>
 </ng-template>
 
 <ng-template #administratorTmpl>
-    <nz-form-item>
-        <nz-form-label nzFor="profileName" nzRequired>Profile Name</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is invalid!">
-            <input formControlName="profileName" id="profileName" nz-input/>
-        </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-        <nz-form-label nzFor="phoneNumber" nzRequired>Phone Number</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid!">
-            <input formControlName="phoneNumber" id="phoneNumber" nz-input/>
-        </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-        <nz-form-label nzFor="profileEmail" nzRequired>Profile Email</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid!">
-            <input formControlName="profileEmail" id="profileEmail" nz-input/>
-        </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-        <nz-form-label nzFor="officePosition" nzRequired>Office Position</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is invalid!">
-            <input formControlName="officePosition" id="officePosition" nz-input/>
-        </nz-form-control>
-    </nz-form-item>
-
+    <app-company-administrator-form></app-company-administrator-form>
 </ng-template>
 
 <ng-template #regionTmpl>
-    <nz-form-item>
-        <nz-form-label nzFor="language" nzRequired>Language</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is invalid!">
-            <input formControlName="language" id="language" nz-input/>
-        </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-        <nz-form-label nzFor="currency" nzRequired>Currency</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid!">
-            <input formControlName="currency" id="currency" nz-input/>
-        </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-        <nz-form-label nzFor="timeZone" nzRequired>TimeZone</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid!">
-            <input formControlName="timeZone" id="timeZone" nz-input/>
-        </nz-form-control>
-    </nz-form-item>
-
+    <app-company-region-form></app-company-region-form>
 </ng-template>
