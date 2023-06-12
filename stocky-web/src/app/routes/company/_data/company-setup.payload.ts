@@ -12,3 +12,17 @@ export class CompanyBasicDetailsPayload {
     businessNumberOfBranch?: number;
     businessAddress?: string;
 }
+
+
+export class CompanyAdministratorDetailsPayload {
+    id?: number;
+    profileName?: string;
+    profilePhone?: string;
+    profileEmail?: string;
+    profilePosition?: string;
+}
+
+export class CompanyLocaleDetailsPayload {
+    id?: number;
+    
+}
