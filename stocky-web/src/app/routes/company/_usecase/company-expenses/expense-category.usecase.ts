@@ -10,7 +10,7 @@ export class ExpenseCategoryUsecase {
     public trigger: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public trigger$: Observable<boolean> = this.trigger.asObservable();
 
-    private url = environment.api.baseUrl + '/company/expenses-category';
+    private url = environment.api.baseUrl + '/company/expenses/category';
 
     constructor(private http: HttpClient) {}
 
@@ -19,7 +19,7 @@ export class ExpenseCategoryUsecase {
     }
 
     public getAll() {
-        return this.http.get<CommonPayload[]>(`${this.url}/get-all`);
+        return this.http.get<CommonPayload[]>(`${this.url}/all`);
     }
 
     public remove(id: number) {
