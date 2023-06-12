@@ -23,6 +23,8 @@ export function isFormInvalid(form: FormGroup): boolean {
 
 export function markFormFieldsAsDirtyAndTouched(form: FormGroup): void {
     if (form && form.controls) {
+        form.markAsTouched();
+        form.markAsDirty();
         Object.values(form.controls).forEach((control, index) => {
             if (control instanceof FormControl) {
                 const currentControl = control as FormControl;
@@ -41,13 +43,17 @@ export function markFormFieldsAsDirtyAndTouched(form: FormGroup): void {
 }
 
 export function isFormControlInvalid(controlName: string, form: FormGroup): boolean {
-    if (form && form.controls) {
-        if (form.controls[controlName]) {
-            return form.controls[controlName].invalid;
-        }
-        return true;
+    if (form && form.controls && form.touched && form.dirty) {
+        return form.controls[controlName].invalid;
     }
-    return true;
+    return false;
+}
+
+export function getNzFormControlValidStatus(controlName: string, form: FormGroup) {
+    if (form && form.touched && form.dirty) {
+        return form.controls[controlName].invalid ? 'error' : 'success';
+    }
+    return '';
 }
 
 export function currencyFormatter(value?: number): string {

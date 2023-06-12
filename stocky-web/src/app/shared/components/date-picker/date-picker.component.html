@@ -1,8 +1,8 @@
-<nz-form-control nzErrorTip='Please choose date' [nzValidateStatus]="hasError?'error':'success'">
-    <nz-date-picker class='wd-100p'
-            name='datePicker'
-            (ngModelChange)='onChange($event)'
-            [(ngModel)]='selectedDate'
-            [nzFormat]="dateFormat"
+<nz-form-control [nzValidateStatus]="status" nzErrorTip="Please choose date">
+    <nz-date-picker (ngModelChange)="onChange($event)"
+                    [(ngModel)]="selectedDate"
+                    [nzFormat]="dateFormat"
+                    class="wd-100p"
+                    name="datePicker"
     ></nz-date-picker>
 </nz-form-control>

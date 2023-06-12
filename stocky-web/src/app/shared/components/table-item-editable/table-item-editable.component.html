@@ -3,5 +3,26 @@
 </ng-container>
 
 <ng-template #descriptionViewTmpl>
-    <label>{{props?.initialValue}}</label>
+
+    <span *ngIf="truncateProps?.canTruncateText === true &&
+                 props?.initialValue.length > truncateProps?.truncateAfter!;
+                 else fullTextImpl">
+
+        {{props?.initialValue | slice: 0:truncateProps?.truncateAfter}}
+
+
+        <small
+            (click)="showModal = true"
+            [(nzPopoverVisible)]="showModal"
+            [nzPopoverContent]="fullTextImpl"
+            [nzPopoverTitle]="undefined"
+            class="pointer light-blue hover-red"
+            nz-popover
+            nzPopoverTrigger="click"
+        >...view</small>
+
+    </span>
+    <ng-template #fullTextImpl>
+        <span> {{props?.initialValue }}</span>
+    </ng-template>
 </ng-template>
