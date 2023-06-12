@@ -103,7 +103,7 @@ export const MENU_BAG: Menu[] = [
                 text: 'Subscription',
                 icon: {type: 'icon', value: 'credit-card'},
                 children: [
-                    {text: 'Plans', link: '/paywall/plan'},
+                    {text: 'Plan', link: '/paywall/plan'},
                     {text: 'Payments', link: '/paywall/payments'},
                     {text: 'Settings', link: '/paywall/settings'},
                     {text: 'Billing', link: '/paywall/billing'},
