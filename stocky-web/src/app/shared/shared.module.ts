@@ -39,6 +39,8 @@ import {NzUploadModule} from 'ng-zorro-antd/upload';
 
 import {AmountRangeComponent} from './components/amount-range/amount-range.component';
 import {BreadcrumbsComponent} from './components/breadcrumbs/breadcrumbs.component';
+import {BusinessCategoryDropdownComponent} from './components/business-category-dropdown/business-category-dropdown.component';
+import {BusinessNumberOfEmployeesComponent} from './components/business-number-of-employees/business-number-of-employees.component';
 import {ButtonComponent} from './components/button/button.component';
 import {ComingSoonComponent} from './components/coming-soon/coming-soon.component';
 import {DatePickerComponent} from './components/date-picker/date-picker.component';
@@ -114,7 +116,9 @@ const COMPONENTS: Array<Type<void>> = [
     AmountRangeComponent,
     TextareaLimitComponent,
     UploadFileComponent,
-    ComingSoonComponent
+    ComingSoonComponent,
+    BusinessCategoryDropdownComponent,
+    BusinessNumberOfEmployeesComponent
 ];
 const DIRECTIVES: Array<Type<void>> = [];
 const ICONS: Array<Type<void>> = [];
