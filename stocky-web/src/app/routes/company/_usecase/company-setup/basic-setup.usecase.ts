@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
-import {CompanyBasicDetailsPayload} from '../_data/company-setup.payload';
+import {CompanyBasicDetailsPayload} from '../../_data/company-setup.payload';
 
 @Injectable({
     providedIn: 'root'
@@ -12,11 +12,11 @@ export class BasicSetupUsecase {
 
     constructor(private http: HttpClient) {}
 
-    public saveBasicDetails(payload: CompanyBasicDetailsPayload) {
+    public save(payload: CompanyBasicDetailsPayload) {
         return this.http.post<CompanyBasicDetailsPayload>(`${this.url}/save`, payload, {observe: 'response'});
     }
 
-    public getBasicDetails() {
+    public get() {
         return this.http.get<CompanyBasicDetailsPayload>(`${this.url}/get`, {observe: 'response'});
     }
 
