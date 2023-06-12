@@ -9,9 +9,10 @@ import {IconDefinition} from '@ant-design/icons-angular';
 import {CaretLeftOutline, SettingOutline, StepBackwardOutline} from '@ant-design/icons-angular/icons';
 import {StartupService} from '@core';
 import {DELON_LOCALE, en_US as delonLang} from '@delon/theme';
+
 import {JsonSchemaModule, SharedModule} from '@shared';
-import {zhCN as dateLang} from 'date-fns/locale';
-import {en_US as zorroLang, NZ_DATE_LOCALE, NZ_I18N} from 'ng-zorro-antd/i18n';
+import {enUS, zhCN as dateLang} from 'date-fns/locale';
+import {en_US, en_US as zorroLang, NZ_DATE_LOCALE, NZ_I18N} from 'ng-zorro-antd/i18n';
 import {NzIconModule} from 'ng-zorro-antd/icon';
 import {NzMessageModule} from 'ng-zorro-antd/message';
 import {NzNotificationModule} from 'ng-zorro-antd/notification';
@@ -33,11 +34,14 @@ const LANG = {
 };
 
 registerLocaleData(LANG.ng, LANG.abbr);
+
 const LANG_PROVIDES = [
     {provide: LOCALE_ID, useValue: LANG.abbr},
     {provide: NZ_I18N, useValue: LANG.zorro},
     {provide: NZ_DATE_LOCALE, useValue: LANG.date},
-    {provide: DELON_LOCALE, useValue: LANG.delon}
+    {provide: DELON_LOCALE, useValue: LANG.delon},
+    {provide: NZ_I18N, useValue: en_US},
+    {provide: NZ_DATE_LOCALE, useValue: enUS}
 ];
 
 const FORM_MODULES = [JsonSchemaModule];
