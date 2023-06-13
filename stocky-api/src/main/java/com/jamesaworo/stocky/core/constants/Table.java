@@ -7,6 +7,13 @@ package com.jamesaworo.stocky.core.constants;
 public class Table {
 	public static final String PREFIX = "STOCKY_";
 
+	// AUTHENTICATION TABLES
+	public static final String AUTH = PREFIX + "AUTH";
+	public static final String AUTH_ROLE = AUTH + "_ROLE";
+	public static final String AUTH_PERMISSION = AUTH + "_PERMISSION";
+	public static final String ROLE_PERMISSION_TABLE = AUTH + "_ROLE_PERMISSION";
+
+
 	// SETTING TABLES
 	public static final String SETTING = PREFIX + "SETTING";
 	public static final String SETTING_DASHBOARD = SETTING + "_DASHBOARD";

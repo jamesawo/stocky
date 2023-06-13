@@ -44,4 +44,7 @@ public class BaseModel {
 
 	@Column
 	private LocalDateTime deletedAt;
+
+	@Column(nullable = false)
+	private Boolean isActiveStatus = Boolean.TRUE;
 }
