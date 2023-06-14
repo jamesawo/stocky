@@ -1,35 +1,59 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {CommonPayload} from '../../../data/payload/common.payload';
+import {BehaviorSubject, Observable, shareReplay} from 'rxjs';
+import {PermissionGroupByModulePayload, PermissionPayload, RolePayload} from '../_data/company.payload';
 
 @Injectable({providedIn: 'root'})
 export class RoleUsecase {
     public trigger: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public trigger$: Observable<boolean> = this.trigger.asObservable();
+    public permissions?: Observable<PermissionGroupByModulePayload[]>;
+    private url = environment.api.baseUrl + '/auth/role';
+    private permissionUrl = environment.api.baseUrl + '/auth/permission';
 
-    private url = environment.api.baseUrl + '/company/role';
+    constructor(private http: HttpClient) {
+        this.loadPermissions();
+    }
 
-    constructor(private http: HttpClient) {}
 
-    public save(payload: CommonPayload) {
-        return this.http.post<CommonPayload>(`${this.url}/create`, payload, {observe: 'response'});
+    public save(payload: RolePayload) {
+        return this.http.post<RolePayload>(`${this.url}/create`, payload, {observe: 'response'});
     }
 
     public getAll() {
-        return this.http.get<CommonPayload[]>(`${this.url}/get-all`);
+        return this.http.get<RolePayload[]>(`${this.url}/all`);
     }
 
-    public remove(id: number) {
-        return this.http.delete(`${this.url}/remove/${id}`, {observe: 'response'});
+    public getOne(id: number) {
+        return this.http.get<RolePayload[]>(`${this.url}/find/${id}`, {observe: 'response'});
     }
 
-    public update(payload: CommonPayload) {
-        return this.http.put<CommonPayload>(`${this.url}/update`, payload, {observe: 'response'});
+
+    public getRolePermissions(id: number) {
+        return this.http.get<PermissionPayload[]>(`${this.url}/find-role-permission/${id}`, {observe: 'response'});
+    }
+
+
+    public update(payload: RolePayload) {
+        return this.http.put<RolePayload>(`${this.url}/update`, payload, {observe: 'response'});
+    }
+
+    public updateStatus(status: boolean, id: number) {
+        return this.http.patch<boolean>(`${this.url}/update-status/${id}?status=${status}`, {observe: 'response'});
     }
 
     public setTrigger(value: boolean) {
         this.trigger.next(value);
+    }
+
+    public getPermissionGroupByModule() {
+        return this.http.get<PermissionGroupByModulePayload[]>(`${this.permissionUrl}/all`);
+    }
+
+    private loadPermissions() {
+        if (!this.permissions) {
+            this.permissions = this.getPermissionGroupByModule().pipe(shareReplay());
+        }
     }
 }

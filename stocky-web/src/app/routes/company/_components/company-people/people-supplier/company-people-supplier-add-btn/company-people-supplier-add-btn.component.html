@@ -1,10 +1,10 @@
-<app-button [props]="{handler: isDrawer ?  onOpenDrawer: onOpenModal, title: 'Add', icon: 'plus'}"></app-button>
+<app-button [props]="{handler: toggle, title: 'Add', icon: 'plus'}"></app-button>
 
-<ng-container *ngIf="isDrawer; else modalTmpl">
+<ng-container *ngIf="popup.display == ModalOrDrawer.DRAWER; else modalTmpl">
     <nz-drawer
-        (nzOnClose)="onCloseDrawer()"
+        (nzOnClose)="toggle()"
         [nzBodyStyle]="{ overflow: 'auto' }"
-        [nzFooter]="footerTpl"
+        [nzFooter]="contentFooterBtnTmpl"
         [nzMaskClosable]="false"
         [nzTitle]="pageTitle"
         [nzVisible]="showDrawer"
@@ -14,19 +14,12 @@
             <ng-container [ngTemplateOutletContext]="{form: categoryForm}" [ngTemplateOutlet]="contentFormTmpl"></ng-container>
         </div>
 
-        <ng-template #footerTpl>
-            <div class="fr">
-                <button (click)="onCloseDrawer()" nz-button style="margin-right: 8px;">Cancel</button>
-                <button (click)="onCloseDrawer()" nz-button nzType="primary">Submit</button>
-            </div>
-
-        </ng-template>
     </nz-drawer>
 </ng-container>
 
 <ng-template #modalTmpl>
     <nz-modal
-        (nzOnCancel)="onCloseModal()"
+        (nzOnCancel)="toggle()"
         (nzOnOk)="onCreate()"
         [(nzVisible)]="showModal"
         [nzMaskClosable]="false"
@@ -129,6 +122,9 @@
 </ng-template>
 
 <ng-template #contentFooterBtnTmpl>
-    <button (click)="onCloseModal()" nz-button nzType="default">Cancel</button>
-    <button (click)="onCreate()" [nzLoading]="isLoading" nz-button nzType="primary">Submit</button>
+    <div class="fr">
+        <button (click)="toggle(ModalOrDrawer.ANY)" nz-button nzType="default">Cancel</button>
+        <button (click)="onCreate()" [nzLoading]="isLoading" nz-button nzType="primary">Submit</button>
+    </div>
+
 </ng-template>

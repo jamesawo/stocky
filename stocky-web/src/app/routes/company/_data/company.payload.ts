@@ -1,3 +1,4 @@
+import {AppModuleEnum} from '../../../data/payload/common.enum';
 import {ProductCategoryPayload} from '../../products/_data/product.payload';
 import {RoleUsecase} from '../_usecase/role.usecase';
 import {LocationTypeEnum} from './company.enum';
@@ -13,11 +14,25 @@ export class LocationPayload {
     status?: boolean;
 }
 
+export class PermissionPayload {
+    id?: number;
+    name: string = '';
+    module?: AppModuleEnum;
+    description: string = '';
+    checked?: boolean;
+}
+
+export class PermissionGroupByModulePayload {
+    module?: AppModuleEnum;
+    permissions?: PermissionPayload[] = [];
+}
+
 export class RolePayload {
     id?: number;
-    title?: string;
+    name?: string;
     description?: string;
-    permissions?: any[];
+    permissions: PermissionPayload[] = [];
+    createdAt?: string;
 }
 
 export class UserBasicDetailsPayload {
@@ -57,4 +72,14 @@ export class SupplierPayload {
     productCategories: ProductCategoryPayload[] = [];
     date?: string;
     recordedBy?: string;
+}
+
+
+export class ExpensesPayload {
+    id?: number;
+    amount?: number;
+    comment?: string;
+    fileId?: string;
+    user?: UserPayload;
+    transactionDate?: string;
 }

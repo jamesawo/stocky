@@ -68,15 +68,17 @@
 
                     <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" class="text-align-end" nz-col>
                         <nz-space nzSize="small">
-                            <app-company-expense-add-btn *nzSpaceItem [popup]="{display: 'drawer'}"></app-company-expense-add-btn>
+                            <app-company-expense-add-btn *nzSpaceItem [popup]="{display: ModalOrDrawer.DRAWER}"></app-company-expense-add-btn>
                             <app-export-upload-button *nzSpaceItem [props]="{}"></app-export-upload-button>
                         </nz-space>
                     </div>
                 </div>
             </div>
+
         </form>
 
     </ng-template>
+
 
 </page-header>
 

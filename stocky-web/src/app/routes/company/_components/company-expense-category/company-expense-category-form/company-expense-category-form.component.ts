@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormGroup, UntypedFormBuilder, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {checkFormControlCharacterLimit, handleUsecaseRequest, isFormInvalid} from '../../../../../shared/utils/util';
-import {ExpenseCategoryUsecase} from '../../../_usecase/expense-category.usecase';
+import {ExpenseCategoryUsecase} from '../../../_usecase/company-expenses/expense-category.usecase';
 
 @Component({
     selector: 'app-company-expense-category-form',

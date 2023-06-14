@@ -1,15 +1,13 @@
-<ng-container *ngIf="hasFormGroup(); else modelTmpl">
+<ng-container *ngIf="hasFormGroup(); else modelTmpl" [formGroup]="formProps!.formGroup">
 
-    <fieldset [formGroup]="formProps!.formGroup">
-        <nz-form-control
-            [nzValidateStatus]="getFormControlValidityStatus(formProps?.formGroup!, formProps!.controlName)">
-            <nz-select [formControlName]="formProps!.controlName" [nzLoading]="isLoading" nzAllowClear nzPlaceHolder="Select .." nzShowSearch>
-                <ng-container *ngIf="statusList | async as list">
-                    <nz-option *ngFor="let data of list" [nzLabel]="data.title!" [nzValue]="data"></nz-option>
-                </ng-container>
-            </nz-select>
-        </nz-form-control>
-    </fieldset>
+    <nz-form-control
+        [nzValidateStatus]="getFormControlValidityStatus( formProps!.controlName, formProps?.formGroup!)">
+        <nz-select [formControlName]="formProps!.controlName" [nzLoading]="isLoading" nzAllowClear nzPlaceHolder="Select .." nzShowSearch>
+            <ng-container *ngIf="statusList | async as list">
+                <nz-option *ngFor="let data of list" [nzLabel]="data.title!" [nzValue]="data"></nz-option>
+            </ng-container>
+        </nz-select>
+    </nz-form-control>
 
 </ng-container>
 

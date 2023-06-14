@@ -3,6 +3,7 @@ import {HttpResponse} from '@angular/common/http';
 import {AbstractControl, FormControl, FormGroup} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {first, firstValueFrom, from, map, Observable, switchMap} from 'rxjs';
+import {ModalOrDrawer} from '../../data/payload/common.enum';
 import {EditCacheMap} from '../components/update-delete-action/update-delete-action.component';
 
 export function isFormInvalid(form: FormGroup): boolean {
@@ -23,6 +24,8 @@ export function isFormInvalid(form: FormGroup): boolean {
 
 export function markFormFieldsAsDirtyAndTouched(form: FormGroup): void {
     if (form && form.controls) {
+        form.markAsTouched();
+        form.markAsDirty();
         Object.values(form.controls).forEach((control, index) => {
             if (control instanceof FormControl) {
                 const currentControl = control as FormControl;
@@ -41,13 +44,17 @@ export function markFormFieldsAsDirtyAndTouched(form: FormGroup): void {
 }
 
 export function isFormControlInvalid(controlName: string, form: FormGroup): boolean {
-    if (form && form.controls) {
-        if (form.controls[controlName]) {
-            return form.controls[controlName].invalid;
-        }
-        return true;
+    if (form && form.controls && form.touched && form.dirty) {
+        return form.controls[controlName].invalid;
     }
-    return true;
+    return false;
+}
+
+export function getNzFormControlValidStatus(controlName: string, form: FormGroup) {
+    if (form && form.touched && form.dirty) {
+        return form.controls[controlName].invalid ? 'error' : 'success';
+    }
+    return '';
 }
 
 export function currencyFormatter(value?: number): string {
@@ -238,11 +245,6 @@ export function getFormGroupFromParent(mainForm: FormGroup, childFormName: strin
     return mainForm.get(childFormName) as FormGroup;
 }
 
-export function getFormControlValidityStatus(formGroup: FormGroup, controlName: string): any {
-    const control = formGroup.get(controlName);
-    return control && control.invalid && control.dirty ? 'error' : 'success';
-}
-
 export function checkFormControlCharacterLimit(formControl: AbstractControl, limit: number = 50) {
     if (formControl) {
         const description = formControl.value;
@@ -253,4 +255,17 @@ export function checkFormControlCharacterLimit(formControl: AbstractControl, lim
     }
 }
 
+
+export function toggleModalOrDrawer(type: ModalOrDrawer, showDrawer: boolean, showModal: boolean) {
+    if (type === ModalOrDrawer.DRAWER) {
+        showDrawer = !showDrawer;
+    } else if (type === ModalOrDrawer.MODAL) {
+        showModal = !showModal;
+    } else {
+        showDrawer = !showDrawer;
+        showModal = !showModal;
+    }
+
+    return {showDrawer, showModal};
+}
 
