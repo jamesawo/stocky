@@ -4,9 +4,92 @@
     <div nz-row nzJustify="space-between">
 
         <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" class="mb4" nz-col>
-            <app-company-role-add-btn [props]="{title: 'Add Role', icon: 'plus', showTable: false, showForm: true}"></app-company-role-add-btn>
+            <app-company-role-add-btn
+                [props]="{title: 'Add Role', icon: 'plus', showTable: false, showForm: true}"
+            ></app-company-role-add-btn>
         </div>
 
     </div>
-    <app-table [colHeadings]="tableCols" [dataList]="list" [props]="{tableLayout: 'auto'}"></app-table>
+    <app-table
+        [colHeadings]="tableCols"
+        [dataList]="list"
+        [props]="{tableLayout: 'auto'}"
+        [rowTemplates]="[titleTmpl, descTmpl, dateTmpl, permTmpl, actionTmpl]"
+    ></app-table>
 </nz-card>
+
+<ng-template #titleTmpl let-item="item">
+    <label>{{item.name | uppercase }}</label>
+</ng-template>
+
+<ng-template #descTmpl let-item="item">
+    <label>{{item.description}}</label>
+</ng-template>
+
+<ng-template #permTmpl let-item="item">
+    <label>{{item.permissions.length}}</label>
+</ng-template>
+
+<ng-template #dateTmpl let-item="item">
+    <label>{{item.createdAt | date}}</label>
+</ng-template>
+
+<ng-template #actionTmpl let-item="item">
+    <nz-space [nzSize]="10">
+        <button (click)="onEditRole(item)"
+                *nzSpaceItem nz-button
+                nz-tooltip
+                nzTooltipTitle="Edit"
+                nzType="text"
+        >
+            <span nz-icon nzType="edit"></span>
+        </button>
+
+        <button (nzOnCancel)="action(item)"
+                (nzOnConfirm)="action(item)"
+                *nzSpaceItem
+                [nzLoading]="false"
+                nz-button
+                nz-popconfirm
+                nz-tooltip
+                nzPopconfirmTitle="Are you sure, delete?"
+                nzTooltipTitle="Delete"
+                nzType="text"
+        >
+            <span class="danger" nz-icon nzType="delete"></span>
+        </button>
+
+    </nz-space>
+</ng-template>
+
+
+<nz-drawer
+    (nzOnClose)="onToggle()"
+    [nzBodyStyle]="{ overflow: 'auto' }"
+    [nzFooter]="contentFooterBtnTmpl"
+    [nzMaskClosable]="false"
+    [nzVisible]="showDrawer"
+    [nzWidth]="720"
+    nzTitle="Update Role"
+>
+    <div *nzDrawerContent>
+        <ng-container [ngTemplateOutlet]="contentFormTmpl"></ng-container>
+    </div>
+
+</nz-drawer>
+
+<ng-template #contentFormTmpl>
+    <app-company-role-form
+        #roleFormComponent
+        (formActionEmitter)="onHandleEmit($event)"
+        [popup]="{display: ModalOrDrawer.DRAWER}"
+        [role]="selectedEditPayload"></app-company-role-form>
+</ng-template>
+
+
+<ng-template #contentFooterBtnTmpl>
+    <app-footer-button
+        [action]="{submitAction: onSave, cancelAction: onToggle }"
+        [props]="{cancelArgs: ModalOrDrawer.ANY}"
+    ></app-footer-button>
+</ng-template>
