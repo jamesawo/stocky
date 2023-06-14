@@ -1,5 +1,6 @@
 import {FormGroup} from '@angular/forms';
 import {NzButtonSize} from 'ng-zorro-antd/button';
+import {ModalOrDrawer} from './common.enum';
 
 export type CommonInputProps = {
     size?: NzButtonSize,
@@ -30,7 +31,7 @@ export type SearchProps = {
 }
 
 export type PopupViewProps = {
-    display: 'drawer' | 'modal'
+    display: ModalOrDrawer
 }
 
 
