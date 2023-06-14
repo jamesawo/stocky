@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {map, Observable} from 'rxjs';
 import {FormProps} from '../../../../../data/payload/common.types';
-import {getFormControlValidityStatus} from '../../../../../shared/utils/util';
+import {getNzFormControlValidStatus} from '../../../../../shared/utils/util';
 import {ProductUnitOfMeasurePayload} from '../../../_data/product-unit-of-measure.payload';
 import {UnitOfMeasureUsecase} from '../../../_usecase/unit-of-measure.usecase';
 
@@ -23,7 +23,7 @@ export class UnitOfMeasurementDropdownComponent implements OnInit {
     @Output()
     public valueChange: EventEmitter<ProductUnitOfMeasurePayload> =
         new EventEmitter<ProductUnitOfMeasurePayload>();
-    protected readonly getFormControlValidityStatus = getFormControlValidityStatus;
+    protected readonly getFormControlValidityStatus = getNzFormControlValidStatus;
 
     constructor(private usecase: UnitOfMeasureUsecase) {}
 
