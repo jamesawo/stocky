@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {of} from 'rxjs';
 import {EMPLOYEE_SETUP} from '../../../../data/constant/crumb.constant';
+import {ModalOrDrawer} from '../../../../data/payload/common.enum';
 import {TableCol} from '../../../../shared/components/table/table.component';
 
 @Component({
@@ -26,11 +27,11 @@ export class CompanyPeopleEmployeesComponent {
         {title: 'Role'},
         {title: 'Action'}
     ];
+    protected readonly ModalOrDrawer = ModalOrDrawer;
 
     public onSearch = async (): Promise<void> => {};
 
     public onReset = (): void => {};
 
     public onCancel = (): void => {};
-
 }
