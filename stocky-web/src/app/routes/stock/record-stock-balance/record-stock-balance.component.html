@@ -37,8 +37,8 @@
 
             <div class="m-t-1em" nz-col nzSpan="24">
 
-                <div nz-row nzJustify="space-between">
-                    <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" nz-col>
+                <div [nzGutter]="[0, 8]" nz-row nzJustify="space-between">
+                    <div [nzLg]="12" [nzSm]="24" [nzSpan]="12" [nzXs]="24" nz-col>
                         <app-search-reset-button
                             [props]="{
                                 onSearchAction: onSearch,
@@ -49,8 +49,8 @@
                         ></app-search-reset-button>
                     </div>
 
-                    <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" class="text-align-end" nz-col>
-                        <nz-space nzSize="small">
+                    <div [nzLg]="12" [nzSm]="24" [nzSpan]="12" [nzXs]="24" class="text-align-end" nz-col>
+                        <nz-space nzSize="small" nzWrap="true">
                             <app-button *nzSpaceItem [props]="{title: 'Add', icon: 'plus', handler: onCreate}"></app-button>
                             <app-export-upload-button *nzSpaceItem [props]="{}"></app-export-upload-button>
                         </nz-space>
