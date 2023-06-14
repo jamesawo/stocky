@@ -1,6 +1,8 @@
 import {Component, Input} from '@angular/core';
 import {UntypedFormGroup} from '@angular/forms';
 import {CommonAddProps, PopupViewProps} from 'src/app/data/payload/common.types';
+import {ModalOrDrawer} from '../../../../../../data/payload/common.enum';
+import {toggleModalOrDrawer} from '../../../../../../shared/utils/util';
 
 export type ExpensesAddBtnProps = {
     showTable?: boolean;
@@ -17,35 +19,21 @@ export class CompanyPeopleCustomerAddBtnComponent {
     public isLoading = false;
     public showModal = false;
     public categoryForm!: UntypedFormGroup;
+    public pageTitle = 'Add New Customer';
 
     @Input()
     public props: CommonAddProps = {};
 
     @Input()
-    public popup: PopupViewProps = {display: 'drawer'};
-    public pageTitle = 'Add New Customer';
+    public popup: PopupViewProps = {display: ModalOrDrawer.DRAWER};
 
-    get isDrawer() {
-        return this.popup.display == 'drawer';
-    }
+    protected readonly ModalOrDrawer = ModalOrDrawer;
 
-    public onOpenDrawer = () => {
-        this.showDrawer = true;
-    };
-
-    public onCloseDrawer = () => {
-        this.showDrawer = false;
-    };
-
-    public onOpenModal = () => {
-        this.showModal = true;
-    };
-
-    public onCloseModal = () => {
-        this.showModal = false;
+    public toggle = (type = this.popup.display) => {
+        const {showDrawer, showModal} = toggleModalOrDrawer(type, this.showDrawer, this.showModal);
+        this.showDrawer = showDrawer;
+        this.showModal = showModal;
     };
 
     public onCreate = () => {};
-
-
 }
