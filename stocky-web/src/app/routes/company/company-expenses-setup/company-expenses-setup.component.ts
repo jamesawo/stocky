@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {EXPENSES_SETUP} from '../../../data/constant/crumb.constant';
+import {ModalOrDrawer} from '../../../data/payload/common.enum';
 import {TableCol} from '../../../shared/components/table/table.component';
 
 @Component({
@@ -25,12 +26,11 @@ export class CompanyExpensesSetupComponent {
         {title: 'Uploads'},
         {title: 'Action '}
     ];
+    protected readonly ModalOrDrawer = ModalOrDrawer;
 
     public onSearch = async (): Promise<void> => {};
 
     public onReset = (): void => {};
 
     public onCancel = (): void => {};
-
-
 }
