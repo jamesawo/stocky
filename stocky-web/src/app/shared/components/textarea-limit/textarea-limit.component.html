@@ -1,7 +1,7 @@
 <ng-container *ngIf="props?.formGroup && props?.fromControlName else modelTmpl" [formGroup]="props?.formGroup!">
     <nz-form-item>
         <nz-form-label *ngIf="props?.showLabel === true">{{props?.labelText}}</nz-form-label>
-        <nz-form-control [nzSpan]="24" nzErrorTip="Please write something here!" nzHasFeedback>
+        <nz-form-control [nzSpan]="24" nzErrorTip="" nzHasFeedback>
             <nz-textarea-count [nzMaxCharacterCount]="limit">
                         <textarea (input)="checkCharacterLimit($event)"
                                   [formControlName]="props?.fromControlName!" nz-input

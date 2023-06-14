@@ -19,6 +19,7 @@ import {NzFormModule} from 'ng-zorro-antd/form';
 import {NzGridModule} from 'ng-zorro-antd/grid';
 import {NzInputModule} from 'ng-zorro-antd/input';
 import {NzInputNumberModule} from 'ng-zorro-antd/input-number';
+import {NzListModule} from 'ng-zorro-antd/list';
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {NzNotificationModule} from 'ng-zorro-antd/notification';
 import {NzPaginationModule} from 'ng-zorro-antd/pagination';
@@ -36,7 +37,6 @@ import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
 import {NzTypographyModule} from 'ng-zorro-antd/typography';
 import {NzUploadModule} from 'ng-zorro-antd/upload';
 
-
 import {AmountRangeComponent} from './components/amount-range/amount-range.component';
 import {BreadcrumbsComponent} from './components/breadcrumbs/breadcrumbs.component';
 import {BusinessCategoryDropdownComponent} from './components/business-category-dropdown/business-category-dropdown.component';
@@ -46,6 +46,7 @@ import {ComingSoonComponent} from './components/coming-soon/coming-soon.componen
 import {DatePickerComponent} from './components/date-picker/date-picker.component';
 import {ExpandCollapseButtonComponent} from './components/expand-collapse-button/expand-collapse-button.component';
 import {ExportUploadButtonComponent} from './components/export-upload-button/export-upload-button.component';
+import {FooterButtonComponent} from './components/footer-button/footer-button.component';
 import {HintComponent} from './components/hint/hint.component';
 import {LoadingCardComponent} from './components/loading-card/loading-card.component';
 import {RangeDatePickerComponent} from './components/range-date-picker/range-date-picker.component';
@@ -93,7 +94,8 @@ const THIRD_MODULES: Array<Type<void>> = [
     NzDrawerModule,
     NzUploadModule,
     NzEmptyModule,
-    NzResultModule
+    NzResultModule,
+    NzListModule
 
 ];
 const COMPONENTS: Array<Type<void>> = [
@@ -118,12 +120,12 @@ const COMPONENTS: Array<Type<void>> = [
     UploadFileComponent,
     ComingSoonComponent,
     BusinessCategoryDropdownComponent,
-    BusinessNumberOfEmployeesComponent
+    BusinessNumberOfEmployeesComponent,
+    FooterButtonComponent
 ];
 const DIRECTIVES: Array<Type<void>> = [];
 const ICONS: Array<Type<void>> = [];
 const PROVIDERS: Array<Type<void>> = [AsyncPipe, UpperCasePipe];
-
 
 @NgModule({
     imports: [
