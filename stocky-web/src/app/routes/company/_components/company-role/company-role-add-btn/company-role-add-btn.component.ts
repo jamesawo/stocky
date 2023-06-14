@@ -1,41 +1,25 @@
-import {Component, Input} from '@angular/core';
-import {UntypedFormGroup} from '@angular/forms';
+import {HttpResponse} from '@angular/common/http';
+import {Component, Input, ViewChild} from '@angular/core';
+import {ModalOrDrawer} from '../../../../../data/payload/common.enum';
 import {CommonInputProps, PopupViewProps} from '../../../../../data/payload/common.types';
+import {toggleModalOrDrawer} from '../../../../../shared/utils/util';
+import {RolePayload} from '../../../_data/company.payload';
+import {CompanyRoleFormComponent} from '../company-role-form/company-role-form.component';
 
 @Component({
     selector: 'app-company-role-add-btn',
     templateUrl: './company-role-add-btn.component.html',
-    styles: [
-        `.space-t {
-          margin-top: -10px;
-        }`
-    ]
+    styles: [`.space-t {
+      margin-top: -10px;
+    }`]
 })
 export class CompanyRoleAddBtnComponent {
     public showDrawer = false;
-    public isLoading = false;
     public showModal = false;
-    public categoryForm!: UntypedFormGroup;
-    public permissions = [
-        {
-            active: true,
-            name: 'This is panel header 1',
-            childPanel: [
-                {
-                    active: false,
-                    name: 'This is panel header 1-1'
-                }
-            ]
-        },
-        {
-            active: false,
-            name: 'This is panel header 2'
-        },
-        {
-            active: false,
-            name: 'This is panel header 3'
-        }
-    ];
+
+    @ViewChild('roleFormComponent')
+    public roleFormComponent?: CompanyRoleFormComponent;
+
 
     @Input()
     public props: CommonInputProps = {
@@ -47,28 +31,29 @@ export class CompanyRoleAddBtnComponent {
     };
 
     @Input()
-    public popup: PopupViewProps = {display: 'drawer'};
+    public popup: PopupViewProps = {display: ModalOrDrawer.DRAWER};
+
+    protected readonly ModalOrDrawer = ModalOrDrawer;
 
     get isDrawer() {
-        return this.popup.display == 'drawer';
+        return this.popup.display == ModalOrDrawer.DRAWER;
     }
 
-    public onOpenDrawer = () => {
-        this.showDrawer = true;
+
+    public toggle = (type = this.popup.display) => {
+        const {showDrawer, showModal} = toggleModalOrDrawer(type, this.showDrawer, this.showModal);
+        this.showDrawer = showDrawer;
+        this.showModal = showModal;
     };
 
-    public onCloseDrawer = () => {
-        this.showDrawer = false;
+    public onCreate = () => {
+        this.roleFormComponent?.onSave();
     };
 
-    public onOpenModal = () => {
-        this.showModal = true;
-    };
 
-    public onCloseModal = () => {
-        this.showModal = false;
-    };
-
-    public onCreate = () => {};
-
+    public onHandleFormEmit(response: HttpResponse<RolePayload>) {
+        if (response.ok) {
+            this.toggle(ModalOrDrawer.ANY);
+        }
+    }
 }

@@ -1,0 +1,97 @@
+<form (submit)="onSave()"
+      [formGroup]="form"
+      autocomplete="off"
+      nz-form
+      nzLayout="vertical"
+>
+    <div [nzSpan]="24" nz-col>
+
+        <nz-form-item>
+            <nz-form-label>Title</nz-form-label>
+            <nz-form-control [nzValidateStatus]="getNzFormControlValidStatus('name', form)" nzErrorTip="">
+                <input
+                    formControlName="name"
+                    name="title"
+                    nz-input
+                    placeholder="Enter role title"
+                    type="text"
+                />
+            </nz-form-control>
+        </nz-form-item>
+
+        <app-textarea-limit
+            [props]="{showLabel: true, labelText: 'Description', formGroup: form, fromControlName: 'description'}"
+        ></app-textarea-limit>
+
+        <nz-form-item>
+            <div class="flex justify-between w-100">
+                <nz-form-label>Permissions</nz-form-label>
+                <span
+                    *ngIf="getNzFormControlValidStatus('permissions', form)=='error'"
+                    class="red">
+                                Select at least 1 Permission
+                        </span>
+            </div>
+            <nz-form-control
+                [ngStyle]="{border:  getNzFormControlValidStatus('permissions', form)=='error'? '0.7px solid red': ''}"
+                [nzValidateStatus]="getNzFormControlValidStatus('permissions', form)"
+                nzErrorTip="Select at least 1 permission">
+
+                <ng-container
+                    [ngTemplateOutlet]="isDrawer ? permDrawerTmpl: permsModalTmpl"
+                ></ng-container>
+
+            </nz-form-control>
+        </nz-form-item>
+
+    </div>
+</form>
+
+<ng-template #permsModalTmpl>
+    <nz-select nzMode="multiple" nzPlaceHolder="Select permissions">
+        <nz-option></nz-option>
+    </nz-select>
+</ng-template>
+
+<ng-template #permDrawerTmpl>
+
+    <ng-container *ngIf="permissions | async as list; else emptyTmpl">
+        <nz-collapse nzAccordion>
+
+            <nz-collapse-panel
+                *ngFor="let group of list; let i = index "
+                [nzActive]="doesRoleHaveAnyPermissionInGroup(group)"
+                [nzHeader]="group.module"
+            >
+                <ul [nzDataSource]="group.permissions" nz-list nzBordered nzSize="small">
+                    <nz-list-header>
+                        <div class="flex justify-between mr2">
+                            <span>
+                                GRANT ALL ACCESS
+                            </span>
+                            <span>
+                                <input (change)="addOrRemoveGroupPermissionsFromSelectedPermissions(group, $event)"
+                                       [checked]="areAllGroupPermissionsChecked(group)" type="checkbox"/>
+                            </span>
+                        </div>
+                    </nz-list-header>
+                    <li *ngFor="let item of group.permissions" nz-list-item nzNoFlex>
+                        <ul nz-list-item-actions>
+                            <nz-list-item-action>
+                                <input (change)="handlePermissionSelection($event, item)" [checked]="item.checked"
+                                       type="checkbox"/>
+                            </nz-list-item-action>
+                        </ul>
+                        {{ item.name.replaceAll('_', ' ') }}
+                    </li>
+                    <nz-list-footer></nz-list-footer>
+                </ul>
+
+            </nz-collapse-panel>
+        </nz-collapse>
+    </ng-container>
+    <ng-template #emptyTmpl>
+        <nz-empty></nz-empty>
+    </ng-template>
+
+</ng-template>
