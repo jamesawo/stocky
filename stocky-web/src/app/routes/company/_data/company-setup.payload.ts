@@ -25,4 +25,7 @@ export class CompanyAdministratorDetailsPayload {
 export class CompanyLocaleDetailsPayload {
     id?: number;
     
+    currency?: string;
+    language?: string;
+    timeZone?: string;
 }
