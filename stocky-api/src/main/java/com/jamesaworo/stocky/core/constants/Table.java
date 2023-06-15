@@ -43,5 +43,8 @@ public class Table {
 	public static final String COMPANY_EXPENSES = COMPANY + "_EXPENSES";
 	public static final String COMPANY_EXPENSES_CATEGORY = COMPANY + "_EXPENSES_CATEGORY";
 
+	public static final String COMPANY_BASIC_DETAILS = COMPANY + "_BASIC_DETAILS";
+	public static final String COMPANY_ADMIN_DETAILS = COMPANY + "_ADMIN_DETAILS";
+	public static final String COMPANY_LOCALE_DETAILS = COMPANY + "_LOCALE_DETAILS";
 
 }
