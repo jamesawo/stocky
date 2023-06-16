@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {checkFormControlCharacterLimit} from '../../utils/util';
+import {checkFormControlCharacterLimit, getNzFormControlValidStatus} from '../../utils/util';
 
 export type TextAreaLimitProps = {
     showLabel?: boolean;
@@ -32,6 +32,7 @@ export class TextareaLimitComponent implements AfterViewInit {
     @Output()
     public valueChange = new EventEmitter<string>();
     @ViewChildren('textAreaElement') textareaElements?: QueryList<ElementRef<HTMLTextAreaElement>>;
+    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
 
     public checkCharacterLimit(value: any) {
         if (this.props && this.props.formGroup && this.props.fromControlName) {
@@ -51,7 +52,6 @@ export class TextareaLimitComponent implements AfterViewInit {
         }
     }
 
-
     ngAfterViewInit() {
         this.updateTextareaValue();
     }
@@ -65,6 +65,4 @@ export class TextareaLimitComponent implements AfterViewInit {
             });
         }
     }
-
-
 }
