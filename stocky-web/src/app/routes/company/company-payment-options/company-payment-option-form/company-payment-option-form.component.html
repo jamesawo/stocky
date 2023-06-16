@@ -10,15 +10,11 @@
         </div>
 
         <div nz-col nzSpan="24">
-            <nz-form-item>
-                <nz-form-control [nzSpan]="24" nzErrorTip="Please write something here!" nzHasFeedback>
-                    <nz-textarea-count [nzMaxCharacterCount]="50">
-                        <textarea (input)="checkCharacterLimit($event)" formControlName="description" nz-input placeholder="write a description"
-                                  rows="2"></textarea>
-                    </nz-textarea-count>
-                </nz-form-control>
-            </nz-form-item>
-
+            <app-textarea-limit
+                [props]="{
+                        showLabel: false, formGroup: form, fromControlName: 'description' }"
+            ></app-textarea-limit>
+           
             <nz-form-item nz-col nzSpan="24">
                 <nz-form-control>
                     <button [disabled]="!form.valid" [nzLoading]="isSaving" nz-button nzType="primary">
