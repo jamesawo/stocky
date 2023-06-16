@@ -123,24 +123,6 @@ export function handleHttpRequestError(
     }
 }
 
-export async function handleHttpResponse<T>(
-    response: T,
-    nzNotificationService: NzNotificationService,
-    opts?: {success?: string}
-): Promise<T> {
-    try {
-        const value: any = await response;
-        if (value && value.ok) {
-            showSuccessNotification(nzNotificationService, opts?.success);
-        } else {
-            showErrorNotification(nzNotificationService);
-        }
-        return value;
-    } catch (error: any) {
-        handleHttpRequestError(error, {service: nzNotificationService});
-        return response;
-    }
-}
 
 export async function handleUsecaseRequest<T>(
     arg: Observable<T>,
