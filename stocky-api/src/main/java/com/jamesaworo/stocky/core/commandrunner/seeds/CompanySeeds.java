@@ -4,7 +4,7 @@ import com.jamesaworo.stocky.features.company.domain.entity.*;
 
 import java.util.List;
 
-import static com.jamesaworo.stocky.core.constants.CompanyConstant.*;
+import static com.jamesaworo.stocky.core.constants.CompanyDetailConstant.*;
 
 /**
  * @author Aworo James
@@ -63,10 +63,10 @@ public class CompanySeeds {
 			new CompanyAdministratorDetail(COMPANY_PROFILE_POSITION, "")
 	);
 
-	public static final List<CompanyLocaleDetail> COMPANY_LOCALE_DETAILS = List.of(
-			new CompanyLocaleDetail(COMPANY_LOCALE_CURRENCY, ""),
-			new CompanyLocaleDetail(COMPANY_LOCALE_LANGUAGE, ""),
-			new CompanyLocaleDetail(COMPANY_LOCALE_TIME_ZONE, "")
+	public static final List<CompanyRegionDetail> COMPANY_LOCALE_DETAILS = List.of(
+			new CompanyRegionDetail(COMPANY_REGION_CURRENCY, ""),
+			new CompanyRegionDetail(COMPANY_REGION_LANGUAGE, ""),
+			new CompanyRegionDetail(COMPANY_REGION_TIME_ZONE, "")
 	);
 
 }

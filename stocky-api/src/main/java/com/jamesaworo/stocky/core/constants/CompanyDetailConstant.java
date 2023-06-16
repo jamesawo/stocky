@@ -7,7 +7,7 @@
 
 package com.jamesaworo.stocky.core.constants;
 
-public class CompanyConstant {
+public class CompanyDetailConstant {
 	public static final String COMPANY_BUSINESS_NAME = "businessName";
 	public static final String COMPANY_BUSINESS_CATEGORY = "businessCategory";
 	public static final String COMPANY_BUSINESS_EMPLOYEE_SIZE = "businessEmployeeSize";
@@ -20,9 +20,9 @@ public class CompanyConstant {
 	public static final String COMPANY_PROFILE_EMAIL = "profileEmail";
 	public static final String COMPANY_PROFILE_POSITION = "profilePosition";
 
-	public static final String COMPANY_LOCALE_CURRENCY = "localeCurrency";
-	public static final String COMPANY_LOCALE_LANGUAGE = "localeLanguage";
-	public static final String COMPANY_LOCALE_TIME_ZONE = "localeTimeZone";
+	public static final String COMPANY_REGION_CURRENCY = "regionCurrency";
+	public static final String COMPANY_REGION_LANGUAGE = "regionLanguage";
+	public static final String COMPANY_REGION_TIME_ZONE = "regionTimeZone";
 
 
 }

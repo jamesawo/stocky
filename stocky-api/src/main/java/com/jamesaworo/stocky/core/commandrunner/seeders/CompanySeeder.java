@@ -20,7 +20,7 @@ public class CompanySeeder {
 	private final CompanyBusinessCategoryRepository companyBusinessCategoryRepository;
 	private final CompanyBasicDetailRepository companyBasicDetailRepository;
 	private final CompanyAdministratorDetailRepository companyAdministratorDetailRepository;
-	private final CompanyLocaleDetailRepository companyLocaleDetailRepository;
+	private final CompanyRegionDetailRepository companyLocaleDetailRepository;
 
 
 	public void run() {
@@ -64,7 +64,7 @@ public class CompanySeeder {
 	private void runCompanyLocaleDetailsSeeder() {
 		if (companyLocaleDetailRepository.count() == 0) {
 			this.companyLocaleDetailRepository.saveAll(COMPANY_LOCALE_DETAILS);
-			System.out.println("----- seed company locale setup keys -----");
+			System.out.println("----- seed company region setup keys -----");
 		}
 	}
 }

@@ -45,6 +45,7 @@ public class Table {
 
 	public static final String COMPANY_BASIC_DETAILS = COMPANY + "_BASIC_DETAILS";
 	public static final String COMPANY_ADMIN_DETAILS = COMPANY + "_ADMIN_DETAILS";
-	public static final String COMPANY_LOCALE_DETAILS = COMPANY + "_LOCALE_DETAILS";
+	public static final String COMPANY_REGION_DETAILS = COMPANY + "_REGION_DETAILS";
+	public static final String COMPANY_PAYMENT_OPTION = COMPANY + "_PAYMENT_OPTION";
 
 }
