@@ -1,10 +1,10 @@
-<form (ngSubmit)="onSave()" [autocomplete]="'off'" [formGroup]="form" nz-form nzLayout="vertical">
+<form (ngSubmit)="onSaveFormDetails()" [autocomplete]="'off'" [formGroup]="form" nz-form nzLayout="vertical">
 
     <div nz-row nzGutter="8">
         <div [nzLg]="8" [nzSm]="24" nz-col nzSpan="24">
             <nz-form-item>
                 <nz-form-label nzFor="language" nzRequired>Language</nz-form-label>
-                <nz-form-control nzErrorTip="The input is invalid!">
+                <nz-form-control [nzValidateStatus]="getNzFormControlValidStatus('regionLanguage', form)" nzErrorTip="">
                     <input formControlName="regionLanguage" id="language" name="regionLocaleLanguage" nz-input/>
                 </nz-form-control>
             </nz-form-item>
@@ -13,7 +13,7 @@
         <div [nzLg]="8" [nzSm]="24" nz-col nzSpan="24">
             <nz-form-item>
                 <nz-form-label nzFor="currency" nzRequired>Currency</nz-form-label>
-                <nz-form-control nzErrorTip="The input is not valid!">
+                <nz-form-control [nzValidateStatus]="getNzFormControlValidStatus('regionCurrency', form)" nzErrorTip="">
                     <input formControlName="regionCurrency" id="currency" name="regionLocalCurrency" nz-input/>
                 </nz-form-control>
             </nz-form-item>
@@ -22,7 +22,7 @@
         <div [nzLg]="8" [nzSm]="24" nz-col>
             <nz-form-item>
                 <nz-form-label nzFor="timeZone" nzRequired>TimeZone</nz-form-label>
-                <nz-form-control nzErrorTip="The input is not valid!">
+                <nz-form-control [nzValidateStatus]="getNzFormControlValidStatus('regionTimeZone', form)" nzErrorTip="">
                     <input formControlName="regionTimeZone" id="timeZone" name="regionTimeZone" nz-input/>
                 </nz-form-control>
             </nz-form-item>
