@@ -5,13 +5,13 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {ProductTaxPayload} from '../_data/product.payload';
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class ProductTaxUsecase {
     public trigger: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public trigger$: Observable<boolean> = this.trigger.asObservable();
 
-    private url = environment.api.baseUrl + '/product-tax';
+    private url = environment.api.baseUrl + '/product/tax';
 
     constructor(private http: HttpClient) {}
 
@@ -25,13 +25,13 @@ export class ProductTaxUsecase {
 
     public save(data: ProductTaxPayload) {
         return this.http.post<ProductTaxPayload>(`${this.url}/create`, data, {
-            observe: 'response',
+            observe: 'response'
         });
     }
 
     public update(category: ProductTaxPayload) {
         return this.http.put<ProductTaxPayload>(`${this.url}/update`, category, {
-            observe: 'response',
+            observe: 'response'
         });
     }
 
