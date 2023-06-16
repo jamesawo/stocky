@@ -2,9 +2,7 @@
 
 <div [nzGutter]="[16, 24]" nz-row>
     <div nz-col nzSpan="24">
-
         <nz-collapse>
-
             <nz-collapse-panel
                 *ngFor="let panel of panels"
                 [nzActive]="panel.active"
@@ -15,12 +13,9 @@
                     <ng-container [ngTemplateOutlet]="panel.tmpl"></ng-container>
                 </div>
             </nz-collapse-panel>
-
         </nz-collapse>
     </div>
-
 </div>
-
 
 <ng-template #basicTmpl>
     <app-company-basic-form></app-company-basic-form>
