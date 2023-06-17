@@ -1,32 +1,32 @@
-<page-header [action]='action' [breadcrumb]='breadcrumb' [content]='content' title="Product Variants">
+<page-header [action]="action" [breadcrumb]="breadcrumb" [content]="content" title="Product Variants">
     <ng-template #breadcrumb>
         <app-breadcrumbs [crumbs]="crumbs"></app-breadcrumbs>
     </ng-template>
 
     <ng-template #action>
-        <app-expand-collapse-button [(open)]='showPageHeader'></app-expand-collapse-button>
+        <app-expand-collapse-button [(open)]="showPageHeader"></app-expand-collapse-button>
     </ng-template>
 
     <ng-template #content>
 
-        <form *ngIf="showPageHeader" autocomplete='off' class="ph-main" nz-form>
+        <form *ngIf="showPageHeader" autocomplete="off" class="ph-main" nz-form>
 
             <div [nzGutter]="[12, 24]" nz-row>
 
-                <div nz-col nzSpan='24'>
+                <div nz-col nzSpan="24">
 
                     <div [nzGutter]="[12, 16]" nz-row>
 
-                        <div [nzLg]='8' [nzSpan]='8' [nzXs]='24' class='m-t-1em' nz-col>
+                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" class="m-t-1em" nz-col>
                             <nz-form-label>Type</nz-form-label>
-                            <input name='type' nz-input placeholder='Select type' type='text'/>
+                            <input name="type" nz-input placeholder="Select type" type="text"/>
                         </div>
 
-                        <div [nzLg]='8' [nzSpan]='8' [nzXs]='24' class='m-t-1em' nz-col>
+                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" class="m-t-1em" nz-col>
                             <nz-form-label>Value</nz-form-label>
-                            <input name='productName'
+                            <input name="productName"
                                    nz-input
-                                   placeholder='Value' type='text'/>
+                                   placeholder="Value" type="text"/>
                         </div>
 
                     </div>
@@ -34,27 +34,27 @@
 
                 </div>
 
-                <div nz-col nzSpan='24'>
+                <div nz-col nzSpan="24">
 
-                    <div nz-row nzJustify='space-between'>
-                        <div [nzLg]='12' [nzSpan]='12' [nzXs]='10' nz-col>
+                    <div nz-row nzJustify="space-between">
+                        <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" nz-col>
                             <app-search-reset-button
-                                [props]='{
+                                [props]="{
                                 onSearchAction: onHandleAction,
                                 isLoadingSearchResult: showPageHeader,
-                                onResetSearchPayload: onHandleAction,
+                                onResetAction: onHandleAction,
                                 onCancelAction: onHandleAction
-                                }'
+                                }"
                             ></app-search-reset-button>
                         </div>
 
-                        <div [nzLg]='12' [nzSpan]='12' [nzXs]='10' class='text-align-end' nz-col>
+                        <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" class="text-align-end" nz-col>
                             <nz-space nzSize="small">
                                 <app-button
                                     *nzSpaceItem
                                     [props]="{handler: onHandleAction, title: 'Add', icon: 'plus'}"
                                 ></app-button>
-                                <app-export-upload-button *nzSpaceItem [props]='{}'></app-export-upload-button>
+                                <app-export-upload-button *nzSpaceItem [props]="{}"></app-export-upload-button>
                             </nz-space>
                         </div>
                     </div>
@@ -68,13 +68,13 @@
 </page-header>
 
 <nz-card>
-    <div class='wd-100p'>
+    <div class="wd-100p">
         <nz-table>
             <thead>
-            <tr class='text-uppercase'>
-                <th nzWidth='10%'></th>
-                <th nzWidth='30%'>Title</th>
-                <th nzWidth='60%'>Description</th>
+            <tr class="text-uppercase">
+                <th nzWidth="10%"></th>
+                <th nzWidth="30%">Title</th>
+                <th nzWidth="60%">Description</th>
             </tr>
             </thead>
         </nz-table>

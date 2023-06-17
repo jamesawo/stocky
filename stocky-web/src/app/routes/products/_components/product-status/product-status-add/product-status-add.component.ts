@@ -3,8 +3,8 @@ import {Component, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, shareReplay} from 'rxjs';
+import {TableEditCacheMap} from '../../../../../data/payload/common.types';
 import {TableCol} from '../../../../../shared/components/table/table.component';
-import {EditCacheMap} from '../../../../../shared/components/update-delete-action/update-delete-action.component';
 import {
     handleAppendToObservableListIfResponse,
     handleCancelEditingTableItem,
@@ -19,16 +19,16 @@ import {ProductStatusUsecase} from '../../../_usecase/product-status.usecase';
 @Component({
     selector: 'app-product-status-add',
     templateUrl: './product-status-add.component.html',
-    styles: [],
+    styles: []
 })
 export class ProductStatusAddComponent implements OnInit {
     public isVisible = false;
     public form!: UntypedFormGroup;
-    public editMap: EditCacheMap<ProductStatusPayload> = {};
+    public editMap: TableEditCacheMap<ProductStatusPayload> = {};
     public cols: TableCol[] = [
         {title: 'TITLE', width: 30},
         {title: 'DESCRIPTION', width: 40},
-        {title: '', width: 20},
+        {title: '', width: 20}
     ];
 
     public data?: Observable<ProductStatusPayload[]>;
@@ -45,7 +45,7 @@ export class ProductStatusAddComponent implements OnInit {
     public ngOnInit(): void {
         this.form = this.fb.group({
             title: [null, [Validators.required]],
-            description: [null],
+            description: [null]
         });
 
         this.data = this.usecase.getMany().pipe(shareReplay());
@@ -65,10 +65,10 @@ export class ProductStatusAddComponent implements OnInit {
     }
 
     public onConfirmDelete = async (id: number) => {
-        this.editMap[id] = {edit: false, data: {}, updating: false, deleting: true};
+        this.editMap[id] = {edit: false, data: {}, updating: false, loading: true};
         const response = await handleUsecaseRequest(this.usecase.delete(id), this.notification);
         this.data = handleRemoveFromObservableListIfStatus(this.data!, {key: 'id', value: id}, response);
-        this.editMap[id].deleting = false;
+        this.editMap[id].loading = false;
         this.notifyChange();
     };
 
@@ -90,7 +90,7 @@ export class ProductStatusAddComponent implements OnInit {
     };
 
     public onToggleEdit = (item: ProductStatusPayload) => {
-        if (item) this.editMap[item.id!] = {edit: true, data: {...item}, updating: false, deleting: false};
+        if (item) this.editMap[item.id!] = {edit: true, data: {...item}, updating: false, loading: false};
     };
 
     public onCacheValueChange = (change: any, item: ProductStatusPayload, field: string) => {
