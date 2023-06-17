@@ -19,8 +19,13 @@ export class LocationUsecase {
     }
 
     public getAll() {
-        return this.http.get<LocationPayload[]>(`${this.url}/get-all`);
+        return this.http.get<LocationPayload[]>(`${this.url}/all`);
     }
+
+    public toggleStatus(id: number) {
+        return this.http.put<boolean>(`${this.url}/status/${id}`, {}, {observe: 'response'});
+    }
+
 
     public remove(id: number) {
         return this.http.delete(`${this.url}/remove/${id}`, {observe: 'response'});

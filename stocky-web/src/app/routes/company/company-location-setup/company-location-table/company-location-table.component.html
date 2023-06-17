@@ -1,7 +1,7 @@
 <app-table [colHeadings]="cols"
            [dataList]="data"
            [props]="{tableSize: 'small'}"
-           [rowTemplates]="[titleTmpl, typeTmpl, statusTmpl,  descTmpl, actionTmpl]"
+           [rowTemplates]="[titleTmpl, typeTmpl, descTmpl, statusTmpl, actionTmpl]"
 ></app-table>
 
 
@@ -23,30 +23,24 @@
 </ng-template>
 
 <ng-template #typeTmpl let-item="item">
-    <app-table-item-editable
-        (valueChange)="onCacheValueChange($event, item, 'type')"
-        [props]="{fieldName: 'type', initialValue: item.type, isEditMode: canEditItem(item)}"
-        [value]="editMap[item.id] && editMap[item.id].data.type"
-    ></app-table-item-editable>
+    <label>{{item.type?.replaceAll('_', ' ')}}</label>
 </ng-template>
 <ng-template #statusTmpl let-item="item">
-    <app-table-item-editable
-        (valueChange)="onCacheValueChange($event, item, 'status')"
-        [props]="{fieldName: 'status', initialValue: item.status, isEditMode: canEditItem(item)}"
-        [value]="editMap[item.id] && editMap[item.id].data.status"
-    ></app-table-item-editable>
+    <app-record-status-badge [status]="item.isActiveStatus"></app-record-status-badge>
 </ng-template>
 
 
 <ng-template #actionTmpl let-item="item">
     <app-update-delete-action
+        [buttons]="[TableButtonEnum.EDIT, TableButtonEnum.TOGGLE_STATUS]"
         [item]="item"
         [props]="{
             saveEditHandler: onSaveEdit,
             cancelEditHandler: onCancelEdit,
             toggleEditHandler: onToggleEdit,
-            cancelDeleteHandler: onCancelDelete,
-            confirmDeleteHandler: onConfirmDelete,
+
+            cancelToggleStatusHandler: onCancelAction,
+            confirmToggleStatusHandler: onConfirmToggleStatus,
             editMap: editMap}"
     ></app-update-delete-action>
 </ng-template>

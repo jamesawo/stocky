@@ -17,17 +17,24 @@
 
                     <div nz-row nzGutter="10">
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
-                            <app-company-expense-category-dropdown [props]="{showLabel: true}"></app-company-expense-category-dropdown>
+                            <app-company-expense-category-dropdown
+                                [(select)]="searchPayload.category"
+                                [props]="{showLabel: true}"
+                            ></app-company-expense-category-dropdown>
                         </div>
 
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-label>Registered By</nz-form-label>
-                            <app-company-user-search [props]="{showLabel: false}"></app-company-user-search>
+                            <app-company-user-search
+                                [props]="{showLabel: false}"
+                            ></app-company-user-search>
                         </div>
 
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-label>Approved By</nz-form-label>
-                            <app-company-user-search [props]="{showLabel: false}"></app-company-user-search>
+                            <app-company-user-search
+                                [props]="{showLabel: false}"
+                            ></app-company-user-search>
                         </div>
                     </div>
 
@@ -37,13 +44,14 @@
                     <div nz-row nzGutter="10">
 
                         <div [nzLg]="12" [nzSpan]="12" [nzXs]="24" nz-col>
-                            <app-amount-range></app-amount-range>
+                            <app-amount-range [(value)]="searchPayload.amountRange"></app-amount-range>
                         </div>
 
                         <div [nzLg]="12" [nzSpan]="12" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Date Range</nz-form-label>
-                                <app-range-date-picker></app-range-date-picker>
+                                <app-range-date-picker [(select)]="searchPayload.dateRangeParam"
+                                ></app-range-date-picker>
                             </nz-form-item>
                         </div>
 
@@ -57,12 +65,7 @@
                 <div nz-row nzJustify="space-between">
                     <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" nz-col>
                         <app-search-reset-button
-                            [props]="{
-                                        onSearchAction: onSearch,
-                                        isLoadingSearchResult: isLoading,
-                                        onResetSearchPayload: onReset,
-                                        onCancelAction: onCancel
-                                        }"
+                            [props]="{onSearchAction: onSearch,isLoadingSearchResult: isLoading,onResetAction: onResetSearchForm}"
                         ></app-search-reset-button>
                     </div>
 
@@ -79,9 +82,72 @@
 
     </ng-template>
 
-
 </page-header>
 
 <nz-card>
-    <app-table [colHeadings]="tableCols"></app-table>
+    <app-table
+        (pageIndexChange)="onPageIndexChange($event)"
+        (pageSizeChange)="onPageSizeChange($event)"
+        [(pageIndex)]="pageRequest.pageNumber"
+        [(pageSize)]="pageRequest.pageSize"
+        [colHeadings]="tableCols"
+        [dataList]="tableData"
+        [props]="{showPagination: true, isLoading: isLoadingTable}"
+        [rowTemplates]="[  amountTmpl, categoryTmpl,
+             recordedByTmpl, recordedDateTmpl, approvalStatusTmpl,
+              approvedByTmpl, approvedDateTmpl,
+             commentTmpl, uploadsTmpl, actionTmpl
+        ]"
+    ></app-table>
 </nz-card>
+
+<ng-template #amountTmpl let-item="item">
+    <app-table-item [content]="amountFormat"></app-table-item>
+    <ng-template #amountFormat>
+        <span>{{item.amount | currency: '': '' }}</span>
+    </ng-template>
+</ng-template>
+<ng-template #categoryTmpl let-item="item">
+    <app-table-item [content]="item.category?.title"></app-table-item>
+</ng-template>
+
+<ng-template #recordedByTmpl>
+    <app-table-item></app-table-item>
+</ng-template>
+
+<ng-template #recordedDateTmpl let-item="item">
+    <app-table-item [content]="recordedDateFormat"></app-table-item>
+    <ng-template #recordedDateFormat>
+        <span> {{item.recordDate | date}} </span>
+    </ng-template>
+</ng-template>
+
+<ng-template #approvalStatusTmpl>
+    <app-table-item></app-table-item>
+</ng-template>
+
+<ng-template #approvedByTmpl>
+    <app-table-item></app-table-item>
+</ng-template>
+
+<ng-template #approvedDateTmpl>
+    <app-table-item></app-table-item>
+    <!--
+    <app-table-item [content]="dateCreatedAtTmpl"></app-table-item>
+        <ng-template #dateCreatedAtTmpl>
+            <label>{{item?.createdAt | date}}</label>
+        </ng-template>
+    -->
+</ng-template>
+
+<ng-template #commentTmpl let-item="item">
+    <app-table-item-truncatable [content]="item.comment"></app-table-item-truncatable>
+</ng-template>
+
+<ng-template #uploadsTmpl>
+    <app-table-item></app-table-item>
+</ng-template>
+
+<ng-template #actionTmpl>
+
+</ng-template>

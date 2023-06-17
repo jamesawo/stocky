@@ -1,16 +1,12 @@
 import {Component} from '@angular/core';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, shareReplay} from 'rxjs';
+import {TableButtonEnum} from '../../../../data/payload/common.enum';
+import {TableEditCacheMap} from '../../../../data/payload/common.types';
 import {TableCol} from '../../../../shared/components/table/table.component';
-import {EditCacheMap} from '../../../../shared/components/update-delete-action/update-delete-action.component';
-import {
-    handleCancelEditingTableItem,
-    handleRemoveFromObservableListIfStatus,
-    handleUpdateObservableListIfResponse,
-    handleUsecaseRequest
-} from '../../../../shared/utils/util';
+import {handleCancelEditingTableItem, handleUpdateObservableListIfResponse, handleUsecaseRequest} from '../../../../shared/utils/util';
 import {LocationPayload} from '../../_data/company.payload';
-import {PaymentOptionUsecase} from '../../_usecase/payment-option.usecase';
+import {LocationUsecase} from '../../_usecase/location.usecase';
 
 @Component({
     selector: 'app-company-location-table',
@@ -22,33 +18,31 @@ export class CompanyLocationTableComponent {
     public cols: TableCol[] = [
         {title: 'TITLE'},
         {title: 'TYPE'},
-        {title: 'STATUS'},
         {title: 'DESCRIPTION'},
+        {title: 'STATUS'},
         {title: '', width: 20}
     ];
-    public data?: Observable<any[]>;
-    public editMap: EditCacheMap<any> = {};
-    public paymentOptions?: Observable<LocationPayload[]>;
+    public data?: Observable<LocationPayload[]>;
+    public editMap: TableEditCacheMap<any> = {};
+    protected readonly TableButtonEnum = TableButtonEnum;
 
     constructor(
-        private usecase: PaymentOptionUsecase,
+        private usecase: LocationUsecase,
         private notification: NzNotificationService
     ) {}
 
     public ngOnInit() {
-        this.loadData();
         this.usecase.trigger$.subscribe(value => this.loadData());
     }
 
     public loadData() {
-        this.paymentOptions = this.usecase.getAll().pipe(shareReplay());
+        this.data = this.usecase.getAll().pipe(shareReplay());
     }
 
-    public onConfirmDelete = async (id: number) => {
-        this.editMap[id] = {edit: false, data: {}, updating: false, deleting: true};
-        const response = await handleUsecaseRequest(this.usecase.remove(id), this.notification);
-        this.data = handleRemoveFromObservableListIfStatus(this.data!, {key: 'id', value: id}, response);
-        this.editMap[id].deleting = false;
+    public onConfirmToggleStatus = async (id: number) => {
+        this.editMap[id] = {edit: false, data: {}, updating: false, loading: true};
+        const response = await handleUsecaseRequest(this.usecase.toggleStatus(id), this.notification);
+        this.editMap[id].loading = false;
         this.notifyChange();
     };
 
@@ -61,7 +55,7 @@ export class CompanyLocationTableComponent {
         this.notifyChange();
     };
 
-    public onCancelDelete = async () => {};
+    public onCancelAction = async () => {};
 
     public onCancelEdit = async (item: LocationPayload) => {
         if (item) {
@@ -70,7 +64,7 @@ export class CompanyLocationTableComponent {
     };
 
     public onToggleEdit = (item: LocationPayload) => {
-        if (item) this.editMap[item.id!] = {edit: true, data: {...item}, updating: false, deleting: false};
+        if (item) this.editMap[item.id!] = {edit: true, data: {...item}, updating: false, loading: false};
     };
 
     public onCacheValueChange = (change: any, item: LocationPayload, field: string) => {
@@ -85,5 +79,4 @@ export class CompanyLocationTableComponent {
     private notifyChange = () => {
         this.usecase.setTrigger(true);
     };
-
 }

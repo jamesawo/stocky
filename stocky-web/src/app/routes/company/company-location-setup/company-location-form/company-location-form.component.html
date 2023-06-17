@@ -1,8 +1,9 @@
-<form (ngSubmit)="onCreate()" [formGroup]="form" [nzLayout]="'inline'" nz-form>
+<form (ngSubmit)="onCreate()" [formGroup]="form" nz-form nzLayout="vertical">
     <div [nzGutter]="[8, 8]" nz-row nzAlign="bottom">
         <div nz-col nzSpan="24">
             <nz-form-item>
-                <nz-form-control nzErrorTip="Please enter title">
+                <nz-form-label>Location Title</nz-form-label>
+                <nz-form-control [nzValidateStatus]="getNzFormControlValidStatus('title', form)" nzErrorTip="">
                     <input formControlName="title" nz-input placeholder="Enter title"/>
                 </nz-form-control>
             </nz-form-item>
@@ -10,29 +11,22 @@
 
         <div nz-col nzSpan="24">
             <nz-form-item>
-                <nz-form-control nzErrorTip="Please enter type">
-                    <input formControlName="type" nz-input placeholder="Enter type"/>
+                <nz-form-label>Location Type</nz-form-label>
+                <nz-form-control [nzValidateStatus]="getNzFormControlValidStatus('type', form)" nzErrorTip="">
+                    <nz-select [nzShowSearch]="true" formControlName="type" nzPlaceHolder="Select location type">
+                        <nz-option *ngFor="let item of types" [nzLabel]="item?.type!.replaceAll('_', ' ')" [nzValue]="item.type"></nz-option>
+                    </nz-select>
                 </nz-form-control>
             </nz-form-item>
         </div>
 
         <div nz-col nzSpan="24">
-            <nz-form-item>
-                <nz-form-control nzErrorTip="Please enter status">
-                    <input formControlName="status" nz-input placeholder="Enter status"/>
-                </nz-form-control>
-            </nz-form-item>
-        </div>
-
-        <div nz-col nzSpan="24">
-            <nz-form-item>
-                <nz-form-control [nzSpan]="24" nzErrorTip="Please write something here!" nzHasFeedback>
-                    <nz-textarea-count [nzMaxCharacterCount]="50">
-                        <textarea (input)="checkCharacterLimit($event)" formControlName="description" nz-input placeholder="write a description"
-                                  rows="2"></textarea>
-                    </nz-textarea-count>
-                </nz-form-control>
-            </nz-form-item>
+            <app-textarea-limit [props]="{
+                showLabel: true,
+                labelText: 'Description',
+                formGroup: form,
+                fromControlName: 'description'
+            }"></app-textarea-limit>
 
             <nz-form-item nz-col nzSpan="24">
                 <nz-form-control>

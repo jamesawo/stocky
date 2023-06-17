@@ -12,9 +12,9 @@
         <div nz-col nzSpan="24">
             <app-textarea-limit
                 [props]="{
-                        showLabel: false, formGroup: form, fromControlName: 'description' }"
+                        showLabel: false, formGroup: form, fromControlName: 'description' , labelText: 'Description'}"
             ></app-textarea-limit>
-           
+
             <nz-form-item nz-col nzSpan="24">
                 <nz-form-control>
                     <button [disabled]="!form.valid" [nzLoading]="isSaving" nz-button nzType="primary">

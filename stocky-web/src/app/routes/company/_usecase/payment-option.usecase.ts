@@ -19,11 +19,15 @@ export class PaymentOptionUsecase {
     }
 
     public getAll() {
-        return this.http.get<CommonPayload[]>(`${this.url}/get-all`);
+        return this.http.get<CommonPayload[]>(`${this.url}/all`);
     }
 
     public remove(id: number) {
         return this.http.delete(`${this.url}/remove/${id}`, {observe: 'response'});
+    }
+
+    public toggleStatus(id: number) {
+        return this.http.put<boolean>(`${this.url}/status/${id}`, {}, {observe: 'response'});
     }
 
     public update(payload: CommonPayload) {

@@ -1,7 +1,7 @@
 <app-table [colHeadings]="cols"
            [dataList]="data"
            [props]="{tableSize: 'small'}"
-           [rowTemplates]="[titleTmpl, descTmpl, actionTmpl]"
+           [rowTemplates]="[titleTmpl, descTmpl, statusTmpl, actionTmpl]"
 ></app-table>
 
 
@@ -22,15 +22,21 @@
     ></app-table-item-editable>
 </ng-template>
 
+
+<ng-template #statusTmpl let-item="item">
+    <app-record-status-badge [status]="item.isActiveStatus"></app-record-status-badge>
+</ng-template>
+
 <ng-template #actionTmpl let-item="item">
     <app-update-delete-action
+        [buttons]="[TableButtonEnum.EDIT, TableButtonEnum.TOGGLE_STATUS]"
         [item]="item"
         [props]="{
             saveEditHandler: onSaveEdit,
             cancelEditHandler: onCancelEdit,
             toggleEditHandler: onToggleEdit,
-            cancelDeleteHandler: onCancelDelete,
-            confirmDeleteHandler: onConfirmDelete,
+            cancelToggleStatusHandler: onCancelDisable,
+            confirmToggleStatusHandler: onConfirmToggleStatus,
             editMap: editMap}"
     ></app-update-delete-action>
 </ng-template>

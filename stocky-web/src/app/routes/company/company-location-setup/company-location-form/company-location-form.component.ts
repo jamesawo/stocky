@@ -1,8 +1,17 @@
-import {Component, OnInit} from '@angular/core';
-import {FormGroup, UntypedFormBuilder, Validators} from '@angular/forms';
+import {Component, Input, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {checkFormControlCharacterLimit, handleUsecaseRequest, isFormInvalid} from '../../../../shared/utils/util';
+import {getNzFormControlValidStatus, handleUsecaseRequest, isFormInvalid} from '../../../../shared/utils/util';
+import {LocationTypeEnum} from '../../_data/company.enum';
+import {LocationPayload, LocationTypePayload} from '../../_data/company.payload';
 import {LocationUsecase} from '../../_usecase/location.usecase';
+
+
+const locationTypes: LocationTypePayload[] = [
+    {id: 1, title: 'BRANCH', type: LocationTypeEnum.BRANCH},
+    {id: 2, title: 'WAREHOUSE', type: LocationTypeEnum.WARE_HOUSE},
+    {id: 3, title: 'STORE FRONT', type: LocationTypeEnum.STORE_FRONT}
+];
 
 @Component({
     selector: 'app-company-location-form',
@@ -10,12 +19,15 @@ import {LocationUsecase} from '../../_usecase/location.usecase';
     styles: []
 })
 export class CompanyLocationFormComponent implements OnInit {
-
+    @Input()
+    public location?: LocationPayload;
     public form!: FormGroup;
     public isSaving = false;
+    public types = locationTypes;
+    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
 
     constructor(
-        private fb: UntypedFormBuilder,
+        private fb: FormBuilder,
         private usecase: LocationUsecase,
         private notification: NzNotificationService
     ) {}
@@ -34,17 +46,15 @@ export class CompanyLocationFormComponent implements OnInit {
         this.onResetPayload();
     }
 
-    public checkCharacterLimit(value: any) {
-        const formControl = this.form.get('description');
-        checkFormControlCharacterLimit(formControl!);
+    public transform(type: string) {
+        return type.replaceAll('_', ' ');
     }
 
     private initForm() {
         this.form = this.fb.group({
-            title: [null, [Validators.required]],
-            description: [],
-            type: [null, Validators.required],
-            status: [true]
+            title: [this.location?.title ?? null, [Validators.required]],
+            description: [this.location?.description ?? null],
+            type: [this.location?.type ?? null, Validators.required]
         });
     }
 
@@ -53,6 +63,4 @@ export class CompanyLocationFormComponent implements OnInit {
         this.isSaving = false;
         this.usecase.setTrigger(true);
     }
-
-
 }

@@ -1,5 +1,5 @@
 export enum LocationTypeEnum {
-    STORE_FRONT = 'STORE FRONT',
-    WAREHOUSE = 'WARE HOUSE',
+    STORE_FRONT = 'STORE_FRONT',
+    WARE_HOUSE = 'WARE_HOUSE',
     BRANCH = 'BRANCH'
 }

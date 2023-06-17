@@ -1,4 +1,6 @@
+import {AmountRangeParam, DateRangeParam} from '../../../data/param/common.param';
 import {AppModuleEnum} from '../../../data/payload/common.enum';
+import {CommonPayload} from '../../../data/payload/common.payload';
 import {ProductCategoryPayload} from '../../products/_data/product.payload';
 import {RoleUsecase} from '../_usecase/role.usecase';
 import {LocationTypeEnum} from './company.enum';
@@ -6,12 +8,18 @@ import {LocationTypeEnum} from './company.enum';
 export class CompanyPayload {
 }
 
+export class LocationTypePayload {
+    id?: number;
+    title?: string;
+    type?: LocationTypeEnum;
+}
+
 export class LocationPayload {
     id?: number;
     title?: string;
     type?: LocationTypeEnum;
     description?: string;
-    status?: boolean;
+    isActiveStatus?: boolean;
 }
 
 export class PermissionPayload {
@@ -77,9 +85,26 @@ export class SupplierPayload {
 
 export class ExpensesPayload {
     id?: number;
+    category?: CommonPayload;
     amount?: number;
     comment?: string;
-    fileId?: string;
-    user?: UserPayload;
-    transactionDate?: string;
+    date?: string;
+    isActiveStatus?: boolean;
+    isRecentlyUpdated?: boolean;
+    isPendingApproval?: boolean;
+    registeredBy?: string;
+    approvedBy?: string;
+    uploads?: string;
 }
+
+export class ExpensesSearchPayload {
+    id?: number;
+    category?: CommonPayload;
+    registeredBy?: string;
+    approvedBy?: string;
+    amountRange: AmountRangeParam = new AmountRangeParam();
+    fixedAmount?: number;
+    dateRangeParam: DateRangeParam = new DateRangeParam();
+    isActiveStatus?: boolean;
+}
+
