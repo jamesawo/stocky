@@ -13,4 +13,6 @@ import lombok.Data;
 public class MinMaxAmountParam {
 	private Double minAmount;
 	private Double maxAmount;
+	private Double fixedAmount;
+	private Boolean isRange;
 }
