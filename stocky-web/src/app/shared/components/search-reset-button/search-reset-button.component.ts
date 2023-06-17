@@ -1,5 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
+import {SearchResetButtonProps} from '../../../data/payload/common.types';
 import {BreakPoints, ResponsiveService} from '../../utils/responsive.service';
 
 @Component({
@@ -11,22 +12,19 @@ export class SearchResetButtonComponent implements OnInit, OnDestroy {
     public showTitle = true;
 
     @Input()
-    public props: {
-        onSearchAction: () => void;
-        isLoadingSearchResult: boolean;
-        onResetSearchPayload: () => void;
-        onCancelAction: () => void;
-        hideSearchBtn?: boolean;
-    } = {
-        onSearchAction: () => {},
-        isLoadingSearchResult: false,
-        onResetSearchPayload: () => {},
-        onCancelAction: () => {}
-    };
-
+    public props: SearchResetButtonProps = this.defaultProps;
     private sub = new Subscription();
 
     constructor(private service: ResponsiveService) {}
+
+    private get defaultProps() {
+        return {
+            onSearchAction: this.emptyAction,
+            isLoadingSearchResult: false,
+            onResetSearchPayload: this.emptyAction,
+            onCancelAction: this.emptyAction
+        };
+    }
 
     ngOnInit(): void {
         this.service.mediaBreakpoint$.subscribe((value) =>
@@ -43,4 +41,7 @@ export class SearchResetButtonComponent implements OnInit, OnDestroy {
             this.showTitle = value !== BreakPoints.XS;
         }, 10);
     }
+
+    public emptyAction = () => {
+    };
 }

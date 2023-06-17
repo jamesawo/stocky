@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {AmountRangeParam} from '../../../data/param/common.param';
 
 @Component({
     selector: 'app-amount-range',
@@ -11,6 +12,15 @@ import {Component} from '@angular/core';
 })
 export class AmountRangeComponent {
 
-    public isAmountRange = true;
+    @Input()
+    public value: AmountRangeParam = new AmountRangeParam();
+
+    @Output()
+    public valueChange = new EventEmitter<AmountRangeParam>();
+
+
+    public onAmountChange() {
+        this.valueChange.emit(this.value);
+    }
 
 }

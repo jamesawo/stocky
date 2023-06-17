@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {format, parse} from 'date-fns';
 import {IDateRange} from 'src/app/data/payload/common.interface';
+import {DateRangeParam} from '../../../data/param/common.param';
 
 @Component({
     selector: 'app-range-date-picker',
@@ -12,18 +13,19 @@ export class RangeDatePickerComponent implements OnInit {
     public selectedDate: Date[] | undefined;
     public dateFormat: string = 'yyyy-MM-dd';
 
-    @Input('default') // did not use two-way binding on purpose
-    public defaultSelected: string[] = [];
+    @Input()
+    public select: DateRangeParam = new DateRangeParam();
 
-    @Output('selected')
-    public selected: EventEmitter<IDateRange> = new EventEmitter<IDateRange>();
+    @Output()
+    public selectChange: EventEmitter<IDateRange> = new EventEmitter<IDateRange>();
 
     constructor() {
     }
 
     ngOnInit(): void {
-        if (this.defaultSelected.length > 1) {
-            this.setDefaultDate(this.defaultSelected);
+        if (this.select) {
+            const {startDate, endDate} = this.select;
+            this.setDefaultDate([startDate, endDate]);
         }
     }
 
@@ -37,9 +39,9 @@ export class RangeDatePickerComponent implements OnInit {
         if (dateValue.length) {
             let date1 = format(dateValue[0], this.dateFormat);
             let date2 = format(dateValue[1], this.dateFormat);
-            this.selected.emit({startDate: date1, endDate: date2});
+            this.selectChange.emit({startDate: date1, endDate: date2});
         } else {
-            this.selected.emit(undefined);
+            this.selectChange.emit(undefined);
         }
     }
 

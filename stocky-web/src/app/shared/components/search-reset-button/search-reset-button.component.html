@@ -1,4 +1,5 @@
-<button (click)="props.onSearchAction()" *ngIf="!props?.hideSearchBtn === true" [nzLoading]="props.isLoadingSearchResult"
+<button (click)="props.onSearchAction ? props.onSearchAction() : emptyAction()" *ngIf="!props?.hideSearchBtn === true"
+        [nzLoading]="props.isLoadingSearchResult"
         [nzSize]="'large'"
         nz-button
         nzType="primary"
@@ -7,7 +8,8 @@
     <span nz-icon nzType="search"></span>
 </button>
 
-<button (nzOnCancel)="props.onCancelAction()" (nzOnConfirm)="props.onResetSearchPayload()"
+<button (nzOnCancel)="props.onCancelAction? props.onCancelAction(): emptyAction()"
+        (nzOnConfirm)="props.onResetAction? props.onResetAction(): emptyAction()"
         [nzSize]="'large'"
         nz-button
         nz-popconfirm

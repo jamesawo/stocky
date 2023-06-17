@@ -4,7 +4,7 @@ import {AbstractControl, FormControl, FormGroup} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {first, firstValueFrom, from, map, Observable, switchMap} from 'rxjs';
 import {ModalOrDrawer} from '../../data/payload/common.enum';
-import {EditCacheMap} from '../components/update-delete-action/update-delete-action.component';
+import {TableEditCacheMap} from '../../data/payload/common.types';
 
 export function isFormInvalid(form: FormGroup): boolean {
     if (form && form.controls) {
@@ -207,7 +207,7 @@ export function handleRemoveFromObservableListIfStatus<T>(
 export async function handleCancelEditingTableItem<T extends {id: any}>(
     item: T,
     list: Observable<T[]>,
-    editMap: EditCacheMap<T>
+    editMap: TableEditCacheMap<T>
 ) {
     if (item) {
         let payload = await handleFindFromObservableList(list, {key: 'id', value: item.id});
@@ -215,7 +215,7 @@ export async function handleCancelEditingTableItem<T extends {id: any}>(
             data: {...payload},
             edit: false,
             updating: false,
-            deleting: false
+            loading: false
         };
         return editMap;
     }

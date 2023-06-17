@@ -1,8 +1,5 @@
-<ng-container *ngIf="props?.useProjection === true; else contentTmpl">
-    <ng-content></ng-content>
-</ng-container>
+<ng-container *ngIf="isTemplateRef; else stringContentTmpl" [ngTemplateOutlet]="contentRef"></ng-container>
 
-
-<ng-template #contentTmpl>
-    <label>{{content}}</label>
+<ng-template #stringContentTmpl>
+    <label>{{content ?? '-'}}</label>
 </ng-template>
