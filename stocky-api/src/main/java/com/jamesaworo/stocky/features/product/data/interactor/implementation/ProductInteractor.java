@@ -58,11 +58,6 @@ public class ProductInteractor implements IProductInteractor, Mapper<ProductRequ
 	}
 
 	@Override
-	public ResponseEntity<List<ProductSearchRequest>> search(ProductSearchRequest request) {
-		return null;
-	}
-
-	@Override
 	public ResponseEntity<PageSearchResult<List<ProductRequest>>> search(PageSearchRequest<ProductSearchRequest> request) {
 		Page<Product> page = this.usecase.findMany(productSpecification(request.getSearchRequest()), request.getPage().toPageable());
 		List<ProductRequest> requests = page.getContent().stream().map(this::toRequest).collect(Collectors.toList());
