@@ -1,15 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, shareReplay} from 'rxjs';
+import {TableButtonEnum} from '../../../../data/payload/common.enum';
 import {CommonPayload} from '../../../../data/payload/common.payload';
+import {TableEditCacheMap} from '../../../../data/payload/common.types';
 import {TableCol} from '../../../../shared/components/table/table.component';
-import {EditCacheMap} from '../../../../shared/components/update-delete-action/update-delete-action.component';
-import {
-    handleCancelEditingTableItem,
-    handleRemoveFromObservableListIfStatus,
-    handleUpdateObservableListIfResponse,
-    handleUsecaseRequest
-} from '../../../../shared/utils/util';
+import {handleCancelEditingTableItem, handleUpdateObservableListIfResponse, handleUsecaseRequest} from '../../../../shared/utils/util';
 import {PaymentOptionUsecase} from '../../_usecase/payment-option.usecase';
 
 @Component({
@@ -20,14 +16,15 @@ import {PaymentOptionUsecase} from '../../_usecase/payment-option.usecase';
 export class CompanyPaymentOptionTableComponent implements OnInit {
 
     public cols: TableCol[] = [
-        {title: 'TITLE', width: 30},
-        {title: 'DESCRIPTION', width: 40},
-        {title: '', width: 20}
+        {title: 'TITLE', width: 25},
+        {title: 'DESCRIPTION', width: 35},
+        {title: 'STATUS', width: 15},
+        {title: '', width: 15}
     ];
-    public data?: Observable<any[]>;
-    public editMap: EditCacheMap<any> = {};
-    public paymentOptions?: Observable<CommonPayload[]>;
-    
+    public data?: Observable<CommonPayload[]>;
+    public editMap: TableEditCacheMap<any> = {};
+    protected readonly TableButtonEnum = TableButtonEnum;
+
     constructor(
         private usecase: PaymentOptionUsecase,
         private notification: NzNotificationService
@@ -39,14 +36,13 @@ export class CompanyPaymentOptionTableComponent implements OnInit {
     }
 
     public loadData() {
-        this.paymentOptions = this.usecase.getAll().pipe(shareReplay());
+        this.data = this.usecase.getAll().pipe(shareReplay());
     }
 
-    public onConfirmDelete = async (id: number) => {
-        this.editMap[id] = {edit: false, data: {}, updating: false, deleting: true};
-        const response = await handleUsecaseRequest(this.usecase.remove(id), this.notification);
-        this.data = handleRemoveFromObservableListIfStatus(this.data!, {key: 'id', value: id}, response);
-        this.editMap[id].deleting = false;
+    public onConfirmToggleStatus = async (id: number) => {
+        this.editMap[id] = {edit: false, data: {}, updating: false, loading: true};
+        await handleUsecaseRequest(this.usecase.toggleStatus(id), this.notification);
+        this.editMap[id].loading = false;
         this.notifyChange();
     };
 
@@ -59,7 +55,7 @@ export class CompanyPaymentOptionTableComponent implements OnInit {
         this.notifyChange();
     };
 
-    public onCancelDelete = async () => {};
+    public onCancelDisable = async () => {};
 
     public onCancelEdit = async (item: CommonPayload) => {
         if (item) {
@@ -68,7 +64,7 @@ export class CompanyPaymentOptionTableComponent implements OnInit {
     };
 
     public onToggleEdit = (item: CommonPayload) => {
-        if (item) this.editMap[item.id!] = {edit: true, data: {...item}, updating: false, deleting: false};
+        if (item) this.editMap[item.id!] = {edit: true, data: {...item}, updating: false, loading: false};
     };
 
     public onCacheValueChange = (change: any, item: CommonPayload, field: string) => {
@@ -83,5 +79,4 @@ export class CompanyPaymentOptionTableComponent implements OnInit {
     private notifyChange = () => {
         this.usecase.setTrigger(true);
     };
-
 }

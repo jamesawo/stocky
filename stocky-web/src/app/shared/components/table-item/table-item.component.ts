@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, TemplateRef} from '@angular/core';
 
 @Component({
     selector: 'app-table-item',
@@ -8,9 +8,15 @@ import {Component, Input} from '@angular/core';
 export class TableItemComponent {
 
     @Input()
-    content?: string;
+    public content?: string | TemplateRef<any>;
 
-    @Input()
-    public props: {useProjection: boolean} = {useProjection: false};
+
+    public get isTemplateRef() {
+        return this.content instanceof TemplateRef;
+    }
+
+    public get contentRef(): TemplateRef<any> {
+        return <TemplateRef<any>>this.content;
+    }
 
 }

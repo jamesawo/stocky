@@ -1,6 +1,5 @@
 <ng-container *ngIf="props.editMap && props.editMap[item.id] && props.editMap[item.id].edit === true; else actionViewTmpl">
     <nz-space [nzSize]="10">
-
         <button (click)="props.saveEditHandler(item)"
                 *nzSpaceItem
                 [nzLoading]="props.editMap && props.editMap[item.id].updating === true"
@@ -11,7 +10,6 @@
         >
             <span nz-icon nzTheme="outline" nzType="check"></span>
         </button>
-
         <button
             (click)="props.cancelEditHandler(item)"
             *nzSpaceItem
@@ -21,34 +19,84 @@
         >
             <span nz-icon nzTheme="outline" nzType="close"></span>
         </button>
-
     </nz-space>
 </ng-container>
 
 <ng-template #actionViewTmpl>
     <nz-space [nzSize]="10">
-        <button (click)="props.toggleEditHandler(item)"
-                *nzSpaceItem nz-button
-                nz-tooltip
-                nzTooltipTitle="Edit"
-                nzType="text"
-        >
-            <span nz-icon nzType="edit"></span>
-        </button>
 
-        <button (nzOnCancel)="props.cancelDeleteHandler()"
-                (nzOnConfirm)="props.confirmDeleteHandler(item.id)"
-                *nzSpaceItem
-                [nzLoading]="props.editMap && props.editMap[item.id] && props.editMap[item.id].deleting === true"
-                nz-button
-                nz-popconfirm
-                nz-tooltip
-                nzPopconfirmTitle="Are you sure, delete?"
-                nzTooltipTitle="Delete"
-                nzType="text"
-        >
-            <span class="danger" nz-icon nzType="delete"></span>
-        </button>
+        <ng-container *ngIf="buttons?.includes(TableButtonEnum.EDIT)">
+
+            <!-- edit button -->
+            <button (click)="props.toggleEditHandler(item)"
+                    *nzSpaceItem nz-button
+                    nz-tooltip
+                    nzTooltipTitle="Edit"
+                    nzType="text"
+            >
+                <span nz-icon nzType="edit"></span>
+            </button>
+
+        </ng-container>
+
+        <ng-container *ngIf="buttons?.includes(TableButtonEnum.DELETE)">
+
+            <!-- delete button -->
+            <button (nzOnCancel)="props.cancelDeleteHandler!()"
+                    (nzOnConfirm)="props.confirmDeleteHandler!(item.id)"
+                    *nzSpaceItem
+                    [nzLoading]="props.editMap && props.editMap[item.id] && props.editMap[item.id].loading === true"
+                    nz-button
+                    nz-popconfirm
+                    nz-tooltip
+                    nzPopconfirmTitle="Are you sure, delete?"
+                    nzTooltipTitle="Delete"
+                    nzType="text"
+            >
+                <span class="danger" nz-icon nzType="delete"></span>
+            </button>
+        </ng-container>
+
+        <ng-container *ngIf="buttons?.includes(TableButtonEnum.TOGGLE_STATUS)">
+
+            <!-- disable or enable button -->
+            <ng-container [ngTemplateOutlet]="item.isActiveStatus === true ? activeStatusTmpl : inActiveStatusTmpl">
+            </ng-container>
+
+            <ng-template #activeStatusTmpl>
+                <button (nzOnCancel)="props.cancelToggleStatusHandler!()"
+                        (nzOnConfirm)="props.confirmToggleStatusHandler!(item.id)"
+                        *nzSpaceItem
+                        [nzLoading]="props.editMap && props.editMap[item.id] && props.editMap[item.id].loading === true"
+                        nz-button
+                        nz-popconfirm
+                        nz-tooltip
+                        nzPopconfirmTitle="Are you sure, disable?"
+                        nzTooltipTitle="Disable"
+                        nzType="text"
+                >
+                    <span class="danger" nz-icon nzType="dislike"></span>
+                </button>
+            </ng-template>
+
+            <ng-template #inActiveStatusTmpl>
+                <button (nzOnCancel)="props.cancelToggleStatusHandler!()"
+                        (nzOnConfirm)="props.confirmToggleStatusHandler!(item.id)"
+                        *nzSpaceItem
+                        [nzLoading]="props.editMap && props.editMap[item.id] && props.editMap[item.id].loading === true"
+                        nz-button
+                        nz-popconfirm
+                        nz-tooltip
+                        nzPopconfirmTitle="Are you sure, enable?"
+                        nzTooltipTitle="Enable"
+                        nzType="text"
+                >
+                    <span class="green" nz-icon nzType="like"></span>
+                </button>
+            </ng-template>
+
+        </ng-container>
+
 
     </nz-space>
 </ng-template>

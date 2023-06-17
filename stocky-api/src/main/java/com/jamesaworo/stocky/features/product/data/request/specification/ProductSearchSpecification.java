@@ -7,7 +7,6 @@
 
 package com.jamesaworo.stocky.features.product.data.request.specification;
 
-import com.jamesaworo.stocky.core.params.DateRangeParam;
 import com.jamesaworo.stocky.core.params.MinMaxAmountParam;
 import com.jamesaworo.stocky.features.product.data.request.ProductCategoryRequest;
 import com.jamesaworo.stocky.features.product.data.request.ProductSearchRequest;
@@ -28,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.jamesaworo.stocky.core.predicates.SearchPredicates.dateRangeParamPredicates;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 
@@ -66,7 +66,7 @@ public class ProductSearchSpecification {
 
 			// date range
 			if (!isEmpty(request.getDateRangeParam())) {
-				predicates.addAll(dateRangeParamPredicate(criteriaBuilder, request.getDateRangeParam()));
+				predicates.addAll(dateRangeParamPredicates(criteriaBuilder, request.getDateRangeParam(), mainRoot));
 			}
 
 			// selling price range
@@ -144,7 +144,7 @@ public class ProductSearchSpecification {
 
 	private static List<Predicate> joinOnProductSellingPricePredicate(CriteriaBuilder criteriaBuilder, MinMaxAmountParam param) {
 		Join<Product, ProductPrice> priceJoin = priceJoin(mainRoot);
-		
+
 		List<Predicate> predicates = new ArrayList<>();
 		if (!isEmpty(param.getMinAmount())) {
 			predicates.add(criteriaBuilder.greaterThanOrEqualTo(priceJoin.get("sellingPrice"), param.getMinAmount()));
@@ -169,17 +169,6 @@ public class ProductSearchSpecification {
 			predicates.add(criteriaBuilder.lessThanOrEqualTo(priceJoin.get("costPrice"), param.getMaxAmount()));
 		}
 
-		return predicates;
-	}
-
-	private static List<Predicate> dateRangeParamPredicate(CriteriaBuilder criteriaBuilder, DateRangeParam param) {
-		List<Predicate> predicates = new ArrayList<>();
-		if (!isEmpty(param.getEndDate())) {
-			predicates.add(criteriaBuilder.lessThanOrEqualTo(mainRoot.get("createdAt"), param.getEndDate().atStartOfDay()));
-		}
-		if (!isEmpty(param.getStartDate())) {
-			predicates.add(criteriaBuilder.greaterThanOrEqualTo(mainRoot.get("createdAt"), param.getStartDate().atStartOfDay()));
-		}
 		return predicates;
 	}
 

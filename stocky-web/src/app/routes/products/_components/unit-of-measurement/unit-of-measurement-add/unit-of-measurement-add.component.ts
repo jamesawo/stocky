@@ -6,7 +6,6 @@ import {Observable, shareReplay} from 'rxjs';
 import {ProductUnitOfMeasurePayload} from 'src/app/routes/products/_data/product-unit-of-measure.payload';
 import {UnitOfMeasureUsecase} from 'src/app/routes/products/_usecase/unit-of-measure.usecase';
 import {TableCol} from 'src/app/shared/components/table/table.component';
-import {EditCacheMap} from 'src/app/shared/components/update-delete-action/update-delete-action.component';
 import {
     handleAppendToObservableListIfResponse,
     handleCancelEditingTableItem,
@@ -15,21 +14,22 @@ import {
     handleUsecaseRequest,
     isFormInvalid
 } from 'src/app/shared/utils/util';
+import {TableEditCacheMap} from '../../../../../data/payload/common.types';
 
 @Component({
     selector: 'app-unit-of-measurement-add',
     templateUrl: './unit-of-measurement-add.component.html',
-    styles: [],
+    styles: []
 })
 export class UnitOfMeasurementAddComponent implements OnInit {
     public isSaving = false;
     public isVisible = false;
     public form!: UntypedFormGroup;
-    public editMap: EditCacheMap<ProductUnitOfMeasurePayload> = {};
+    public editMap: TableEditCacheMap<ProductUnitOfMeasurePayload> = {};
     public cols: TableCol[] = [
         {title: 'TITLE', width: 30},
         {title: 'UNIT', width: 30},
-        {title: '', width: 20},
+        {title: '', width: 20}
     ];
 
     public data?: Observable<any[]>;
@@ -45,7 +45,7 @@ export class UnitOfMeasurementAddComponent implements OnInit {
     public ngOnInit(): void {
         this.form = this.fb.group({
             title: [null, [Validators.required]],
-            unit: [null, [Validators.required]],
+            unit: [null, [Validators.required]]
         });
 
         this.data = this.usecase.getMany().pipe(shareReplay());
@@ -65,10 +65,10 @@ export class UnitOfMeasurementAddComponent implements OnInit {
     }
 
     public onConfirmDelete = async (id: number) => {
-        this.editMap[id] = {edit: false, data: {}, updating: false, deleting: true};
+        this.editMap[id] = {edit: false, data: {}, updating: false, loading: true};
         const response = await handleUsecaseRequest(this.usecase.delete(id), this.notification);
         this.data = handleRemoveFromObservableListIfStatus(this.data!, {key: 'id', value: id}, response);
-        this.editMap[id].deleting = false;
+        this.editMap[id].loading = false;
         this.notifyChange();
     };
 
@@ -90,7 +90,7 @@ export class UnitOfMeasurementAddComponent implements OnInit {
     };
 
     public onToggleEdit = (item: ProductUnitOfMeasurePayload) => {
-        if (item) this.editMap[item.id!] = {edit: true, data: {...item}, updating: false, deleting: false};
+        if (item) this.editMap[item.id!] = {edit: true, data: {...item}, updating: false, loading: false};
     };
 
     public onCacheValueChange = (change: any, item: ProductUnitOfMeasurePayload, field: string) => {

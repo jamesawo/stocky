@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
-import {CompanyLocaleDetailsPayload} from '../../_data/company-setup.payload';
+import {CompanySetupPayload} from '../../_data/company-setup.payload';
 
 @Injectable({
     providedIn: 'root'
@@ -10,14 +10,16 @@ export class RegionLocaleUsecase {
 
     private url = environment.api.baseUrl + '/company/setup/region';
 
-    constructor(private http: HttpClient) {}
-
-    public save(payload: CompanyLocaleDetailsPayload) {
-        return this.http.post<CompanyLocaleDetailsPayload>(`${this.url}/save`, payload, {observe: 'response'});
+    constructor(private http: HttpClient) {
     }
 
-    public get() {
-        return this.http.get<CompanyLocaleDetailsPayload>(`${this.url}/get`, {observe: 'response'});
+    public updateMany(details: CompanySetupPayload[]) {
+        return this.http.post<boolean>(`${this.url}/update-many`, details, {observe: 'response'});
     }
+
+    public getAll() {
+        return this.http.get<any>(`${this.url}/get-all`, {observe: 'response'});
+    }
+
 
 }

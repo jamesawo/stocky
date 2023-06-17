@@ -44,7 +44,8 @@ export class CompanyExpenseAddBtnComponent {
             category: [null, [Validators.required]],
             amount: [null, [Validators.required]],
             recordDate: [null, [Validators.required]],
-            comment: [null, [Validators.required]]
+            comment: [null, [Validators.required]],
+            uploads: [null]
         });
     }
 

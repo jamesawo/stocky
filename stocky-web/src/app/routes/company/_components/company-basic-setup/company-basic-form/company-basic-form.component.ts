@@ -1,9 +1,10 @@
-import {HttpResponse} from '@angular/common/http';
-import {Component} from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {handleUsecaseRequest, markFormFieldsAsDirtyAndTouched} from 'src/app/shared/utils/util';
-import {CompanyBasicDetailsPayload} from '../../../_data/company-setup.payload';
+import {firstValueFrom} from 'rxjs';
+import {getNzFormControlValidStatus, handleUsecaseRequest, markFormFieldsAsDirtyAndTouched} from 'src/app/shared/utils/util';
+import {CompanyDetail} from '../../../../../data/constant/company-detail.constant';
+import {CompanySetupPayload} from '../../../_data/company-setup.payload';
 import {BasicSetupUsecase} from '../../../_usecase/company-setup/basic-setup.usecase';
 
 @Component({
@@ -11,25 +12,35 @@ import {BasicSetupUsecase} from '../../../_usecase/company-setup/basic-setup.use
     templateUrl: './company-basic-form.component.html',
     styles: []
 })
-export class CompanyBasicFormComponent {
+export class CompanyBasicFormComponent implements OnInit {
 
-    public form = this.buildForm;
+    public form: FormGroup = this.buildForm;
     public isLoading = false;
-    
+    public detailsMap?: any;
+    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
+
     constructor(
         private fb: FormBuilder,
         private usecase: BasicSetupUsecase,
         private notification: NzNotificationService
     ) {}
 
-    get buildForm() {
+    /**
+     * Returns a form group representing the company details form.
+     * The form group contains various form controls with initial values and validators.
+     *
+     * @returns {FormGroup} The build form group.
+     */
+    public get buildForm() {
+
         return this.fb.group({
-            businessName: [null, [Validators.required]],
-            businessCategory: [null, [Validators.required]],
-            businessEmployeeSize: [null, [Validators.required]],
-            businessNumberOfYearsOfOperation: [null, [Validators.required]],
-            businessNumberOfBranch: [null, [Validators.required]],
-            businessAddress: [null, [Validators.required]]
+
+            businessName: [this.getValueFromCompanyBasicDetailsMap(CompanyDetail.COMPANY_BUSINESS_NAME), [Validators.required]],
+            businessCategory: [this.getValueFromCompanyBasicDetailsMap(CompanyDetail.COMPANY_BUSINESS_CATEGORY), [Validators.required]],
+            businessEmployeeSize: [this.getValueFromCompanyBasicDetailsMap(CompanyDetail.COMPANY_BUSINESS_EMPLOYEE_SIZE), [Validators.required]],
+            businessNumberOfYearsOfOperation: [this.getValueFromCompanyBasicDetailsMap(CompanyDetail.COMPANY_BUSINESS_NUMBER_OF_YEARS_OF_OPERATION), [Validators.required]],
+            businessNumberOfBranch: [this.getValueFromCompanyBasicDetailsMap(CompanyDetail.COMPANY_BUSINESS_NUMBER_OF_BRANCH), [Validators.required]],
+            businessAddress: [this.getValueFromCompanyBasicDetailsMap(CompanyDetail.COMPANY_BUSINESS_ADDRESS), [Validators.required]]
 
             //todo:: make businessAddress an object of its own
             // businessAddress: this.fb.group({
@@ -44,26 +55,68 @@ export class CompanyBasicFormComponent {
 
     }
 
-    public async onSaveBasicDetails() {
 
+    /**
+     * Initializes the component during its lifecycle.
+     * Retrieves data from the usecase  and assigns the retrieved values to the component detailMap property.
+     *
+     * @returns {Promise<void>} A promise that resolves when the component is initialized.
+     */
+    public async ngOnInit(): Promise<void> {
+        firstValueFrom(this.usecase.getAll()).then(value => {
+            if (value.ok) {
+                this.detailsMap = value.body;
+                this.form = this.buildForm;
+            }
+        });
+    }
+
+
+    /**
+     * Saves the basic form details.
+     *
+     * @returns {Promise<void>} A promise that resolves when the basic form details are saved.
+     */
+    public async onSaveBasicFormDetails() {
         if (this.form.invalid) {
-            markFormFieldsAsDirtyAndTouched(this.form);
+            markFormFieldsAsDirtyAndTouched(this.form!);
             return;
         }
 
         this.isLoading = true;
-        const form = <CompanyBasicDetailsPayload>this.buildForm.value;
-        const response = await handleUsecaseRequest(this.usecase.save(form), this.notification);
-        this.onResetForm(response);
-
-    }
-
-    private onResetForm(response: HttpResponse<CompanyBasicDetailsPayload>): void {
+        const detailsList = this.getValuesAsListFromCompanyBasicDetailsForm(this.form!);
+        await handleUsecaseRequest(this.usecase.updateMany(detailsList), this.notification);
         this.isLoading = false;
-        if (response.ok) {
-            this.form.reset();
-            this.form = this.buildForm;
-        }
     }
 
+
+    /**
+     * Retrieves the value from the CompanyBasicDetailsMap based on the given key.
+     *
+     * @param {string} key - The key to retrieve the value from the CompanyBasicDetailsMap.
+     * @returns {string | null} The value corresponding to the given key in the CompanyBasicDetailsMap,
+     *                          or null if the key is not found or the CompanyBasicDetailsMap is undefined.
+     */
+    private getValueFromCompanyBasicDetailsMap(key: string): string | null {
+        if (this.detailsMap && this.detailsMap[key]) {
+            return this.detailsMap[key];
+        }
+        return null;
+    }
+
+
+    /**
+     * Retrieves the values from the CompanyBasicDetailsForm as a list of CompanyDetailsPayload objects.
+     *
+     * @param {FormGroup} form - The FormGroup object representing the CompanyBasicDetailsForm.
+     * @returns {CompanySetupPayload[]} A list of CompanyDetailsPayload objects containing the key-value pairs
+     *                                   from the CompanyBasicDetailsForm.
+     */
+    private getValuesAsListFromCompanyBasicDetailsForm(form: FormGroup) {
+        const companyDetails: CompanySetupPayload[] = [];
+        for (let controlsKey in form.controls) {
+            companyDetails.push(new CompanySetupPayload(controlsKey, form.controls[controlsKey].value));
+        }
+        return companyDetails;
+    }
 }

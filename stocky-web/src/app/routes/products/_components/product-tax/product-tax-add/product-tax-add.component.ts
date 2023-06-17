@@ -3,9 +3,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, shareReplay} from 'rxjs';
-import {CommonAddProps} from '../../../../../data/payload/common.types';
+import {CommonAddProps, TableEditCacheMap} from '../../../../../data/payload/common.types';
 import {TableCol} from '../../../../../shared/components/table/table.component';
-import {EditCacheMap} from '../../../../../shared/components/update-delete-action/update-delete-action.component';
 import {
     handleAppendToObservableListIfResponse,
     handleCancelEditingTableItem,
@@ -22,8 +21,8 @@ import {ProductTaxUsecase} from '../../../_usecase/product-tax.usecase';
     selector: 'app-product-tax-add',
     templateUrl: './product-tax-add.component.html',
     styles: [`.mbt-2 {
-        margin-top: 10px;
-        margin-bottom: 10px
+      margin-top: 10px;
+      margin-bottom: 10px
     }`]
 })
 export class ProductTaxAddComponent implements OnInit {
@@ -35,7 +34,7 @@ export class ProductTaxAddComponent implements OnInit {
 
     public isVisible = false;
     public form!: UntypedFormGroup;
-    public editMap: EditCacheMap<ProductTaxPayload> = {};
+    public editMap: TableEditCacheMap<ProductTaxPayload> = {};
     public cols: TableCol[] = [
         {title: 'TITLE', width: 30},
         {title: 'PERCENT', width: 20},
@@ -61,8 +60,12 @@ export class ProductTaxAddComponent implements OnInit {
             description: [null]
         });
 
-        this.data = this.usecase.getMany().pipe(shareReplay());
+        this.usecase.trigger$.subscribe(value => this.onLoadData());
     }
+
+    public onLoadData = async () => {
+        this.data = this.usecase.getMany().pipe(shareReplay());
+    };
 
     public async onCreate(): Promise<void> {
         const isInvalid = isFormInvalid(this.form);
@@ -78,10 +81,10 @@ export class ProductTaxAddComponent implements OnInit {
     }
 
     public onConfirmDelete = async (id: number) => {
-        this.editMap[id] = {edit: false, data: {}, updating: false, deleting: true};
+        this.editMap[id] = {edit: false, data: {}, updating: false, loading: true};
         const response = await handleUsecaseRequest(this.usecase.delete(id), this.notification);
         this.data = handleRemoveFromObservableListIfStatus(this.data!, {key: 'id', value: id}, response);
-        this.editMap[id].deleting = false;
+        this.editMap[id].loading = false;
         this.notifyChange();
     };
 
@@ -103,7 +106,7 @@ export class ProductTaxAddComponent implements OnInit {
     };
 
     public onToggleEdit = (item: ProductTaxPayload) => {
-        if (item) this.editMap[item.id!] = {edit: true, data: {...item}, updating: false, deleting: false};
+        if (item) this.editMap[item.id!] = {edit: true, data: {...item}, updating: false, loading: false};
     };
 
     public onCacheValueChange = (change: any, item: ProductTaxPayload, field: string) => {
@@ -114,7 +117,6 @@ export class ProductTaxAddComponent implements OnInit {
     public canEditItem(item: any) {
         return this.editMap[item.id] && this.editMap[item.id].edit;
     }
-    
 
     private onAfterCreate = (response: HttpResponse<any>) => {
         this.isSaving = false;

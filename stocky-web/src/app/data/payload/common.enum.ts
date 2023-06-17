@@ -4,7 +4,6 @@ export enum ModalOrDrawer {
     ANY = 'any'
 }
 
-
 export enum AppModuleEnum {
     AUTHENTICATION = 'AUTHENTICATION',
     COMPANY = 'COMPANY',
@@ -14,4 +13,10 @@ export enum AppModuleEnum {
     SETTING = 'SETTING',
     SALE = 'SALE',
     PAYWALL = 'PAYWALL',
+}
+
+export enum TableButtonEnum {
+    EDIT = 'edit',
+    DELETE = 'delete',
+    TOGGLE_STATUS = 'status'
 }

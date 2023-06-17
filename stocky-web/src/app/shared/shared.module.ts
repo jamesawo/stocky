@@ -50,11 +50,13 @@ import {FooterButtonComponent} from './components/footer-button/footer-button.co
 import {HintComponent} from './components/hint/hint.component';
 import {LoadingCardComponent} from './components/loading-card/loading-card.component';
 import {RangeDatePickerComponent} from './components/range-date-picker/range-date-picker.component';
+import {RecordStatusBadgeComponent} from './components/record-active-status/record-status-badge.component';
 import {SearchResetButtonComponent} from './components/search-reset-button/search-reset-button.component';
 import {SearchResultTableComponent} from './components/search-result-table/search-result-table.component';
 import {StatusBadgeComponent} from './components/status-badge/status-badge.component';
 import {SwitchToggleComponent} from './components/switch-toggle/switch-toggle.component';
 import {TableItemEditableComponent} from './components/table-item-editable/table-item-editable.component';
+import {TableItemTruncatableComponent} from './components/table-item-truncatable/table-item-truncatable.component';
 import {TableItemComponent} from './components/table-item/table-item.component';
 import {TableComponent} from './components/table/table.component';
 import {TextareaLimitComponent} from './components/textarea-limit/textarea-limit.component';
@@ -105,7 +107,6 @@ const COMPONENTS: Array<Type<void>> = [
     ExportUploadButtonComponent,
     SearchResetButtonComponent,
     SearchResultTableComponent,
-    StatusBadgeComponent,
     SwitchToggleComponent,
     BreadcrumbsComponent,
     ButtonComponent,
@@ -121,7 +122,10 @@ const COMPONENTS: Array<Type<void>> = [
     ComingSoonComponent,
     BusinessCategoryDropdownComponent,
     BusinessNumberOfEmployeesComponent,
-    FooterButtonComponent
+    FooterButtonComponent,
+    StatusBadgeComponent,
+    RecordStatusBadgeComponent,
+    TableItemTruncatableComponent
 ];
 const DIRECTIVES: Array<Type<void>> = [];
 const ICONS: Array<Type<void>> = [];

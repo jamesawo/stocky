@@ -1,7 +1,8 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
-import {ExpensesPayload} from '../../_data/company.payload';
+import {PageResultPayload, PageSearchPayload} from '../../../../data/payload/common.interface';
+import {ExpensesPayload, ExpensesSearchPayload} from '../../_data/company.payload';
 
 @Injectable({providedIn: 'root'})
 export class ExpensesUsecase {
@@ -13,16 +14,8 @@ export class ExpensesUsecase {
         return this.http.post<ExpensesPayload>(`${this.url}/create`, payload, {observe: 'response'});
     }
 
-    public getAll() {
-        return this.http.get<ExpensesPayload[]>(`${this.url}/all`);
-    }
-
-    public remove(id: number) {
-        return this.http.delete(`${this.url}/remove/${id}`, {observe: 'response'});
-    }
-
-    public update(payload: ExpensesPayload) {
-        return this.http.put<ExpensesPayload>(`${this.url}/update`, payload, {observe: 'response'});
+    public search(searchPayload: PageSearchPayload<ExpensesSearchPayload>) {
+        return this.http.post<PageResultPayload<ExpensesPayload>>(`${this.url}/search`, searchPayload, {observe: 'response'});
     }
 
 

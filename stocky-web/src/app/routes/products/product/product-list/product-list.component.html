@@ -73,7 +73,7 @@
                             [props]="{
                                 onSearchAction: onSearchProducts,
                                 isLoadingSearchResult: isLoading,
-                                onResetSearchPayload: onResetSearchForm,
+                                onResetAction: onResetSearchForm,
                                 onCancelAction: onCancelHandler
                                 }"
                         ></app-search-reset-button>
@@ -107,7 +107,6 @@
     ></app-table>
 </nz-card>
 
-
 <ng-template #categoryTmpl let-item="item">
     <app-table-item [content]="item.basic.productCategory.title"></app-table-item>
 </ng-template>
@@ -129,7 +128,8 @@
 </ng-template>
 
 <ng-template #dateTmpl let-item="item">
-    <app-table-item [props]="{useProjection: true}">
+    <app-table-item [content]="dateCreatedAtTmpl"></app-table-item>
+    <ng-template #dateCreatedAtTmpl>
         <label>{{item?.createdAt | date}}</label>
-    </app-table-item>
+    </ng-template>
 </ng-template>

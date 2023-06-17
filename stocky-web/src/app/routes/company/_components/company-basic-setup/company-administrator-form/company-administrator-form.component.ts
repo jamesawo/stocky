@@ -1,9 +1,10 @@
-import {HttpResponse} from '@angular/common/http';
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {handleUsecaseRequest, markFormFieldsAsDirtyAndTouched} from '../../../../../shared/utils/util';
-import {CompanyAdministratorDetailsPayload, CompanyBasicDetailsPayload} from '../../../_data/company-setup.payload';
+import {firstValueFrom} from 'rxjs';
+import {CompanyDetail} from '../../../../../data/constant/company-detail.constant';
+import {getNzFormControlValidStatus, handleUsecaseRequest, markFormFieldsAsDirtyAndTouched} from '../../../../../shared/utils/util';
+import {CompanySetupPayload} from '../../../_data/company-setup.payload';
 import {AdministratorProfileSetupUsecase} from '../../../_usecase/company-setup/administrator-profile-setup.usecase';
 
 @Component({
@@ -13,41 +14,96 @@ import {AdministratorProfileSetupUsecase} from '../../../_usecase/company-setup/
 })
 export class CompanyAdministratorFormComponent {
 
+    public form: FormGroup = this.buildForm;
     public isLoading = false;
-    public form: FormGroup = this.formBuild;
+    public adminDetailsMap?: any;
+    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
 
     constructor(
         private fb: FormBuilder,
         private usecase: AdministratorProfileSetupUsecase,
         private notification: NzNotificationService
-    ) {
+    ) {}
+
+    /**
+     * Returns a form group representing the company administrators details form.
+     * The form group contains various form controls with initial values and validators.
+     *
+     * @returns {FormGroup} The build form group.
+     */
+    public get buildForm() {
+
+        return this.fb.group({
+            profileName: [this.getValueFromCompanyAdministratorDetailsMap(CompanyDetail.COMPANY_PROFILE_NAME), [Validators.required]],
+            profilePhone: [this.getValueFromCompanyAdministratorDetailsMap(CompanyDetail.COMPANY_PROFILE_PHONE), [Validators.required]],
+            profileEmail: [this.getValueFromCompanyAdministratorDetailsMap(CompanyDetail.COMPANY_PROFILE_EMAIL), [Validators.required]],
+            profilePosition: [this.getValueFromCompanyAdministratorDetailsMap(CompanyDetail.COMPANY_PROFILE_POSITION), []]
+        });
+
     }
 
-    public get formBuild() {
-        return this.fb.group({
-            profileName: [null, [Validators.required]],
-            phoneNumber: [null, [Validators.required]],
-            profileEmail: [null, [Validators.required]],
-            profilePosition: [null, []]
+
+    /**
+     * Initializes the component during its lifecycle.
+     * Retrieves data from the usecase  and assigns the retrieved values to the component detailMap property.
+     *
+     * @returns {Promise<void>} A promise that resolves when the component is initialized.
+     */
+    public async ngOnInit(): Promise<void> {
+        firstValueFrom(this.usecase.getAll()).then(value => {
+            if (value.ok) {
+                this.adminDetailsMap = value.body;
+                this.form = this.buildForm;
+            }
         });
     }
 
-    public async onSave(): Promise<void> {
+
+    /**
+     * Saves the administrator form details.
+     *
+     * @returns {Promise<void>} A promise that resolves when the basic form details are saved.
+     */
+    public async onSaveFormDetails() {
         if (this.form.invalid) {
-            markFormFieldsAsDirtyAndTouched(this.form);
+            markFormFieldsAsDirtyAndTouched(this.form!);
             return;
         }
+
         this.isLoading = true;
-        const form = <CompanyAdministratorDetailsPayload>this.form.value;
-        const response = await handleUsecaseRequest(this.usecase.save(form), this.notification);
-        this.onResetForm(response);
+        const detailsList = this.getAListOfFormControlKeyAndValueInFormGroup(this.form!);
+        await handleUsecaseRequest(this.usecase.updateMany(detailsList), this.notification);
+        this.isLoading = false;
     }
 
-    private onResetForm(response: HttpResponse<CompanyBasicDetailsPayload>): void {
-        this.isLoading = false;
-        if (response.ok) {
-            this.form.reset();
-            this.form = this.formBuild;
+
+    /**
+     * Retrieves the value from the CompanyBasicDetailsMap based on the given key.
+     *
+     * @param {string} key - The key to retrieve the value from the CompanyBasicDetailsMap.
+     * @returns {string | null} The value corresponding to the given key in the CompanyBasicDetailsMap,
+     *                          or null if the key is not found or the CompanyBasicDetailsMap is undefined.
+     */
+    private getValueFromCompanyAdministratorDetailsMap(key: string): string | null {
+        if (this.adminDetailsMap && this.adminDetailsMap[key]) {
+            return this.adminDetailsMap[key];
         }
+        return null;
+    }
+
+
+    /**
+     * Retrieves the values from the CompanyBasicDetailsForm as a list of CompanyDetailsPayload objects.
+     *
+     * @param {FormGroup} form - The FormGroup object representing the CompanyBasicDetailsForm.
+     * @returns {CompanySetupPayload[]} A list of CompanyDetailsPayload objects containing the key-value pairs
+     *                                   from the CompanyBasicDetailsForm.
+     */
+    private getAListOfFormControlKeyAndValueInFormGroup(form: FormGroup) {
+        const companyDetails: CompanySetupPayload[] = [];
+        for (let controlsKey in form.controls) {
+            companyDetails.push(new CompanySetupPayload(controlsKey, form.controls[controlsKey].value));
+        }
+        return companyDetails;
     }
 }

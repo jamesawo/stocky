@@ -14,8 +14,6 @@ import java.util.List;
  */
 public interface IProductInteractor {
 	ResponseEntity<ProductRequest> save(ProductRequest request);
-
-	ResponseEntity<List<ProductSearchRequest>> search(ProductSearchRequest request);
-
+	
 	ResponseEntity<PageSearchResult<List<ProductRequest>>> search(PageSearchRequest<ProductSearchRequest> request);
 }

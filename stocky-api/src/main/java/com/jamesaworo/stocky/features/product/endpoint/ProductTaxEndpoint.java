@@ -20,7 +20,7 @@ import java.util.Optional;
 import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 
 @RestController
-@RequestMapping(value = API_PREFIX + "/product-tax")
+@RequestMapping(value = API_PREFIX + "/product/tax")
 @RequiredArgsConstructor
 public class ProductTaxEndpoint {
 

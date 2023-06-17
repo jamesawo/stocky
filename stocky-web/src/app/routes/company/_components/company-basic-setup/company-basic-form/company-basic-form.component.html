@@ -1,10 +1,12 @@
-<form (ngSubmit)="onSaveBasicDetails()" [autocomplete]="false" [formGroup]="form" nz-form nzLayout="vertical">
+<form (ngSubmit)="onSaveBasicFormDetails()" [autocomplete]="false" [formGroup]="form!" nz-form nzLayout="vertical">
 
     <div nz-row nzGutter="8">
         <div nz-col nzLg="12" nzMd="12" nzSm="24" nzSpan="12" nzXl="12" nzXs="24">
             <nz-form-item nz-col>
                 <nz-form-label nzFor="businessName" nzRequired>Business Name</nz-form-label>
-                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="">
+                <nz-form-control [nzSm]="24"
+                                 [nzValidateStatus]="getNzFormControlValidStatus('businessName', form)"
+                                 [nzXs]="24" nzErrorTip="">
                     <input formControlName="businessName" id="businessName" name="businessOrCompanyName" nz-input
                            placeholder="Enter your business name"/>
                 </nz-form-control>
@@ -13,14 +15,16 @@
 
         <div nz-col nzLg="12" nzMd="12" nzSm="24" nzSpan="12" nzXl="12" nzXs="24">
             <nz-form-item nz-col>
-                <nz-form-label nzFor="address" nzRequired>Business Address</nz-form-label>
-                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="">
+                <nz-form-label nzFor="businessOrCompanyAddress" nzRequired>Business Address</nz-form-label>
+                <nz-form-control
+                    [nzSm]="24" [nzValidateStatus]="getNzFormControlValidStatus('businessAddress', form)" [nzXs]="24"
+                    nzErrorTip=""
+                >
                     <input formControlName="businessAddress" id="address" name="businessOrCompanyAddress" nz-input
                            placeholder="Enter your business address"/>
                 </nz-form-control>
             </nz-form-item>
         </div>
-
     </div>
 
     <div nz-row nzGutter="8">
@@ -28,7 +32,7 @@
             <nz-form-item>
                 <nz-form-label nzFor="category" nzRequired>Industry Category</nz-form-label>
                 <app-business-category-dropdown
-                    [formProps]="{formGroup: form, controlName: 'businessCategory'}"
+                    [formProps]="{formGroup: form!, controlName: 'businessCategory'}"
                 ></app-business-category-dropdown>
             </nz-form-item>
         </div>
@@ -37,7 +41,7 @@
             <nz-form-item>
                 <nz-form-label nzRequired>Employee Size</nz-form-label>
                 <app-business-number-of-employees
-                    [formProps]="{formGroup: form, controlName: 'businessEmployeeSize'}"
+                    [formProps]="{formGroup: form!, controlName: 'businessEmployeeSize'}"
                 ></app-business-number-of-employees>
             </nz-form-item>
         </div>
@@ -47,7 +51,8 @@
         <div nz-col nzSpan="12">
             <nz-form-item>
                 <nz-form-label nzRequired>Years in business</nz-form-label>
-                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="">
+                <nz-form-control [nzSm]="24" [nzValidateStatus]="getNzFormControlValidStatus('businessNumberOfYearsOfOperation', form)" [nzXs]="24"
+                                 nzErrorTip="">
 
                     <nz-input-number
                         [nzMin]="1"
@@ -62,7 +67,9 @@
         <div nz-col nzSpan="12">
             <nz-form-item>
                 <nz-form-label nzRequired>Number of branch</nz-form-label>
-                <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="">
+                <nz-form-control [nzSm]="24" [nzValidateStatus]="getNzFormControlValidStatus('businessNumberOfBranch', form)" [nzXs]="24"
+                                 nzErrorTip=""
+                >
                     <nz-input-number
                         [nzMin]="1"
                         [nzPlaceHolder]="'Enter number of branches'"

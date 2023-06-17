@@ -1,0 +1,15 @@
+<ng-container *ngIf="isTemplateRef; else stringContentTmpl" [ngTemplateOutlet]="contentRef"></ng-container>
+
+<ng-template #stringContentTmpl>
+    <ng-container *ngIf="content ; else emptyContentTmpl " [ngTemplateOutlet]="slicedContentTmpl"></ng-container>
+</ng-template>
+
+
+<ng-template #emptyContentTmpl>
+    <span class="b">-</span>
+</ng-template>
+
+
+<ng-template #slicedContentTmpl>
+    <span [nzTooltipColor]="'#108ee9'" [nzTooltipTitle]="content" nz-tooltip>{{slicedContent}}</span>
+</ng-template>

@@ -5,8 +5,8 @@ import {Observable, shareReplay} from 'rxjs';
 import {Crumbs} from 'src/app/shared/components/breadcrumbs/breadcrumbs.component';
 import {PRODUCT_CATEGORY_LIST_CRUMBS} from '../../../../data/constant/crumb.constant';
 import {PopOverConstant} from '../../../../data/constant/message.constant';
+import {TableEditCacheMap} from '../../../../data/payload/common.types';
 import {TableCol} from '../../../../shared/components/table/table.component';
-import {EditCacheMap} from '../../../../shared/components/update-delete-action/update-delete-action.component';
 import {
     handleAppendToObservableListIfResponse,
     handleCancelEditingTableItem,
@@ -21,7 +21,7 @@ import {ProductCategoryUsecase} from '../../_usecase/product-category.usecase';
 @Component({
     selector: 'app-product-category-list',
     templateUrl: './product-category-list.component.html',
-    styleUrls: ['./product-category-list.component.css'],
+    styleUrls: ['./product-category-list.component.css']
 })
 export class ProductCategoryListComponent implements OnInit {
     public isExpanded = true;
@@ -34,13 +34,13 @@ export class ProductCategoryListComponent implements OnInit {
     public crumbs: Crumbs[] = PRODUCT_CATEGORY_LIST_CRUMBS;
     public popParentHint = PopOverConstant.PRODUCT_CATEGORY_PARENT;
     public popTitle = PopOverConstant.POP_TITLE;
-    public editObj: EditCacheMap<ProductCategoryPayload> = {};
+    public editObj: TableEditCacheMap<ProductCategoryPayload> = {};
     public categories?: Observable<ProductCategoryPayload[]>;
     public cols: TableCol[] = [
         {title: 'Title'},
         {title: 'Description'},
         {title: 'Parent'},
-        {title: 'Action'},
+        {title: 'Action'}
     ];
     public isSubCategory = false;
 
@@ -59,7 +59,7 @@ export class ProductCategoryListComponent implements OnInit {
         this.categoryForm = this.fb.group({
             title: [null, [Validators.required]],
             description: [null],
-            parent: [null],
+            parent: [null]
         });
     }
 
@@ -96,7 +96,7 @@ export class ProductCategoryListComponent implements OnInit {
     };
 
     public onToggleEdit = (item: ProductCategoryPayload) => {
-        if (item) this.editObj[item.id!] = {edit: true, data: {...item}, updating: false, deleting: false};
+        if (item) this.editObj[item.id!] = {edit: true, data: {...item}, updating: false, loading: false};
     };
 
     public onSaveEdit = async (item: ProductCategoryPayload) => {
@@ -108,14 +108,14 @@ export class ProductCategoryListComponent implements OnInit {
     };
 
     public onConfirmDelete = async (id: number) => {
-        this.editObj[id] = {edit: false, data: {}, updating: false, deleting: true};
+        this.editObj[id] = {edit: false, data: {}, updating: false, loading: true};
         const response = await handleUsecaseRequest(this.usecase.delete(id), this.notification);
         this.categories = handleRemoveFromObservableListIfStatus(
             this.categories!,
             {key: 'id', value: id},
             response
         );
-        this.editObj[id].deleting = false;
+        this.editObj[id].loading = false;
     };
 
     public onCancelDelete = async () => {};

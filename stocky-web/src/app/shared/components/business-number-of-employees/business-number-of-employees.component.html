@@ -1,14 +1,24 @@
 <ng-container *ngIf="formProps?.formGroup && formProps?.controlName" [formGroup]="formProps?.formGroup!">
-    <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input is not valid!">
-        <nz-select [formControlName]="formProps?.controlName!" [nzOptions]="list" [nzShowSearch]="true" id="category"
-                   nzMode="default" nzPlaceHolder="Select your category"></nz-select>
+    <nz-form-control
+        [nzSm]="24"
+        [nzValidateStatus]="getNzFormControlValidStatus(formProps?.controlName!, formProps?.formGroup!)"
+        [nzXs]="24"
+        nzErrorTip="">
+        <nz-select
+            [formControlName]="formProps?.controlName!"
+            [nzShowSearch]="true" id="category"
+            nzMode="default" nzPlaceHolder="Select your category">
+            <nz-option *ngFor="let item of list" [nzValue]="item.title" nzLabel="{{item.title}}"></nz-option>
+        </nz-select>
     </nz-form-control>
 </ng-container>
 
 
 <ng-template #modelTmpl>
     <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input is not valid!">
-        <nz-select (ngModelChange)="onModelChange($event)" [(ngModel)]="value" [nzOptions]="list" [nzShowSearch]="true"
-                   nzPlaceHolder="Select your category"></nz-select>
+        <nz-select (ngModelChange)="onModelChange($event)" [(ngModel)]="value" [nzShowSearch]="true"
+                   nzPlaceHolder="Select your category">
+            <nz-option *ngFor="let item of list" [nzValue]="item.title" nzLabel="{{item.title}}"></nz-option>
+        </nz-select>
     </nz-form-control>
 </ng-template>

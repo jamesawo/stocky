@@ -2,9 +2,9 @@ import {Component, Input} from '@angular/core';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, shareReplay} from 'rxjs';
 import {CommonPayload} from '../../../../../data/payload/common.payload';
+import {TableEditCacheMap} from '../../../../../data/payload/common.types';
 import {TextTruncateProps} from '../../../../../shared/components/table-item-editable/table-item-editable.component';
 import {TableCol} from '../../../../../shared/components/table/table.component';
-import {EditCacheMap} from '../../../../../shared/components/update-delete-action/update-delete-action.component';
 import {
     handleCancelEditingTableItem,
     handleRemoveFromObservableListIfStatus,
@@ -31,7 +31,7 @@ export class CompanyExpenseCategoryTableComponent {
         {title: 'DESCRIPTION', width: 40},
         {title: '', width: 20}
     ];
-    public editMap: EditCacheMap<any> = {};
+    public editMap: TableEditCacheMap<any> = {};
     public data?: Observable<CommonPayload[]>;
 
     constructor(
@@ -49,10 +49,10 @@ export class CompanyExpenseCategoryTableComponent {
     }
 
     public onConfirmDelete = async (id: number) => {
-        this.editMap[id] = {edit: false, data: {}, updating: false, deleting: true};
+        this.editMap[id] = {edit: false, data: {}, updating: false, loading: true};
         const response = await handleUsecaseRequest(this.usecase.remove(id), this.notification);
         this.data = handleRemoveFromObservableListIfStatus(this.data!, {key: 'id', value: id}, response);
-        this.editMap[id].deleting = false;
+        this.editMap[id].loading = false;
         this.notifyChange();
     };
 
@@ -74,7 +74,7 @@ export class CompanyExpenseCategoryTableComponent {
     };
 
     public onToggleEdit = (item: CommonPayload) => {
-        if (item) this.editMap[item.id!] = {edit: true, data: {...item}, updating: false, deleting: false};
+        if (item) this.editMap[item.id!] = {edit: true, data: {...item}, updating: false, loading: false};
     };
 
     public onCacheValueChange = (change: any, item: CommonPayload, field: string) => {

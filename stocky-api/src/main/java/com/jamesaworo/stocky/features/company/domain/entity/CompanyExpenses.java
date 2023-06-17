@@ -33,10 +33,15 @@ public class CompanyExpenses extends BaseModel {
 	private CompanyExpensesCategory category;
 
 	private Double amount;
-
-	private LocalDate date; //date or transaction date is not the same as created_at
-
+	private LocalDate recordDate; //date or transaction date is not the same as created_at
 	private String comment;
+	private String uploads;
+	private Boolean isPendingApproval;
 
-	private String fileId;
+	private Boolean isRecentlyUpdated;
+	//todo: refactor approvedBy and registeredBy to a user object &
+	// remember to update CompanyExpensesSearchSpecification too
+	private String approvedBy;
+	private String registeredBy;
+
 }
