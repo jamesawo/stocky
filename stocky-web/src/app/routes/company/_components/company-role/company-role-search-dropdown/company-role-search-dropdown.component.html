@@ -1,28 +1,37 @@
-<ng-container *ngIf="canUseFormGroup(); else modelTmpl">
-    <fieldset [formGroup]="form!.formGroup">
+<ng-container *ngIf="canUseFormGroup(); else modelTmpl" [formGroup]="form!.formGroup">
+    <nz-form-control
+        [nzValidateStatus]="getNzFormControlValidStatus(form?.controlName!, form?.formGroup!)"
+        nzErrorTip=""
+    >
+
         <nz-select (ngModelChange)="onValueChange($event)"
                    [class]="class"
-                   [formControl]="selectedControl" [nzLoading]="isLoading" nzAllowClear
-                   nzMode="tags"
+                   [formControl]="selectedControl" [nzLoading]="isLoading" [nzMode]="mode"
+                   nzAllowClear
                    nzPlaceHolder="Select .." nzShowSearch>
             <ng-container *ngIf="dataList | async as list">
-                <nz-option *ngFor="let data of list" [nzCustomContent]="true" [nzLabel]="data.title!" [nzValue]="data">
-                    <label>{{data.title | lowercase}} ({{data.title}}%) </label>
+                <nz-option *ngFor="let data of list" [nzCustomContent]="true" [nzLabel]="data.name!" [nzValue]="data">
+                    <label>{{data.name | uppercase}} ( <small>{{data.permissions.length}} permissions</small> ) </label>
                 </nz-option>
             </ng-container>
         </nz-select>
-    </fieldset>
+
+    </nz-form-control>
+
 </ng-container>
 
 <ng-template #modelTmpl>
-    <nz-select (ngModelChange)="onValueChange($event)" [(ngModel)]="value" [class]="class" [nzLoading]="isLoading" nzAllowClear
-               nzMode="tags"
-               nzPlaceHolder="Select .." nzShowSearch>
-        <ng-container *ngIf="dataList | async as list">
-            <nz-option *ngFor="let data of list" [nzCustomContent]="true" [nzLabel]="data.title!" [nzValue]="data">
-                <label>{{data.title | lowercase}} ({{data.title}}%) </label>
-            </nz-option>
-        </ng-container>
-    </nz-select>
+    <nz-form-control>
+
+        <nz-select (ngModelChange)="onValueChange($event)" [(ngModel)]="value" [class]="class" [nzLoading]="isLoading" [nzMode]="mode"
+                   nzAllowClear
+                   nzPlaceHolder="Select .." nzShowSearch>
+            <ng-container *ngIf="dataList | async as list">
+                <nz-option *ngFor="let data of list" [nzCustomContent]="true" [nzLabel]="data.name!" [nzValue]="data">
+                    <label>{{data.name | uppercase}} ( <small>{{data.permissions.length}} permissions</small> ) </label>
+                </nz-option>
+            </ng-container>
+        </nz-select>
+    </nz-form-control>
 
 </ng-template>

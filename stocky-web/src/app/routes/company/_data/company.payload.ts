@@ -1,7 +1,7 @@
 import {AmountRangeParam, DateRangeParam} from '../../../data/param/common.param';
-import {AppModuleEnum} from '../../../data/payload/common.enum';
+import {AppModuleEnum, CustomerTagEnum} from '../../../data/payload/common.enum';
 import {CommonPayload} from '../../../data/payload/common.payload';
-import {ProductCategoryPayload} from '../../products/_data/product.payload';
+import {ProductCategoryPayload, ProductPayload} from '../../products/_data/product.payload';
 import {RoleUsecase} from '../_usecase/role.usecase';
 import {LocationTypeEnum} from './company.enum';
 
@@ -41,6 +41,7 @@ export class RolePayload {
     description?: string;
     permissions: PermissionPayload[] = [];
     createdAt?: string;
+    isActiveStatus?: boolean;
 }
 
 export class UserBasicDetailsPayload {
@@ -58,9 +59,7 @@ export class UserEmergencyDetails {
     nokPhone?: string;
     nokEmail?: string;
     nokAddress?: string;
-
 }
-
 
 export class UserPayload {
     id?: number;
@@ -69,19 +68,30 @@ export class UserPayload {
     emergencyDetails?: UserEmergencyDetails;
 }
 
-
 export class SupplierPayload {
     id?: number;
-    fullName?: string;
-    businessName?: string;
-    phoneNumber?: string;
-    email?: string;
-    address?: string;
-    productCategories: ProductCategoryPayload[] = [];
-    date?: string;
-    recordedBy?: string;
+    supplierFirstName?: string;
+    supplierLastName?: string;
+    supplierBusinessName?: string;
+    supplierPhone?: string;
+    supplierEmailAddress?: string;
+    supplierOfficeAddress?: string;
+    categories: ProductCategoryPayload[] = [];
+    registeredBy?: string;
+    isActiveStatus?: boolean;
+    createdAt?: string;
 }
 
+export class SupplierSearchPayload {
+    supplierFullName?: string;
+    supplierPhoneNumber?: string;
+    supplierEmail?: string;
+    dateRangeParam?: DateRangeParam;
+    categories: ProductCategoryPayload[] = [];
+    createdAt?: string;
+    registeredBy?: string;
+    isActiveStatus?: boolean;
+}
 
 export class ExpensesPayload {
     id?: number;
@@ -108,3 +118,72 @@ export class ExpensesSearchPayload {
     isActiveStatus?: boolean;
 }
 
+export class EmployeePayload {
+    id?: number;
+    personalDetail = new EmployeePersonalDetailPayload();
+    nokDetail = new EmployeeNokPayload();
+    accountDetail = new EmployeeUserAccountPayload();
+    createdAt?: string;
+    isActiveStatus?: boolean;
+
+}
+
+export class EmployeePersonalDetailPayload {
+    employeeFirstName?: string;
+    employeeLastName?: string;
+    employeeEmail?: string;
+    employeePhone?: string;
+    employeeAddress?: string;
+    employeeDateOfBirth?: string;
+}
+
+export class EmployeeNokPayload {
+    nokFullName?: string;
+    nokAddress?: string;
+    nokEmail?: string;
+    nokPhone?: string;
+    nokRelationship?: string;
+}
+
+export class EmployeeUserAccountPayload {
+    username?: string;
+    password?: string;
+    roles?: RolePayload;
+    expirationDate?: string;
+    isActiveStatus?: boolean;
+
+}
+
+export class EmployeeSearchPayload {
+    employeeFullName?: string;
+    employeePhoneNumber?: string;
+    employeeEmail?: string;
+    dateRangeParam?: DateRangeParam;
+    roles?: RolePayload[];
+    expirationDate?: string;
+    createdAt?: string;
+    registeredBy?: string;
+    isActiveStatus?: boolean;
+}
+
+export class CustomerPayload {
+    id?: number;
+    customerFirstName?: string;
+    customerLastName?: string;
+    customerEmail?: string;
+    customerPhone?: string;
+    customerAddress?: string;
+    customerTag?: string = CustomerTagEnum.ROOKIE;
+}
+
+export class CustomerSearchPayload {
+    customerFullName?: string;
+    customerPhoneNumber?: string;
+    customerEmail?: string;
+    dateRangeParam?: DateRangeParam;
+    customerTag?: CustomerTagEnum;
+    productCategoryRequest?: ProductCategoryPayload;
+    productRequest?: ProductPayload;
+    promotion?: string;
+    registeredBy?: string;
+}

@@ -132,22 +132,16 @@
 
 <ng-template #approvedDateTmpl>
     <app-table-item></app-table-item>
-    <!--
-    <app-table-item [content]="dateCreatedAtTmpl"></app-table-item>
-        <ng-template #dateCreatedAtTmpl>
-            <label>{{item?.createdAt | date}}</label>
-        </ng-template>
-    -->
 </ng-template>
 
 <ng-template #commentTmpl let-item="item">
     <app-table-item-truncatable [content]="item.comment"></app-table-item-truncatable>
 </ng-template>
 
-<ng-template #uploadsTmpl>
+<ng-template #uploadsTmpl let-item="item">
     <app-table-item></app-table-item>
 </ng-template>
 
-<ng-template #actionTmpl>
+<ng-template #actionTmpl let-item="item">
 
 </ng-template>

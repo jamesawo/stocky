@@ -21,6 +21,7 @@ import {CompanyLocationSearchComponent} from './_components/company-location-sea
 import {
     CompanyPeopleCustomerAddBtnComponent
 } from './_components/company-people/people-customer/company-people-customer-add-btn/company-people-customer-add-btn.component';
+import {CustomerTagComponent} from './_components/company-people/people-customer/customer-tag/customer-tag.component';
 import {
     CompanyPeopleEmployeeAddBtnComponent
 } from './_components/company-people/people-employee/company-people-employee-add-btn/company-people-employee-add-btn.component';
@@ -79,8 +80,8 @@ export const COMPANY_COMPONENTS: Array<Type<void>> = [
     CompanyBasicFormComponent,
     CompanyAdministratorFormComponent,
     CompanyRegionFormComponent,
-    CompanyRoleFormComponent
-
+    CompanyRoleFormComponent,
+    CustomerTagComponent
 ];
 
 @NgModule({

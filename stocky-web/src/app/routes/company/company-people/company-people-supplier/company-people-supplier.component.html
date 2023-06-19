@@ -1,4 +1,5 @@
 <page-header [action]="action" [breadcrumb]="breadcrumb" [content]="content" title="Manage Suppliers">
+
     <ng-template #breadcrumb>
         <app-breadcrumbs [crumbs]="crumbs"></app-breadcrumbs>
     </ng-template>
@@ -16,24 +17,31 @@
                 <div nz-col nzSpan="24">
 
                     <div nz-row nzGutter="10">
+
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
-                                <nz-form-label>Supplier #</nz-form-label>
-                                <input name="customerNumber" nz-input placeholder="Enter supplier number" type="text"/>
+                                <nz-form-label>Product Category</nz-form-label>
+                                <app-product-category-search-dropdown #categorySearchDropdownComponent
+                                                                      [(value)]="searchPayload.categories"></app-product-category-search-dropdown>
                             </nz-form-item>
                         </div>
+
 
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Full Name</nz-form-label>
-                                <input name="fullName" nz-input placeholder="Enter full name" type="text"/>
+                                <input [(ngModel)]="searchPayload.supplierFullName" disableAutocomplete name="fullName" nz-input
+                                       placeholder="Enter full name"
+                                       type="text"/>
                             </nz-form-item>
                         </div>
 
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Phone number</nz-form-label>
-                                <input name="phoneNumber" nz-input placeholder="Enter phone number" type="text"/>
+                                <input [(ngModel)]="searchPayload.supplierPhoneNumber" disableAutocomplete name="phoneNumber" nz-input
+                                       placeholder="Enter phone number"
+                                       type="text"/>
                             </nz-form-item>
                         </div>
 
@@ -47,33 +55,21 @@
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Email</nz-form-label>
-                                <input name="email" nz-input placeholder="Enter email address" type="text"/>
+                                <input [(ngModel)]="searchPayload.supplierEmail" disableAutocomplete name="email" nz-input
+                                       placeholder="Enter email address" type="text"/>
                             </nz-form-item>
                         </div>
 
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Date Range</nz-form-label>
-                                <app-range-date-picker></app-range-date-picker>
+                                <app-range-date-picker [(select)]="searchPayload.dateRangeParam!"></app-range-date-picker>
                             </nz-form-item>
                         </div>
 
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <app-company-user-search></app-company-user-search>
-                            </nz-form-item>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div nz-col nzSpan="24">
-
-                    <div nz-row nzGutter="10">
-                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
-                            <nz-form-item>
-                                <app-product-category-search></app-product-category-search>
                             </nz-form-item>
                         </div>
 
@@ -112,5 +108,65 @@
 </page-header>
 
 <nz-card>
-    <app-table [colHeadings]="tableCols" [dataList]="list" [props]="{tableLayout: 'auto'}"></app-table>
+    <app-table
+        (pageIndexChange)="onPageIndexChange($event)"
+        (pageSizeChange)="onPageSizeChange($event)"
+        [(pageIndex)]="pageRequest.pageNumber"
+        [(pageSize)]="pageRequest.pageSize"
+        [colHeadings]="tableCols"
+        [dataList]="tableData"
+        [props]="{showPagination: true, isLoading: isLoadingTable, tableLayout: 'auto', tableSize: 'default'}"
+        [rowTemplates]="[busNameTmpl, fullNameTmpl, categoriesTmpl, phoneTmpl,
+         emailTmpl, officeAddressTmpl, registeredByTmpl,createdAtTmpl,actionTmpl
+         ]"
+    ></app-table>
 </nz-card>
+
+<ng-template #busNameTmpl let-item="item">
+    <app-table-item [content]="item.supplierBusinessName"></app-table-item>
+</ng-template>
+
+<ng-template #fullNameTmpl let-item="item">
+    <app-table-item [content]="nameConcat"></app-table-item>
+    <ng-template #nameConcat>
+        <span>{{ item.supplierFirstName + ' ' + item.supplierLastName}}</span>
+    </ng-template>
+</ng-template>
+
+<ng-template #categoriesTmpl let-item="item">
+    <app-table-item [content]="roleTitleTmpl"></app-table-item>
+    <ng-template #roleTitleTmpl>
+        <span>
+            [
+                <span *ngFor="let category of item.categories; let i = index;">
+                    {{ category.title }}
+                    <span *ngIf="item.categories.length > 1 && i +1 !== item.categories.length">,</span>
+                </span>
+            ]
+        </span>
+    </ng-template>
+</ng-template>
+
+<ng-template #phoneTmpl let-item="item">
+    <app-table-item [content]="item.supplierPhone"></app-table-item>
+</ng-template>
+<ng-template #emailTmpl let-item="item">
+    <app-table-item [content]="item.supplierEmailAddress"></app-table-item>
+</ng-template>
+<ng-template #officeAddressTmpl let-item="item">
+    <app-table-item-truncatable [content]="item.supplierOfficeAddress" [limit]="15"></app-table-item-truncatable>
+</ng-template>
+<ng-template #registeredByTmpl let-item="item">
+    <app-table-item [content]="item.registeredBy"></app-table-item>
+</ng-template>
+<ng-template #createdAtTmpl let-item="item">
+    <app-table-item [content]="dateTmpl">
+        <ng-template #dateTmpl>
+            <span>{{item.createdAt | date}}</span>
+        </ng-template>
+    </app-table-item>
+</ng-template>
+
+<ng-template #actionTmpl>
+    <app-table-item></app-table-item>
+</ng-template>

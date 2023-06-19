@@ -11,7 +11,7 @@
         [nzWidth]="720"
     >
         <div *nzDrawerContent>
-            <ng-container [ngTemplateOutletContext]="{form: categoryForm}" [ngTemplateOutlet]="contentFormTmpl"></ng-container>
+            <ng-container [ngTemplateOutlet]="contentFormTmpl"></ng-container>
         </div>
 
     </nz-drawer>
@@ -26,7 +26,7 @@
         [nzTitle]="pageTitle"
     >
         <div *nzModalContent [nzLg]="{ span: 24, offset: 0 }" [nzXs]="{ span: 24, offset: 0 }" nz-col>
-            <ng-container [ngTemplateOutletContext]="{form: categoryForm}" [ngTemplateOutlet]="contentFormTmpl"></ng-container>
+            <ng-container [ngTemplateOutlet]="contentFormTmpl"></ng-container>
         </div>
         <div *nzModalFooter>
             <ng-container [ngTemplateOutlet]="contentFooterBtnTmpl"></ng-container>
@@ -35,23 +35,27 @@
     </nz-modal>
 </ng-template>
 
-<ng-template #contentFormTmpl let-form="form">
+<ng-template #contentFormTmpl>
 
     <form (submit)="onCreate()"
+          [formGroup]="form"
           autocomplete="off"
+          disableAutocomplete
           nz-form
           nzLayout="vertical"
+
     >
         <div [nzSpan]="24" nz-col>
 
             <nz-form-item>
                 <nz-form-label>First Name</nz-form-label>
-                <nz-form-control nzErrorTip="First name is required">
+                <nz-form-control nzErrorTip="">
                     <input
-                        name="firstName"
+                        formControlName="customerFirstName"
+                        name="peopleCustomerFirstNames"
                         nz-input
                         placeholder="Enter first name"
-                        type="text"
+                        type="search"
                     />
                 </nz-form-control>
             </nz-form-item>
@@ -60,10 +64,11 @@
                 <nz-form-label>Last Name</nz-form-label>
                 <nz-form-control nzErrorTip="Last name is required">
                     <input
-                        name="lastName"
+                        formControlName="customerLastName"
+                        name="peopleCustomerLastsNames"
                         nz-input
                         placeholder="Enter last name"
-                        type="text"
+                        type="search"
                     />
                 </nz-form-control>
             </nz-form-item>
@@ -72,10 +77,11 @@
                 <nz-form-label>Email</nz-form-label>
                 <nz-form-control nzErrorTip="Email is required">
                     <input
-                        name="email"
+                        formControlName="customerEmail"
+                        name="peopleCustomerLastNames"
                         nz-input
                         placeholder="Enter email"
-                        type="text"
+                        type="email"
                     />
                 </nz-form-control>
             </nz-form-item>
@@ -84,26 +90,27 @@
                 <nz-form-label>Phone</nz-form-label>
                 <nz-form-control nzErrorTip="Phone is required">
                     <input
-                        name="phone"
+                        formControlName="customerPhone"
+                        name="peopleCustomerPhoneNumbers"
                         nz-input
                         placeholder="Enter phone number"
-                        type="text"
+                        type="search"
                     />
                 </nz-form-control>
             </nz-form-item>
 
+            <app-customer-tag [formProps]="{formGroup: form, controlName: 'customerTag'}"></app-customer-tag>
+
             <nz-form-item>
                 <nz-form-label>Address</nz-form-label>
                 <nz-form-control>
-                        <textarea name="comment"
-                                  nz-input
-                                  placeholder="Enter address "
-                        ></textarea>
+                    <textarea autocomplete="disable" formControlName="customerAddress" name="peopleCustomersAddress"
+                              nz-input
+                              placeholder="Enter address"
+                    ></textarea>
                 </nz-form-control>
             </nz-form-item>
-
         </div>
-
     </form>
 </ng-template>
 

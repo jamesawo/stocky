@@ -11,7 +11,7 @@
         [nzWidth]="720"
     >
         <div *nzDrawerContent>
-            <ng-container [ngTemplateOutletContext]="{form: categoryForm}" [ngTemplateOutlet]="contentFormTmpl"></ng-container>
+            <ng-container [ngTemplateOutlet]="contentFormTmpl"></ng-container>
         </div>
 
     </nz-drawer>
@@ -26,7 +26,7 @@
         [nzTitle]="pageTitle"
     >
         <div *nzModalContent [nzLg]="{ span: 24, offset: 0 }" [nzXs]="{ span: 24, offset: 0 }" nz-col>
-            <ng-container [ngTemplateOutletContext]="{form: categoryForm}" [ngTemplateOutlet]="contentFormTmpl"></ng-container>
+            <ng-container [ngTemplateOutlet]="contentFormTmpl"></ng-container>
         </div>
         <div *nzModalFooter>
             <ng-container [ngTemplateOutlet]="contentFooterBtnTmpl"></ng-container>
@@ -35,20 +35,38 @@
     </nz-modal>
 </ng-template>
 
-<ng-template #contentFormTmpl let-form="form">
-
+<ng-template #contentFormTmpl>
     <form (submit)="onCreate()"
-          autocomplete="off"
+          [formGroup]="form"
+          disableAutocomplete
           nz-form
           nzLayout="vertical"
     >
         <div [nzSpan]="24" nz-col>
 
             <nz-form-item>
+                <nz-form-label>Product Categories</nz-form-label>
+                <nz-form-control
+                    [nzValidateStatus]="getNzFormControlValidStatus('categories', form)"
+                    nzErrorTip="">
+                    <app-product-category-search-dropdown
+                        [formProps]="{controlName: 'categories', formGroup: form}"
+                        [label]="'title'"
+                        [props]="{placeholder: 'Search category', mode: 'multiple'}"
+                        [searchUrl]="PRODUCT_ROUTES.PRODUCT_CATEGORY_SEARCH"
+                    ></app-product-category-search-dropdown>
+                </nz-form-control>
+            </nz-form-item>
+
+
+            <nz-form-item>
                 <nz-form-label>Business Name</nz-form-label>
-                <nz-form-control nzErrorTip="First name is required">
+                <nz-form-control
+                    [nzValidateStatus]="getNzFormControlValidStatus('supplierBusinessName', form)"
+                    nzErrorTip="">
                     <input
-                        name="firstName"
+                        formControlName="supplierBusinessName"
+                        name="supplierBusinessName"
                         nz-input
                         placeholder="Enter first name"
                         type="text"
@@ -58,9 +76,11 @@
 
             <nz-form-item>
                 <nz-form-label>First Name</nz-form-label>
-                <nz-form-control nzErrorTip="First name is required">
+                <nz-form-control [nzValidateStatus]="getNzFormControlValidStatus('supplierFirstName', form)"
+                                 nzErrorTip="">
                     <input
-                        name="firstName"
+                        formControlName="supplierFirstName"
+                        name="supplierFirstName"
                         nz-input
                         placeholder="Enter first name"
                         type="text"
@@ -70,33 +90,39 @@
 
             <nz-form-item>
                 <nz-form-label>Last Name</nz-form-label>
-                <nz-form-control nzErrorTip="Last name is required">
+                <nz-form-control [nzValidateStatus]="getNzFormControlValidStatus('supplierLastName', form)"
+                                 nzErrorTip="">
                     <input
-                        name="lastName"
+                        formControlName="supplierLastName"
+                        name="supplierLastName"
                         nz-input
                         placeholder="Enter last name"
-                        type="text"
+                        type="search"
                     />
                 </nz-form-control>
             </nz-form-item>
 
             <nz-form-item>
                 <nz-form-label>Email</nz-form-label>
-                <nz-form-control nzErrorTip="Email is required">
+                <nz-form-control [nzValidateStatus]="getNzFormControlValidStatus('supplierEmailAddress', form)"
+                                 nzErrorTip="">
                     <input
-                        name="email"
+                        formControlName="supplierEmailAddress"
+                        name="supplierEmailAddress"
                         nz-input
                         placeholder="Enter email"
-                        type="text"
+                        type="email"
                     />
                 </nz-form-control>
             </nz-form-item>
 
             <nz-form-item>
                 <nz-form-label>Phone</nz-form-label>
-                <nz-form-control nzErrorTip="Phone is required">
+                <nz-form-control [nzValidateStatus]="getNzFormControlValidStatus('supplierPhone', form)"
+                                 nzErrorTip="">
                     <input
-                        name="phone"
+                        formControlName="supplierPhone"
+                        name="supplierPhone"
                         nz-input
                         placeholder="Enter phone number"
                         type="text"
@@ -106,15 +132,16 @@
 
             <nz-form-item>
                 <nz-form-label>Address</nz-form-label>
-                <nz-form-control>
-                        <textarea name="comment"
-                                  nz-input
-                                  placeholder="Enter address "
-                        ></textarea>
+                <nz-form-control [nzValidateStatus]="getNzFormControlValidStatus('supplierOfficeAddress', form)"
+                                 nzErrorTip="">
+                    <textarea
+                        formControlName="supplierOfficeAddress"
+                        name="supplierOfficeAddress"
+                        nz-input
+                        placeholder="Enter address "
+                    ></textarea>
                 </nz-form-control>
             </nz-form-item>
-
-            <app-product-category-search></app-product-category-search>
 
         </div>
 

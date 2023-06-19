@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, of} from 'rxjs';
 import {EXPENSES_SETUP} from '../../../data/constant/crumb.constant';
-import {ModalOrDrawer} from '../../../data/payload/common.enum';
+import {ModalOrDrawer, TableButtonEnum} from '../../../data/payload/common.enum';
 import {PageSearchPayload} from '../../../data/payload/common.interface';
 import {PagePayload} from '../../../data/payload/common.payload';
 import {TableCol} from '../../../shared/components/table/table.component';
@@ -38,6 +38,7 @@ export class CompanyExpensesSetupComponent {
     ];
     public tableData?: Observable<ExpensesPayload[]>;
     protected readonly ModalOrDrawer = ModalOrDrawer;
+    protected readonly TableButtonEnum = TableButtonEnum;
 
     constructor(private usecase: ExpensesUsecase, private notification: NzNotificationService) {}
 

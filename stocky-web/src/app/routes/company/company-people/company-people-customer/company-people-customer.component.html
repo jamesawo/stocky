@@ -16,24 +16,20 @@
                 <div nz-col nzSpan="24">
 
                     <div nz-row nzGutter="10">
-                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
-                            <nz-form-item>
-                                <nz-form-label>Customer #</nz-form-label>
-                                <input name="customerNumber" nz-input placeholder="Enter customer number" type="text"/>
-                            </nz-form-item>
-                        </div>
 
-                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
+                        <div [nzLg]="12" [nzSpan]="12" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Full Name</nz-form-label>
-                                <input name="fullName" nz-input placeholder="Enter full name" type="text"/>
+                                <input [(ngModel)]="searchPayload.customerFullName" name="fullName" nz-input placeholder="Enter full name"
+                                       type="text"/>
                             </nz-form-item>
                         </div>
 
-                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
+                        <div [nzLg]="12" [nzSpan]="12" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Phone number</nz-form-label>
-                                <input name="phoneNumber" nz-input placeholder="Enter phone number" type="text"/>
+                                <input [(ngModel)]="searchPayload.customerPhoneNumber" name="phoneNumber" nz-input placeholder="Enter phone number"
+                                       type="text"/>
                             </nz-form-item>
                         </div>
 
@@ -47,24 +43,19 @@
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Email</nz-form-label>
-                                <input name="email" nz-input placeholder="Enter email address" type="text"/>
+                                <input [(ngModel)]="searchPayload.customerEmail" name="email" nz-input placeholder="Enter email address" type="text"/>
                             </nz-form-item>
                         </div>
 
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Date Joined</nz-form-label>
-                                <app-range-date-picker></app-range-date-picker>
+                                <app-range-date-picker [(select)]="searchPayload.dateRangeParam!"></app-range-date-picker>
                             </nz-form-item>
                         </div>
 
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
-                            <nz-form-item>
-                                <nz-form-label>Customer Tag</nz-form-label>
-                                <nz-select nzPlaceHolder="Select tag">
-                                    <nz-option></nz-option>
-                                </nz-select>
-                            </nz-form-item>
+                            <app-customer-tag [(select)]="searchPayload.customerTag!"></app-customer-tag>
                         </div>
 
                     </div>
@@ -99,10 +90,7 @@
                         </div>
 
                     </div>
-
                 </div>
-
-
             </div>
 
             <div nz-col nzSpan="24">
@@ -121,7 +109,7 @@
                     <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" class="text-align-end" nz-col>
                         <nz-space nzSize="small">
                             <app-company-people-customer-add-btn *nzSpaceItem></app-company-people-customer-add-btn>
-                            <app-export-upload-button *nzSpaceItem [props]="{}"></app-export-upload-button>
+                            <app-export-upload-button *nzSpaceItem></app-export-upload-button>
                         </nz-space>
                     </div>
                 </div>
@@ -133,5 +121,54 @@
 </page-header>
 
 <nz-card>
-    <app-table [colHeadings]="tableCols" [dataList]="list" [props]="{tableLayout: 'auto'}"></app-table>
+
+    <app-table
+        (pageIndexChange)="onPageIndexChange($event)"
+        (pageSizeChange)="onPageSizeChange($event)"
+        [(pageIndex)]="pageRequest.pageNumber"
+        [(pageSize)]="pageRequest.pageSize"
+        [colHeadings]="tableCols"
+        [dataList]="tableData"
+        [props]="{showPagination: true, isLoading: isLoadingTable }"
+        [rowTemplates]="[
+            fullNameTmpl, tagTmpl, phoneTmpl, emailTmpl,
+            addressTmpl, registeredBy, purchasedTotalTmpl,
+            purchasedQtyTmpl, purchasedReceiptsTmpl, actionTmpl
+        ]"
+    ></app-table>
 </nz-card>
+
+<ng-template #fullNameTmpl let-item="item">
+    <app-table-item [content]="customerFullNameTmpl"></app-table-item>
+    <ng-template #customerFullNameTmpl>
+        <span>{{ item.customerFirstName + ' ' + item.customerLastName }}</span>
+    </ng-template>
+</ng-template>
+
+<ng-template #tagTmpl let-item="item">
+    <app-table-item [content]="item.customerTag"></app-table-item>
+</ng-template>
+<ng-template #phoneTmpl let-item="item">
+    <app-table-item [content]="item.customerPhone"></app-table-item>
+</ng-template>
+<ng-template #emailTmpl let-item="item">
+    <app-table-item [content]="item.customerEmail"></app-table-item>
+</ng-template>
+<ng-template #addressTmpl let-item="item">
+    <app-table-item-truncatable [content]="item.customerAddress"></app-table-item-truncatable>
+</ng-template>
+
+<ng-template #registeredBy let-item="item">
+    <app-table-item></app-table-item>
+</ng-template>
+<ng-template #purchasedTotalTmpl let-item="item">
+    <app-table-item></app-table-item>
+</ng-template>
+<ng-template #purchasedQtyTmpl let-item="item">
+    <app-table-item></app-table-item>
+</ng-template>
+<ng-template #purchasedReceiptsTmpl let-item="item">
+    <app-table-item></app-table-item>
+</ng-template>
+
+<ng-template #actionTmpl></ng-template>
