@@ -20,3 +20,20 @@ export enum TableButtonEnum {
     DELETE = 'delete',
     TOGGLE_STATUS = 'status'
 }
+
+export enum CustomerTagEnum {
+    ROOKIE = 'ROOKIE',
+    PREMIUM = 'PREMIUM',
+    VIP = 'VIP'
+}
+
+export enum NokRelationship {
+    FATHER = 'FATHER',
+    MOTHER = 'MOTHER',
+    SISTER = 'SISTER',
+    BROTHER = 'BROTHER',
+    WIFE = 'WIFE',
+    HUSBAND = 'HUSBAND',
+    CHILD = 'CHILD',
+    OTHER = 'OTHER',
+}
