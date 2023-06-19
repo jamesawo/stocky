@@ -23,4 +23,5 @@ public class ProductTaxRequest {
 	private String title;
 	private String description;
 	private Double percent;
+	private Boolean isActiveStatus;
 }

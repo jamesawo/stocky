@@ -13,4 +13,6 @@ public interface IProductTaxUsecase {
 	Optional<Boolean> remove(Long id);
 
 	Optional<ProductTax> findOne(Long id);
+
+	Boolean toggleStatus(boolean status, Long id);
 }

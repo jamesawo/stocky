@@ -10,9 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,6 +23,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.ResponseEntity.notFound;
 import static org.springframework.http.ResponseEntity.ok;
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 /**
  * @author Aworo James
@@ -32,64 +33,68 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequiredArgsConstructor
 public class ProductCategoryInteractor implements IProductCategoryInteractor, Mapper<ProductCategoryRequest, ProductCategory> {
 
-    public static final String REQUIRE_CATEGORY_ID = "Product category ID is required";
-    private final IProductCategoryUsecase usecase;
-    private final ModelMapper mapper;
+	public static final String REQUIRE_CATEGORY_ID = "Product category ID is required";
+	private final IProductCategoryUsecase usecase;
+	private final ModelMapper mapper;
 
-    public ResponseEntity<ProductCategoryRequest> find(Long id) {
-        Optional<ProductCategory> optional = this.usecase.findOne(id);
-        return optional.map(category -> ok(toRequest(category))).orElse(notFound().build());
-    }
-
-
-    public ResponseEntity<List<ProductCategoryRequest>> findMany() {
-        List<ProductCategory> all = this.usecase.findAll();
-        List<ProductCategoryRequest> collect = all.stream().map(this::toRequest).collect(Collectors.toList());
-        return ok().body(collect);
-    }
+	public ResponseEntity<ProductCategoryRequest> find(Long id) {
+		Optional<ProductCategory> optional = this.usecase.findOne(id);
+		return optional.map(category -> ok(toRequest(category))).orElse(notFound().build());
+	}
 
 
-    public ResponseEntity<Optional<ProductCategoryRequest>> save(ProductCategoryRequest request) {
-        var model = toModel(request);
-        Optional<ProductCategory> category = this.usecase.save(model);
-        return ok().body(category.map(this::toRequest));
-    }
+	public ResponseEntity<List<ProductCategoryRequest>> findMany() {
+		List<ProductCategory> all = this.usecase.findAll();
+		List<ProductCategoryRequest> collect = all.stream().map(this::toRequest).collect(Collectors.toList());
+		return ok().body(collect);
+	}
 
-    public ResponseEntity<Optional<ProductCategoryRequest>> update(ProductCategoryRequest request) {
-        this.throwIfRequestNotValid(request);
-        return this.save(request);
-    }
 
-    public ResponseEntity<Optional<Boolean>> remove(Long id) {
-        Optional<Boolean> remove = this.usecase.remove(id);
-        return new ResponseEntity<>(remove, OK);
-    }
+	public ResponseEntity<Optional<ProductCategoryRequest>> save(ProductCategoryRequest request) {
+		var model = toModel(request);
+		Optional<ProductCategory> category = this.usecase.save(model);
+		return ok().body(category.map(this::toRequest));
+	}
 
-    public ResponseEntity<List<ProductCategoryRequest>> search(String term) {
-        List<ProductCategory> categories = this.usecase.search(term);
-        List<ProductCategoryRequest> requests = categories.stream().map(this::toRequest).collect(Collectors.toList());
-        return new ResponseEntity<>(requests, OK);
-    }
+	public ResponseEntity<Optional<ProductCategoryRequest>> update(ProductCategoryRequest request) {
+		this.throwIfRequestNotValid(request);
+		return this.save(request);
+	}
 
-    private void throwIfRequestNotValid(ProductCategoryRequest request) {
-        if (ObjectUtils.isEmpty(request.getId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, REQUIRED_ID);
+	public ResponseEntity<Optional<Boolean>> remove(Long id) {
+		Optional<Boolean> remove = this.usecase.remove(id);
+		return new ResponseEntity<>(remove, OK);
+	}
+
+	public ResponseEntity<List<ProductCategoryRequest>> search(String term) {
+        if (term.isEmpty()) {
+            return ok().body(new ArrayList<>());
         }
 
-        if (!this.find(request.getId()).getStatusCode().is2xxSuccessful()) {
-            throw new ResponseStatusException(NOT_FOUND, RECORD_NOT_FOUND);
-        }
-    }
+		List<ProductCategory> categories = this.usecase.search(term);
+		List<ProductCategoryRequest> requests = categories.stream().map(this::toRequest).collect(Collectors.toList());
+		return new ResponseEntity<>(requests, OK);
+	}
+
+	private void throwIfRequestNotValid(ProductCategoryRequest request) {
+		if (isEmpty(request.getId())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, REQUIRED_ID);
+		}
+
+		if (!this.find(request.getId()).getStatusCode().is2xxSuccessful()) {
+			throw new ResponseStatusException(NOT_FOUND, RECORD_NOT_FOUND);
+		}
+	}
 
 
-    public ProductCategoryRequest toRequest(ProductCategory model) {
-        return mapper.map(model, ProductCategoryRequest.class);
-    }
+	public ProductCategoryRequest toRequest(ProductCategory model) {
+		return mapper.map(model, ProductCategoryRequest.class);
+	}
 
 
-    public ProductCategory toModel(ProductCategoryRequest request) {
-        return mapper.map(request, ProductCategory.class);
-    }
+	public ProductCategory toModel(ProductCategoryRequest request) {
+		return mapper.map(request, ProductCategory.class);
+	}
 
 
 }

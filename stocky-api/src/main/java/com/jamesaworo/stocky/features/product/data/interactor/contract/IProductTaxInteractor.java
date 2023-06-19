@@ -17,4 +17,6 @@ public interface IProductTaxInteractor {
 	ResponseEntity<Optional<ProductTaxRequest>> find(Long id);
 
 	ResponseEntity<Optional<ProductTaxRequest>> update(ProductTaxRequest request);
+
+	ResponseEntity<Optional<Boolean>> toggleActiveStatus(Long id);
 }

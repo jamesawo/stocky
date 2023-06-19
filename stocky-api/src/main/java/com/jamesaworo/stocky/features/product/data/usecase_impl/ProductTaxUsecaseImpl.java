@@ -51,6 +51,12 @@ public class ProductTaxUsecaseImpl implements IProductTaxUsecase {
 		return this.repository.findById(id);
 	}
 
+	@Override
+	public Boolean toggleStatus(boolean status, Long id) {
+		int count = this.repository.updateIsActiveStatus(status ? Boolean.TRUE : Boolean.FALSE, id);
+		return count == 1;
+	}
+
 	private void throwIfDuplicateExist(ProductTax model) {
 		if (isEmpty(model.getId())) {
 			Optional<ProductTax> optional = this.repository.findByTitleEqualsIgnoreCaseAndPercent(

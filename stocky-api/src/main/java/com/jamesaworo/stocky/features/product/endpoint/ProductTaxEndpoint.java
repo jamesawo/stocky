@@ -55,4 +55,9 @@ public class ProductTaxEndpoint {
 		return this.interactor.remove(id);
 	}
 
+	@PutMapping("status/{id}")
+	public ResponseEntity<Optional<Boolean>> toggleIsActiveStatus(@PathVariable Long id) {
+		return this.interactor.toggleActiveStatus(id);
+	}
+
 }
