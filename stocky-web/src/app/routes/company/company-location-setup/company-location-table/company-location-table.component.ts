@@ -20,7 +20,7 @@ export class CompanyLocationTableComponent {
         {title: 'TYPE'},
         {title: 'DESCRIPTION'},
         {title: 'STATUS'},
-        {title: '', width: 20}
+        {title: '', width: 10}
     ];
     public data?: Observable<LocationPayload[]>;
     public editMap: TableEditCacheMap<any> = {};

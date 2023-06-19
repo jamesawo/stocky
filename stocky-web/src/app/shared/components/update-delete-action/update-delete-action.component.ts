@@ -16,4 +16,8 @@ export class UpdateDeleteActionComponent<T> {
     @Input()
     public buttons?: TableActionButtons[] = [TableButtonEnum.EDIT, TableButtonEnum.DELETE];
     protected readonly TableButtonEnum = TableButtonEnum;
+    
+    public emptyAction = () => {};
+
+
 }

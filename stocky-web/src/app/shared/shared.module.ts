@@ -62,6 +62,7 @@ import {TableComponent} from './components/table/table.component';
 import {TextareaLimitComponent} from './components/textarea-limit/textarea-limit.component';
 import {UpdateDeleteActionComponent} from './components/update-delete-action/update-delete-action.component';
 import {UploadFileComponent} from './components/upload-file/upload-file.component';
+import {DisableAutocompleteDirective} from './directive/disable-autocomplete.directive';
 
 import {SHARED_DELON_MODULES} from './shared-delon.module';
 import {SHARED_ZORRO_MODULES} from './shared-zorro.module';
@@ -127,7 +128,9 @@ const COMPONENTS: Array<Type<void>> = [
     RecordStatusBadgeComponent,
     TableItemTruncatableComponent
 ];
-const DIRECTIVES: Array<Type<void>> = [];
+const DIRECTIVES: Array<Type<void>> = [
+    DisableAutocompleteDirective
+];
 const ICONS: Array<Type<void>> = [];
 const PROVIDERS: Array<Type<void>> = [AsyncPipe, UpperCasePipe];
 

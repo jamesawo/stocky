@@ -1,8 +1,8 @@
-<ng-container *ngIf="props.editMap && props.editMap[item.id] && props.editMap[item.id].edit === true; else actionViewTmpl">
+<ng-container *ngIf="props.editMap && props.editMap[item.id] && props.editMap[item.id].edit; else actionViewTmpl">
     <nz-space [nzSize]="10">
         <button (click)="props.saveEditHandler(item)"
                 *nzSpaceItem
-                [nzLoading]="props.editMap && props.editMap[item.id].updating === true"
+                [nzLoading]="props.editMap && props.editMap[item.id].updating"
                 nz-button
                 nz-tooltip
                 nzTooltipTitle="Save changes"
@@ -45,7 +45,7 @@
             <button (nzOnCancel)="props.cancelDeleteHandler!()"
                     (nzOnConfirm)="props.confirmDeleteHandler!(item.id)"
                     *nzSpaceItem
-                    [nzLoading]="props.editMap && props.editMap[item.id] && props.editMap[item.id].loading === true"
+                    [nzLoading]="props.editMap && props.editMap[item.id] && props.editMap[item.id].loading"
                     nz-button
                     nz-popconfirm
                     nz-tooltip
@@ -55,6 +55,7 @@
             >
                 <span class="danger" nz-icon nzType="delete"></span>
             </button>
+
         </ng-container>
 
         <ng-container *ngIf="buttons?.includes(TableButtonEnum.TOGGLE_STATUS)">
@@ -64,10 +65,10 @@
             </ng-container>
 
             <ng-template #activeStatusTmpl>
-                <button (nzOnCancel)="props.cancelToggleStatusHandler!()"
-                        (nzOnConfirm)="props.confirmToggleStatusHandler!(item.id)"
+                <button (nzOnCancel)="props.cancelToggleStatusHandler? props.cancelToggleStatusHandler!(): emptyAction()"
+                        (nzOnConfirm)="props.confirmToggleStatusHandler ? props.confirmToggleStatusHandler!(item.id): emptyAction()"
                         *nzSpaceItem
-                        [nzLoading]="props.editMap && props.editMap[item.id] && props.editMap[item.id].loading === true"
+                        [nzLoading]="props.editMap && props.editMap[item.id] && props.editMap[item.id].loading"
                         nz-button
                         nz-popconfirm
                         nz-tooltip
@@ -80,10 +81,10 @@
             </ng-template>
 
             <ng-template #inActiveStatusTmpl>
-                <button (nzOnCancel)="props.cancelToggleStatusHandler!()"
-                        (nzOnConfirm)="props.confirmToggleStatusHandler!(item.id)"
+                <button (nzOnCancel)="props.cancelToggleStatusHandler ? props.cancelToggleStatusHandler!(): emptyAction()"
+                        (nzOnConfirm)="props.confirmToggleStatusHandler ? props.confirmToggleStatusHandler!(item.id): emptyAction()"
                         *nzSpaceItem
-                        [nzLoading]="props.editMap && props.editMap[item.id] && props.editMap[item.id].loading === true"
+                        [nzLoading]="props.editMap && props.editMap[item.id] && props.editMap[item.id].loading"
                         nz-button
                         nz-popconfirm
                         nz-tooltip

@@ -22,6 +22,7 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.jamesaworo.stocky.core.predicates.SearchPredicates.activeRecordPredicate;
 import static com.jamesaworo.stocky.core.predicates.SearchPredicates.dateRangeParamPredicates;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
@@ -55,7 +56,6 @@ public class CompanyExpensesSearchSpecification {
 				predicates.addAll(amountRangePredicates(criteriaBuilder, request.getAmountRange()));
 			}
 
-
 			// date range
 			if (!isEmpty(request.getDateRangeParam())) {
 				predicates.addAll(dateRangeParamPredicates(criteriaBuilder, request.getDateRangeParam(), mainRoot));
@@ -63,7 +63,7 @@ public class CompanyExpensesSearchSpecification {
 
 			// is active record
 			if (!isEmpty(request.getIsActiveStatus())) {
-				predicates.addAll(isActiveRecordPredicate(criteriaBuilder, request.getIsActiveStatus()));
+				predicates.addAll(activeRecordPredicate(criteriaBuilder, request.getIsActiveStatus(), mainRoot));
 			}
 
 			return criteriaBuilder.and(predicates.toArray(new Predicate[] { }));
@@ -101,16 +101,5 @@ public class CompanyExpensesSearchSpecification {
 		return predicates;
 	}
 
-
-	private static List<Predicate> isActiveRecordPredicate(CriteriaBuilder criteriaBuilder, Boolean isActiveRecord) {
-		List<Predicate> predicates = new ArrayList<>();
-		if (isActiveRecord) {
-			predicates.add(criteriaBuilder.isTrue(mainRoot.get("isActiveStatus").as(Boolean.class)));
-		}
-		if (!isActiveRecord) {
-			predicates.add(criteriaBuilder.isFalse(mainRoot.get("isActiveStatus").as(Boolean.class)));
-		}
-		return predicates;
-	}
 
 }

@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
+import {NzSelectModeType} from 'ng-zorro-antd/select/select.types';
 import {map, Observable} from 'rxjs';
-import {CommonPayload} from '../../../../../data/payload/common.payload';
 import {FormProps, SearchProps} from '../../../../../data/payload/common.types';
+import {getNzFormControlValidStatus} from '../../../../../shared/utils/util';
 import {RolePayload} from '../../../_data/company.payload';
 import {RoleUsecase} from '../../../_usecase/role.usecase';
 
@@ -14,10 +15,13 @@ import {RoleUsecase} from '../../../_usecase/role.usecase';
 export class CompanyRoleSearchDropdownComponent {
 
     @Input()
+    public mode: NzSelectModeType = 'default';
+
+    @Input()
     public props: SearchProps = {showLabel: true};
 
     public isLoading = false;
-    public dataList?: Observable<CommonPayload[]>;
+    public dataList?: Observable<RolePayload[]>;
 
     @Input()
     class?: string;
@@ -26,12 +30,13 @@ export class CompanyRoleSearchDropdownComponent {
     form?: FormProps;
 
     @Input()
-    public value?: CommonPayload[] = [];
+    public value?: RolePayload[] = [];
 
     @Output()
     public valueChange: EventEmitter<RolePayload[]> = new EventEmitter<RolePayload[]>();
 
     public selectedControl: FormControl = new FormControl();
+    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
 
     constructor(private usecase: RoleUsecase) {}
 
@@ -71,5 +76,4 @@ export class CompanyRoleSearchDropdownComponent {
             this.form = {...this.form!};
         }
     }
-
 }

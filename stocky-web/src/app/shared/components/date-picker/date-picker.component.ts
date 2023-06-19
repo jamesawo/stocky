@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {format, parse} from 'date-fns';
+import {NzDateMode} from 'ng-zorro-antd/date-picker';
 import {FormProps} from '../../../data/payload/common.types';
+import {getNzFormControlValidStatus} from '../../utils/util';
 
 @Component({
     selector: 'app-date-picker',
@@ -11,14 +13,17 @@ export class DatePickerComponent implements OnInit {
     public selectedDate: Date | undefined;
     public dateFormat: string = 'yyyy-MM-dd';
 
-    @Input('default')
-    public defaultSelected: string = '';
+    @Input()
+    public mode: NzDateMode = 'date';
+
+    @Input()
+    public select: string = '';
 
     @Input()
     public hasError = false;
 
-    @Output('selected')
-    public selected: EventEmitter<string> = new EventEmitter<string>();
+    @Output()
+    public selectChange: EventEmitter<string> = new EventEmitter<string>();
 
     @Input() public formProps?: FormProps;
 
@@ -26,13 +31,18 @@ export class DatePickerComponent implements OnInit {
     }
 
     public get status() {
+        if (this.formProps && this.formProps.formGroup && this.formProps.controlName) {
+            const {formGroup, controlName} = this.formProps;
+            return getNzFormControlValidStatus(controlName, formGroup);
+        }
+
         return this.hasError ? 'error' : 'success';
     }
 
 
     public ngOnInit(): void {
-        if (this.defaultSelected.length > 1) {
-            this.setDefaultDate(this.defaultSelected);
+        if (this.select && this.select.length > 1) {
+            this.setDefaultDate(this.select);
         }
     }
 
@@ -44,10 +54,10 @@ export class DatePickerComponent implements OnInit {
     public onChange(dateValue: Date): void {
         if (dateValue) {
             let format1 = format(dateValue, this.dateFormat);
-            this.selected.emit(format1);
+            this.selectChange.emit(format1);
             this.setFormControl(format1);
         } else {
-            this.selected.emit(undefined);
+            this.selectChange.emit(undefined);
         }
 
     }

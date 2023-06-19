@@ -53,9 +53,9 @@ public class RoleUsecaseImpl implements IRoleUsecase {
 	}
 
 	@Override
-	public Optional<Boolean> updateActiveStatus(Boolean status, Long id) {
+	public Optional<Boolean> updateActiveStatus(Long id) {
 		Optional<Role> optional = this.getOne(id);
-		return optional.map(role -> this.updateRoleActiveStatus(role, status));
+		return optional.map(role -> this.updateRoleActiveStatus(role.getId(), !role.getIsActiveStatus()));
 	}
 
 	private Collection<Permission> getPermissionsFromRole(Role role) {
@@ -63,8 +63,8 @@ public class RoleUsecaseImpl implements IRoleUsecase {
 		return usecase.getPermissions(streamOfPermissionIds);
 	}
 
-	private Boolean updateRoleActiveStatus(Role role, Boolean status) {
-		int result = this.repository.updateActiveStatus(status, role.getId());
+	private Boolean updateRoleActiveStatus(Long id, Boolean status) {
+		int result = this.repository.updateActiveStatus(status, id);
 		return result == 1;
 	}
 

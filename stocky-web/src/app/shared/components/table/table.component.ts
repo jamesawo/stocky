@@ -23,8 +23,8 @@ export type TableProps = {
           overflow-x: auto; /* Add horizontal scrollbar when content exceeds width */
         }
 
-        table {
-          /*table-layout: fixed;*/
+        .nowrap-cell {
+          white-space: nowrap;
         }
 
         th.no-wrap {

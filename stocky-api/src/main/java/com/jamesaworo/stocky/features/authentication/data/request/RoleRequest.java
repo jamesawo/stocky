@@ -26,4 +26,5 @@ public class RoleRequest {
 	private String description;
 	private List<PermissionRequest> permissions;
 	private String createdAt;
+	private Boolean isActiveStatus;
 }

@@ -1,6 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {environment} from '@env/environment';
+import {NzSelectModeType} from 'ng-zorro-antd/select/select.types';
 import {BehaviorSubject, Subject, Subscription} from 'rxjs';
 import {distinctUntilChanged, filter, tap} from 'rxjs/operators';
 import {FormProps, SearchProps} from '../../../../data/payload/common.types';
@@ -12,6 +13,8 @@ import {ProductCategoryPayload} from '../../_data/product.payload';
     styles: []
 })
 export class ProductCategorySearchComponent implements OnInit, OnDestroy {
+    @Input()
+    public mode: NzSelectModeType = 'default';
     public options: ProductCategoryPayload[] = [];
     public searchInput$ = new Subject<string>();
     public isLoading = false;

@@ -9,9 +9,11 @@ public class Table {
 
 	// AUTHENTICATION TABLES
 	public static final String AUTH = PREFIX + "AUTH";
-	public static final String AUTH_ROLE = AUTH + "_ROLE";
-	public static final String AUTH_PERMISSION = AUTH + "_PERMISSION";
-	public static final String ROLE_PERMISSION_TABLE = AUTH + "_ROLE_PERMISSION";
+	public static final String AUTH_ROLE = AUTH + "_ROLES";
+	public static final String AUTH_USER = AUTH + "_USERS";
+	public static final String AUTH_USER_ROLE = AUTH + "_USERS_ROLES";
+	public static final String AUTH_PERMISSION = AUTH + "_PERMISSIONS";
+	public static final String ROLE_PERMISSION_TABLE = AUTH + "_ROLES_PERMISSIONS";
 
 
 	// SETTING TABLES
@@ -43,6 +45,11 @@ public class Table {
 	public static final String COMPANY_BUSINESS_CATEGORY_TABLE = COMPANY + "_BUSINESS_CATEGORIES";
 	public static final String COMPANY_EXPENSES = COMPANY + "_EXPENSES";
 	public static final String COMPANY_EXPENSES_CATEGORY = COMPANY + "_EXPENSES_CATEGORIES";
+	public static final String COMPANY_CUSTOMER = COMPANY + "_CUSTOMERS";
+	public static final String COMPANY_SUPPLIER = COMPANY + "_SUPPLIERS";
+	public static final String COMPANY_EMPLOYEE = COMPANY + "_EMPLOYEES";
+	public static final String COMPANY_EMPLOYEE_PERSONAL_DETAIL = COMPANY + "_EMPLOYEE_DETAILS";
+	public static final String COMPANY_EMPLOYEE_NOK_DETAIL = COMPANY + "_EMPLOYEE_NOK_DETAILS";
 
 	public static final String COMPANY_BASIC_DETAILS = COMPANY + "_BASIC_DETAILS";
 	public static final String COMPANY_ADMIN_DETAILS = COMPANY + "_ADMIN_DETAILS";

@@ -69,8 +69,8 @@ public class RoleInteractorImpl implements IRoleInteractor, Mapper<RoleRequest, 
 	}
 
 	@Override
-	public ResponseEntity<Optional<Boolean>> updateActiveStatus(Boolean status, Long id) {
-		return ok().body(this.usecase.updateActiveStatus(status, id));
+	public ResponseEntity<Optional<Boolean>> updateActiveStatus(Long id) {
+		return ok().body(this.usecase.updateActiveStatus(id));
 	}
 
 	private PermissionRequest toPermissionRequest(Permission permission) {

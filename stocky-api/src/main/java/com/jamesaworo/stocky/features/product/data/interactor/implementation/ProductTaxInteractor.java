@@ -49,7 +49,6 @@ public class ProductTaxInteractor implements IProductTaxInteractor, Mapper<Produ
 		return ok(save.map(this::toRequest));
 	}
 
-
 	@Override
 	public ResponseEntity<Optional<Boolean>> remove(Long id) {
 		return ok(this.usecase.remove(id));
@@ -65,6 +64,12 @@ public class ProductTaxInteractor implements IProductTaxInteractor, Mapper<Produ
 	public ResponseEntity<Optional<ProductTaxRequest>> update(ProductTaxRequest request) {
 		this.throwIfRequestNotValid(request);
 		return this.save(request);
+	}
+
+	@Override
+	public ResponseEntity<Optional<Boolean>> toggleActiveStatus(Long id) {
+		Optional<ProductTax> optional = this.usecase.findOne(id);
+		return ok().body(optional.map(value -> this.usecase.toggleStatus(!value.getIsActiveStatus(), value.getId())));
 	}
 
 	@Override

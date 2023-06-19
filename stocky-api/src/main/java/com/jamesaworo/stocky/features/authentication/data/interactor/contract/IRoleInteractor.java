@@ -19,5 +19,5 @@ public interface IRoleInteractor {
 
 	ResponseEntity<Optional<RoleRequest>> update(RoleRequest request);
 
-	ResponseEntity<Optional<Boolean>> updateActiveStatus(Boolean status, Long id);
+	ResponseEntity<Optional<Boolean>> updateActiveStatus(Long id);
 }

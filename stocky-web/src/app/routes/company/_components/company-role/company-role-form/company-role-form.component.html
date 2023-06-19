@@ -57,7 +57,6 @@
 
     <ng-container *ngIf="permissions | async as list; else emptyTmpl">
         <nz-collapse nzAccordion>
-
             <nz-collapse-panel
                 *ngFor="let group of list; let i = index "
                 [nzActive]="doesRoleHaveAnyPermissionInGroup(group)"

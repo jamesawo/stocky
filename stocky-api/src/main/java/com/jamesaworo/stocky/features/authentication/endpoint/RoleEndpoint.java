@@ -53,10 +53,10 @@ public class RoleEndpoint {
 	public ResponseEntity<Optional<RoleRequest>> update(@RequestBody RoleRequest request) {
 		return this.interactor.update(request);
 	}
+	
 
-
-	@PatchMapping(value = "/update-status/{id}")
-	public ResponseEntity<Optional<Boolean>> updateActiveStatus(@RequestParam Boolean status, @PathVariable Long id) {
-		return this.interactor.updateActiveStatus(status, id);
+	@PutMapping(value = "/status/{id}")
+	public ResponseEntity<Optional<Boolean>> updateActiveStatus(@PathVariable Long id) {
+		return this.interactor.updateActiveStatus(id);
 	}
 }

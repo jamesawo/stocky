@@ -46,7 +46,7 @@
         <app-table [colHeadings]="cols"
                    [dataList]="data"
                    [props]="{tableSize: 'small'}"
-                   [rowTemplates]="[titleTmpl, percentTmpl, descTmpl, actionTmpl]"
+                   [rowTemplates]="[titleTmpl, percentTmpl, descTmpl, isActiveStatusTmpl, actionTmpl]"
         ></app-table>
     </div>
 </ng-container>
@@ -75,15 +75,21 @@
     ></app-table-item-editable>
 </ng-template>
 
+<ng-template #isActiveStatusTmpl let-item="item">
+    <app-record-status-badge [status]="item.isActiveStatus"></app-record-status-badge>
+</ng-template>
+
 <ng-template #actionTmpl let-item="item">
     <app-update-delete-action
+        [buttons]="[TableButtonEnum.EDIT, TableButtonEnum.TOGGLE_STATUS]"
         [item]="item"
         [props]="{
             saveEditHandler: onSaveEdit,
             cancelEditHandler: onCancelEdit,
             toggleEditHandler: onToggleEdit,
-            cancelDeleteHandler: onCancelDelete,
-            confirmDeleteHandler: onConfirmDelete,
+            cancelToggleStatusHandler: onCancelToggle,
+            confirmToggleStatusHandler: onConfirmToggleStatus,
             editMap: editMap}"
     ></app-update-delete-action>
+
 </ng-template>

@@ -19,5 +19,5 @@ public interface IRoleUsecase {
 
 	Optional<Role> update(Role role);
 
-	Optional<Boolean> updateActiveStatus(Boolean status, Long id);
+	Optional<Boolean> updateActiveStatus(Long id);
 }

@@ -1,0 +1,32 @@
+<nz-form-item>
+
+    <nz-form-label *ngIf="props?.showLabel">Customer Tag</nz-form-label>
+
+    <ng-container *ngIf="formProps && formProps?.formGroup && formProps?.controlName ; else templateModelTmpl" [formGroup]="formProps.formGroup!">
+
+        <nz-form-control [nzValidateStatus]="getNzFormControlValidStatus(formProps.controlName!, formProps.formGroup!)"
+                         nzErrorTip="">
+            <nz-select
+                [formControlName]="formProps.controlName!"
+                nzAllowClear nzPlaceHolder="Select ..." nzShowSearch>
+                <nz-option *ngFor="let item of list" [nzValue]="item.title" nzLabel="{{item.title}}"></nz-option>
+            </nz-select>
+
+        </nz-form-control>
+    </ng-container>
+
+</nz-form-item>
+
+
+<ng-template #templateModelTmpl>
+
+    <nz-form-control nzErrorTip="">
+        <nz-select (ngModelChange)="onSelect($event)"
+                   [ngModel]="select"
+                   nzPlaceHolder="Select tag"
+        >
+            <nz-option *ngFor="let item of list" [nzValue]="item.title" nzLabel="{{item.title}}"></nz-option>
+        </nz-select>
+    </nz-form-control>
+
+</ng-template>

@@ -2,19 +2,17 @@
 
 <nz-card>
     <div nz-row nzJustify="space-between">
-
         <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" class="mb4" nz-col>
             <app-company-role-add-btn
                 [props]="{title: 'Add Role', icon: 'plus', showTable: false, showForm: true}"
             ></app-company-role-add-btn>
         </div>
-
     </div>
     <app-table
         [colHeadings]="tableCols"
         [dataList]="list"
         [props]="{tableLayout: 'auto'}"
-        [rowTemplates]="[titleTmpl, descTmpl, dateTmpl, permTmpl, actionTmpl]"
+        [rowTemplates]="[titleTmpl, descTmpl, dateTmpl, permTmpl, isActiveStatusTmpl, actionTmpl]"
     ></app-table>
 </nz-card>
 
@@ -34,36 +32,22 @@
     <label>{{item.createdAt | date}}</label>
 </ng-template>
 
+<ng-template #isActiveStatusTmpl let-item="item">
+    <app-record-status-badge [status]="item.isActiveStatus"></app-record-status-badge>
+</ng-template>
+
 <ng-template #actionTmpl let-item="item">
-    <nz-space [nzSize]="10">
-        <button (click)="onEditRole(item)"
-                *nzSpaceItem nz-button
-                nz-tooltip
-                nzTooltipTitle="Edit"
-                nzType="text"
-        >
-            <span nz-icon nzType="edit"></span>
-        </button>
-
-        <button (nzOnCancel)="action(item)"
-                (nzOnConfirm)="action(item)"
-                *nzSpaceItem
-                [nzLoading]="false"
-                nz-button
-                nz-popconfirm
-                nz-tooltip
-                nzPopconfirmTitle="Are you sure, delete?"
-                nzTooltipTitle="Delete"
-                nzType="text"
-        >
-            <span class="danger" nz-icon nzType="delete"></span>
-        </button>
-
-    </nz-space>
+    <app-update-delete-action
+        [buttons]="[TableButtonEnum.EDIT, TableButtonEnum.TOGGLE_STATUS]"
+        [item]="item"
+        [props]="{ saveEditHandler: emptyAction, cancelEditHandler: emptyAction,
+               toggleEditHandler: onToggleEdit, confirmToggleStatusHandler: onToggleRoleStatus
+        }"
+    ></app-update-delete-action>
 </ng-template>
 
 <nz-drawer
-    (nzOnClose)="onToggle()"
+    (nzOnClose)="onToggleDrawerOrModal()"
     [nzBodyStyle]="{ overflow: 'auto' }"
     [nzFooter]="contentFooterBtnTmpl"
     [nzMaskClosable]="false"
@@ -87,7 +71,7 @@
 
 <ng-template #contentFooterBtnTmpl>
     <app-footer-button
-        [action]="{submitAction: onSave, cancelAction: onToggle }"
+        [action]="{submitAction: onSave, cancelAction: onToggleDrawerOrModal }"
         [props]="{cancelArgs: ModalOrDrawer.ANY}"
     ></app-footer-button>
 </ng-template>

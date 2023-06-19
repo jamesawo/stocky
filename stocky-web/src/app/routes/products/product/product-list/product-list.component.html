@@ -133,3 +133,24 @@
         <label>{{item?.createdAt | date}}</label>
     </ng-template>
 </ng-template>
+
+<nz-drawer
+    (nzOnClose)="showDrawer = !showDrawer"
+    [nzBodyStyle]="{ overflow: 'auto' }"
+    [nzFooter]="contentFooterBtnTmpl"
+    [nzMaskClosable]="false"
+    [nzVisible]="showDrawer"
+    [nzWidth]="720"
+    nzTitle="Add Product"
+>
+    <div *nzDrawerContent>
+        <app-product-add #productAddComponent style="background: white; margin-top: -2em"></app-product-add>
+    </div>
+</nz-drawer>
+
+<ng-template #contentFooterBtnTmpl>
+    <div class="fl">
+        <button (click)="showDrawer = !showDrawer" nz-button nzType="default">Cancel</button>
+        <button (click)="onCreate()" [nzLoading]="isLoading" nz-button nzType="primary">Submit</button>
+    </div>
+</ng-template>

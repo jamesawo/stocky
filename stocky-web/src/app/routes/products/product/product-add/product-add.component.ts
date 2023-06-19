@@ -1,5 +1,5 @@
 import {HttpResponse} from '@angular/common/http';
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {PRODUCT_ADD_CRUMBS} from '../../../../data/constant/crumb.constant';
@@ -14,11 +14,14 @@ import {ProductUsecase} from '../../_usecase/product.usecase';
     styleUrls: ['./product-add.component.css']
 })
 export class ProductAddComponent implements OnInit {
+
+    @Input()
+    public showPageHeader = false;
+
     public startPoint = 0;
     public isLoading = false;
 
     public tabs?: {title: string; template: TemplateRef<any>}[];
-    public showPageHeader = false;
     public crumbs = PRODUCT_ADD_CRUMBS;
     public popover = PRODUCT_CREATE_POPOVER;
     public form!: FormGroup;
@@ -62,7 +65,6 @@ export class ProductAddComponent implements OnInit {
     };
 
     public onCancelSaveProduct = () => {
-        console.log('cancelled saving product');
     };
 
     private initForm() {

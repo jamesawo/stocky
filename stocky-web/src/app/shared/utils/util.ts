@@ -114,11 +114,6 @@ export function handleHttpRequestError(
                 errorList.push(erObj.message ?? '');
             }
         }
-
-        if (erObj?.status != null) {
-            title += ` :${erObj.status}`;
-        }
-
         showErrorNotification(opts.service, message, title);
     }
 }

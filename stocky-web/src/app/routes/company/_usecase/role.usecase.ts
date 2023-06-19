@@ -29,18 +29,16 @@ export class RoleUsecase {
         return this.http.get<RolePayload[]>(`${this.url}/find/${id}`, {observe: 'response'});
     }
 
+    public toggleStatus(id: number) {
+        return this.http.put<boolean>(`${this.url}/status/${id}`, {}, {observe: 'response'});
+    }
 
     public getRolePermissions(id: number) {
         return this.http.get<PermissionPayload[]>(`${this.url}/find-role-permission/${id}`, {observe: 'response'});
     }
 
-
     public update(payload: RolePayload) {
         return this.http.put<RolePayload>(`${this.url}/update`, payload, {observe: 'response'});
-    }
-
-    public updateStatus(status: boolean, id: number) {
-        return this.http.patch<boolean>(`${this.url}/update-status/${id}?status=${status}`, {observe: 'response'});
     }
 
     public setTrigger(value: boolean) {

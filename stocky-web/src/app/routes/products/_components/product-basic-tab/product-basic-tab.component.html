@@ -13,14 +13,14 @@
             <div>
                 <app-product-category-search
                     [form]="{formGroup: getForm(), controlName: 'productCategory'}"
-                    [props]="{span: 12}"
+                    [props]="{span: 24}"
                 ></app-product-category-search>
             </div>
 
             <nz-form-item>
                 <nz-form-label>Product Name:</nz-form-label>
                 <nz-form-control
-                    [nzSpan]="12"
+                    [nzSpan]="24"
                     [nzValidateStatus]="valid('productName')"
                 >
                     <input formControlName="productName" nz-input placeholder="Enter product name"/>
@@ -34,7 +34,7 @@
                     Product Brand:
                 </nz-form-label>
                 <nz-form-control
-                    [nzSpan]="12"
+                    [nzSpan]="24"
                     nzErrorTip=""
                     nzValidateStatus="success"
                 >
@@ -49,7 +49,7 @@
                     Product SKU:
                 </nz-form-label>
                 <nz-form-control
-                    [nzSpan]="12"
+                    [nzSpan]="24"
                     nzErrorTip=""
                     nzValidateStatus="success"
                 >
@@ -60,7 +60,7 @@
             <nz-form-item>
                 <nz-form-label>Product Barcode:</nz-form-label>
                 <nz-form-control
-                    [nzSpan]="12"
+                    [nzSpan]="24"
                     nzErrorTip=""
                     nzValidateStatus="success"
                 >
@@ -75,7 +75,7 @@
                     Unit of measurement
                 </nz-form-label>
                 <nz-form-control
-                    [nzSpan]="12"
+                    [nzSpan]="24"
                     nzErrorTip=""
                     nzValidateStatus="success"
                 >
@@ -98,11 +98,11 @@
 
             <nz-form-item>
                 <nz-form-label>
-                    <app-hint [props]="{title: 'HINT', content: 'Unique product identifier code'}"></app-hint>
+                    <app-hint [props]="{title: 'HINT', content: 'Customer must be older than this age to purchase this item'}"></app-hint>
                     Age Restriction
                 </nz-form-label>
                 <nz-form-control
-                    [nzSpan]="12"
+                    [nzSpan]="24"
                     nzErrorTip=""
                     nzValidateStatus="success"
                 >
@@ -117,7 +117,7 @@
                     Alert Low Stock
                 </nz-form-label>
                 <nz-form-control
-                    [nzSpan]="12"
+                    [nzSpan]="24"
                     nzErrorTip=""
                     nzValidateStatus="success"
                 >
@@ -133,7 +133,7 @@
                 </nz-form-label>
 
                 <nz-form-control
-                    [nzSpan]="12"
+                    [nzSpan]="24"
                     nzErrorTip=""
                     nzValidateStatus="success"
                 >
@@ -156,7 +156,7 @@
                     Active
                 </nz-form-label>
                 <nz-form-control
-                    [nzSpan]="12"
+                    [nzSpan]="24"
                     nzErrorTip=""
                     nzValidateStatus="success"
                 >
@@ -169,7 +169,7 @@
                     Use Quantity
                 </nz-form-label>
                 <nz-form-control
-                    [nzSpan]="12"
+                    [nzSpan]="24"
                     nzErrorTip=""
                     nzValidateStatus="success"
                 >
@@ -183,7 +183,7 @@
                     Service (Not using stock)
                 </nz-form-label>
                 <nz-form-control
-                    [nzSpan]="12"
+                    [nzSpan]="24"
                     nzErrorTip=""
                     nzValidateStatus="success"
                 >
@@ -198,7 +198,7 @@
                     Product description
                 </nz-form-label>
                 <nz-form-control
-                    [nzSpan]="12"
+                    [nzSpan]="24"
                     nzErrorTip=""
                     nzValidateStatus="success"
                 >
