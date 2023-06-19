@@ -14,7 +14,6 @@
             [nzSize]="props?.tableSize!"
             [nzTableLayout]="props?.tableLayout!"
             nzPaginationType="small"
-
         >
             <thead>
             <tr>
@@ -34,7 +33,7 @@
             <tbody>
             <tr *ngFor="let item of list">
                 <td [nzShowCheckbox]="true"></td>
-                <td *ngFor="let row of rowTemplates">
+                <td *ngFor="let row of rowTemplates" class="nowrap-cell">
                     <ng-template [ngTemplateOutletContext]="{ item: item }" [ngTemplateOutlet]="row">
                     </ng-template>
                 </td>

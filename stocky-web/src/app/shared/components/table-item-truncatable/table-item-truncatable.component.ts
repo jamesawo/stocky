@@ -8,6 +8,9 @@ import {Component, Input, TemplateRef} from '@angular/core';
 export class TableItemTruncatableComponent {
 
     @Input()
+    public color: string = '#108ee9';
+
+    @Input()
     public content?: string | TemplateRef<any>;
 
     @Input()

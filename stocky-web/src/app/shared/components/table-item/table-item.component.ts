@@ -6,7 +6,7 @@ import {Component, Input, TemplateRef} from '@angular/core';
     styles: []
 })
 export class TableItemComponent {
-
+    
     @Input()
     public content?: string | TemplateRef<any>;
 

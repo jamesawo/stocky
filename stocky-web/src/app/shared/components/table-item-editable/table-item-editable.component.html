@@ -8,18 +8,8 @@
                  props?.initialValue.length > truncateProps?.truncateAfter!;
                  else fullTextImpl">
 
-        {{props?.initialValue | slice: 0:truncateProps?.truncateAfter}}
+        <app-table-item-truncatable [content]="props?.initialValue" [limit]="15"></app-table-item-truncatable>
 
-
-        <small
-            (click)="showModal = true"
-            [(nzPopoverVisible)]="showModal"
-            [nzPopoverContent]="fullTextImpl"
-            [nzPopoverTitle]="undefined"
-            class="pointer light-blue hover-red"
-            nz-popover
-            nzPopoverTrigger="click"
-        >...view</small>
 
     </span>
     <ng-template #fullTextImpl>
