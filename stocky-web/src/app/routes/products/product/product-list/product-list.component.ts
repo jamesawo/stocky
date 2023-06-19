@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, of} from 'rxjs';
@@ -8,7 +8,9 @@ import {PagePayload} from 'src/app/data/payload/common.payload';
 import {ProductSearchRequestPayload} from 'src/app/routes/products/_data/product.payload';
 import {ProductUsecase} from 'src/app/routes/products/_usecase/product.usecase';
 import {handleUsecaseRequest} from 'src/app/shared/utils/util';
+import {ModalOrDrawer} from '../../../../data/payload/common.enum';
 import {TableCol} from '../../../../shared/components/table/table.component';
+import {ProductAddComponent} from '../product-add/product-add.component';
 
 @Component({
     selector: 'app-product-list',
@@ -16,12 +18,19 @@ import {TableCol} from '../../../../shared/components/table/table.component';
     styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent {
+    @ViewChild('productAddComponent')
+    public productAddComponent?: ProductAddComponent;
+
+
+    public tableData?: Observable<any>;
     public isOpenHeader = true;
     public isLoading = false;
     public isLoadingTable = false;
-    public crumbs = PRODUCT_LIST_CRUMBS;
-    public searchPayload = new ProductSearchRequestPayload();
     public pageRequest = new PagePayload();
+    public searchPayload = new ProductSearchRequestPayload();
+    public showDrawer = false;
+
+    public crumbs = PRODUCT_LIST_CRUMBS;
     public tableCols: TableCol[] = [
         {title: 'Category'},
         {title: 'Product Name'},
@@ -30,7 +39,7 @@ export class ProductListComponent {
         {title: 'Type'},
         {title: 'Date Created'}
     ];
-    public tableData?: Observable<any>;
+    protected readonly ModalOrDrawer = ModalOrDrawer;
 
     constructor(
         private router: Router,
@@ -41,7 +50,8 @@ export class ProductListComponent {
     public onCancelHandler = () => {};
 
     public handleCreateProduct = async (): Promise<void> => {
-        await this.router.navigateByUrl('/products/product-add');
+        // await this.router.navigateByUrl('/products/product-add');
+        this.showDrawer = !this.showDrawer;
     };
 
     public onSearchProducts = async (): Promise<void> => {
@@ -78,4 +88,7 @@ export class ProductListComponent {
 
     }
 
+    onCreate() {
+        this.productAddComponent?.onSaveProduct();
+    }
 }

@@ -14,6 +14,7 @@ import {
     handleUsecaseRequest,
     isFormInvalid
 } from 'src/app/shared/utils/util';
+import {TableButtonEnum} from '../../../../../data/payload/common.enum';
 import {TableEditCacheMap} from '../../../../../data/payload/common.types';
 
 @Component({
@@ -33,6 +34,7 @@ export class UnitOfMeasurementAddComponent implements OnInit {
     ];
 
     public data?: Observable<any[]>;
+    protected readonly TableButtonEnum = TableButtonEnum;
 
     constructor(
         private fb: UntypedFormBuilder,

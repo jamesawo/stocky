@@ -1,27 +1,14 @@
-<page-header [breadcrumb]="breadcrumb" title="Add Product">
-    <ng-template #breadcrumb>
-        <app-breadcrumbs [crumbs]="crumbs"></app-breadcrumbs>
-    </ng-template>
-
-</page-header>
-
 <div class="wd-100p">
 
     <nz-tabset [(nzSelectedIndex)]="startPoint" nzType="line">
         <nz-tab *ngFor="let tab of tabs; let i = index" [nzTitle]="tab.title" nzClosable>
             <form nz-form nzLayout="vertical">
                 <ng-container [ngTemplateOutletContext]="{form: form}"
-			  [ngTemplateOutlet]="tab.template"></ng-container>
+                              [ngTemplateOutlet]="tab.template"></ng-container>
             </form>
         </nz-tab>
     </nz-tabset>
-
-    <nz-space>
-        <app-button *nzSpaceItem [props]="{title: 'SAVE', icon: 'check', handler: onSaveProduct}"></app-button>
-
-        <app-button *nzSpaceItem [props]="{title: 'CANCEL', icon: 'close', handler: onCancelSaveProduct, type: 'default'}"></app-button>
-    </nz-space>
-
+    
 </div>
 
 <ng-template #basicTmpl let-form="form">

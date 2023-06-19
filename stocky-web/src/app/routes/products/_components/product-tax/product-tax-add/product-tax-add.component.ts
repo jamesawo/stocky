@@ -3,6 +3,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, shareReplay} from 'rxjs';
+import {TableButtonEnum} from '../../../../../data/payload/common.enum';
 import {CommonAddProps, TableEditCacheMap} from '../../../../../data/payload/common.types';
 import {TableCol} from '../../../../../shared/components/table/table.component';
 import {
@@ -15,7 +16,6 @@ import {
 } from '../../../../../shared/utils/util';
 import {ProductTaxPayload} from '../../../_data/product.payload';
 import {ProductTaxUsecase} from '../../../_usecase/product-tax.usecase';
-
 
 @Component({
     selector: 'app-product-tax-add',
@@ -36,14 +36,16 @@ export class ProductTaxAddComponent implements OnInit {
     public form!: UntypedFormGroup;
     public editMap: TableEditCacheMap<ProductTaxPayload> = {};
     public cols: TableCol[] = [
-        {title: 'TITLE', width: 30},
-        {title: 'PERCENT', width: 20},
+        {title: 'TITLE', width: 25},
+        {title: 'PERCENT', width: 10},
         {title: 'DESCRIPTION', width: 30},
+        {title: 'STATUS', width: 15},
         {title: '', width: 20}
     ];
 
     public data?: Observable<ProductTaxPayload[]>;
     public isSaving = false;
+    protected readonly TableButtonEnum = TableButtonEnum;
 
     constructor(
         private fb: UntypedFormBuilder,
@@ -65,6 +67,13 @@ export class ProductTaxAddComponent implements OnInit {
 
     public onLoadData = async () => {
         this.data = this.usecase.getMany().pipe(shareReplay());
+    };
+
+    public onConfirmToggleStatus = async (id: number) => {
+        this.editMap[id] = {edit: false, data: {}, updating: false, loading: true};
+        await handleUsecaseRequest(this.usecase.toggleStatus(id), this.notification);
+        this.editMap[id].loading = false;
+        this.notifyChange();
     };
 
     public async onCreate(): Promise<void> {
@@ -97,7 +106,7 @@ export class ProductTaxAddComponent implements OnInit {
         this.notifyChange();
     };
 
-    public onCancelDelete = async () => {};
+    public onCancelToggle = async () => {};
 
     public onCancelEdit = async (item: ProductTaxPayload) => {
         if (item) {

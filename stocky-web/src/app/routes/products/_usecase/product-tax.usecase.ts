@@ -23,6 +23,10 @@ export class ProductTaxUsecase {
         return this.http.get<ProductTaxPayload[]>(`${this.url}/all`);
     }
 
+    public toggleStatus(id: number) {
+        return this.http.put<boolean>(`${this.url}/status/${id}`, {}, {observe: 'response'});
+    }
+
     public save(data: ProductTaxPayload) {
         return this.http.post<ProductTaxPayload>(`${this.url}/create`, data, {
             observe: 'response'

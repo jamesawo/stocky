@@ -9,12 +9,12 @@
 
         <form (ngSubmit)="onCreate()" [formGroup]="form" [nzLayout]="'inline'" nz-form>
             <nz-form-item>
-                <nz-form-control nzErrorTip="Please enter title">
+                <nz-form-control nzErrorTip="">
                     <input formControlName="title" nz-input placeholder="Enter Title"/>
                 </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-                <nz-form-control nzErrorTip="Please enter unit">
+                <nz-form-control nzErrorTip="">
                     <input formControlName="unit" nz-input placeholder="Enter Unit code" type="text"/>
                 </nz-form-control>
             </nz-form-item>
@@ -28,10 +28,12 @@
         </form>
 
         <div class="wd-100p m-t-1em">
-            <app-table [colHeadings]="cols"
-                       [dataList]="data"
-                       [props]="{tableSize: 'small'}"
-                       [rowTemplates]="[titleTmpl, unitTmpl, actionTmpl]"
+            <app-table
+
+                [colHeadings]="cols"
+                [dataList]="data"
+                [props]="{tableSize: 'small', showPagination: true}"
+                [rowTemplates]="[titleTmpl, unitTmpl, actionTmpl]"
             ></app-table>
         </div>
 
@@ -39,7 +41,7 @@
 </nz-modal>
 
 <ng-template #titleTmpl let-item="item">
-    <!--    <span>{{item.title}}</span>-->
+
     <app-table-item-editable
         (valueChange)="onCacheValueChange($event, item, 'title')"
         [props]="{fieldName: 'title', initialValue: item.title, isEditMode: canEditItem(item)}"
@@ -48,7 +50,7 @@
 </ng-template>
 
 <ng-template #unitTmpl let-item="item">
-    <!--    <span>{{item.unit}}</span>-->
+
     <app-table-item-editable
         (valueChange)="onCacheValueChange($event, item, 'unit')"
         [props]="{fieldName: 'unit', initialValue: item.unit, isEditMode: canEditItem(item)}"
@@ -58,6 +60,7 @@
 
 <ng-template #actionTmpl let-item="item">
     <app-update-delete-action
+        [buttons]="[TableButtonEnum.EDIT, TableButtonEnum.TOGGLE_STATUS]"
         [item]="item"
         [props]="{
             saveEditHandler: onSaveEdit,
@@ -65,6 +68,7 @@
             toggleEditHandler: onToggleEdit,
             cancelDeleteHandler: onCancelDelete,
             confirmDeleteHandler: onConfirmDelete,
+
             editMap: editMap}"
     ></app-update-delete-action>
 </ng-template>
