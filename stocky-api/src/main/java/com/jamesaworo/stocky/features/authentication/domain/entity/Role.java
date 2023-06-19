@@ -51,4 +51,8 @@ public class Role extends BaseModel {
 		this.name = name;
 		this.permissions = permissions;
 	}
+
+	public Role(Long id) {
+		this.id = id;
+	}
 }
