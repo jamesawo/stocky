@@ -35,4 +35,29 @@ public class SearchPredicates {
 
 		return predicates;
 	}
+
+	public static <T> List<Predicate> activeRecordPredicate(
+			CriteriaBuilder criteriaBuilder,
+			Boolean isActiveRecord,
+			Root<T> mainRoot
+	) {
+		List<Predicate> predicates = new ArrayList<>();
+		if (isActiveRecord) {
+			predicates.add(criteriaBuilder.isTrue(mainRoot.get("isActiveStatus").as(Boolean.class)));
+		}
+		if (!isActiveRecord) {
+			predicates.add(criteriaBuilder.isFalse(mainRoot.get("isActiveStatus").as(Boolean.class)));
+		}
+		return predicates;
+	}
+
+	public static <T> Predicate createdByPredicate(
+			CriteriaBuilder criteriaBuilder,
+			String username,
+			Root<T> mainRoot
+	) {
+		return criteriaBuilder.equal(mainRoot.get("createdBy"), username);
+	}
+
+
 }

@@ -5,9 +5,10 @@ package com.jamesaworo.stocky.core.mapper;
  * @since 4/21/23
  */
 public interface Mapper<R, M> {
+	// R -> RequestObject, M -> Model Object
 
-    R toRequest(M model);
+	R toRequest(M model);
 
-    M toModel(R request);
+	M toModel(R request);
 
 }
