@@ -10,14 +10,15 @@ import java.util.Optional;
  * @since 5/10/23
  */
 public interface IProductCategoryUsecase {
-    Optional<ProductCategory> findOne(Long id);
+	Optional<ProductCategory> findOne(Long id);
 
-    List<ProductCategory> findAll();
+	List<ProductCategory> findAll();
 
-    Optional<ProductCategory> save(ProductCategory category);
+	Optional<ProductCategory> save(ProductCategory category);
 
-    Optional<Boolean> remove(Long id);
+	Optional<Boolean> remove(Long id);
 
-    List<ProductCategory> search(String term);
+	List<ProductCategory> search(String term);
 
+	Boolean toggleStatus(boolean b, Long id);
 }
