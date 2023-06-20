@@ -125,7 +125,7 @@ export async function handleUsecaseRequest<T>(
     message?: {success: string; error: string}
 ): Promise<T> {
     try {
-        const value: any = await firstValueFrom(arg);
+        const value: any = await firstValueFrom(arg, {defaultValue: undefined});
         if (value && value?.ok) {
             showSuccessNotification(notificationService, message?.success);
         } else {
@@ -193,7 +193,7 @@ export function handleRemoveFromObservableListIfStatus<T>(
     opts: {key: string; value: number},
     response: HttpResponse<any>
 ): Observable<T[]> {
-    if (response.ok && response.body === true) {
+    if (response && response.ok && response.body === true) {
         return source.pipe(map((list: T[]) => list.filter((item: any) => item[opts.key] !== opts.value)));
     }
     return source;

@@ -3,9 +3,7 @@
     <nz-form-control
         [nzValidateStatus]="getFormControlValidityStatus( formProps!.controlName, formProps?.formGroup!)">
         <nz-select [formControlName]="formProps!.controlName" [nzLoading]="isLoading" nzAllowClear nzPlaceHolder="Select .." nzShowSearch>
-            <ng-container *ngIf="statusList | async as list">
-                <nz-option *ngFor="let data of list" [nzLabel]="data.title!" [nzValue]="data"></nz-option>
-            </ng-container>
+            <ng-container [ngTemplateOutlet]="dropDownOptions"></ng-container>
         </nz-select>
     </nz-form-control>
 
@@ -15,9 +13,16 @@
 
     <nz-select (ngModelChange)="onValueChange($event)" [(ngModel)]="value" [nzLoading]="isLoading" nzAllowClear nzPlaceHolder="Select .."
                nzShowSearch>
-        <ng-container *ngIf="statusList | async as list">
-            <nz-option *ngFor="let data of list" [nzLabel]="data.title!" [nzValue]="data"></nz-option>
-        </ng-container>
+        <ng-container [ngTemplateOutlet]="dropDownOptions"></ng-container>
     </nz-select>
 
+</ng-template>
+
+
+<ng-template #dropDownOptions>
+    <ng-container *ngIf="statusList | async as list">
+        <ng-container *ngFor="let data of list">
+            <nz-option *ngIf="data.isActiveStatus" [nzLabel]="data.title!" [nzValue]="data"></nz-option>
+        </ng-container>
+    </ng-container>
 </ng-template>

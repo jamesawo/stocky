@@ -18,11 +18,13 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductCategoryRequest {
-    private Long id;
+	private Long id;
 
-    @NotNull(message = "Title cannot be empty")
-    private String title;
-    private String description;
-    private ProductCategoryRequest parent;
+	@NotNull(message = "Title cannot be empty")
+	private String title;
+	private String description;
+	private ProductCategoryRequest parent;
+	private Boolean isActiveStatus;
+	private String createdAt;
 
 }

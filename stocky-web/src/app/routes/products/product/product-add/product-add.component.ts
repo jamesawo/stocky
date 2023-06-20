@@ -1,5 +1,5 @@
 import {HttpResponse} from '@angular/common/http';
-import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {PRODUCT_ADD_CRUMBS} from '../../../../data/constant/crumb.constant';
@@ -14,6 +14,9 @@ import {ProductUsecase} from '../../_usecase/product.usecase';
     styleUrls: ['./product-add.component.css']
 })
 export class ProductAddComponent implements OnInit {
+
+    @Output()
+    public response = new EventEmitter<HttpResponse<ProductPayload>>();
 
     @Input()
     public showPageHeader = false;
@@ -100,6 +103,7 @@ export class ProductAddComponent implements OnInit {
             this.form.reset();
             this.initForm();
         }
+        this.response.emit(response);
 
     }
 }

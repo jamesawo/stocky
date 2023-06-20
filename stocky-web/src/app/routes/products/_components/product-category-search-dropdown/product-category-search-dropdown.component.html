@@ -1,5 +1,3 @@
-<!--<ng-container *ngIf="props; else noPropTmpl">-->
-
 <nz-form-control nzSpan="24">
     <nz-select
 
@@ -13,19 +11,16 @@
         nzShowSearch
     >
         <ng-container *ngFor="let item of value">
-            <nz-option *ngIf="!isLoading" [nzLabel]="item[label]" [nzValue]="item"></nz-option>
+            <ng-container *ngIf="!isLoading">
+                <nz-option *ngIf="item.isActiveStatus" [nzLabel]="item[label]" [nzValue]="item"></nz-option>
+            </ng-container>
         </ng-container>
+
         <nz-option *ngIf="isLoading" nzCustomContent nzDisabled>
             <span class="loading-icon" nz-icon nzType="loading"></span>
             Loading Data...
         </nz-option>
+
     </nz-select>
 
 </nz-form-control>
-
-<!--</ng-container>-->
-
-<!--<ng-template #noPropTmpl>-->
-<!--    <nz-select></nz-select>-->
-<!--</ng-template>-->
-

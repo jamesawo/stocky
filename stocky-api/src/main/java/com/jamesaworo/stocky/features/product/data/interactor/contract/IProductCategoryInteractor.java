@@ -12,16 +12,17 @@ import java.util.Optional;
  */
 public interface IProductCategoryInteractor {
 
-    ResponseEntity<ProductCategoryRequest> find(Long id);
+	ResponseEntity<ProductCategoryRequest> find(Long id);
 
-    ResponseEntity<List<ProductCategoryRequest>> findMany();
+	ResponseEntity<List<ProductCategoryRequest>> findMany();
 
-    ResponseEntity<Optional<ProductCategoryRequest>> save(ProductCategoryRequest request);
+	ResponseEntity<Optional<ProductCategoryRequest>> save(ProductCategoryRequest request);
 
-    ResponseEntity<Optional<ProductCategoryRequest>> update(ProductCategoryRequest request);
+	ResponseEntity<Optional<ProductCategoryRequest>> update(ProductCategoryRequest request);
 
-    ResponseEntity<Optional<Boolean>> remove(Long id);
+	ResponseEntity<Optional<Boolean>> remove(Long id);
 
-    ResponseEntity<List<ProductCategoryRequest>> search(String term);
+	ResponseEntity<List<ProductCategoryRequest>> search(String term);
 
+	ResponseEntity<Optional<Boolean>> toggleActiveStatus(Long id);
 }

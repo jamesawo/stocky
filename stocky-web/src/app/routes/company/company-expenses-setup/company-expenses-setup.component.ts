@@ -20,10 +20,9 @@ export class CompanyExpensesSetupComponent {
     public isOpenHeader = true;
     public isLoading = false;
     public searchPayload: ExpensesSearchPayload = new ExpensesSearchPayload();
-
     public isLoadingTable = false;
     public pageRequest = new PagePayload();
-
+    
     public tableCols: TableCol[] = [
         {title: 'Amount'},
         {title: 'Category'},
@@ -34,6 +33,7 @@ export class CompanyExpensesSetupComponent {
         {title: 'Approval Date'},
         {title: 'Comment'},
         {title: 'Uploads'},
+        {title: 'Created At'},
         {title: 'Action'}
     ];
     public tableData?: Observable<ExpensesPayload[]>;

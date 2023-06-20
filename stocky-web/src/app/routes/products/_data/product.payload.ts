@@ -7,6 +7,7 @@ export class ProductCategoryPayload {
     id?: number;
     title?: string;
     description?: string;
+    isActiveStatus?: boolean;
 }
 
 export class ProductVariant {

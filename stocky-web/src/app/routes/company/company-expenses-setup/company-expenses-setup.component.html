@@ -96,7 +96,7 @@
         [rowTemplates]="[  amountTmpl, categoryTmpl,
              recordedByTmpl, recordedDateTmpl, approvalStatusTmpl,
               approvedByTmpl, approvedDateTmpl,
-             commentTmpl, uploadsTmpl, actionTmpl
+             commentTmpl, uploadsTmpl, createdDateTmpl, actionTmpl
         ]"
     ></app-table>
 </nz-card>
@@ -122,6 +122,13 @@
     </ng-template>
 </ng-template>
 
+<ng-template #createdDateTmpl let-item="item">
+    <app-table-item [content]="createdDateFormat"></app-table-item>
+    <ng-template #createdDateFormat>
+        <span> {{item.createdAt | date}} </span>
+    </ng-template>
+</ng-template>
+
 <ng-template #approvalStatusTmpl>
     <app-table-item></app-table-item>
 </ng-template>
@@ -143,5 +150,5 @@
 </ng-template>
 
 <ng-template #actionTmpl let-item="item">
-
+    <app-table-item></app-table-item>
 </ng-template>

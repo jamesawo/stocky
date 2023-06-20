@@ -1,5 +1,6 @@
 package com.jamesaworo.stocky.features.product.domain.entity;
 
+import com.jamesaworo.stocky.core.base.BaseModel;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import static com.jamesaworo.stocky.core.constants.Table.PRODUCT_CATEGORY;
  * @since 5/10/23
  */
 @Entity
+@EqualsAndHashCode(callSuper = true)
 @Table(name = PRODUCT_CATEGORY)
 @Getter
 @Data
@@ -19,7 +21,7 @@ import static com.jamesaworo.stocky.core.constants.Table.PRODUCT_CATEGORY;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ProductCategory {
+public class ProductCategory extends BaseModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -36,7 +38,5 @@ public class ProductCategory {
 
 	@OneToMany(mappedBy = "productCategory")
 	private List<ProductBasic> products;
-
-	private Boolean status = Boolean.TRUE;
-
+	
 }

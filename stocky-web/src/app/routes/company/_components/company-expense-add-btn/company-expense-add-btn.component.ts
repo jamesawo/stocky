@@ -79,6 +79,7 @@ export class CompanyExpenseAddBtnComponent {
             return;
         }
         const payload = this.categoryForm.value;
+
         const response = await handleUsecaseRequest(this.usecase.save(payload), this.notification);
         this.clearForm(response);
     };
