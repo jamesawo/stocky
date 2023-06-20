@@ -22,4 +22,5 @@ public class ProductUnitOfMeasureRequest {
 	private Long id;
 	private String title;
 	private String unit;
+	private Boolean isActiveStatus;
 }
