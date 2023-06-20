@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {Observable, shareReplay} from 'rxjs';
+import {Observable, of, shareReplay} from 'rxjs';
 import {Crumbs} from 'src/app/shared/components/breadcrumbs/breadcrumbs.component';
 import {PRODUCT_CATEGORY_LIST_CRUMBS} from '../../../../data/constant/crumb.constant';
 import {PopOverConstant} from '../../../../data/constant/message.constant';
+import {TableButtonEnum} from '../../../../data/payload/common.enum';
 import {TableEditCacheMap} from '../../../../data/payload/common.types';
 import {TableCol} from '../../../../shared/components/table/table.component';
 import {
@@ -29,7 +30,7 @@ export class ProductCategoryListComponent implements OnInit {
     public isLoadingSearch = false;
     public isAllChecked = false;
     public indeterminate = false;
-    public showModal = false;
+    public showForm = false;
     public categoryForm!: UntypedFormGroup;
     public crumbs: Crumbs[] = PRODUCT_CATEGORY_LIST_CRUMBS;
     public popParentHint = PopOverConstant.PRODUCT_CATEGORY_PARENT;
@@ -40,9 +41,14 @@ export class ProductCategoryListComponent implements OnInit {
         {title: 'Title'},
         {title: 'Description'},
         {title: 'Parent'},
+        {title: 'Status'},
         {title: 'Action'}
     ];
     public isSubCategory = false;
+    public pageTitle = 'Add New Category';
+    public searchTerm?: string;
+    public hasError = false;
+    protected readonly TableButtonEnum = TableButtonEnum;
 
     constructor(
         private fb: UntypedFormBuilder,
@@ -52,7 +58,7 @@ export class ProductCategoryListComponent implements OnInit {
 
     public ngOnInit(): void {
         this.initForm();
-        this.categories = this.usecase.getMany().pipe(shareReplay());
+        this.usecase.trigger$.subscribe(value => this.loadTableData());
     }
 
     public initForm() {
@@ -64,18 +70,36 @@ export class ProductCategoryListComponent implements OnInit {
     }
 
     public onOpenModal = () => {
-        this.showModal = true;
+        this.showForm = true;
     };
 
     public onCloseModal = () => {
-        this.showModal = false;
+        this.showForm = false;
     };
 
-    public onSearchCategory = async () => {};
+    public onSearchCategory = async () => {
+        if (!this.searchTerm) {
+            this.hasError = true;
+            return;
+        }
 
-    public onResetSearch = () => {};
+        this.isLoadingSearch = true;
+        const res = await handleUsecaseRequest(this.usecase.search(this.searchTerm), this.notification);
+        if (res.ok) {
+            this.categories = of(res.body!);
+        }
+        this.isLoadingSearch = false;
+    };
 
-    public onCancelSearch = () => {};
+    public onResetSearch = () => {
+        this.onCancelSearch();
+    };
+
+    public onCancelSearch = () => {
+        this.isLoadingSearch = false;
+        this.hasError = false;
+        this.categories = of([]);
+    };
 
     public onCreate = async () => {
         const isInvalid = isFormInvalid(this.categoryForm);
@@ -135,9 +159,30 @@ export class ProductCategoryListComponent implements OnInit {
         return this.editObj[item.id] && this.editObj[item.id].edit;
     }
 
+    public updateHasError(event: any) {
+        const value = event.target.value;
+        this.hasError = !value;
+
+    }
+
+    public onConfirmToggleStatus = async (id: number) => {
+        this.editObj[id] = {edit: false, data: {}, updating: false, loading: true};
+        const response = await handleUsecaseRequest(this.usecase.toggleActiveStatus(id), this.notification);
+        this.editObj[id].loading = false;
+        this.notifyChange();
+    };
+
+    private loadTableData() {
+        this.categories = this.usecase.getMany().pipe(shareReplay());
+    }
+
     private onResetPayload() {
         this.initForm();
         this.isLoading = false;
-        this.showModal = false;
+        this.showForm = false;
+    }
+
+    private notifyChange() {
+        this.usecase.setTrigger(true);
     }
 }

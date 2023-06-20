@@ -1,3 +1,4 @@
+import {HttpResponse} from '@angular/common/http';
 import {Component, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
@@ -5,7 +6,7 @@ import {Observable, of} from 'rxjs';
 import {PRODUCT_LIST_CRUMBS} from 'src/app/data/constant/crumb.constant';
 import {PageSearchPayload} from 'src/app/data/payload/common.interface';
 import {PagePayload} from 'src/app/data/payload/common.payload';
-import {ProductSearchRequestPayload} from 'src/app/routes/products/_data/product.payload';
+import {ProductPayload, ProductSearchRequestPayload} from 'src/app/routes/products/_data/product.payload';
 import {ProductUsecase} from 'src/app/routes/products/_usecase/product.usecase';
 import {handleUsecaseRequest} from 'src/app/shared/utils/util';
 import {ModalOrDrawer} from '../../../../data/payload/common.enum';
@@ -37,7 +38,8 @@ export class ProductListComponent {
         {title: 'Brand Name'},
         {title: 'SKU'},
         {title: 'Type'},
-        {title: 'Date Created'}
+        {title: 'Date Created'},
+        {title: 'Action'}
     ];
     protected readonly ModalOrDrawer = ModalOrDrawer;
 
@@ -50,7 +52,6 @@ export class ProductListComponent {
     public onCancelHandler = () => {};
 
     public handleCreateProduct = async (): Promise<void> => {
-        // await this.router.navigateByUrl('/products/product-add');
         this.showDrawer = !this.showDrawer;
     };
 
@@ -65,8 +66,8 @@ export class ProductListComponent {
         const observable = this.usecase.searchProducts(searchPayload);
         const response = await handleUsecaseRequest(observable, this.notification);
 
-        if (response.ok) {
-            this.tableData = of(response.body?.result);
+        if (response.ok && response.body) {
+            this.displayResponseBodyOnTable(response.body?.result!);
         }
         this.isLoadingTable = false;
         this.isLoading = false;
@@ -88,7 +89,18 @@ export class ProductListComponent {
 
     }
 
-    onCreate() {
+    public callComponentCreateHandler() {
         this.productAddComponent?.onSaveProduct();
+    }
+
+    public handleFormResponse(response: HttpResponse<ProductPayload>) {
+        if (response.ok) {
+            this.displayResponseBodyOnTable([response.body!]);
+            this.showDrawer = !this.showDrawer;
+        }
+    }
+
+    private displayResponseBodyOnTable(body: ProductPayload[]) {
+        this.tableData = of(body);
     }
 }
