@@ -1,6 +1,8 @@
 package com.jamesaworo.stocky.configuration.configurer;
 
+import com.jamesaworo.stocky.configuration.converter.LocalDateStringConverter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -19,5 +21,11 @@ public class CorsConfiguration implements WebMvcConfigurer {
 		        .allowedHeaders("*")
 		        .allowCredentials(false)
 		        .maxAge(3600);
+	}
+
+
+	@Override
+	public void addFormatters(FormatterRegistry registry) {
+		registry.addConverter(new LocalDateStringConverter());
 	}
 }
