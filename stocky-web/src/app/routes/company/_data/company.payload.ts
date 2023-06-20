@@ -98,13 +98,14 @@ export class ExpensesPayload {
     category?: CommonPayload;
     amount?: number;
     comment?: string;
-    date?: string;
+    recordDate?: string;
     isActiveStatus?: boolean;
     isRecentlyUpdated?: boolean;
     isPendingApproval?: boolean;
     registeredBy?: string;
     approvedBy?: string;
     uploads?: string;
+    createdAt?: string;
 }
 
 export class ExpensesSearchPayload {
