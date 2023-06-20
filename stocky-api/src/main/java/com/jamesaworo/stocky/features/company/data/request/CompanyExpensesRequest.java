@@ -30,4 +30,5 @@ public class CompanyExpensesRequest {
 	private Boolean isPendingApproval;
 	private String registeredBy;
 	private String approvedBy;
+	private String createdAt;
 }

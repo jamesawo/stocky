@@ -22,4 +22,5 @@ public class CompanyExpensesCategoryRequest {
 	private Long id;
 	private String title;
 	private String description;
+	private Boolean isActiveStatus;
 }

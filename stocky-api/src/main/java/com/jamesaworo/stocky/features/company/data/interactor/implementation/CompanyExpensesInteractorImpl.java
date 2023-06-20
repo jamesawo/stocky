@@ -35,8 +35,7 @@ public class CompanyExpensesInteractorImpl implements ICompanyExpensesInteractor
 
 	@Transactional
 	public ResponseEntity<CompanyExpensesRequest> save(CompanyExpensesRequest request) {
-		CompanyExpenses expenses = this.toModel(request);
-		CompanyExpenses model = this.usecase.save(expenses);
+		CompanyExpenses model = this.usecase.save(this.toModel(request));
 		CompanyExpensesRequest expensesRequest = toRequest(model);
 		return ok().body(expensesRequest);
 	}

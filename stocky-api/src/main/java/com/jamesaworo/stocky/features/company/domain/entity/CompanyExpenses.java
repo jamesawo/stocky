@@ -33,7 +33,12 @@ public class CompanyExpenses extends BaseModel {
 	private CompanyExpensesCategory category;
 
 	private Double amount;
-	private LocalDate recordDate; //date or transaction date is not the same as created_at
+	/*
+		recordDate is the date the money was spent,
+		it's not the same as the date the record was created on the system,
+		that will be createdAt
+	 */
+	private LocalDate recordDate;
 	private String comment;
 	private String uploads;
 	private Boolean isPendingApproval;
