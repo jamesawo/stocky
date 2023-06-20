@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Optional.of;
 import static org.springframework.http.HttpStatus.CONFLICT;
 
 /**
@@ -22,65 +23,65 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 @RequiredArgsConstructor
 @Slf4j
 public class ProductCategoryUsecaseImpl implements IProductCategoryUsecase {
-    public static final String DUPLICATE = "CATEGORY WITH SAME TITLE ALREADY EXIST";
-    private final ProductCategoryRepository repository;
+	public static final String DUPLICATE = "CATEGORY WITH SAME TITLE ALREADY EXIST";
+	private final ProductCategoryRepository repository;
 
 
-    public Optional<ProductCategory> findOne(Long id) {
-        return this.repository.findById(id);
-    }
+	public Optional<ProductCategory> findOne(Long id) {
+		return this.repository.findById(id);
+	}
 
 
-    public List<ProductCategory> findAll() {
-        return this.repository.findAll();
-    }
+	public List<ProductCategory> findAll() {
+		return this.repository.findAll();
+	}
 
 
-    public Optional<ProductCategory> save(ProductCategory category) {
-        this.throwIfDuplicateEntry(category);
-        return Optional.of(this.repository.save(category));
-    }
+	public Optional<ProductCategory> save(ProductCategory category) {
+		this.throwIfDuplicateEntry(category);
+		return of(this.repository.save(category));
+	}
 
 
-    public Optional<Boolean> remove(Long id) {
-        Optional<ProductCategory> optionalProductCategory = this.findOne(id);
-        return this.removeProductCategoryIfPresentAndHasNoProduct(optionalProductCategory);
-    }
+	public Optional<Boolean> remove(Long id) {
+		Optional<ProductCategory> optionalProductCategory = this.findOne(id);
+		return this.removeProductCategoryIfPresentAndHasNoProduct(optionalProductCategory);
+	}
 
-    public List<ProductCategory> search(String term) {
-        return this.repository.findAllByTitleContainsIgnoreCase(term);
-    }
+	public List<ProductCategory> search(String term) {
+		return this.repository.findAllByTitleContainsIgnoreCase(term);
+	}
 
-    private void throwIfDuplicateEntry(ProductCategory category) {
-        if (ObjectUtils.isEmpty(category.getId())) {
-            Optional<ProductCategory> optional = this.isDuplicateCategoryName(category.getTitle());
-            if (optional.isPresent()) {
-                throw new ResponseStatusException(CONFLICT, DUPLICATE);
-            }
-        }
-    }
+	@Override
+	public Boolean toggleStatus(boolean status, Long id) {
+		int count = this.repository.updateIsActiveStatus(status, id);
+		return count == 1;
+	}
 
-    private Optional<ProductCategory> isDuplicateCategoryName(String title) {
-        return this.repository.findByTitle(title);
-    }
+	private void throwIfDuplicateEntry(ProductCategory category) {
+		if (ObjectUtils.isEmpty(category.getId())) {
+			Optional<ProductCategory> optional = this.isDuplicateCategoryName(category.getTitle());
+			if (optional.isPresent()) {
+				throw new ResponseStatusException(CONFLICT, DUPLICATE);
+			}
+		}
+	}
 
-    private Optional<Boolean> removeProductCategoryIfPresentAndHasNoProduct(Optional<ProductCategory> optionalProductCategory) {
-        if (optionalProductCategory.isPresent()) {
-            int size = optionalProductCategory.get().getProducts().size();
-            if (size > 0) return Optional.of(Boolean.FALSE);
-            return Optional.of(this.delete(optionalProductCategory.get()));
-        }
-        return Optional.of(Boolean.FALSE);
-    }
+	private Optional<ProductCategory> isDuplicateCategoryName(String title) {
+		return this.repository.findByTitle(title);
+	}
 
-    private boolean delete(ProductCategory category) {
-        try {
-            this.repository.delete(category);
-            return Boolean.TRUE;
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return Boolean.FALSE;
-        }
-    }
+	private Optional<Boolean> removeProductCategoryIfPresentAndHasNoProduct(Optional<ProductCategory> optionalProductCategory) {
+		return optionalProductCategory.map(this::deleteIfHasNoProducts);
+	}
+
+	private boolean deleteIfHasNoProducts(ProductCategory category) {
+		if (category.getProducts().size() > 0) {
+			return Boolean.FALSE;
+		}
+
+		this.repository.delete(category);
+		return Boolean.TRUE;
+	}
 
 }

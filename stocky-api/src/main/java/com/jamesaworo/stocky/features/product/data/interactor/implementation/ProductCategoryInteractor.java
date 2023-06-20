@@ -19,8 +19,7 @@ import java.util.stream.Collectors;
 
 import static com.jamesaworo.stocky.core.constants.Exception.RECORD_NOT_FOUND;
 import static com.jamesaworo.stocky.core.constants.Exception.REQUIRED_ID;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.ResponseEntity.notFound;
 import static org.springframework.http.ResponseEntity.ok;
 import static org.springframework.util.ObjectUtils.isEmpty;
@@ -34,6 +33,7 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 public class ProductCategoryInteractor implements IProductCategoryInteractor, Mapper<ProductCategoryRequest, ProductCategory> {
 
 	public static final String REQUIRE_CATEGORY_ID = "Product category ID is required";
+	private static final String FAILED_TO_DELETE = "UNABLE TO DELETE, THIS ITEM IS CURRENTLY IN USE";
 	private final IProductCategoryUsecase usecase;
 	private final ModelMapper mapper;
 
@@ -62,18 +62,30 @@ public class ProductCategoryInteractor implements IProductCategoryInteractor, Ma
 	}
 
 	public ResponseEntity<Optional<Boolean>> remove(Long id) {
-		Optional<Boolean> remove = this.usecase.remove(id);
-		return new ResponseEntity<>(remove, OK);
+		Optional<Boolean> optional = this.usecase.remove(id);
+
+		return ok().body(optional.map(value -> {
+			if (!value) {
+				throw new ResponseStatusException(BAD_REQUEST, FAILED_TO_DELETE);
+			}
+			return value;
+		}));
 	}
 
 	public ResponseEntity<List<ProductCategoryRequest>> search(String term) {
-        if (term.isEmpty()) {
-            return ok().body(new ArrayList<>());
-        }
+		if (term.isEmpty()) {
+			return ok().body(new ArrayList<>());
+		}
 
 		List<ProductCategory> categories = this.usecase.search(term);
 		List<ProductCategoryRequest> requests = categories.stream().map(this::toRequest).collect(Collectors.toList());
 		return new ResponseEntity<>(requests, OK);
+	}
+
+	@Override
+	public ResponseEntity<Optional<Boolean>> toggleActiveStatus(Long id) {
+		Optional<ProductCategory> optional = this.usecase.findOne(id);
+		return ok().body(optional.map(value -> this.usecase.toggleStatus(!value.getIsActiveStatus(), value.getId())));
 	}
 
 	private void throwIfRequestNotValid(ProductCategoryRequest request) {
