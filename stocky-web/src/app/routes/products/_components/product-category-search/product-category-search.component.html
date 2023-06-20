@@ -50,12 +50,16 @@
 </ng-template>
 
 <nz-autocomplete #auto>
-    <nz-auto-option
-        (click)="onSelected(data)"
-        *ngFor="let data of options"
-        [nzLabel]="data.title"
-        [nzValue]="data"
-    >
-        {{data.title}}
-    </nz-auto-option>
+    <ng-container *ngFor="let data of options">
+        <nz-auto-option
+            (click)="onSelected(data)"
+            *ngIf="data.isActiveStatus"
+            [nzLabel]="data.title"
+            [nzValue]="data"
+        >
+            {{data.title}}
+        </nz-auto-option>
+    </ng-container>
+
+
 </nz-autocomplete>
