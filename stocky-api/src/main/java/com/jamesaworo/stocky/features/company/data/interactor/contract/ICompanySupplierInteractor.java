@@ -11,6 +11,8 @@ import java.util.Optional;
 
 public interface ICompanySupplierInteractor {
 
+	ResponseEntity<List<CompanySupplierRequest>> search(String term);
+
 	ResponseEntity<PageSearchResult<List<CompanySupplierRequest>>> search(PageSearchRequest<CompanySupplierSearchRequest> request);
 
 	ResponseEntity<CompanySupplierRequest> save(CompanySupplierRequest customer);
@@ -18,4 +20,6 @@ public interface ICompanySupplierInteractor {
 	ResponseEntity<Optional<Boolean>> update(CompanySupplierRequest customer);
 
 	ResponseEntity<Optional<Boolean>> toggleActiveStatus(Long id);
+
+
 }
