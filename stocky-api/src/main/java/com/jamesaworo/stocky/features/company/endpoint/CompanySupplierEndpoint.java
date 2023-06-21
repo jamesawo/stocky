@@ -30,14 +30,20 @@ public class CompanySupplierEndpoint {
 	private final ICompanySupplierInteractor interactor;
 
 
-	@PostMapping(value = "/search")
+	@PostMapping(value = "/search-request")
 	public ResponseEntity<PageSearchResult<List<CompanySupplierRequest>>> search(
 			@RequestBody PageSearchRequest<CompanySupplierSearchRequest> request
 	) {
 		return this.interactor.search(request);
 	}
 
-
+	@GetMapping("search")
+	public ResponseEntity<List<CompanySupplierRequest>> search(
+			@RequestParam(value = "term") String term
+	) {
+		return this.interactor.search(term);
+	}
+	
 	@PostMapping(value = "/create")
 	public ResponseEntity<CompanySupplierRequest> save(@RequestBody CompanySupplierRequest request) {
 		return this.interactor.save(request);
