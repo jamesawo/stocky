@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,6 +63,16 @@ public class ProductInteractor implements IProductInteractor, Mapper<ProductRequ
 		Page<Product> page = this.usecase.findMany(productSpecification(request.getSearchRequest()), request.getPage().toPageable());
 		List<ProductRequest> requests = page.getContent().stream().map(this::toRequest).collect(Collectors.toList());
 		return ok().body(toPageSearchResult(requests, page));
+	}
+
+	@Override
+	public ResponseEntity<List<ProductRequest>> search(String term) {
+		if (term.isEmpty()) {
+			return ok().body(new ArrayList<>());
+		}
+		List<Product> list = this.usecase.findMany(productSpecification(term));
+		List<ProductRequest> requests = list.stream().map(this::toRequest).collect(Collectors.toList());
+		return ok().body(requests);
 	}
 
 	public ProductRequest toRequest(Product model) {
