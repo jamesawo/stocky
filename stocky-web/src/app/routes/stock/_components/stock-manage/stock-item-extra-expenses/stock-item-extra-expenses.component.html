@@ -1,0 +1,67 @@
+<app-fieldset [formGroup]="form" ledge="Extra Expenses Incurred">
+    <div nz-row nzGutter="8">
+        <div [nzLg]="8" [nzSpan]="24" [nzXs]="24" nz-col>
+            <nz-form-item>
+                <nz-form-label>Title</nz-form-label>
+                <nz-form-control [nzValidateStatus]="getNzFormControlValidStatus('title', form)" nzErrorTip="">
+                    <input #titleInputElement [autofocus]="true" formControlName="title" nz-input placeholder="Enter Title" type="search">
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+
+        <div [nzLg]="8" [nzSpan]="24" [nzXs]="24" nz-col>
+            <nz-form-item>
+                <nz-form-label>Amount</nz-form-label>
+                <nz-form-control [nzValidateStatus]="getNzFormControlValidStatus('amount', form)" nzErrorTip="">
+                    <input class="w-100" formControlName="amount" min="1" nz-input placeholder="Enter amount" type="number">
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+
+        <div [nzLg]="8" [nzSpan]="24" [nzXs]="24" nz-col>
+            <nz-form-item>
+                <nz-form-label></nz-form-label>
+                <app-button [props]="{handler: onHandleAddItem, size: 'default', title: 'Add', icon: 'plus'}"></app-button>
+            </nz-form-item>
+        </div>
+
+    </div>
+
+    <div nz-row>
+        <div *ngIf="expenses.length" nz-col nzSpan="24">
+            <div *ngIf="tableList" class="flex justify-between pl2 pr2 mb2">
+                <span class="b">Total Expenses Amount: {{this.totalAmount | currency: '₦'}} </span>
+                <span class="b">Number of activities:  {{this.expenses.length}}</span>
+            </div>
+
+            <app-table
+                [colHeadings]="[{title:'Title'}, {title:'Amount'}, {title: ''}]"
+                [dataList]="tableList"
+                [props]="{tableSize: 'small', tableLayout: 'auto'}"
+                [rowTemplates]="[titleTmpl, amountTmpl, actionTmpl]"
+            >
+            </app-table>
+        </div>
+    </div>
+
+</app-fieldset>
+
+<ng-template #titleTmpl let-item="item">
+    <app-table-item [content]="item.title"></app-table-item>
+</ng-template>
+
+<ng-template #amountTmpl let-item="item">
+    <app-table-item [content]="item.amount"></app-table-item>
+</ng-template>
+
+<ng-template #actionTmpl let-item="item">
+    <app-button
+        [props]="{
+                handler: onHandleRemoveItem,
+                icon: 'delete',
+                type: 'text', iconCss: 'red',
+                args: item,
+                size: 'small'
+            }"
+    ></app-button>
+</ng-template>

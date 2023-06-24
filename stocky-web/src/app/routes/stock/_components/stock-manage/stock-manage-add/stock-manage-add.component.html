@@ -1,0 +1,27 @@
+<nz-drawer
+    (nzOnClose)="toggleDisplay(ModalOrDrawer.DRAWER)"
+    [nzBodyStyle]="{ overflow: 'auto' }"
+    [nzFooter]="contentFooterBtnTmpl"
+    [nzMaskClosable]="false"
+    [nzSize]="drawerSize"
+    [nzVisible]="showDrawer"
+    nzTitle="Register New Stock"
+>
+    <div *nzDrawerContent>
+        <ng-container [ngTemplateOutlet]="contentFormTmpl"></ng-container>
+    </div>
+</nz-drawer>
+
+<ng-template #contentFormTmpl>
+    <app-stock-form #stockFormComponent></app-stock-form>
+</ng-template>
+
+<ng-template #contentFooterBtnTmpl>
+    <div class="fr">
+        <button (click)="toggleDisplay( ModalOrDrawer.ANY)" nz-button nzType="default">Cancel</button>
+        <button (click)="handleFormSave()" [nzLoading]="isLoading" nz-button nzType="primary">Submit</button>
+    </div>
+</ng-template>
+
+
+

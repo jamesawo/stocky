@@ -1,0 +1,73 @@
+<app-fieldset ledge="Price Section">
+
+    <div class="pl2 pr2" nz-row nzGutter="4">
+
+        <div [nzLg]="8" [nzSpan]="24" [nzXs]="24" nz-col>
+
+
+            <nz-form-item>
+                <nz-form-label>Cost Price Per Item</nz-form-label>
+                <nz-form-control nzErrorTip="">
+
+                    <nz-input-number-group>
+                        <div class="flex flex-row">
+                            <div *ngIf="isGroupExpenses" class="mr1" nz-col nzFlex="70px">
+                                <input [(ngModel)]="expensesAmount" nz-input placeholder="Expenses" readonly>
+                            </div>
+
+                            <div nz-col nzFlex="auto">
+                                <input (input)="calculate('cost')"
+                                       [(ngModel)]="stockPrice.costPrice"
+                                       class="wd-100p"
+                                       min="0"
+                                       nz-input
+                                       placeholder="Enter unit cost"
+                                       type="number"
+                                >
+                            </div>
+                        </div>
+
+                    </nz-input-number-group>
+
+                </nz-form-control>
+
+            </nz-form-item>
+        </div>
+
+        <div [nzLg]="8" [nzSpan]="24" [nzXs]="24" nz-col>
+            <nz-form-item>
+                <nz-form-label>Mark Up Percent (%)</nz-form-label>
+                <nz-form-control nzErrorTip="">
+                    <input (input)="calculate('markup')"
+                           [(ngModel)]="stockPrice.markupPercent"
+                           class="wd-100p"
+                           min="0"
+                           nz-input
+                           placeholder="Enter margin"
+                           type="number"
+                    >
+                </nz-form-control>
+
+            </nz-form-item>
+        </div>
+
+        <div [nzLg]="8" [nzSpan]="24" [nzXs]="24" nz-col>
+            <nz-form-item>
+                <nz-form-label>Selling Price</nz-form-label>
+                <nz-form-control nzErrorTip="">
+                    <input
+                        [(ngModel)]="stockPrice.sellingPrice"
+                        class="wd-100p"
+                        min="0"
+                        nz-input
+                        placeholder="Enter Selling price"
+                        type="number"
+                    >
+                </nz-form-control>
+
+            </nz-form-item>
+        </div>
+
+    </div>
+
+</app-fieldset>
