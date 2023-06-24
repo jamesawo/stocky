@@ -14,7 +14,7 @@ export class PeopleSupplierUsecase {
     private url = environment.api.baseUrl + '/company/supplier';
 
     constructor(private http: HttpClient) {}
-    
+
     public save(payload: SupplierPayload) {
         return this.http.post<SupplierPayload>(`${this.url}/create`, payload, {observe: 'response'});
     }
@@ -25,7 +25,7 @@ export class PeopleSupplierUsecase {
     }
 
     public search(searchPayload: PageSearchPayload<SupplierSearchPayload>) {
-        return this.http.post<PageResultPayload<SupplierPayload>>(`${this.url}/search`, searchPayload, {observe: 'response'});
+        return this.http.post<PageResultPayload<SupplierPayload>>(`${this.url}/search-request`, searchPayload, {observe: 'response'});
     }
 
     public toggleStatus(id: number) {

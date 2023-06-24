@@ -2,13 +2,12 @@ import {Component, ViewChild} from '@angular/core';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, of} from 'rxjs';
 import {SUPPLIER_SETUP} from '../../../../data/constant/crumb.constant';
+import {ProductRoutes} from '../../../../data/constant/routes.constant';
 import {PageSearchPayload} from '../../../../data/payload/common.interface';
 import {PagePayload} from '../../../../data/payload/common.payload';
+import {SearchModelDropdownComponent} from '../../../../shared/components/search-model-dropdown/search-model-dropdown.component';
 import {TableCol} from '../../../../shared/components/table/table.component';
 import {handleUsecaseRequest} from '../../../../shared/utils/util';
-import {
-    ProductCategorySearchDropdownComponent
-} from '../../../products/_components/product-category-search-dropdown/product-category-search-dropdown.component';
 import {SupplierPayload, SupplierSearchPayload} from '../../_data/company.payload';
 import {PeopleSupplierUsecase} from '../../_usecase/people-supplier.usecase';
 
@@ -20,7 +19,7 @@ import {PeopleSupplierUsecase} from '../../_usecase/people-supplier.usecase';
 export class CompanyPeopleSupplierComponent {
 
     @ViewChild('categorySearchDropdownComponent')
-    public categorySearchDropdownComponent?: ProductCategorySearchDropdownComponent;
+    public categorySearchDropdownComponent?: SearchModelDropdownComponent;
 
     public crumbs = SUPPLIER_SETUP;
     public isOpenHeader = true;
@@ -43,6 +42,7 @@ export class CompanyPeopleSupplierComponent {
         {title: 'Since'},
         {title: 'Action'}
     ];
+    protected readonly PRODUCT_ROUTES = ProductRoutes;
 
     constructor(
         private usecase: PeopleSupplierUsecase,
@@ -91,5 +91,4 @@ export class CompanyPeopleSupplierComponent {
     private resetTableData() {
         this.tableData = of();
     }
-
 }

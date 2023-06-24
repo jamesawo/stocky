@@ -21,8 +21,18 @@
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Product Category</nz-form-label>
-                                <app-product-category-search-dropdown #categorySearchDropdownComponent
-                                                                      [(value)]="searchPayload.categories"></app-product-category-search-dropdown>
+                                <nz-form-control
+                                    nzErrorTip="">
+
+                                    <app-search-model-dropdown
+                                        #categorySearchDropdownComponent
+                                        [(value)]="searchPayload.categories"
+                                        [option]="'title'"
+                                        [props]="{placeholder: 'Search category', mode: 'multiple'}"
+                                        [searchUrl]="PRODUCT_ROUTES.PRODUCT_CATEGORY_SEARCH"
+                                    ></app-search-model-dropdown>
+                                </nz-form-control>
+
                             </nz-form-item>
                         </div>
 
