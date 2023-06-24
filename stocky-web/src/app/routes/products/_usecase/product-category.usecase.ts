@@ -8,7 +8,7 @@ import {ProductCategoryPayload} from '../_data/product.payload';
 export class ProductCategoryUsecase {
     public trigger: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public trigger$: Observable<boolean> = this.trigger.asObservable();
-    private url = environment.api.baseUrl + '/product-category';
+    private url = environment.api.baseUrl + '/product/category';
 
     constructor(private http: HttpClient) {}
 

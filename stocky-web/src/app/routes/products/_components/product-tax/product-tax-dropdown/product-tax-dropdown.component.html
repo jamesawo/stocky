@@ -7,7 +7,7 @@
                nzPlaceHolder="Select .." nzShowSearch>
         <ng-container *ngIf="dataList | async as list">
             <ng-container *ngFor="let data of list">
-                <ng-container *ngIf="data.isActiveStatus">
+                <ng-container *ngIf="data.isActiveStatus === true">
                     <nz-option [nzCustomContent]="true" [nzLabel]="data.title!" [nzValue]="data">
                         <label>{{data.title | lowercase}} ({{data.percent}}%) </label>
                     </nz-option>
@@ -26,14 +26,14 @@
         <ng-container *ngIf="dataList | async as list">
 
             <ng-container *ngFor="let data of list">
-                <ng-container *ngIf="data.isActiveStatus">
+                <ng-container *ngIf="data.isActiveStatus === true">
                     <nz-option [nzCustomContent]="true" [nzLabel]="data.title!" [nzValue]="data">
                         <label>{{data.title | lowercase}} ({{data.percent}}%) </label>
                     </nz-option>
                 </ng-container>
 
             </ng-container>
-            
+
         </ng-container>
     </nz-select>
 

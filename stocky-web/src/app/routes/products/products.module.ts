@@ -1,7 +1,6 @@
 import {NgModule, Type} from '@angular/core';
 import {SharedModule} from '@shared';
 import {ProductBasicTabComponent} from './_components/product-basic-tab/product-basic-tab.component';
-import {ProductCategorySearchDropdownComponent} from './_components/product-category-search-dropdown/product-category-search-dropdown.component';
 import {ProductCategorySearchComponent} from './_components/product-category-search/product-category-search.component';
 import {ProductPriceTabComponent} from './_components/product-price-tab/product-price-tab.component';
 import {ProductSearchComponent} from './_components/product-search/product-search.component';
@@ -36,8 +35,7 @@ export const PRODUCT_COMPONENTS: Array<Type<void>> = [
     ProductTaxDropdownComponent,
     ProductTaxAddBtnComponent,
     ProductTaxAddComponent,
-    ProductSearchComponent,
-    ProductCategorySearchDropdownComponent
+    ProductSearchComponent
 ];
 
 @NgModule({

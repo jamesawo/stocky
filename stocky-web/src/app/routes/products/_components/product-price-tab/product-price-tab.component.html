@@ -16,8 +16,9 @@
                     nzErrorTip="Enter cost price"
                     nzValidateStatus="success"
                 >
+                    <!--                        (nzBlur)="calculateSellingPrice()"-->
                     <nz-input-number
-                        (nzBlur)="calculateSellingPrice()"
+                        (input)="calculateSellingPrice()"
                         [nzMin]="1"
                         [nzPlaceHolder]="'Enter cost price'"
                         [nzStep]="1" class="wd-100p"
@@ -32,8 +33,9 @@
                     nzErrorTip="Enter markup percent"
                     nzValidateStatus="success"
                 >
+                    <!--                        (nzBlur)="calculateSellingPrice()"-->
                     <nz-input-number
-                        (nzBlur)="calculateSellingPrice()"
+                        (input)="calculateSellingPrice()"
                         [nzMin]="1"
                         [nzStep]="1"
                         class="wd-100p"
