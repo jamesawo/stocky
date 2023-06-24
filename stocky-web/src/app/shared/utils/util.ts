@@ -1,4 +1,4 @@
-import {formatCurrency} from '@angular/common';
+import {DatePipe, formatCurrency} from '@angular/common';
 import {HttpResponse} from '@angular/common/http';
 import {AbstractControl, FormControl, FormGroup} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
@@ -246,3 +246,13 @@ export function toggleModalOrDrawer(type: ModalOrDrawer, showDrawer: boolean, sh
     return {showDrawer, showModal};
 }
 
+export function getDateString(date?: Date): string {
+    const dateParam: Date = date ?? new Date();
+    const datePipe: DatePipe = new DatePipe('en-US');
+    return datePipe.transform(dateParam, 'YYYY-MM-dd') ?? '';
+}
+
+export function calculateSellingPrice(costPrice: number = 0, markupPercent: number = 0) {
+    const markupAmount = Number(costPrice) * Number((markupPercent) / 100);
+    return Math.round(Number(costPrice) + Number(markupAmount));
+}

@@ -1,4 +1,5 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {NzButtonSize} from 'ng-zorro-antd/button';
 import {Subscription} from 'rxjs';
 import {SearchResetButtonProps} from '../../../data/payload/common.types';
 import {BreakPoints, ResponsiveService} from '../../utils/responsive.service';
@@ -10,6 +11,9 @@ import {BreakPoints, ResponsiveService} from '../../utils/responsive.service';
 })
 export class SearchResetButtonComponent implements OnInit, OnDestroy {
     public showTitle = true;
+
+    @Input()
+    public size: NzButtonSize = 'large';
 
     @Input()
     public props: SearchResetButtonProps = this.defaultProps;
