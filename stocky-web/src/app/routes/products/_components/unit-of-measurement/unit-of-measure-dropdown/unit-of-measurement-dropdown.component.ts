@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {map, Observable} from 'rxjs';
+import {firstValueFrom, shareReplay} from 'rxjs';
 import {FormProps} from '../../../../../data/payload/common.types';
 import {getNzFormControlValidStatus} from '../../../../../shared/utils/util';
 import {ProductUnitOfMeasurePayload} from '../../../_data/product-unit-of-measure.payload';
@@ -12,7 +12,7 @@ import {UnitOfMeasureUsecase} from '../../../_usecase/unit-of-measure.usecase';
 })
 export class UnitOfMeasurementDropdownComponent implements OnInit {
     public isLoading = false;
-    public measures?: Observable<ProductUnitOfMeasurePayload[]>;
+    public measures?: ProductUnitOfMeasurePayload[];
 
     @Input()
     public formProps?: FormProps;
@@ -23,12 +23,12 @@ export class UnitOfMeasurementDropdownComponent implements OnInit {
     @Output()
     public valueChange: EventEmitter<ProductUnitOfMeasurePayload> =
         new EventEmitter<ProductUnitOfMeasurePayload>();
+
     protected readonly getFormControlValidityStatus = getNzFormControlValidStatus;
 
     constructor(private usecase: UnitOfMeasureUsecase) {}
 
     public ngOnInit(): void {
-        this.onLoadData();
         this.usecase.trigger$.subscribe((change) => this.onLoadData());
     }
 
@@ -49,13 +49,9 @@ export class UnitOfMeasurementDropdownComponent implements OnInit {
         return false;
     }
 
-    private onLoadData(): void {
+    private async onLoadData(): Promise<void> {
         this.isLoading = true;
-        this.measures = this.usecase.getMany().pipe(
-            map((value1) => {
-                this.isLoading = false;
-                return value1;
-            })
-        );
+        this.measures = await firstValueFrom(this.usecase.getMany().pipe(shareReplay()));
+        this.isLoading = false;
     }
 }

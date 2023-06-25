@@ -9,7 +9,7 @@ export class UnitOfMeasureUsecase {
     public trigger: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public trigger$: Observable<boolean> = this.trigger.asObservable();
 
-    private url = environment.api.baseUrl + '/product-unit-of-measurement';
+    private url = environment.api.baseUrl + '/product/unit-of-measurement';
 
     constructor(private http: HttpClient) {}
 
@@ -23,13 +23,13 @@ export class UnitOfMeasureUsecase {
 
     public save(category: ProductUnitOfMeasurePayload) {
         return this.http.post<ProductUnitOfMeasurePayload>(`${this.url}/create`, category, {
-            observe: 'response',
+            observe: 'response'
         });
     }
 
     public update(category: ProductUnitOfMeasurePayload) {
         return this.http.put<ProductUnitOfMeasurePayload>(`${this.url}/update`, category, {
-            observe: 'response',
+            observe: 'response'
         });
     }
 

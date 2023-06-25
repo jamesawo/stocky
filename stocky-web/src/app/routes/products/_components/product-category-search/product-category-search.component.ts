@@ -29,7 +29,7 @@ export class ProductCategorySearchComponent implements OnInit, OnDestroy {
     public value: EventEmitter<string> = new EventEmitter<string>();
     @Input()
     public props?: SearchProps;
-    private url: string = environment.api.baseUrl + '/product-category';
+    private url: string = environment.api.baseUrl + '/product/category';
     private loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private subscription: Subscription = new Subscription();
 
