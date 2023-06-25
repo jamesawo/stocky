@@ -11,6 +11,7 @@ import com.jamesaworo.stocky.core.base.BaseModel;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 import static com.jamesaworo.stocky.core.constants.Table.PRODUCT_BASIC;
 
@@ -33,12 +34,16 @@ public class ProductBasic extends BaseModel {
 
 	@ManyToOne
 	private ProductUnitOfMeasure unitOfMeasure;
-	
+
 	@ManyToOne
 	private ProductStatus status;
 
 	@OneToOne(mappedBy = "basic", fetch = FetchType.LAZY)
 	private Product product;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn()
+	private List<ProductTax> taxes;
 
 	@Column(nullable = false)
 	private String productName;

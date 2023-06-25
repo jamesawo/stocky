@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -70,6 +71,16 @@ public class ProductTaxInteractor implements IProductTaxInteractor, Mapper<Produ
 	public ResponseEntity<Optional<Boolean>> toggleActiveStatus(Long id) {
 		Optional<ProductTax> optional = this.usecase.findOne(id);
 		return ok().body(optional.map(value -> this.usecase.toggleStatus(!value.getIsActiveStatus(), value.getId())));
+	}
+
+	@Override
+	public List<ProductTax> mapRequestListToModelList(List<ProductTaxRequest> requests) {
+		List<ProductTax> productTaxes = new ArrayList<>();
+		requests.forEach(productTaxRequest -> {
+			Optional<ProductTax> optional = this.usecase.findOne(productTaxRequest.getId());
+			optional.ifPresent(productTaxes::add);
+		});
+		return productTaxes;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.jamesaworo.stocky.features.product.data.interactor.contract;
 
 import com.jamesaworo.stocky.features.product.data.request.ProductTaxRequest;
+import com.jamesaworo.stocky.features.product.domain.entity.ProductTax;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface IProductTaxInteractor {
 	ResponseEntity<Optional<ProductTaxRequest>> update(ProductTaxRequest request);
 
 	ResponseEntity<Optional<Boolean>> toggleActiveStatus(Long id);
+
+	List<ProductTax> mapRequestListToModelList(List<ProductTaxRequest> requests);
 }
