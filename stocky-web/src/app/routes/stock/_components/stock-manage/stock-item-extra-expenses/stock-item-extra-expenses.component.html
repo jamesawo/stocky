@@ -28,7 +28,7 @@
     </div>
 
     <div nz-row>
-        <div *ngIf="expenses.length" nz-col nzSpan="24">
+        <div *ngIf="expenses.length > 0" nz-col nzSpan="24">
             <div *ngIf="tableList" class="flex justify-between pl2 pr2 mb2">
                 <span class="b">Total Expenses Amount: {{this.totalAmount | currency: '₦'}} </span>
                 <span class="b">Number of activities:  {{this.expenses.length}}</span>

@@ -4,19 +4,26 @@
 
         <div [nzLg]="8" [nzSpan]="24" [nzXs]="24" nz-col>
 
-
             <nz-form-item>
-                <nz-form-label>Cost Price Per Item</nz-form-label>
+                <nz-form-label>
+                    <span *ngIf="isGroupExpenses || stockPrice.expensesAmount" class="mr1">
+                        <app-hint
+                            [class]="'mr1 f7'"
+                            [content]="'This is the expenses amount incurred per item on the stock list'"></app-hint>
+                        Expenses +
+                    </span>
+                    <span>Cost Price</span>
+                </nz-form-label>
                 <nz-form-control nzErrorTip="">
 
                     <nz-input-number-group>
                         <div class="flex flex-row">
-                            <div *ngIf="isGroupExpenses" class="mr1" nz-col nzFlex="70px">
-                                <input [(ngModel)]="expensesAmount" nz-input placeholder="Expenses" readonly>
+                            <div *ngIf="isGroupExpenses || stockPrice.expensesAmount" class="mr1" nz-col nzFlex="70px">
+                                <input [(ngModel)]="stockPrice.expensesAmount" nz-input placeholder="Expenses" readonly>
                             </div>
 
                             <div nz-col nzFlex="auto">
-                                <input (input)="calculate('cost')"
+                                <input (input)="reCalculateSellingPrice('cost')"
                                        [(ngModel)]="stockPrice.costPrice"
                                        class="wd-100p"
                                        min="0"
@@ -38,7 +45,7 @@
             <nz-form-item>
                 <nz-form-label>Mark Up Percent (%)</nz-form-label>
                 <nz-form-control nzErrorTip="">
-                    <input (input)="calculate('markup')"
+                    <input (input)="reCalculateSellingPrice('markup')"
                            [(ngModel)]="stockPrice.markupPercent"
                            class="wd-100p"
                            min="0"

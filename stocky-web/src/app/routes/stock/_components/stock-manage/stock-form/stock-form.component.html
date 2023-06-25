@@ -1,8 +1,8 @@
-<form (submit)="onCreate()"
-      [formGroup]="form"
-      autocomplete="off"
-      nz-form
-      nzLayout="vertical"
+<form
+    [formGroup]="form"
+    autocomplete="off"
+    nz-form
+    nzLayout="vertical"
 >
     <div [nzSpan]="24" nz-col nz-row>
 
@@ -102,7 +102,7 @@
                             <nz-space [nzSize]="'small'">
                                 <app-button
                                     *nzSpaceItem
-                                    [props]="{handler: onAddStockItemToList, title: 'Push', size: 'small', icon: 'appstore-add'}"
+                                    [props]="{handler: handleAddStockItemToList, title: 'Push', size: 'small', icon: 'appstore-add'}"
                                 ></app-button>
                                 <app-button
                                     (nzOnCancel)="emptyAction()"
@@ -128,7 +128,6 @@
                     [(ngModel)]="checkOptionsOne"
                     [ngModelOptions]="{name: 'formCheckBox', standalone: true}"
                 ></nz-checkbox-group>
-
             </div>
         </div>
 
@@ -141,13 +140,17 @@
                         [nzActive]="isGroupExpenseOpen"
                         nzHeader="Group Expenses / Settlement Setup">
                         <nz-tabset nzType="line">
+
                             <nz-tab *ngIf="stockMeta.stockSettlement.isGroupSettlement" nzClosable nzTitle="Group Settlement">
                                 <app-stock-item-settlement-form
                                     [(settlement)]="stockMeta.stockSettlement.groupSettlement"></app-stock-item-settlement-form>
                             </nz-tab>
 
                             <nz-tab *ngIf="stockMeta.stockExpenses.isGroupExpenses" nzClosable nzTitle="Group Expenses">
-                                <app-stock-item-extra-expenses [(expenses)]="stockMeta.stockExpenses.groupExpenses"></app-stock-item-extra-expenses>
+                                <app-stock-item-extra-expenses
+                                    (expensesChange)="onExpensesChange($event)"
+                                    [expenses]="stockMeta.stockExpenses.groupExpenses"
+                                ></app-stock-item-extra-expenses>
                             </nz-tab>
 
                         </nz-tabset>
@@ -176,7 +179,6 @@
                             nzType="delete"
                         ></span>
                     </button>
-
                 </div>
 
                 <nz-collapse>
@@ -206,16 +208,19 @@
 
                         <app-stock-item-price-form
                             (stockPriceChange)="onStockPriceChange(group, $event)"
-                            [expensesAmount]="itemExpenseAmount"
                             [isGroupExpenses]="stockMeta.stockExpenses.isGroupExpenses"
-                            [stockPrice]="group.stockPrice"></app-stock-item-price-form>
+                            [stockPrice]="group.stockPrice"
+                        ></app-stock-item-price-form>
 
                         <div *ngIf="!checkOptionsOne[0].checked" class="mt3">
                             <app-stock-item-settlement-form [(settlement)]="group.stockSettlement"></app-stock-item-settlement-form>
                         </div>
 
                         <div *ngIf="!checkOptionsOne[1].checked" class="mt3">
-                            <app-stock-item-extra-expenses [(expenses)]="group.stockExpenses"></app-stock-item-extra-expenses>
+                            <app-stock-item-extra-expenses
+                                (expensesChange)="onExpensesChange($event)"
+                                [(expenses)]="group.stockExpenses"
+                            ></app-stock-item-extra-expenses>
                         </div>
 
                     </nz-collapse-panel>
@@ -225,4 +230,5 @@
             </ng-container>
         </div>
     </div>
+
 </form>

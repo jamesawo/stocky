@@ -58,15 +58,15 @@ export class StockItemExtraExpensesComponent {
         this.onNotifyChange();
         this.onResetForm();
         this.setFocusOnTitleInputField();
-
     };
 
     public onHandleRemoveItem = (payload?: StockExpenses) => {
         if (payload) {
-            this.expenses = [...this.expenses].filter(value => value.title !== payload.title);
+            const list = [...this.expenses];
+            this.expenses = list.filter(value => value.title !== payload.title);
             this.tableList = of(this.expenses);
-            this.setFocusOnTitleInputField();
             this.onNotifyChange();
+            this.setFocusOnTitleInputField();
         }
     };
 

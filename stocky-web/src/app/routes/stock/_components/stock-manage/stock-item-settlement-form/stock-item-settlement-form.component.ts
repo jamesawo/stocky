@@ -38,15 +38,10 @@ export class StockItemSettlementFormComponent {
     }
 
     private calculateSettlementFigures() {
-        const amount = this.settlement.amount ?? 0;
-        const paid = this.settlement.paid ?? 0;
-        let balance = Number(amount) - Number(paid);
-
-        if (paid > amount) {
-            balance = 0;
+        this.settlement.calculateBalance!();
+        if (this.settlement.paid! > this.settlement.amount!) {
             this.isPaidInvalid = true;
         }
-        this.settlement = {...this.settlement, balance: balance};
         this.onNotifyChange();
     }
 
