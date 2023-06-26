@@ -18,4 +18,8 @@ public interface ICompanySupplierUsecase {
 	Optional<Boolean> update(CompanySupplier supplier);
 
 	Optional<Boolean> toggleActiveStatus(Long id);
+
+	Optional<CompanySupplier> findOne(Long id);
+
+
 }
