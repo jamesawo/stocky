@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {ManageStockComponent} from './manage-stock/manage-stock.component';
-import {MoveStockItemComponent} from './move-stock-item/move-stock-item.component';
-import {ReconcileStockComponent} from './reconcile-stock/reconcile-stock.component';
-import {RecordDamagedStockComponent} from './record-damaged-stock/record-damaged-stock.component';
-import {RecordStockBalanceComponent} from './record-stock-balance/record-stock-balance.component';
-import {ViewLowStockComponent} from './view-low-stock/view-low-stock.component';
-import {ViewStockCountComponent} from './view-stock-count/view-stock-count.component';
+import {ManageStockComponent} from './stock-manage-stock/manage-stock.component';
+import {MoveStockItemComponent} from './stock-move-stock-item/move-stock-item.component';
+import {ReconcileStockComponent} from './stock-reconcile-stock/reconcile-stock.component';
+import {RecordDamagedStockComponent} from './stock-record-damaged-stock/record-damaged-stock.component';
+import {RecordStockBalanceComponent} from './stock-record-stock-balance/record-stock-balance.component';
+import {ViewLowStockComponent} from './stock-view-low-stock/view-low-stock.component';
+import {ViewStockCountComponent} from './stock-view-stock-count/view-stock-count.component';
 
 const routes: Routes = [
     {path: 'manage-stock', component: ManageStockComponent},

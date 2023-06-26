@@ -46,11 +46,13 @@ import {ComingSoonComponent} from './components/coming-soon/coming-soon.componen
 import {DatePickerComponent} from './components/date-picker/date-picker.component';
 import {ExpandCollapseButtonComponent} from './components/expand-collapse-button/expand-collapse-button.component';
 import {ExportUploadButtonComponent} from './components/export-upload-button/export-upload-button.component';
+import {FieldsetComponent} from './components/fieldset/fieldset.component';
 import {FooterButtonComponent} from './components/footer-button/footer-button.component';
 import {HintComponent} from './components/hint/hint.component';
 import {LoadingCardComponent} from './components/loading-card/loading-card.component';
 import {RangeDatePickerComponent} from './components/range-date-picker/range-date-picker.component';
 import {RecordStatusBadgeComponent} from './components/record-active-status/record-status-badge.component';
+import {SearchModelDropdownComponent} from './components/search-model-dropdown/search-model-dropdown.component';
 import {SearchResetButtonComponent} from './components/search-reset-button/search-reset-button.component';
 import {SearchResultTableComponent} from './components/search-result-table/search-result-table.component';
 import {StatusBadgeComponent} from './components/status-badge/status-badge.component';
@@ -126,7 +128,9 @@ const COMPONENTS: Array<Type<void>> = [
     FooterButtonComponent,
     StatusBadgeComponent,
     RecordStatusBadgeComponent,
-    TableItemTruncatableComponent
+    TableItemTruncatableComponent,
+    SearchModelDropdownComponent,
+    FieldsetComponent
 ];
 const DIRECTIVES: Array<Type<void>> = [
     DisableAutocompleteDirective

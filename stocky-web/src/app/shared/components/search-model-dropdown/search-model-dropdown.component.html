@@ -1,0 +1,36 @@
+<nz-select
+    (ngModelChange)="onValueChange($event)"
+    (nzOnSearch)="onSearch($event)"
+    [ngModel]="defaultValues"
+    [nzMode]="props.mode!"
+    [nzPlaceHolder]="props.placeholder!"
+    nzAllowClear
+    nzServerSearch
+    nzShowSearch
+>
+    <ng-container *ngFor="let item of value">
+        <ng-container *ngIf="!isLoading">
+
+            <nz-option *ngIf="item.isActiveStatus"
+                       [nzCustomContent]="!!optionTemplate"
+                       [nzLabel]="getPropertyValue(item, option)"
+                       [nzValue]="item">
+
+                <ng-container
+                    [ngTemplateOutletContext]="{item: item}"
+                    [ngTemplateOutlet]="optionTemplate"
+                ></ng-container>
+
+            </nz-option>
+
+        </ng-container>
+    </ng-container>
+
+    <nz-option *ngIf="isLoading" nzCustomContent nzDisabled>
+        <ng-container *ngIf="minLength < searchChange$.getValue().length">
+            <span class="loading-icon" nz-icon nzType="loading"></span>
+            Loading Data...
+        </ng-container>
+    </nz-option>
+
+</nz-select>

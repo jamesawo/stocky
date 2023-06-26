@@ -13,6 +13,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -33,5 +35,6 @@ public class ProductBasicRequest {
 	private String barcode;
 	private String description;
 	private Integer lowStockPoint;
+	private List<ProductTaxRequest> taxes;
 
 }

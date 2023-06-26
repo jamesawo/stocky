@@ -52,6 +52,7 @@ export class ProductPayload {
     basic: ProductBasicTab = new ProductBasicTab();
     price?: ProductPriceTab = new ProductPriceTab();
     createdAt?: string;
+    isActiveStatus?: boolean;
 }
 
 export class ProductSearchRequestPayload {

@@ -1,0 +1,51 @@
+<app-fieldset ledge="Supplier Settlement">
+    <div nz-row nzGutter="8">
+        <div [nzLg]="8" [nzSpan]="24" [nzXs]="24" nz-col>
+            <nz-form-item>
+                <nz-form-label>Total Amount</nz-form-label>
+                <nz-form-control nzErrorTip="">
+                    <input #totalAmountNzInputNumberComponent
+                           (input)="calculate()"
+                           (ngModelChange)="calculate()"
+                           [(ngModel)]="settlement.amount"
+                           class="wd-100p"
+                           min="0"
+                           nz-input placeholder="Enter total amount" type="number"
+                    >
+                </nz-form-control>
+
+            </nz-form-item>
+        </div>
+
+        <div [nzLg]="8" [nzSpan]="24" [nzXs]="24" nz-col>
+            <nz-form-item>
+                <nz-form-label>Amount Paid</nz-form-label>
+                <nz-form-control [nzValidateStatus]="isPaidInvalid ? 'error': 'success'" nzErrorTip="">
+                    <input #amountPaidNzInputNumberComponent
+                           (input)="calculate()"
+                           [(ngModel)]="settlement.paid"
+                           class="wd-100p"
+                           min="0"
+                           nz-input placeholder="Enter amount paid" type="number"
+                    >
+                </nz-form-control>
+
+            </nz-form-item>
+        </div>
+
+        <div [nzLg]="8" [nzSpan]="24" [nzXs]="24" nz-col>
+            <nz-form-item>
+                <nz-form-label>Balance Amount</nz-form-label>
+                <nz-form-control nzErrorTip="">
+                    <input #balanceAmountNzInputNumberComponent
+                           [(ngModel)]="settlement.balance"
+                           class="wd-100p"
+                           min="0"
+                           nz-input placeholder="Enter balance" type="number"
+                    >
+                </nz-form-control>
+
+            </nz-form-item>
+        </div>
+    </div>
+</app-fieldset>

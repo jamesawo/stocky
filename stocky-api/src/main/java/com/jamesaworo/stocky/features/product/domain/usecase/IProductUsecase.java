@@ -14,12 +14,11 @@ import java.util.Optional;
  */
 public interface IProductUsecase {
 
-    Optional<Product> findById(Long id);
+	Optional<Product> findById(Long id);
 
-    Product save(Product product);
+	Product save(Product product);
 
-    Page<Product> findMany(Specification<Product> specification, Pageable pageable);
+	Page<Product> findMany(Specification<Product> specification, Pageable pageable);
 
-    List<Product> findMany(Specification<Product> specification);
-
+	List<Product> findMany(Specification<Product> specification);
 }

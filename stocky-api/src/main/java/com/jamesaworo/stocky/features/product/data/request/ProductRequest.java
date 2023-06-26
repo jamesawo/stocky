@@ -23,5 +23,5 @@ public class ProductRequest {
 	private ProductBasicRequest basic;
 	private ProductPriceRequest price;
 	private String createdAt;
-
+	private Boolean isActiveStatus;
 }

@@ -22,4 +22,5 @@ public class ProductStatusRequest {
 	private Long id;
 	private String title;
 	private String description;
+	private Boolean isActiveStatus;
 }

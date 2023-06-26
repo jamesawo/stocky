@@ -20,45 +20,39 @@ import java.util.Optional;
 import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 
 @RestController
-@RequestMapping(value = API_PREFIX + "/product-unit-of-measurement")
+@RequestMapping(value = API_PREFIX + "/product/unit-of-measurement")
 @RequiredArgsConstructor
 public class ProductUnitOfMeasureEndpoint {
 
 	private final ProductUnitOfMeasureInteractor interactor;
 
-	@GetMapping(value = "get/{id}")
+	@GetMapping(value = "/get/{id}")
 	public ResponseEntity<Optional<ProductUnitOfMeasureRequest>> find(@PathVariable Long id) {
 		return this.interactor.find(id);
 	}
 
-	@GetMapping("all")
+	@GetMapping("/all")
 	public ResponseEntity<List<ProductUnitOfMeasureRequest>> findMany() {
 		return this.interactor.findAll();
 	}
 
-	@PostMapping("create")
+	@PostMapping("/create")
 	public ResponseEntity<Optional<ProductUnitOfMeasureRequest>> save(
 			@RequestBody @Valid ProductUnitOfMeasureRequest dto
 	) {
 		return this.interactor.save(dto);
 	}
 
-	@PutMapping("update")
+	@PutMapping("/update")
 	public ResponseEntity<Optional<ProductUnitOfMeasureRequest>> update(
 			@RequestBody @Valid ProductUnitOfMeasureRequest dto
 	) {
 		return this.interactor.update(dto);
 	}
 
-	@DeleteMapping("delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Optional<Boolean>> remove(@PathVariable Long id) {
 		return this.interactor.remove(id);
 	}
-
-	//	@GetMapping("search")
-	//	public ResponseEntity<List<ProductUnitOfMeasureRequest>> search(
-	//			@RequestParam(value = "term") String term
-	//	) {
-	//		return this.interactor.search(term);
-	//	}
+	
 }

@@ -49,12 +49,13 @@
                 <nz-form-control
                     [nzValidateStatus]="getNzFormControlValidStatus('categories', form)"
                     nzErrorTip="">
-                    <app-product-category-search-dropdown
+                    <app-search-model-dropdown
                         [formProps]="{controlName: 'categories', formGroup: form}"
-                        [label]="'title'"
+                        [option]="'title'"
                         [props]="{placeholder: 'Search category', mode: 'multiple'}"
                         [searchUrl]="PRODUCT_ROUTES.PRODUCT_CATEGORY_SEARCH"
-                    ></app-product-category-search-dropdown>
+                    ></app-search-model-dropdown>
+
                 </nz-form-control>
             </nz-form-item>
 

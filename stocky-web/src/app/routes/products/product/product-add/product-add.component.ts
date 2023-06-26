@@ -86,11 +86,11 @@ export class ProductAddComponent implements OnInit {
                 sku: [null],
                 barcode: [null],
                 description: [null],
-                lowStockPoint: [20]
+                lowStockPoint: [20],
+                taxes: [[], null]
             }),
             price: this.fb.group({
                 markup: [null],
-                taxes: [[], null],
                 costPrice: [null],
                 sellingPrice: [null]
             })

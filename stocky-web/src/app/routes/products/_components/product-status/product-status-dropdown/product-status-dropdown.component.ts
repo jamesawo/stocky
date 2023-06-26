@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {map, Observable} from 'rxjs';
+import {firstValueFrom, shareReplay} from 'rxjs';
 import {CommonPayload} from '../../../../../data/payload/common.payload';
 import {FormProps} from '../../../../../data/payload/common.types';
 import {getNzFormControlValidStatus} from '../../../../../shared/utils/util';
@@ -22,13 +22,12 @@ export class ProductStatusDropdownComponent implements OnInit {
     public valueChange: EventEmitter<ProductStatusPayload> = new EventEmitter<ProductStatusPayload>();
 
     public isLoading = false;
-    public statusList?: Observable<ProductStatusPayload[]>;
+    public statusList?: ProductStatusPayload[];
     protected readonly getFormControlValidityStatus = getNzFormControlValidStatus;
 
     constructor(private usecase: ProductStatusUsecase) {}
 
     public ngOnInit(): void {
-        this.onLoadData();
         this.usecase.trigger$.subscribe((change) => this.onLoadData());
     }
 
@@ -38,14 +37,10 @@ export class ProductStatusDropdownComponent implements OnInit {
         }
     }
 
-    public onLoadData(): void {
+    public async onLoadData(): Promise<void> {
         this.isLoading = true;
-        this.statusList = this.usecase.getMany().pipe(
-            map((value) => {
-                this.isLoading = false;
-                return value;
-            })
-        );
+        this.statusList = await firstValueFrom(this.usecase.getMany().pipe(shareReplay()));
+        this.isLoading = false;
     }
 
     public hasFormGroup(): boolean {

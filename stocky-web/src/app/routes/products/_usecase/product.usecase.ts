@@ -28,7 +28,7 @@ export class ProductUsecase {
     }
 
     public searchProducts(searchPayload: PageSearchPayload<ProductSearchRequestPayload>) {
-        return this.http.post<PageResultPayload<ProductPayload>>(`${this.url}/search`, searchPayload, {observe: 'response'});
+        return this.http.post<PageResultPayload<ProductPayload>>(`${this.url}/search-request`, searchPayload, {observe: 'response'});
     }
 
 

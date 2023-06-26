@@ -1,4 +1,4 @@
-<button (click)="props.handler()"
+<button (click)="props.handler(props.args)"
         [nzLoading]="props.isLoading!"
         [nzSize]="props.size!"
         [nzType]="props.type!"
@@ -8,5 +8,5 @@
     <ng-container *ngIf="props.title">
         <span *ngIf="showTitle" [innerText]="props.title"></span>
     </ng-container>
-    <span nz-icon nzType="{{props.icon}}"></span>
+    <span [class]="props.iconCss" nz-icon nzType="{{props.icon}}"></span>
 </button>

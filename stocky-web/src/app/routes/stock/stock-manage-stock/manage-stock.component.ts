@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {STOCK_MANAGE_CRUMBS} from '../../../data/constant/crumb.constant';
 import {TableCol} from '../../../shared/components/table/table.component';
+import {StockManageAddComponent} from '../_components/stock-manage/stock-manage-add/stock-manage-add.component';
 
 @Component({
     selector: 'app-manage-stock',
@@ -8,6 +9,9 @@ import {TableCol} from '../../../shared/components/table/table.component';
     styles: []
 })
 export class ManageStockComponent {
+
+    @ViewChild('stockManageAddComponent')
+    public stockManageAddComponent?: StockManageAddComponent;
 
     public crumbs = STOCK_MANAGE_CRUMBS;
     public isOpenHeader = true;
@@ -29,7 +33,7 @@ export class ManageStockComponent {
 
     public onCancel = (): void => {};
 
-    public onCreate = (): void => {};
+    public onCreate = async () => this.stockManageAddComponent?.open();
 
 
 }

@@ -42,6 +42,12 @@ public class CompanySupplierInteractorImpl implements ICompanySupplierInteractor
 
 
 	@Override
+	public ResponseEntity<List<CompanySupplierRequest>> search(String term) {
+		Set<CompanySupplier> suppliers = new HashSet<>(this.usecase.findMany(companySupplierSpecification(term)));
+		return ok().body(suppliers.stream().map(this::toRequest).collect(Collectors.toList()));
+	}
+
+	@Override
 	public ResponseEntity<PageSearchResult<List<CompanySupplierRequest>>> search(PageSearchRequest<CompanySupplierSearchRequest> request) {
 		Page<CompanySupplier> page = this.usecase.findMany(companySupplierSpecification(request.getSearchRequest()), request.getPage().toPageable());
 		Set<CompanySupplier> suppliers = new HashSet<>(page.getContent());

@@ -3,7 +3,7 @@ import {Component, Input} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {CommonAddProps, PopupViewProps} from 'src/app/data/payload/common.types';
-import {PRODUCT_ROUTES} from '../../../../../../data/constant/routes.constant';
+import {ProductRoutes} from '../../../../../../data/constant/routes.constant';
 import {ModalOrDrawer, TableButtonEnum} from '../../../../../../data/payload/common.enum';
 import {
     getNzFormControlValidStatus,
@@ -37,7 +37,7 @@ export class CompanyPeopleSupplierAddBtnComponent {
     protected readonly TableButtonEnum = TableButtonEnum;
     protected readonly ModalOrDrawer = ModalOrDrawer;
     protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
-    protected readonly PRODUCT_ROUTES = PRODUCT_ROUTES;
+    protected readonly PRODUCT_ROUTES = ProductRoutes;
 
     constructor(
         private fb: FormBuilder,

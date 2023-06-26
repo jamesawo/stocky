@@ -11,7 +11,6 @@ import com.jamesaworo.stocky.core.base.BaseModel;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 import static com.jamesaworo.stocky.core.constants.Table.PRODUCT_PRICE;
 
@@ -31,9 +30,6 @@ public class ProductPrice extends BaseModel {
 	private Double markup;
 	private Double costPrice;
 	private Double sellingPrice;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_price_id")
-	private List<ProductTax> taxes;
 
 	@OneToOne(mappedBy = "price", fetch = FetchType.LAZY)
 	private Product product;

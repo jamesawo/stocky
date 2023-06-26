@@ -17,7 +17,7 @@ import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
  * @since 5/10/23
  */
 @RestController
-@RequestMapping(value = API_PREFIX + "/product-category")
+@RequestMapping(value = API_PREFIX + "/product/category")
 @RequiredArgsConstructor
 public class ProductCategoryEndpoint {
 	private final IProductCategoryInteractor interactor;

@@ -4,12 +4,14 @@ import {Subscription} from 'rxjs';
 import {BreakPoints, ResponsiveService} from '../../utils/responsive.service';
 
 export type ButtonProps = {
-    handler: () => void;
+    handler: (arg?: any) => void;
     title?: string;
     isLoading?: boolean;
     type?: NzButtonType;
     size?: NzButtonSize;
     icon?: string;
+    args?: any
+    iconCss?: string;
 };
 
 @Component({

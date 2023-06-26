@@ -13,8 +13,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,7 +21,6 @@ import java.util.List;
 public class ProductPriceRequest {
 	private Long id;
 	private Double markup;
-	private List<ProductTaxRequest> taxes;
 	private Double costPrice;
 	private Double sellingPrice;
 

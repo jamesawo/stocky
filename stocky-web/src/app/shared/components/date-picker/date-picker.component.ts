@@ -41,6 +41,7 @@ export class DatePickerComponent implements OnInit {
 
 
     public ngOnInit(): void {
+
         if (this.select && this.select.length > 1) {
             this.setDefaultDate(this.select);
         }
@@ -49,6 +50,7 @@ export class DatePickerComponent implements OnInit {
     public setDefaultDate(value: string): void {
         //const convert = new Date(value);
         this.selectedDate = parse(value, this.dateFormat, new Date());
+        this.setFormControl(value);
     }
 
     public onChange(dateValue: Date): void {
@@ -62,11 +64,15 @@ export class DatePickerComponent implements OnInit {
 
     }
 
+    public onClear() {
+        this.selectedDate = undefined;
+        this.select = '';
+    }
+
     private setFormControl(dateValue: string): void {
         if (this.formProps && this.formProps.formGroup && this.formProps.controlName) {
             const {formGroup, controlName} = this.formProps;
             formGroup.get(controlName)?.setValue(dateValue);
-
             this.formProps = {formGroup, controlName};
         }
     }

@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {PRODUCT_CREATE_POPOVER} from '../../../../data/constant/message.constant';
-import {getFormGroupFromParent} from '../../../../shared/utils/util';
+import {calculateSellingPrice, getFormGroupFromParent} from '../../../../shared/utils/util';
 
 @Component({
     selector: 'app-product-price-tab',
@@ -24,11 +24,7 @@ export class ProductPriceTabComponent {
             const form = this.getForm();
             const costPrice = form.get('costPrice')?.value;
             const markupPercent = form.get('markup')?.value;
-
-            const markupAmount = Number(costPrice) * Number((markupPercent / 100));
-            const sellingPrice = Number(costPrice) + Number(markupAmount);
-
-            form.get('sellingPrice')?.setValue(sellingPrice);
+            form.get('sellingPrice')?.setValue(calculateSellingPrice(costPrice, markupPercent));
         }
     }
 }

@@ -31,4 +31,5 @@ public class CompanySupplierRequest {
 	private String supplierOfficeAddress;
 	private List<ProductCategoryRequest> categories;
 	private String createdAt;
+	private Boolean isActiveStatus;
 }

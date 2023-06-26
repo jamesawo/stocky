@@ -192,6 +192,28 @@
             </nz-form-item>
 
             <nz-form-item>
+                <nz-form-label>Apply Tax:</nz-form-label>
+
+                <nz-form-control
+                    [nzSpan]="24"
+                    nzErrorTip=""
+                    nzValidateStatus="success"
+                >
+                    <div nz-row nzGutter="4">
+                        <div nz-col nzFlex="auto">
+
+                            <app-product-tax-dropdown [form]="{formGroup: getForm(), controlName: 'taxes'}"></app-product-tax-dropdown>
+
+                        </div>
+                        <div nz-col nz-tooltip nzFlex="30px" nzTooltipPlacement="top" nzTooltipTitle="Update tax setup">
+                            <app-product-tax-add-btn></app-product-tax-add-btn>
+                        </div>
+
+                    </div>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
                 <nz-form-label>
                     <app-hint [props]="{content: descPopoverTmpl}"></app-hint>
                     <ng-template #descPopoverTmpl><span [innerHTML]="popover.PRODUCT_DESCRIPTION"></span></ng-template>
