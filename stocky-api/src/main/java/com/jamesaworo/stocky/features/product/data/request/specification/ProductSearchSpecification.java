@@ -213,7 +213,7 @@ public class ProductSearchSpecification {
 	}
 
 	private static Predicate joinOnProductTaxes(CriteriaBuilder criteriaBuilder, List<ProductTaxRequest> taxes) {
-		Join<Product, ProductPrice> priceJoin = mainRoot.join("price");
+		Join<Product, ProductPrice> priceJoin = mainRoot.join("basic");
 		Join<ProductPrice, ProductTax> taxJoin = priceJoin.join("taxes");
 
 		List<Long> taxIds = taxes.stream().map(ProductTaxRequest::getId).collect(Collectors.toList());
