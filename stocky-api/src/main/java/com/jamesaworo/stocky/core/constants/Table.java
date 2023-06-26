@@ -57,4 +57,12 @@ public class Table {
 	public static final String COMPANY_PAYMENT_OPTION = COMPANY + "_PAYMENT_OPTIONS";
 	public static final String COMPANY_LOCATION = COMPANY + "_LOCATIONS";
 
+	public static final String STOCK = PREFIX + "STOCK";
+	public static final String STOCK_SETTLEMENT = STOCK + "_SETTLEMENT";
+	public static final String STOCK_GROUPED_EXPENSES = STOCK + "_GROUPED_EXPENSES";
+	public static final String STOCK_EXPENSES = STOCK + "_EXPENSES";
+	public static final String STOCK_ITEM = STOCK + "_ITEMS";
+	public static final String STOCK_ITEM_EXPENSES = STOCK + "_ITEM_EXPENSES";
+	public static final String STOCK_PRICE = STOCK + "_PRICE";
+
 }
