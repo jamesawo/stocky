@@ -1,59 +1,45 @@
 import {calculateSellingPrice} from '../../../shared/utils/util';
 import {SupplierPayload} from '../../company/_data/company.payload';
 import {ProductPayload} from '../../products/_data/product.payload';
-
-export class Stock {
-}
+import {StockStatus} from './stock.enum';
 
 export class StockSearch {
 }
 
-export class StockMetaSettlement {
-    groupSettlement: StockSettlement = new StockSettlement();
-    isGroupSettlement: boolean = false;
+export class Stock {
 
-    constructor(groupSettlement?: StockSettlement, isGroupSettlement?: boolean) {
-        this.groupSettlement = groupSettlement || this.groupSettlement;
-        this.isGroupSettlement = isGroupSettlement || this.isGroupSettlement;
-    }
-}
+    createdAt?: string;
+    isActiveStatus?: boolean;
+    code?: string;
+    isGroupedExpenses: boolean = false;
+    isGroupedSettlement: boolean = false;
+    openDate?: string;
+    closedDate?: string;
+    status?: StockStatus;
 
-export class StockMetaExpenses {
-    isGroupExpenses: boolean = false;
-    groupExpenses: StockExpenses[] = [];
-
-
-    constructor(isGroupExpenses?: boolean, groupExpenses?: StockExpenses[]) {
-        this.isGroupExpenses = isGroupExpenses || this.isGroupExpenses;
-        this.groupExpenses = groupExpenses || this.groupExpenses;
-    }
-}
-
-export class StockMeta {
-    stockRecordDate?: string;
-    stockSettlement: StockMetaSettlement = new StockMetaSettlement();
-    stockExpenses: StockMetaExpenses = new StockMetaExpenses();
-    stockItems?: StockItemPanel[] = [];
-
+    recordDate?: string;
+    settlement: StockSettlement = new StockSettlement();
+    expenses: StockExpenses[] = [];
+    stockItems?: StockItem[] = [];
 
     updateStockRecordDate(value: string) {
-        this.stockRecordDate = value;
+        this.recordDate = value;
     }
 
-    updateStockSettlement(value: StockMetaSettlement) {
-        this.stockSettlement = value;
+    updateStockSettlement(value: StockSettlement) {
+        this.settlement = value;
     }
 
-    updateStockExpenses(value: StockMetaExpenses) {
-        this.stockExpenses = value;
+    updateStockExpenses(value: StockExpenses[]) {
+        this.expenses = value;
     }
 
-    updateStockItems(value: StockItemPanel[]) {
+    updateStockItems(value: StockItem[]) {
         this.stockItems = value;
     }
 }
 
-export class StockItemPanel {
+export class StockItem {
     panelVisibility?: boolean = false;
     stockSupplier?: SupplierPayload;
     stockProductQuantity?: number;

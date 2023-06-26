@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {StockItemPanel} from '../../../_data/stock.payload';
+import {StockItem} from '../../../_data/stock.payload';
 
 @Component({
     selector: 'app-stock-item-panel-header',
@@ -9,6 +9,6 @@ import {StockItemPanel} from '../../../_data/stock.payload';
 export class StockItemPanelHeaderComponent {
 
     @Input()
-    public item: StockItemPanel = new StockItemPanel();
+    public item: StockItem = new StockItem();
 
 }
