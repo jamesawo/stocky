@@ -151,7 +151,6 @@
                                     (expensesChange)="onExpensesChange($event)"
                                     [expenses]="stock.expenses"
                                 ></app-stock-item-extra-expenses>
-                                <!-- [expenses]="stockMeta.expenses.groupExpenses" -->
                             </nz-tab>
 
                         </nz-tabset>
@@ -212,7 +211,6 @@
                             [isGroupExpenses]="stock.isGroupedExpenses"
                             [stockPrice]="group.stockPrice"
                         ></app-stock-item-price-form>
-                        <!-- [isGroupExpenses]="stockMeta.expenses.isGroupExpenses"-->
 
                         <div *ngIf="!checkOptionsOne[0].checked" class="mt3">
                             <app-stock-item-settlement-form [(settlement)]="group.stockSettlement"></app-stock-item-settlement-form>
@@ -224,13 +222,11 @@
                                 [(expenses)]="group.stockExpenses"
                             ></app-stock-item-extra-expenses>
                         </div>
-
                     </nz-collapse-panel>
-
                 </nz-collapse>
-
             </ng-container>
         </div>
+        
     </div>
 
 </form>
