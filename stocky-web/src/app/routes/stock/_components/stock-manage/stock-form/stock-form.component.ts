@@ -6,8 +6,16 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {ModalOrDrawer} from 'src/app/data/payload/common.enum';
 import {ProductRoutes, SupplierRoutes} from '../../../../../data/constant/routes.constant';
 import {DatePickerComponent} from '../../../../../shared/components/date-picker/date-picker.component';
-import {SearchModelDropdownComponent} from '../../../../../shared/components/search-model-dropdown/search-model-dropdown.component';
-import {getDateString, getNzFormControlValidStatus, isFormControlInvalid, markFormFieldsAsDirtyAndTouched} from '../../../../../shared/utils/util';
+import {
+    SearchModelDropdownComponent
+} from '../../../../../shared/components/search-model-dropdown/search-model-dropdown.component';
+import {
+    getDateString,
+    getNzFormControlValidStatus,
+    handleUsecaseRequest,
+    isFormControlInvalid,
+    markFormFieldsAsDirtyAndTouched
+} from '../../../../../shared/utils/util';
 import {Stock, StockExpenses, StockItem, StockPrice, StockSettlement} from '../../../_data/stock.payload';
 import {ManageStockUsecase} from '../../../_usecase/manage-stock.usecase';
 
@@ -48,8 +56,9 @@ export class StockFormComponent {
         private fb: FormBuilder,
         private usecase: ManageStockUsecase,
         private notification: NzNotificationService,
-        private msg: NzMessageService
-    ) {}
+        private msg: NzMessageService,
+    ) {
+    }
 
     public get currentDate() {
         return getDateString();
@@ -70,9 +79,18 @@ export class StockFormComponent {
         });
     }
 
-    public onSaveStockForm = () => {
+
+    /**
+     * Save stock form
+     *
+     * Calls save method on stock usecase and passes the stock object for saving
+     */
+    public onSaveStockForm = async () => {
         this.updateStockItemsList();
         console.log(this.stock);
+
+        let response = await handleUsecaseRequest(this.usecase.save(this.stock), this.notification);
+        console.log(response);
     };
 
     /**
@@ -140,7 +158,8 @@ export class StockFormComponent {
      *
      * This method serves as a placeholder or default function that does nothing.
      */
-    public emptyAction = () => {};
+    public emptyAction = () => {
+    };
 
     /**
      * Clears the main form and resets its values.
