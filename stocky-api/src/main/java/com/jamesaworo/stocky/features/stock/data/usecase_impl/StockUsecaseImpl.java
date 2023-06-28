@@ -26,7 +26,7 @@ public class StockUsecaseImpl implements IStockUsecase {
 
 	@Override
 	public Stock save(Stock stock) {
-		return null;
+		return this.repository.save(stock);
 	}
 
 	@Override
