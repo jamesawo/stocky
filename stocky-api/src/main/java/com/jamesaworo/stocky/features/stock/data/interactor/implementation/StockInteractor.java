@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Interactor
@@ -37,10 +38,15 @@ public class StockInteractor implements IStockInteractor {
 
 
 	@Override
+	@Transactional
 	public ResponseEntity<StockRequest> save(StockRequest request) {
-		Stock saveStocked = this.usecase.save(this.setStockModels(request));
-		request.setId(saveStocked.getId());
-		return ResponseEntity.ok().body(request);
+		try {
+			Stock saveStocked = this.usecase.save(this.setStockModels(request));
+			request.setId(saveStocked.getId());
+			return ResponseEntity.ok().body(request);
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
 	}
 
 	private Stock setStockModels(StockRequest request) {
