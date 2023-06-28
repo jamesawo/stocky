@@ -209,24 +209,24 @@
                         <app-stock-item-price-form
                             (stockPriceChange)="onStockPriceChange(group, $event)"
                             [isGroupExpenses]="stock.isGroupedExpenses"
-                            [stockPrice]="group.stockPrice"
+                            [stockPrice]="group.price"
                         ></app-stock-item-price-form>
 
                         <div *ngIf="!checkOptionsOne[0].checked" class="mt3">
-                            <app-stock-item-settlement-form [(settlement)]="group.stockSettlement"></app-stock-item-settlement-form>
+                            <app-stock-item-settlement-form [(settlement)]="group.settlement"></app-stock-item-settlement-form>
                         </div>
 
                         <div *ngIf="!checkOptionsOne[1].checked" class="mt3">
                             <app-stock-item-extra-expenses
                                 (expensesChange)="onExpensesChange($event)"
-                                [(expenses)]="group.stockExpenses"
+                                [(expenses)]="group.expenses"
                             ></app-stock-item-extra-expenses>
                         </div>
                     </nz-collapse-panel>
                 </nz-collapse>
             </ng-container>
         </div>
-        
+
     </div>
 
 </form>

@@ -6,9 +6,7 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {ModalOrDrawer} from 'src/app/data/payload/common.enum';
 import {ProductRoutes, SupplierRoutes} from '../../../../../data/constant/routes.constant';
 import {DatePickerComponent} from '../../../../../shared/components/date-picker/date-picker.component';
-import {
-    SearchModelDropdownComponent
-} from '../../../../../shared/components/search-model-dropdown/search-model-dropdown.component';
+import {SearchModelDropdownComponent} from '../../../../../shared/components/search-model-dropdown/search-model-dropdown.component';
 import {
     getDateString,
     getNzFormControlValidStatus,
@@ -56,7 +54,7 @@ export class StockFormComponent {
         private fb: FormBuilder,
         private usecase: ManageStockUsecase,
         private notification: NzNotificationService,
-        private msg: NzMessageService,
+        private msg: NzMessageService
     ) {
     }
 
@@ -87,8 +85,6 @@ export class StockFormComponent {
      */
     public onSaveStockForm = async () => {
         this.updateStockItemsList();
-        console.log(this.stock);
-
         let response = await handleUsecaseRequest(this.usecase.save(this.stock), this.notification);
         console.log(response);
     };
@@ -210,7 +206,7 @@ export class StockFormComponent {
      */
     public onStockPriceChange(stockItem: StockItem, stockPrice: StockPrice) {
         const costPrice = stockPrice.costPrice ?? 0;
-        const quantity = stockItem.stockProductQuantity ?? 0;
+        const quantity = stockItem.productQuantity ?? 0;
         const totalAmount = Number(costPrice) * Number(quantity);
 
         this.updateStockItemSettlement(stockItem, totalAmount);
@@ -286,13 +282,13 @@ export class StockFormComponent {
     private useFormValueToCreateNewItem(): StockItem {
         const stock = new StockItem();
         stock.panelVisibility = false;
-        stock.stockSupplier = this.form.controls['supplier'].value;
-        stock.stockProduct = this.form.controls['product'].value;
-        stock.stockProductQuantity = this.form.controls['quantity'].value;
-        stock.stockRecordedDate = this.form.controls['date'].value;
-        stock.stockExpenses = [];
-        stock.stockSettlement = new StockSettlement();
-        stock.stockPrice = new StockPrice();
+        stock.supplier = this.form.controls['supplier'].value;
+        stock.product = this.form.controls['product'].value;
+        stock.productQuantity = this.form.controls['quantity'].value;
+        stock.recordedDate = this.form.controls['date'].value;
+        stock.expenses = [];
+        stock.settlement = new StockSettlement();
+        stock.price = new StockPrice();
         return stock;
     }
 
@@ -320,7 +316,7 @@ export class StockFormComponent {
      */
     private updateAllStockItemsExpensesAmount(amount: number) {
         for (let stockItem of this.itemsList) {
-            const stockPrice = stockItem.stockPrice;
+            const stockPrice = stockItem.price;
             stockPrice.expensesAmount = amount;
             stockPrice.calculateSellingPrice!();
         }
@@ -340,7 +336,7 @@ export class StockFormComponent {
      * @param {number} totalAmount - The total amount to set for the settlement.
      */
     private updateStockItemSettlement(stockItem: StockItem, totalAmount: number) {
-        const settlement = stockItem.stockSettlement;
+        const settlement = stockItem.settlement;
         settlement.amount = totalAmount;
         settlement.paid = 0;
         settlement.balance = Number(settlement.amount) - Number(settlement.paid);
@@ -394,8 +390,8 @@ export class StockFormComponent {
         const stockProduct = this.form.controls['product'].value;
 
         return this.itemsList.some(stock => {
-            const hasSupplier = stock.stockSupplier?.id === stockSupplier.id;
-            const hasProduct = stock.stockProduct?.id === stockProduct.id;
+            const hasSupplier = stock.supplier?.id === stockSupplier.id;
+            const hasProduct = stock.product?.id === stockProduct.id;
             return hasProduct && hasSupplier;
         });
     }
@@ -421,7 +417,7 @@ export class StockFormComponent {
      */
     private getTotalCostPriceOfStockItems() {
         return this.itemsList.reduce((sum, item) =>
-            sum + (Number(item.stockPrice.costPrice) * Number(item.stockProductQuantity) || 0), 0
+            sum + (Number(item.price.costPrice) * Number(item.productQuantity) || 0), 0
         );
     }
 
@@ -442,7 +438,7 @@ export class StockFormComponent {
      * @returns {number} - The total quantity of products in all stock items.
      */
     private getTotalQuantityOfProductsInStockItems() {
-        return this.itemsList.reduce((sum, item) => sum + (item.stockProductQuantity || 0), 0);
+        return this.itemsList.reduce((sum, item) => sum + (item.productQuantity || 0), 0);
     }
 
 }

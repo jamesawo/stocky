@@ -1,10 +1,10 @@
 <div class="flex justify-between w-100">
 
     <span>
-        {{item.stockProductQuantity}} |
-        {{item.stockProduct?.basic?.productName}} -
-        {{item.stockProduct?.basic?.brandName}}
+        {{item.productQuantity}} |
+        {{item.product?.basic?.productName}} -
+        {{item.product?.basic?.brandName}}
     </span>
 
-    <span class="mr2">{{item.stockRecordedDate | date}}</span>
+    <span class="mr2">{{item.recordedDate | date}}</span>
 </div>
