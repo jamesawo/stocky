@@ -40,4 +40,7 @@ public class CompanySupplier extends BaseModel {
 	@JoinTable
 	private Set<ProductCategory> categories;
 
+	public CompanySupplier(Long id) {
+		this.id = id;
+	}
 }
