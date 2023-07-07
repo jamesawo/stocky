@@ -26,6 +26,19 @@ public class StockExpensesInteractor implements IStockExpensesInteractor {
 
 
 	@Override
+	public StockExpenses saveOne(StockExpensesRequest request) {
+		StockExpenses expenses = toModel(request);
+		return this.usecase.save(expenses);
+	}
+	
+	@Override
+	public List<StockExpenses> saveMany(List<StockExpensesRequest> request) {
+		List<StockExpenses> expenses = new ArrayList<>();
+		request.forEach(stockExpensesRequest -> expenses.add(this.saveOne(stockExpensesRequest)));
+		return expenses;
+	}
+
+	@Override
 	public StockExpensesRequest toRequest(StockExpenses model) {
 		return this.mapper.map(model, StockExpensesRequest.class);
 	}
@@ -35,16 +48,4 @@ public class StockExpensesInteractor implements IStockExpensesInteractor {
 		return this.mapper.map(request, StockExpenses.class);
 	}
 
-	@Override
-	public StockExpenses save(StockExpensesRequest request) {
-		StockExpenses model = toModel(request);
-		return this.usecase.save(model);
-	}
-
-	@Override
-	public List<StockExpenses> save(List<StockExpensesRequest> request) {
-		List<StockExpenses> expenses = new ArrayList<>();
-		request.forEach(stockExpensesRequest -> expenses.add(this.save(stockExpensesRequest)));
-		return expenses;
-	}
 }
