@@ -32,7 +32,8 @@ public class Stock extends BaseModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String code;
+	private String codePrefix;
+	private Integer code;
 	private Boolean isGroupedExpenses;
 	private Boolean isGroupedSettlement;
 	private LocalDate recordDate;
@@ -47,7 +48,7 @@ public class Stock extends BaseModel {
 	@JoinTable(name = STOCK_GROUPED_EXPENSES)
 	private List<StockExpenses> expenses;
 
-	@OneToMany
+	@OneToMany(mappedBy = "stock")
 	private List<StockItem> stockItems;
 
 

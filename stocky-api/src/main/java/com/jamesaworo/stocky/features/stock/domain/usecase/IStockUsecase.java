@@ -23,4 +23,6 @@ public interface IStockUsecase {
 	Page<Stock> findMany(Specification<Stock> specification, Pageable pageable);
 
 	List<Stock> findMany(Specification<Stock> specification);
+
+	Integer generateCode();
 }

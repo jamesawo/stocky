@@ -52,4 +52,7 @@ public class StockItem extends BaseModel {
 	@OneToOne
 	private StockPrice stockPrice;
 
+	@ManyToOne(optional = false)
+	private Stock stock;
+
 }
