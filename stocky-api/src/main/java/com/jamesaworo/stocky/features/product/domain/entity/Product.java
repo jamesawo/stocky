@@ -31,4 +31,7 @@ public class Product extends BaseModel {
 	private ProductPrice price;
 
 
+	public Product(Long id) {
+		this.id = id;
+	}
 }

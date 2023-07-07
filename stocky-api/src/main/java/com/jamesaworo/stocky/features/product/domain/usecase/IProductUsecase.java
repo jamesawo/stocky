@@ -21,4 +21,6 @@ public interface IProductUsecase {
 	Page<Product> findMany(Specification<Product> specification, Pageable pageable);
 
 	List<Product> findMany(Specification<Product> specification);
+
+	Boolean updateProductQuantity(Product product, Integer quantity);
 }
