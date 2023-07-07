@@ -24,21 +24,21 @@ public class StockItemUsecaseImpl implements IStockItemUsecase {
 
 	@Override
 	public StockItem save(StockItem item) {
-		return null;
+		return this.repository.save(item);
 	}
 
 	@Override
 	public Optional<StockItem> findOne(Long id) {
-		return Optional.empty();
+		return this.repository.findById(id);
 	}
 
 	@Override
 	public List<StockItem> findMany(List<Long> idList) {
-		return null;
+		return this.repository.findAllById(idList);
 	}
 
 	@Override
 	public List<StockItem> saveMany(List<StockItem> items) {
-		return null;
+		return this.repository.saveAll(items);
 	}
 }

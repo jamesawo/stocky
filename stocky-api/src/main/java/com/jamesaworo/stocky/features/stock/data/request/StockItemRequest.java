@@ -32,7 +32,7 @@ public class StockItemRequest {
 	private ProductRequest product;
 	private List<StockExpensesRequest> expenses;
 	private StockSettlementRequest settlement;
-	private StockPriceRequest stockPrice;
+	private StockPriceRequest price;
 	private String createdAt;
 	private Boolean isActiveStatus;
 }
