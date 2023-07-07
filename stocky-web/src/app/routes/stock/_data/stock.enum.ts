@@ -1,4 +1,5 @@
 export enum StockStatus {
     OPEN = 'OPEN',
-    CLOSED = 'CLOSED'
+    CLOSED = 'CLOSED',
+    REGISTERED = 'REGISTERED'
 }

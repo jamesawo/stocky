@@ -29,4 +29,5 @@ public class StockExpenses extends BaseModel {
 	private Long id;
 	private String title;
 	private Double amount;
+
 }

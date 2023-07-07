@@ -14,8 +14,8 @@ import com.jamesaworo.stocky.features.stock.domain.entity.StockExpenses;
 import java.util.List;
 
 public interface IStockExpensesInteractor extends Mapper<StockExpensesRequest, StockExpenses> {
-	StockExpenses save(StockExpensesRequest request);
+	StockExpenses saveOne(StockExpensesRequest request);
 
-	List<StockExpenses> save(List<StockExpensesRequest> request);
+	List<StockExpenses> saveMany(List<StockExpensesRequest> request);
 
 }

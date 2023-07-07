@@ -9,13 +9,13 @@ const mockStockPrice = new StockPrice();
 
 const mockStockPanel = new StockItem();
 mockStockPanel.panelVisibility = false;
-mockStockPanel.stockSupplier = MOCK_SUPPLIER;
-mockStockPanel.stockProductQuantity = 45;
-mockStockPanel.stockProduct = MOCK_PRODUCT;
-mockStockPanel.stockExpenses = [];
-mockStockPanel.stockSettlement = mockSettlement;
-mockStockPanel.stockPrice = mockStockPrice;
-mockStockPanel.stockRecordedDate = '';
+mockStockPanel.supplier = MOCK_SUPPLIER;
+mockStockPanel.productQuantity = 45;
+mockStockPanel.product = MOCK_PRODUCT;
+mockStockPanel.expenses = [];
+mockStockPanel.settlement = mockSettlement;
+mockStockPanel.price = mockStockPrice;
+mockStockPanel.recordedDate = '';
 
 
 export const MOCK_STOCK_ITEM_PANEL: StockItem = mockStockPanel;

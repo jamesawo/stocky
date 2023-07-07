@@ -16,7 +16,6 @@ export class ManageStockComponent {
     public crumbs = STOCK_MANAGE_CRUMBS;
     public isOpenHeader = true;
     public isLoading = false;
-
     public tableCols: TableCol[] = [
         {title: 'Stock #'},
         {title: 'Recorded By'},
@@ -27,11 +26,15 @@ export class ManageStockComponent {
         {title: 'Action'}
     ];
 
-    public onSearch = async (): Promise<void> => {};
 
-    public onReset = (): void => {};
+    public onSearch = async (): Promise<void> => {
+    };
 
-    public onCancel = (): void => {};
+    public onReset = (): void => {
+    };
+
+    public onCancel = (): void => {
+    };
 
     public onCreate = async () => this.stockManageAddComponent?.open();
 

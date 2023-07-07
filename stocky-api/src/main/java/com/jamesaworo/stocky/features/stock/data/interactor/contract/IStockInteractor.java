@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface IStockInteractor extends Mapper<StockRequest, Stock> {
-	ResponseEntity<StockRequest> save(StockRequest request);
+	ResponseEntity<Boolean> save(StockRequest request);
 
 	ResponseEntity<PageSearchResult<List<StockRequest>>> search(PageSearchRequest<StockSearchRequest> request);
 

@@ -10,8 +10,12 @@ package com.jamesaworo.stocky.features.product.data.usecase_impl;
 import com.jamesaworo.stocky.core.annotations.Usecase;
 import com.jamesaworo.stocky.features.product.data.repository.ProductBasicRepository;
 import com.jamesaworo.stocky.features.product.domain.entity.ProductBasic;
+import com.jamesaworo.stocky.features.product.domain.enums.ProductQuantityUpdateType;
 import com.jamesaworo.stocky.features.product.domain.usecase.IProductBasicUsecase;
 import lombok.RequiredArgsConstructor;
+
+import static com.jamesaworo.stocky.features.product.domain.enums.ProductQuantityUpdateType.DECREMENT;
+import static com.jamesaworo.stocky.features.product.domain.enums.ProductQuantityUpdateType.INCREMENT;
 
 @Usecase
 @RequiredArgsConstructor
@@ -20,5 +24,18 @@ public class ProductBasicUsecaseImpl implements IProductBasicUsecase {
 
 	public ProductBasic save(ProductBasic basic) {
 		return this.repository.save(basic);
+	}
+
+	@Override
+	public int updateProductQuantity(Long basicId, Integer quantity, ProductQuantityUpdateType updateType) {
+		if (updateType == INCREMENT) {
+			return this.repository.incrementQuantity(basicId, quantity);
+		}
+		else if (updateType == DECREMENT) {
+			return this.repository.decrementQuantity(basicId, quantity);
+		}
+		else {
+			return 0;
+		}
 	}
 }

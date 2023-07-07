@@ -21,6 +21,13 @@ public class StockSettlementInteractor implements IStockSettlementInteractor {
 	private final IStockSettlementUsecase usecase;
 	private final ModelMapper mapper;
 
+
+	@Override
+	public StockSettlement save(StockSettlementRequest request) {
+		StockSettlement model = toModel(request);
+		return this.usecase.save(model);
+	}
+
 	@Override
 	public StockSettlementRequest toRequest(StockSettlement model) {
 		return this.mapper.map(model, StockSettlementRequest.class);
@@ -31,9 +38,5 @@ public class StockSettlementInteractor implements IStockSettlementInteractor {
 		return this.mapper.map(request, StockSettlement.class);
 	}
 
-	@Override
-	public StockSettlement save(StockSettlementRequest request) {
-		StockSettlement model = toModel(request);
-		return this.usecase.save(model);
-	}
+
 }

@@ -30,7 +30,7 @@ public class StockEndpoint {
 	private final IStockInteractor interactor;
 
 	@PostMapping(value = "/create")
-	public ResponseEntity<StockRequest> create(@RequestBody StockRequest request) {
+	public ResponseEntity<Boolean> create(@RequestBody StockRequest request) {
 		return this.interactor.save(request);
 	}
 

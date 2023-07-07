@@ -24,7 +24,6 @@ public class SettingsSeeds {
 			                         strip(SETTING_BACKUP_ENABLE_AUTO_BACK_UP)
 			)
 	);
-
 	// dashboard
 	public static final List<SettingDashboard> SETTING_DASHBOARDS = List.of(
 			new SettingDashboard(SETTING_DASHBOARD_SHOW_EMPLOYEE_PERFORMANCE, FALSE, TOGGLE, new String[] { },
@@ -34,14 +33,12 @@ public class SettingsSeeds {
 			                     strip(SETTING_DASHBOARD_SHOW_PRODUCT_PERFORMANCE)
 			)
 	);
-
 	// expenses
 	public static final List<SettingExpenses> SETTING_EXPENSES = List.of(
 			new SettingExpenses(SETTING_EXPENSES_ENABLE_EXPENSES_APPROVAL, FALSE, TOGGLE, new String[] { },
 			                    strip(SETTING_EXPENSES_ENABLE_EXPENSES_APPROVAL)
 			)
 	);
-
 	// tax
 	public static final List<SettingTax> SETTING_TAXES = List.of(
 			new SettingTax(SETTING_TAX_ENABLE_TAX, FALSE, TOGGLE, new String[] { }, strip(SETTING_TAX_ENABLE_TAX)),
@@ -49,7 +46,6 @@ public class SettingsSeeds {
 			               strip(SETTING_TAX_PERCENT_VALUE)
 			)
 	);
-
 	// people
 	public static final List<SettingPeople> SETTING_PEOPLE = List.of(
 			new SettingPeople(SETTING_PEOPLE_SHOW_EMPLOYEE_SALES_PERFORMANCE, FALSE, TOGGLE, new String[] { },
@@ -65,30 +61,8 @@ public class SettingsSeeds {
 			                  strip(SETTING_PEOPLE_SHOW_TOTAL_CUSTOMER_STATS)
 			)
 	);
-
-
 	// stock
-	public static final List<SettingStock> SETTING_STOCKS = of(
-			new SettingStock(SETTING_STOCK_ENABLE_STOCK, FALSE, TOGGLE, new String[] { },
-			                 strip(SETTING_STOCK_ENABLE_STOCK)
-			),
-			new SettingStock(SETTING_STOCK_BATCH_PREFIX_VALUE, "STK_", INPUT, new String[] { },
-			                 strip(SETTING_STOCK_BATCH_PREFIX_VALUE)
-			),
-			new SettingStock(SETTING_STOCK_SHOW_STOCK_COUNT, FALSE, TOGGLE, new String[] { },
-			                 strip(SETTING_STOCK_SHOW_STOCK_COUNT)
-			),
-			new SettingStock(SETTING_STOCK_SHOW_OUT_OF_STOCK_ITEM, FALSE, TOGGLE, new String[] { },
-			                 strip(SETTING_STOCK_SHOW_OUT_OF_STOCK_ITEM)
-			),
-			new SettingStock(SETTING_STOCK_SHOW_LOW_INVENTORY_WARNING, FALSE, TOGGLE, new String[] { },
-			                 strip(SETTING_STOCK_SHOW_LOW_INVENTORY_WARNING)
-			),
-			new SettingStock(SETTING_STOCK_SHOW_DAMAGED_STOCK_ITEM, FALSE, TOGGLE, new String[] { },
-			                 strip(SETTING_STOCK_SHOW_DAMAGED_STOCK_ITEM)
-			)
-	);
-
+	public static final List<SettingStock> SETTING_STOCKS;
 	// product
 	public static final List<SettingProduct> SETTING_PRODUCTS = of(
 			new SettingProduct(SETTING_PRODUCT_ENABLE_PRODUCT_BUNDLE, FALSE, TOGGLE, new String[] { },
@@ -107,7 +81,6 @@ public class SettingsSeeds {
 			)
 
 	);
-
 	// sale
 	public static final List<SettingSale> SETTING_SALES = of(
 			new SettingSale(SETTING_ENABLE_FLEXIBLE_SALE_PRICE, FALSE, TOGGLE, new String[] { },
@@ -115,6 +88,29 @@ public class SettingsSeeds {
 			                "ALLOW FLEXIBLE SALE PRICING FOR PRODUCTS WITH MULTIPLE PRICE TAGS"
 			)
 	);
+
+	static {
+		SETTING_STOCKS = of(
+				new SettingStock(SETTING_STOCK_ENABLE_STOCK, FALSE, TOGGLE, new String[] { },
+				                 strip(SETTING_STOCK_ENABLE_STOCK)
+				),
+				new SettingStock(SETTING_STOCK_BATCH_PREFIX_VALUE, STOCK_PREFIX_DEFAULT, INPUT, new String[] { },
+				                 strip(SETTING_STOCK_BATCH_PREFIX_VALUE)
+				),
+				new SettingStock(SETTING_STOCK_SHOW_STOCK_COUNT, FALSE, TOGGLE, new String[] { },
+				                 strip(SETTING_STOCK_SHOW_STOCK_COUNT)
+				),
+				new SettingStock(SETTING_STOCK_SHOW_OUT_OF_STOCK_ITEM, FALSE, TOGGLE, new String[] { },
+				                 strip(SETTING_STOCK_SHOW_OUT_OF_STOCK_ITEM)
+				),
+				new SettingStock(SETTING_STOCK_SHOW_LOW_INVENTORY_WARNING, FALSE, TOGGLE, new String[] { },
+				                 strip(SETTING_STOCK_SHOW_LOW_INVENTORY_WARNING)
+				),
+				new SettingStock(SETTING_STOCK_SHOW_DAMAGED_STOCK_ITEM, FALSE, TOGGLE, new String[] { },
+				                 strip(SETTING_STOCK_SHOW_DAMAGED_STOCK_ITEM)
+				)
+		);
+	}
 
 	private static String[] options() {
 		return new String[] { TRUE, FALSE };

@@ -16,7 +16,6 @@ export class Stock {
     openDate?: string;
     closedDate?: string;
     status?: StockStatus;
-
     recordDate?: string;
     settlement: StockSettlement = new StockSettlement();
     expenses: StockExpenses[] = [];
@@ -41,16 +40,16 @@ export class Stock {
 
 export class StockItem {
     panelVisibility?: boolean = false;
-    stockSupplier?: SupplierPayload;
-    stockProductQuantity?: number;
-    stockProduct?: ProductPayload;
-    stockExpenses: StockExpenses[] = [];
-    stockSettlement: StockSettlement = new StockSettlement();
-    stockPrice: StockPrice = new StockPrice();
-    stockRecordedDate?: string;
+    supplier?: SupplierPayload;
+    productQuantity?: number;
+    product?: ProductPayload;
+    expenses: StockExpenses[] = [];
+    settlement: StockSettlement = new StockSettlement();
+    price: StockPrice = new StockPrice();
+    recordedDate?: string;
 
     updateStockSettlement? = (value: StockSettlement) => {
-        this.stockSettlement = value;
+        this.settlement = value;
     };
 }
 
