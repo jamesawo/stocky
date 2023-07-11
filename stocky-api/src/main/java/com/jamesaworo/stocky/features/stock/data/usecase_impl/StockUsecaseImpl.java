@@ -34,9 +34,15 @@ public class StockUsecaseImpl implements IStockUsecase {
 
 	@Override
 	public Stock save(Stock stock) {
+		return this.repository.save(stock);
+	}
+
+
+	@Override
+	public Stock setCodeAndSave(Stock stock) {
 		stock.setCodePrefix(this.getStockPrefix());
 		stock.setCode(this.generateCode());
-		return this.repository.save(stock);
+		return this.save(stock);
 	}
 
 	@Override
@@ -54,8 +60,7 @@ public class StockUsecaseImpl implements IStockUsecase {
 		return null;
 	}
 
-	@Override
-	public Integer generateCode() {
+	private Integer generateCode() {
 		Stock stock = this.repository.findTopByOrderByIdDesc();
 
 		if (stock == null) {
@@ -64,7 +69,7 @@ public class StockUsecaseImpl implements IStockUsecase {
 		return new AtomicInteger(stock.getCode()).incrementAndGet();
 	}
 
-	public String getStockPrefix() {
+	private String getStockPrefix() {
 		Optional<SettingStock> optionalSettings = this.settingUsecase.get(SETTING_STOCK_BATCH_PREFIX_VALUE);
 		return optionalSettings.map(Setting::getSettingValue).orElse(STOCK_PREFIX_DEFAULT);
 	}

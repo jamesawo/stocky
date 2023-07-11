@@ -20,25 +20,25 @@ import java.util.Optional;
 @Usecase
 @RequiredArgsConstructor
 public class StockItemUsecaseImpl implements IStockItemUsecase {
-	private final StockItemRepository repository;
+    private final StockItemRepository repository;
 
-	@Override
-	public StockItem save(StockItem item) {
-		return this.repository.save(item);
-	}
+    @Override
+    public StockItem save(StockItem item) {
+        return this.repository.save(item);
+    }
 
-	@Override
-	public Optional<StockItem> findOne(Long id) {
-		return this.repository.findById(id);
-	}
+    @Override
+    public Optional<StockItem> findOne(Long id) {
+        return this.repository.findById(id);
+    }
 
-	@Override
-	public List<StockItem> findMany(List<Long> idList) {
-		return this.repository.findAllById(idList);
-	}
+    @Override
+    public List<StockItem> findMany(List<Long> idList) {
+        return this.repository.findAllById(idList);
+    }
 
-	@Override
-	public List<StockItem> saveMany(List<StockItem> items) {
-		return this.repository.saveAll(items);
-	}
+    @Override
+    public List<StockItem> saveMany(List<StockItem> items) {
+        return this.repository.saveAll(items);
+    }
 }
