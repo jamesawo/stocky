@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.jamesaworo.stocky.core.constants.Table.STOCK;
-import static com.jamesaworo.stocky.core.constants.Table.STOCK_GROUPED_EXPENSES;
+import static com.jamesaworo.stocky.core.constants.Table.STOCK_GROUP_EXPENSES;
 
 
 @EqualsAndHashCode(callSuper = true)
@@ -29,27 +29,29 @@ import static com.jamesaworo.stocky.core.constants.Table.STOCK_GROUPED_EXPENSES;
 @NoArgsConstructor
 public class Stock extends BaseModel {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String codePrefix;
-	private Integer code;
-	private Boolean isGroupedExpenses;
-	private Boolean isGroupedSettlement;
-	private LocalDate recordDate;
-	private LocalDate openDate;
-	private LocalDate closedDate;
-	private StockStatus status;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String codePrefix;
+    private Integer code;
+    private Boolean isGroupedExpenses;
+    private Boolean isGroupedSettlement;
+    private LocalDate recordDate;
+    private LocalDate openDate;
+    private LocalDate closedDate;
+    private StockStatus status;
 
-	@OneToOne
-	private StockSettlement settlement;
+    @OneToOne
+    private StockSettlement settlement;
 
-	@OneToMany
-	@JoinTable(name = STOCK_GROUPED_EXPENSES)
-	private List<StockExpenses> expenses;
+    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(name = STOCK_GROUP_EXPENSES,
+            joinColumns = @JoinColumn(name = "stock_id"),
+            inverseJoinColumns = @JoinColumn(name = "expenses_id"))
+    private List<StockExpenses> expenses;
 
-	@OneToMany(mappedBy = "stock")
-	private List<StockItem> stockItems;
+    @OneToMany(mappedBy = "stock")
+    private List<StockItem> stockItems;
 
 
 }

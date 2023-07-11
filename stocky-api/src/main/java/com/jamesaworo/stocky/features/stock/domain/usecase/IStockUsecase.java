@@ -18,11 +18,12 @@ import java.util.Optional;
 public interface IStockUsecase {
 	Stock save(Stock stock);
 
+	Stock setCodeAndSave(Stock stock);
+
 	Optional<Stock> findOne(Long id);
 
 	Page<Stock> findMany(Specification<Stock> specification, Pageable pageable);
 
 	List<Stock> findMany(Specification<Stock> specification);
 
-	Integer generateCode();
 }

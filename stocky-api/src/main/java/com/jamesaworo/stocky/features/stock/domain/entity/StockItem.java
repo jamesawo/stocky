@@ -28,31 +28,35 @@ import static com.jamesaworo.stocky.core.constants.Table.STOCK_ITEM_EXPENSES;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StockItem extends BaseModel {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private LocalDate recordedDate;
-	private Integer productQuantity;
-	private Integer productQuantitySold;
-	private String other;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private LocalDate recordedDate;
+    private Integer productQuantity;
+    private Integer productQuantitySold;
+    private String other;
 
-	@OneToOne
-	private CompanySupplier supplier;
+    @OneToOne
+    private CompanySupplier supplier;
 
-	@OneToOne
-	private Product product;
+    @OneToOne
+    private Product product;
 
-	@OneToMany
-	@JoinTable(name = STOCK_ITEM_EXPENSES)
-	private List<StockExpenses> expenses;
+    @OneToOne
+    private StockSettlement settlement;
 
-	@OneToOne
-	private StockSettlement settlement;
+    @OneToOne
+    private StockPrice stockPrice;
 
-	@OneToOne
-	private StockPrice stockPrice;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Stock stock;
 
-	@ManyToOne(optional = false)
-	private Stock stock;
+    @OneToMany
+    @JoinTable(
+            name = STOCK_ITEM_EXPENSES,
+            joinColumns = @JoinColumn(name = "item_id"),
+            inverseJoinColumns = @JoinColumn(name = "expenses_id")
+    )
+    private List<StockExpenses> expenses;
 
 }

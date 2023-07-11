@@ -24,10 +24,13 @@ import static com.jamesaworo.stocky.core.constants.Table.STOCK_EXPENSES;
 @NoArgsConstructor
 public class StockExpenses extends BaseModel {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String title;
-	private Double amount;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String title;
+    private Double amount;
 
+    public StockExpenses(Long id) {
+        this.id = id;
+    }
 }
