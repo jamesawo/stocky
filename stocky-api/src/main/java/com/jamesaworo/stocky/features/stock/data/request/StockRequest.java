@@ -14,7 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,17 +22,17 @@ import java.util.List;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class StockRequest {
-	private Long id;
-	private String createdAt;
-	private Boolean isActiveStatus;
-	private String code;
-	private Boolean isGroupedExpenses;
-	private Boolean isGroupedSettlement;
-	private String recordDate;
-	private String openDate;
-	private String closedDate;
-	private StockStatus status;
-	private StockSettlementRequest settlement;
-	private List<StockExpensesRequest> expenses;
-	private List<StockItemRequest> stockItems;
+    private Long id;
+    private String createdAt;
+    private Boolean isActiveStatus;
+    private String code;
+    private Boolean isGroupedExpenses;
+    private Boolean isGroupedSettlement;
+    private String recordDate;
+    private String openDate;
+    private String closedDate;
+    private StockStatus status;
+    private StockSettlementRequest settlement;
+    private Set<StockExpensesRequest> expenses;
+    private Set<StockItemRequest> stockItems;
 }
