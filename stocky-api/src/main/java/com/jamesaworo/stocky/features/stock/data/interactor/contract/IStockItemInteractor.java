@@ -15,9 +15,8 @@ import com.jamesaworo.stocky.features.stock.domain.entity.StockItem;
 import java.util.List;
 
 public interface IStockItemInteractor extends Mapper<StockItemRequest, StockItem> {
-	List<StockItem> saveMany(List<StockItemRequest> requests, Stock stock);
+    void saveMany(List<StockItemRequest> requests, Stock stock);
 
-	StockItem save(StockItem item);
+    StockItem save(StockItem item);
 
-	StockItem mapToSavedModel(StockItemRequest request, Stock stock);
 }

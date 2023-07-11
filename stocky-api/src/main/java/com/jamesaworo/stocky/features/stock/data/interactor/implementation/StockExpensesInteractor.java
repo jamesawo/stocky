@@ -21,31 +21,31 @@ import java.util.List;
 @Interactor
 @RequiredArgsConstructor
 public class StockExpensesInteractor implements IStockExpensesInteractor {
-	private final IStockExpensesUsecase usecase;
-	private final ModelMapper mapper;
+    private final IStockExpensesUsecase usecase;
+    private final ModelMapper mapper;
 
 
-	@Override
-	public StockExpenses saveOne(StockExpensesRequest request) {
-		StockExpenses expenses = toModel(request);
-		return this.usecase.save(expenses);
-	}
-	
-	@Override
-	public List<StockExpenses> saveMany(List<StockExpensesRequest> request) {
-		List<StockExpenses> expenses = new ArrayList<>();
-		request.forEach(stockExpensesRequest -> expenses.add(this.saveOne(stockExpensesRequest)));
-		return expenses;
-	}
+    @Override
+    public StockExpenses saveOne(StockExpensesRequest request) {
+        StockExpenses expenses = toModel(request);
+        return this.usecase.save(expenses);
+    }
 
-	@Override
-	public StockExpensesRequest toRequest(StockExpenses model) {
-		return this.mapper.map(model, StockExpensesRequest.class);
-	}
+    @Override
+    public List<StockExpenses> saveMany(List<StockExpensesRequest> request) {
+        List<StockExpenses> expenses = new ArrayList<>();
+        request.forEach(stockExpensesRequest -> expenses.add(this.saveOne(stockExpensesRequest)));
+        return expenses;
+    }
 
-	@Override
-	public StockExpenses toModel(StockExpensesRequest request) {
-		return this.mapper.map(request, StockExpenses.class);
-	}
+    @Override
+    public StockExpensesRequest toRequest(StockExpenses model) {
+        return this.mapper.map(model, StockExpensesRequest.class);
+    }
+
+    @Override
+    public StockExpenses toModel(StockExpensesRequest request) {
+        return this.mapper.map(request, StockExpenses.class);
+    }
 
 }

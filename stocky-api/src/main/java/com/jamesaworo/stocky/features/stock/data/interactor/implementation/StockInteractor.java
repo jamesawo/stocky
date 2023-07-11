@@ -11,215 +11,168 @@ import com.jamesaworo.stocky.core.annotations.Interactor;
 import com.jamesaworo.stocky.core.params.PageSearchRequest;
 import com.jamesaworo.stocky.core.params.PageSearchResult;
 import com.jamesaworo.stocky.core.utils.Util;
-import com.jamesaworo.stocky.features.product.domain.entity.Product;
-import com.jamesaworo.stocky.features.product.domain.entity.ProductBasic;
-import com.jamesaworo.stocky.features.product.domain.entity.ProductPrice;
-import com.jamesaworo.stocky.features.product.domain.usecase.IProductBasicUsecase;
-import com.jamesaworo.stocky.features.product.domain.usecase.IProductPriceUsecase;
 import com.jamesaworo.stocky.features.stock.data.interactor.contract.IStockExpensesInteractor;
 import com.jamesaworo.stocky.features.stock.data.interactor.contract.IStockInteractor;
 import com.jamesaworo.stocky.features.stock.data.interactor.contract.IStockItemInteractor;
 import com.jamesaworo.stocky.features.stock.data.interactor.contract.IStockSettlementInteractor;
-import com.jamesaworo.stocky.features.stock.data.request.StockItemRequest;
-import com.jamesaworo.stocky.features.stock.data.request.StockRequest;
-import com.jamesaworo.stocky.features.stock.data.request.StockSearchRequest;
+import com.jamesaworo.stocky.features.stock.data.request.*;
 import com.jamesaworo.stocky.features.stock.domain.entity.Stock;
-import com.jamesaworo.stocky.features.stock.domain.entity.StockItem;
-import com.jamesaworo.stocky.features.stock.domain.entity.StockPrice;
+import com.jamesaworo.stocky.features.stock.domain.entity.StockExpenses;
+import com.jamesaworo.stocky.features.stock.domain.entity.StockSettlement;
 import com.jamesaworo.stocky.features.stock.domain.usecase.IStockUsecase;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.jamesaworo.stocky.features.stock.domain.enums.StockStatus.REGISTERED;
 import static org.springframework.http.ResponseEntity.ok;
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 @Interactor
 @RequiredArgsConstructor
+@Slf4j
 public class StockInteractor implements IStockInteractor {
 
-	private final ModelMapper mapper;
-	private final IStockUsecase usecase;
-	private final IStockSettlementInteractor settlementInteractor;
-	private final IStockExpensesInteractor expensesInteractor;
-	private final IStockItemInteractor itemInteractor;
-	private final IProductPriceUsecase productPriceUsecase;
-	private final IProductBasicUsecase productBasicUsecase;
+    private final ModelMapper mapper;
+    private final IStockUsecase usecase;
+    private final IStockSettlementInteractor settlementInteractor;
+    private final IStockExpensesInteractor expensesInteractor;
+    private final IStockItemInteractor itemInteractor;
 
-	private List<StockItem> updateNewStockItems(Stock newStock, List<StockItemRequest> items) {
-		List<StockItem> stockItems = new ArrayList<>();
-		if (items != null && !items.isEmpty()) {
-			for (StockItemRequest request : items) {
-				StockItem stockItem = itemInteractor.mapToSavedModel(request, newStock);
-				stockItems.add(stockItem);
-			}
-		}
-		newStock.setStockItems(stockItems);
-		this.usecase.save(newStock);
-		return stockItems;
-	}
 
-	private Stock createNewStock(StockRequest request) {
-		Stock stock = new Stock();
-		stock.setIsGroupedExpenses(request.getIsGroupedExpenses());
-		stock.setIsGroupedSettlement(request.getIsGroupedSettlement());
-		stock.setRecordDate(Util.convertStringToLocalDate(request.getRecordDate()));
-		stock.setStatus(REGISTERED);
-		stock.setSettlement(this.settlementInteractor.save(request.getSettlement()));
-		stock.setExpenses(this.expensesInteractor.saveMany(request.getExpenses()));
-		return this.usecase.save(stock);
+    /**
+     * Saves the stock request and returns a ResponseEntity containing the saved stock request.
+     *
+     * @param request The stock request to be saved.
+     * @return A ResponseEntity containing the saved stock request.
+     * @throws RuntimeException if an exception occurs during the saving process.
+     */
+    @Override
+    public ResponseEntity<StockRequest> save(StockRequest request) {
+        try {
+            Stock newStock = this.createNewStock(request);
+            this.updateStockSettlementIfIsGroupEnabled(newStock, request.getSettlement());
+            this.updateStockExpensesIfGroupEnable(newStock, new ArrayList<>(request.getExpenses()));
+            this.updateStockItemsAfterCreatingStock(newStock, new ArrayList<>(request.getStockItems()));
+            return ok().body(request);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
 
-	}
 
-	private void updateProductPriceAndIncrementProductQuantity(List<StockItem> items) {
-		if (items != null && !items.isEmpty()) {
-			for (StockItem item : items) {
-				Product product = item.getProduct();
+    /**
+     * Creates a new Stock object based on the given StockRequest object.
+     *
+     * @param request The StockRequest object containing the data for the new Stock.
+     * @return The newly created Stock object.
+     */
+    private Stock createNewStock(StockRequest request) {
+        Stock stock = new Stock();
+        stock.setIsGroupedExpenses(request.getIsGroupedExpenses());
+        stock.setIsGroupedSettlement(request.getIsGroupedSettlement());
+        stock.setRecordDate(Util.convertStringToLocalDate(request.getRecordDate()));
+        stock.setStatus(REGISTERED);
+        return this.usecase.setCodeAndSave(stock);
+    }
 
-				this.updateProductPrice(product, item);
-				this.updateProductQuantity(product, item);
-			}
-		}
-	}
 
-	private void updateProductPrice(Product product, StockItem item) {
-		StockPrice stockPrice = item.getStockPrice();
+    /**
+     * Updates the stock settlement if the stock is enabled for grouped settlement.
+     * <p>
+     * Operation Steps:
+     * - Checks if the stock has the "isGroupedSettlement" flag set to true.
+     * - If true, saves the stock settlement using the settlementInteractor.
+     * - Assigns the saved settlement to the stock.
+     * - Saves the updated stock using the usecase.
+     *
+     * @param stock   The Stock object to be updated.
+     * @param request The StockSettlementRequest object containing the settlement data.
+     */
+    private void updateStockSettlementIfIsGroupEnabled(Stock stock, StockSettlementRequest request) {
+        if (stock.getIsGroupedSettlement()) {
+            StockSettlement settlement = this.settlementInteractor.save(request);
+            stock.setSettlement(settlement);
+            this.usecase.save(stock);
+        }
+    }
 
-		ProductPrice price = product.getPrice();
 
-		price.setMarkup(stockPrice.getMarkupPercent());
-		price.setSellingPrice(stockPrice.getSellingPrice());
-		price.setCostPrice(stockPrice.getCostPrice());
-		this.productPriceUsecase.save(price);
-	}
+    /**
+     * Updates the stock expenses if the stock is enabled for grouped expenses and if there are any expense requests provided.
+     * <p>
+     * Operation Steps:
+     * - Checks if the stock has the "isGroupedExpenses" flag set to true and if there are any expense requests.
+     * - If true, saves the expense requests using the expensesInteractor.
+     * - Assigns the saved expenses to the stock.
+     * - Saves the updated stock using the usecase.
+     *
+     * @param stock            The Stock object to be updated.
+     * @param expensesRequests The list of StockExpensesRequest objects containing the expense data.
+     */
+    private void updateStockExpensesIfGroupEnable(Stock stock, List<StockExpensesRequest> expensesRequests) {
+        if (stock.getIsGroupedExpenses() && expensesRequests != null) {
+            List<StockExpenses> expenses = this.expensesInteractor.saveMany(expensesRequests);
+            stock.setExpenses(expenses);
+            this.usecase.save(stock);
+        }
+    }
 
-	private void updateProductQuantity(Product product, StockItem item) {
-		ProductBasic basic = product.getBasic();
-		basic.setQuantity(item.getProductQuantity());
-		this.productBasicUsecase.save(basic);
-	}
 
-	@Override
-	@Transactional
-	public ResponseEntity<Boolean> save(StockRequest request) {
-		try {
-			Stock newStock = this.createNewStock(request);
-			List<StockItem> stockItems = this.updateNewStockItems(newStock, request.getStockItems());
-			this.updateProductPriceAndIncrementProductQuantity(stockItems);
-			return ok().body(Boolean.TRUE);
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage(), e);
-		}
-	}
+    /**
+     * Updates the stock items after creating a stock.
+     * <p>
+     * Steps:
+     * - Checks if the stockItems list is not empty.
+     * - If not empty, saves the stock items using the itemInteractor and associates them with the given stock.
+     *
+     * @param stock      The Stock object for which the items are being updated.
+     * @param stockItems The list of StockItemRequest objects containing the item data.
+     */
+    private void updateStockItemsAfterCreatingStock(Stock stock, List<StockItemRequest> stockItems) {
+        if (!isEmpty(stockItems)) {
+            this.itemInteractor.saveMany(stockItems, stock);
+        }
+    }
 
-	/*
-	Stock stock = this.setStockModelsAndUpdate(request);
-	this.setStockItems(stock, request);
-	this.updateProductPriceAfterSavingStock(stockItems);
-	 */
+    @Override
+    public ResponseEntity<PageSearchResult<List<StockRequest>>> search(PageSearchRequest<StockSearchRequest> request) {
+        return null;
+    }
 
-	/*
-	private Stock setStockModelsAndUpdate(StockRequest request) {
-		Stock model = new Stock();
-		this.setStockDetails(model, request);
-		this.setStockSettlementIfIsGroupedSettlement(model, request);
+    @Override
+    public ResponseEntity<List<StockRequest>> search(String term) {
+        return null;
+    }
 
-		Stock saveStocked = this.saveStock(model);
 
-		this.setStockExpensesIfIsGroupedExpenses(saveStocked, request);
-		return saveStocked;
-	}
-	*/
+    /**
+     * Converts a Stock model object to a StockRequest object.
+     *
+     * @param model The Stock object to be converted.
+     * @return The converted StockRequest object.
+     */
+    @Override
+    public StockRequest toRequest(Stock model) {
+        return this.mapper.map(model, StockRequest.class);
+    }
 
-	/*
-	private Stock saveStock(Stock stock) {
-		return this.usecase.save(stock);
-	}
-	*/
 
-	/*
-	private void setStockDetails(Stock model, StockRequest request) {
-		model.setIsGroupedExpenses(request.getIsGroupedExpenses());
-		model.setIsGroupedSettlement(request.getIsGroupedSettlement());
-		model.setRecordDate(LocalDate.now());
-		model.setStatus(REGISTERED);
-
-	}
-	 */
-
-	/*
-	private void setStockSettlementIfIsGroupedSettlement(Stock model, StockRequest request) {
-		if (request.getIsGroupedSettlement()) {
-			model.setSettlement(this.settlementInteractor.save(request.getSettlement()));
-		}
-	}
-	*/
-
-	/*
-	private void setStockExpensesIfIsGroupedExpenses(Stock model, StockRequest request) {
-		if (request.getIsGroupedExpenses()) {
-			List<StockExpenses> expenses = this.expensesInteractor.saveMany(request.getExpenses());
-			model.setExpenses(expenses);
-			this.usecase.save(model);
-		}
-	}
-	*/
-
-	/*
-	private List<StockItem> setStockItems(Stock stock, StockRequest request) {
-		List<StockItem> stockItems = this.itemInteractor.saveMany(request.getStockItems(), stock);
-		stock.setStockItems(stockItems);
-		this.saveStock(stock);
-		return stockItems;
-	}
-	*/
-
-	/*
-	private void updateProductPriceAfterSavingStock(List<StockItem> stockItems) {
-
-		if (stockItems != null && stockItems.size() > 0) {
-			for (StockItem stockItem : stockItems) {
-				ProductPrice productPrice = this.mapProductPriceFromStockItem(stockItem.getStockPrice());
-				this.productPriceUsecase.updateProductPrice(stockItem.getProduct(), productPrice);
-			}
-		}
-
-	}
-	*/
-
-	/*
-	private ProductPrice mapProductPriceFromStockItem(StockPrice stockPrice) {
-		ProductPrice price = new ProductPrice();
-		price.setSellingPrice(stockPrice.getSellingPrice());
-		price.setCostPrice(stockPrice.getCostPrice());
-		price.setMarkup(stockPrice.getMarkupPercent());
-		return price;
-	}
-	*/
-
-	@Override
-	public ResponseEntity<PageSearchResult<List<StockRequest>>> search(PageSearchRequest<StockSearchRequest> request) {
-		return null;
-	}
-
-	@Override
-	public ResponseEntity<List<StockRequest>> search(String term) {
-		return null;
-	}
-
-	@Override
-	public StockRequest toRequest(Stock model) {
-		return this.mapper.map(model, StockRequest.class);
-	}
-
-	@Override
-	public Stock toModel(StockRequest request) {
-		return this.mapper.map(request, Stock.class);
-	}
+    /**
+     * Converts a StockRequest object to a Stock model object.
+     *
+     * @param request The StockRequest object to be converted.
+     * @return The converted Stock model object.
+     */
+    @Override
+    public Stock toModel(StockRequest request) {
+        return this.mapper.map(request, Stock.class);
+    }
 
 }
 

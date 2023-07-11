@@ -7,7 +7,6 @@
 
 package com.jamesaworo.stocky.features.stock.data.interactor.implementation;
 
-import com.jamesaworo.stocky.configuration.converter.LocalDateStringConverter;
 import com.jamesaworo.stocky.core.annotations.Interactor;
 import com.jamesaworo.stocky.features.company.domain.entity.CompanySupplier;
 import com.jamesaworo.stocky.features.company.domain.usecase.ICompanySupplierUsecase;
@@ -19,156 +18,129 @@ import com.jamesaworo.stocky.features.stock.data.interactor.contract.IStockPrice
 import com.jamesaworo.stocky.features.stock.data.interactor.contract.IStockSettlementInteractor;
 import com.jamesaworo.stocky.features.stock.data.request.StockExpensesRequest;
 import com.jamesaworo.stocky.features.stock.data.request.StockItemRequest;
-import com.jamesaworo.stocky.features.stock.data.request.StockPriceRequest;
-import com.jamesaworo.stocky.features.stock.data.request.StockSettlementRequest;
 import com.jamesaworo.stocky.features.stock.domain.entity.*;
 import com.jamesaworo.stocky.features.stock.domain.usecase.IStockItemUsecase;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 @Interactor
 @RequiredArgsConstructor
 public class StockItemInteractor implements IStockItemInteractor {
-	private final IStockItemUsecase usecase;
-	private final ModelMapper mapper;
-	private final IProductUsecase productUsecase;
-	private final ICompanySupplierUsecase supplierUsecase;
-	private final IStockPriceInteractor stockPriceInteractor;
-	private final IStockSettlementInteractor settlementInteractor;
-	private final IStockExpensesInteractor expensesInteractor;
+    private final IStockItemUsecase usecase;
+    private final ModelMapper mapper;
+    private final IProductUsecase productUsecase;
+    private final ICompanySupplierUsecase supplierUsecase;
+    private final IStockPriceInteractor stockPriceInteractor;
+    private final IStockSettlementInteractor settlementInteractor;
+    private final IStockExpensesInteractor expensesInteractor;
 
 
-	@Override
-	public List<StockItem> saveMany(List<StockItemRequest> requests, Stock stock) {
-		List<StockItem> itemsList = new ArrayList<>();
-		if (requests != null && !requests.isEmpty()) {
-			for (StockItemRequest stockItemRequest : requests) {
-				StockItem stockItem = this.mapStockItemRequestToModelAndSave(stockItemRequest, stock);
-				itemsList.add(this.usecase.save(stockItem));
-			}
-		}
-		return itemsList;
-	}
+    /**
+     * Saves multiple StockItemRequest objects to the database and associates them with the given Stock.
+     * <p>
+     * <p>
+     * Steps:
+     * - Checks if the requests list is not empty.
+     * - If not empty, iterates over the requests and performs the following actions:
+     * - Creates a new StockItem object.
+     * - Sets the basic details of the StockItem using the setStockItemBasicDetails method.
+     * - Sets the supplier of the StockItem using the setItemSupplier method.
+     * - Sets the product of the StockItem using the setItemProduct method.
+     * - Sets the settlement of the StockItem using the setItemSettlement method.
+     * - Sets the price of the StockItem using the setItemPrice method.
+     * - Associates the Stock object with the StockItem.
+     * - Saves the StockItem using the usecase's save method.
+     * - Updates the expenses of the StockItem using the updateStockItemExpenses method.
+     *
+     * @param requests The list of StockItemRequest objects to be saved.
+     * @param stock    The Stock object to associate the saved StockItems with.
+     */
+    @Override
+    public void saveMany(List<StockItemRequest> requests, Stock stock) {
+        if (!isEmpty(requests)) {
+            for (StockItemRequest request : requests) {
+                StockItem model = new StockItem();
+                this.setStockItemBasicDetails(model, request);
+                this.setItemSupplier(model, request);
+                this.setItemProduct(model, request);
+                this.setItemSettlement(model, request);
+                this.setItemPrice(model, request);
+                model.setStock(stock);
+                StockItem newStockItem = this.usecase.save(model);
+                this.updateStockItemExpenses(newStockItem, request.getExpenses());
+            }
+        }
+    }
 
-	private StockItem mapStockItemRequestToModelAndSave(StockItemRequest request, Stock stock) {
-		StockItem model = new StockItem();
-		model.setStock(stock);
-		this.setStockItemBasicDetails(model, request);
-		this.setItemSupplier(model, request);
-		this.setItemProduct(model, request);
-		this.setItemSettlement(model, request);
-		this.setItemPrice(model, request);
+    @Override
+    public StockItem save(StockItem item) {
+        return this.usecase.save(item);
+    }
 
-		StockItem item = this.usecase.save(model);
-		this.setItemExpenses(item, request);
+    private void setStockItemBasicDetails(StockItem model, StockItemRequest request) {
+        model.setRecordedDate(LocalDate.now());
+        model.setProductQuantity(request.getProductQuantity());
+        model.setProductQuantitySold(0);
+    }
 
-		return item;
-	}
+    private void setItemSupplier(StockItem model, StockItemRequest request) {
+        Optional<CompanySupplier> optionalSupplier = this.supplierUsecase.findOne(request.getSupplier().getId());
+        optionalSupplier.ifPresent(model::setSupplier);
+    }
 
-	@Override
-	public StockItem save(StockItem item) {
-		return this.usecase.save(item);
-	}
+    private void setItemProduct(StockItem model, StockItemRequest request) {
+        Optional<Product> optionalProduct = this.productUsecase.findById(request.getProduct().getId());
+        optionalProduct.ifPresent(model::setProduct);
+    }
 
-	private void setStockItemBasicDetails(StockItem model, StockItemRequest request) {
-		model.setRecordedDate(LocalDate.now());
-		model.setProductQuantity(request.getProductQuantity());
-		model.setProductQuantitySold(0);
-	}
+    private void setItemSettlement(StockItem model, StockItemRequest request) {
+        if (!isEmpty(request.getSettlement())) {
+            StockSettlement settlement = this.settlementInteractor.save(request.getSettlement());
+            model.setSettlement(settlement);
+        }
+    }
 
-	private void setItemSupplier(StockItem model, StockItemRequest request) {
-		Optional<CompanySupplier> optionalSupplier = this.supplierUsecase.findOne(request.getSupplier().getId());
-		optionalSupplier.ifPresent(model::setSupplier);
-	}
+    private void setItemPrice(StockItem model, StockItemRequest request) {
+        if (!isEmpty(request) && !isEmpty(request.getPrice())) {
+            StockPrice price = this.stockPriceInteractor.save(request.getPrice());
+            model.setStockPrice(price);
+        }
+    }
 
-	private void setItemProduct(StockItem model, StockItemRequest request) {
-		Optional<Product> optionalProduct = this.productUsecase.findById(request.getProduct().getId());
-		optionalProduct.ifPresent(model::setProduct);
-	}
+    private void updateStockItemExpenses(StockItem stockItem, List<StockExpensesRequest> expensesRequest) {
+        if (!isEmpty(expensesRequest)) {
+            stockItem.setExpenses(saveExpensesList(expensesRequest));
+            this.usecase.save(stockItem);
+        }
+    }
 
-	private void setItemExpenses(StockItem model, StockItemRequest request) {
-		if (!request.getExpenses().isEmpty()) {
-			List<StockExpenses> expenses = this.expensesInteractor.saveMany(request.getExpenses());
-			model.setExpenses(expenses);
-			this.save(model);
-		}
-	}
+    private List<StockExpenses> saveExpensesList(List<StockExpensesRequest> expensesRequest) {
+        Set<StockExpenses> expensesList = new HashSet<>();
+        for (StockExpensesRequest request : expensesRequest) {
+            if (request != null) {
+                StockExpenses stockExpenses = expensesInteractor.saveOne(request);
+                if (stockExpenses.getId() != null) {
+                    expensesList.add(stockExpenses);
+                }
+            }
+        }
+        return new ArrayList<>(expensesList);
+    }
 
-	private void setItemSettlement(StockItem model, StockItemRequest request) {
-		if (!ObjectUtils.isEmpty(request.getSettlement())) {
-			StockSettlement settlement = this.settlementInteractor.save(request.getSettlement());
-			model.setSettlement(settlement);
-		}
-	}
+    @Override
+    public StockItemRequest toRequest(StockItem model) {
+        return this.mapper.map(model, StockItemRequest.class);
+    }
 
-	private void setItemPrice(StockItem model, StockItemRequest request) {
-		if (request != null && request.getPrice() != null) {
-			StockPrice price = this.stockPriceInteractor.save(request.getPrice());
-			model.setStockPrice(price);
-		}
-	}
-
-	@Override
-	public StockItemRequest toRequest(StockItem model) {
-		return this.mapper.map(model, StockItemRequest.class);
-	}
-
-	@Override
-	public StockItem toModel(StockItemRequest request) {
-		return this.mapper.map(request, StockItem.class);
-	}
-
-	@Override
-	public StockItem mapToSavedModel(StockItemRequest request, Stock stock) {
-		StockItem stockItem = new StockItem();
-
-		stockItem.setRecordedDate(this.convertStringToLocalDate(request.getRecordedDate()));
-		stockItem.setProductQuantity(request.getProductQuantity());
-		stockItem.setProductQuantitySold(request.getProductQuantitySold());
-
-		//  new CompanySupplier(request.getSupplier().getId())
-		//  new Product()
-		//  this.setItemSupplier(stockItem, request);
-		//	this.setItemProduct(stockItem, request);
-
-		stockItem.setSupplier(this.supplierUsecase.findOne(request.getSupplier().getId()).get());
-		stockItem.setProduct(this.productUsecase.findById(request.getProduct().getId()).get());
-
-		var savedExpenses = this.createExpenses(request.getExpenses());
-		stockItem.setExpenses(savedExpenses);
-
-		var settlement = this.createSettlement(request.getSettlement());
-		stockItem.setSettlement(settlement);
-
-		var stockPrice = this.createStockPrice(request.getPrice());
-		stockItem.setStockPrice(stockPrice);
-
-		stockItem.setStock(stock);
-		return this.save(stockItem);
-	}
-
-	private LocalDate convertStringToLocalDate(String stringDate) {
-		LocalDateStringConverter localDateStringConverter = new LocalDateStringConverter();
-		return localDateStringConverter.convert(stringDate);
-	}
-
-	private List<StockExpenses> createExpenses(List<StockExpensesRequest> expenses) {
-		return this.expensesInteractor.saveMany(expenses);
-	}
-
-	private StockSettlement createSettlement(StockSettlementRequest settlement) {
-		return this.settlementInteractor.save(settlement);
-	}
-
-	private StockPrice createStockPrice(StockPriceRequest price) {
-		return this.stockPriceInteractor.save(price);
-	}
+    @Override
+    public StockItem toModel(StockItemRequest request) {
+        return this.mapper.map(request, StockItem.class);
+    }
 
 
 }
