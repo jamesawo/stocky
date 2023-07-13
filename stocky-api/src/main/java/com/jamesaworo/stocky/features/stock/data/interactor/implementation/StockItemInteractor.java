@@ -41,40 +41,50 @@ public class StockItemInteractor implements IStockItemInteractor {
 
 
     /**
-     * Saves multiple StockItemRequest objects to the database and associates them with the given Stock.
+     * Saves multiple stock item requests for a given stock.
      * <p>
+     * Operation Steps:
+     * - Checks if the requests list is not empty.
+     * - If not empty, iterates through each request and saves the stock item using the saveManyStockItem method.
+     *
+     * @param requests The list of StockItemRequest objects containing the item data.
+     * @param stock    The Stock object for which the items are being saved.
+     */
+    @Override
+    public void saveMany(List<StockItemRequest> requests, Stock stock) {
+        if (!isEmpty(requests)) {
+            requests.forEach(request -> saveStockRequestItem(stock, request));
+        }
+    }
+
+
+    /**
+     * Saves a stock item request for a given stock.
      * <p>
      * Steps:
-     * - Checks if the requests list is not empty.
-     * - If not empty, iterates over the requests and performs the following actions:
      * - Creates a new StockItem object.
      * - Sets the basic details of the StockItem using the setStockItemBasicDetails method.
      * - Sets the supplier of the StockItem using the setItemSupplier method.
      * - Sets the product of the StockItem using the setItemProduct method.
      * - Sets the settlement of the StockItem using the setItemSettlement method.
      * - Sets the price of the StockItem using the setItemPrice method.
-     * - Associates the Stock object with the StockItem.
-     * - Saves the StockItem using the usecase's save method.
+     * - Associates the StockItem with the given stock.
+     * - Saves the StockItem using the usecase.
      * - Updates the expenses of the StockItem using the updateStockItemExpenses method.
      *
-     * @param requests The list of StockItemRequest objects to be saved.
-     * @param stock    The Stock object to associate the saved StockItems with.
+     * @param stock   The Stock object for which the item is being saved.
+     * @param request The StockItemRequest object containing the item data.
      */
-    @Override
-    public void saveMany(List<StockItemRequest> requests, Stock stock) {
-        if (!isEmpty(requests)) {
-            for (StockItemRequest request : requests) {
-                StockItem model = new StockItem();
-                this.setStockItemBasicDetails(model, request);
-                this.setItemSupplier(model, request);
-                this.setItemProduct(model, request);
-                this.setItemSettlement(model, request);
-                this.setItemPrice(model, request);
-                model.setStock(stock);
-                StockItem newStockItem = this.usecase.save(model);
-                this.updateStockItemExpenses(newStockItem, request.getExpenses());
-            }
-        }
+    private void saveStockRequestItem(Stock stock, StockItemRequest request) {
+        StockItem model = new StockItem();
+        this.setStockItemBasicDetails(model, request);
+        this.setItemSupplier(model, request);
+        this.setItemProduct(model, request);
+        this.setItemSettlement(model, request);
+        this.setItemPrice(model, request);
+        model.setStock(stock);
+        StockItem newStockItem = this.usecase.save(model);
+        this.updateStockItemExpenses(newStockItem, request.getExpenses());
     }
 
     @Override
