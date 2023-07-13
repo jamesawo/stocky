@@ -21,9 +21,12 @@ export class StockManageAddComponent {
     protected readonly ModalOrDrawer = ModalOrDrawer;
 
     public async handleFormSave() {
-        const response = await this.stockFormComponent?.onSaveStockForm();
-        if (response) {
-            this.toggleDisplay();
+        if (this.stockFormComponent) {
+            const response = await this.stockFormComponent.onSaveStockForm();
+            console.log(response);
+            if (response) {
+                this.toggleDisplay();
+            }
         }
 
     }
