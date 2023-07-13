@@ -13,7 +13,7 @@
 </nz-drawer>
 
 <ng-template #contentFormTmpl>
-    <app-stock-form #stockFormComponent></app-stock-form>
+    <app-stock-form #stockFormComponent (submitted)="toggleDisplay()"></app-stock-form>
 </ng-template>
 
 <ng-template #contentFooterBtnTmpl>

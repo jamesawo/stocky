@@ -20,8 +20,12 @@ export class StockManageAddComponent {
     public isLoading = false;
     protected readonly ModalOrDrawer = ModalOrDrawer;
 
-    public handleFormSave() {
-        this.stockFormComponent?.onSaveStockForm();
+    public async handleFormSave() {
+        const response = await this.stockFormComponent?.onSaveStockForm();
+        if (response) {
+            this.toggleDisplay();
+        }
+
     }
 
     public toggleDisplay = (type: ModalOrDrawer = ModalOrDrawer.DRAWER) => {
@@ -32,4 +36,5 @@ export class StockManageAddComponent {
     public open = () => {
         this.toggleDisplay();
     };
+
 }
