@@ -1,4 +1,5 @@
-import {Component, ViewChild} from '@angular/core';
+import {HttpResponse} from '@angular/common/http';
+import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzCheckBoxOptionInterface} from 'ng-zorro-antd/checkbox';
 import {NzMessageService} from 'ng-zorro-antd/message';
@@ -23,6 +24,9 @@ import {ManageStockUsecase} from '../../../_usecase/manage-stock.usecase';
     styles: []
 })
 export class StockFormComponent {
+    @Output()
+    public submitted = new EventEmitter<boolean>();
+
     @ViewChild('supplierSearchComponent')
     public supplierSearchComponent?: SearchModelDropdownComponent;
 
@@ -77,7 +81,6 @@ export class StockFormComponent {
         });
     }
 
-
     /**
      * Save stock form
      *
@@ -86,7 +89,8 @@ export class StockFormComponent {
     public onSaveStockForm = async () => {
         this.updateStockItemsList();
         let response = await handleUsecaseRequest(this.usecase.save(this.stock), this.notification);
-        console.log(response);
+        this.onAfterFormSubmit(response);
+        return response.ok;
     };
 
     /**
@@ -441,4 +445,10 @@ export class StockFormComponent {
         return this.itemsList.reduce((sum, item) => sum + (item.productQuantity || 0), 0);
     }
 
+    private onAfterFormSubmit(response: HttpResponse<Stock>) {
+        if (response.ok) {
+            this.onClearMainForm();
+            this.submitted.emit(response.ok);
+        }
+    }
 }
