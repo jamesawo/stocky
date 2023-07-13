@@ -78,7 +78,9 @@ public class StockInteractor implements IStockInteractor {
         stock.setIsGroupedSettlement(request.getIsGroupedSettlement());
         stock.setRecordDate(Util.convertStringToLocalDate(request.getRecordDate()));
         stock.setStatus(REGISTERED);
-        return this.usecase.setCodeAndSave(stock);
+        Stock savedStock = this.usecase.setCodeAndSave(stock);
+        request.setId(savedStock.getId());
+        return savedStock;
     }
 
 
