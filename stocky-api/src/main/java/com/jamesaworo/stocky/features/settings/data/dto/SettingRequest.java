@@ -2,6 +2,7 @@ package com.jamesaworo.stocky.features.settings.data.dto;
 
 import com.jamesaworo.stocky.core.constants.enums.SettingField;
 import com.jamesaworo.stocky.features.settings.domain.entity.SettingOption;
+import com.jamesaworo.stocky.features.settings.domain.enums.SettingModule;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,7 @@ import java.util.Collection;
 @Data
 @Builder
 @AllArgsConstructor
-public class SettingDto {
+public class SettingRequest {
     private Long id;
     private String settingKey;
     private String settingValue;
@@ -23,7 +24,8 @@ public class SettingDto {
     private String settingTitle;
     private Collection<SettingOption> settingOptions;
     private String settingHint;
+    private SettingModule module;
 
-    public SettingDto() {
+    public SettingRequest() {
     }
 }
