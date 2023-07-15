@@ -11,6 +11,7 @@ import com.jamesaworo.stocky.core.annotations.Usecase;
 import com.jamesaworo.stocky.features.company.data.repository.CompanyBasicDetailRepository;
 import com.jamesaworo.stocky.features.company.domain.entity.CompanyBasicDetail;
 import com.jamesaworo.stocky.features.company.domain.usecase.ICompanySetupUsecase;
+import com.jamesaworo.stocky.features.settings.domain.entity.Setting;
 import lombok.RequiredArgsConstructor;
 
 import javax.transaction.Transactional;
@@ -21,32 +22,38 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CompanySetupUsecaseImpl implements ICompanySetupUsecase {
 
-	private final CompanyBasicDetailRepository repository;
+    private final CompanyBasicDetailRepository repository;
 
-	@Override
-	public List<CompanyBasicDetail> all() {
-		return this.repository.findAll();
-	}
+    @Override
+    public List<CompanyBasicDetail> all() {
+        return this.repository.findAll();
+    }
 
-	@Override
-	public Optional<CompanyBasicDetail> get(String key) {
-		return this.repository.findBySetupKeyEqualsIgnoreCase(key);
-	}
+    @Override
+    public Optional<CompanyBasicDetail> get(String key) {
+        return this.repository.findBySetupKeyEqualsIgnoreCase(key);
+    }
 
-	@Override
-	public Optional<Boolean> update(String key, String value) {
-		Optional<CompanyBasicDetail> optional = this.get(key);
-		return optional.map(detail -> {
-			int count = this.repository.updateValueWhereKey(value, key);
-			return count == 1;
-		});
-	}
+    @Override
+    public Setting getAsSetting(String key) {
+        Optional<CompanyBasicDetail> optional = this.get(key);
+        return optional.map(basic -> new Setting(basic.getSetupKey(), basic.getSetupValue())).orElse(new Setting());
+    }
 
-	@Override
-	@Transactional
-	public void updateMany(List<CompanyBasicDetail> list) {
-		list.forEach(basicDetail -> {
-			this.update(basicDetail.getSetupKey(), basicDetail.getSetupValue());
-		});
-	}
+    @Override
+    public Optional<Boolean> update(String key, String value) {
+        Optional<CompanyBasicDetail> optional = this.get(key);
+        return optional.map(detail -> {
+            int count = this.repository.updateValueWhereKey(value, key);
+            return count == 1;
+        });
+    }
+
+    @Override
+    @Transactional
+    public void updateMany(List<CompanyBasicDetail> list) {
+        list.forEach(basicDetail -> {
+            this.update(basicDetail.getSetupKey(), basicDetail.getSetupValue());
+        });
+    }
 }
