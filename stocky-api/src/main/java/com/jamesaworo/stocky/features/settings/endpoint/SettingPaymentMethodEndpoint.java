@@ -1,6 +1,6 @@
 package com.jamesaworo.stocky.features.settings.endpoint;
 
-import com.jamesaworo.stocky.features.settings.data.dto.PaymentMethodDto;
+import com.jamesaworo.stocky.features.settings.data.dto.PaymentMethodRequest;
 import com.jamesaworo.stocky.features.settings.data.interactor.settings_payment_method.ISettingPaymentMethodInteractor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,19 +26,19 @@ public class SettingPaymentMethodEndpoint {
     private final ISettingPaymentMethodInteractor interactor;
 
     @GetMapping("by-name")
-    public ResponseEntity<Optional<PaymentMethodDto>> getByName(@RequestParam() String name) {
+    public ResponseEntity<Optional<PaymentMethodRequest>> getByName(@RequestParam() String name) {
         return this.interactor.getByName(name);
     }
 
 
     @GetMapping("by-id")
-    public ResponseEntity<Optional<PaymentMethodDto>> getById(@RequestParam() Long id) {
+    public ResponseEntity<Optional<PaymentMethodRequest>> getById(@RequestParam() Long id) {
         return this.interactor.getById(id);
     }
 
 
     @GetMapping(value = "all")
-    public ResponseEntity<List<PaymentMethodDto>> getAll() {
+    public ResponseEntity<List<PaymentMethodRequest>> getAll() {
         return interactor.all();
     }
 

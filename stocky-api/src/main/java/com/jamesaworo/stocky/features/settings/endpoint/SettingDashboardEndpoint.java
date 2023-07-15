@@ -1,6 +1,6 @@
 package com.jamesaworo.stocky.features.settings.endpoint;
 
-import com.jamesaworo.stocky.features.settings.data.dto.SettingDto;
+import com.jamesaworo.stocky.features.settings.data.dto.SettingRequest;
 import com.jamesaworo.stocky.features.settings.data.interactor.setting_dashboard.ISettingDashboardInteractor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,22 +21,22 @@ public class SettingDashboardEndpoint {
     private final ISettingDashboardInteractor interactor;
 
     @GetMapping()
-    public ResponseEntity<SettingDto> get(@RequestParam() String key) {
+    public ResponseEntity<SettingRequest> get(@RequestParam() String key) {
         return this.interactor.get(key);
     }
 
     @GetMapping(value = "all")
-    public ResponseEntity<List<SettingDto>> getAll() {
+    public ResponseEntity<List<SettingRequest>> getAll() {
         return interactor.getAll();
     }
 
     @PostMapping(value = "update-all")
-    public ResponseEntity<Boolean> updateAll(@RequestBody List<SettingDto> list) {
+    public ResponseEntity<Boolean> updateAll(@RequestBody List<SettingRequest> list) {
         return interactor.updateAll(list);
     }
 
     @PutMapping(value = "update")
-    public ResponseEntity<Boolean> update(@RequestBody SettingDto setting) {
+    public ResponseEntity<Boolean> update(@RequestBody SettingRequest setting) {
         return interactor.update(setting);
     }
 
