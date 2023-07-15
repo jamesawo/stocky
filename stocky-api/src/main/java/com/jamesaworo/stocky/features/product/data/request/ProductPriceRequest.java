@@ -19,9 +19,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductPriceRequest {
-	private Long id;
-	private Double markup;
-	private Double costPrice;
-	private Double sellingPrice;
+    private Long id;
+    private Double markup;
+    private Double costPrice;
+    private Double sellingPrice;
+    private Long productId;
 
 }

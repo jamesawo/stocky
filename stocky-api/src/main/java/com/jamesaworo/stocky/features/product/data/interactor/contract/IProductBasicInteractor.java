@@ -9,6 +9,10 @@ import com.jamesaworo.stocky.features.product.domain.entity.ProductBasic;
  */
 public interface IProductBasicInteractor {
 
-	ProductBasic save(ProductBasicRequest request);
+    ProductBasic save(ProductBasicRequest request);
+
+    ProductBasic update(ProductBasic basic);
+
+    ProductBasic update(ProductBasicRequest basic);
 
 }

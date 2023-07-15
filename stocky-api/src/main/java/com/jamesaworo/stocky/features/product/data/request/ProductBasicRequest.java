@@ -37,5 +37,5 @@ public class ProductBasicRequest {
     private Integer lowStockPoint;
     private List<ProductTaxRequest> taxes;
     private Integer quantity;
-
+    private Long productId;
 }

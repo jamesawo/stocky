@@ -23,32 +23,42 @@ import java.util.List;
 @Interactor
 @RequiredArgsConstructor
 public class ProductBasicInteractor implements IProductBasicInteractor, Mapper<ProductBasicRequest, ProductBasic> {
-	private final IProductBasicUsecase basicUsecase;
-	private final IProductTaxInteractor taxInteractor;
-	private final ModelMapper mapper;
+    private final IProductBasicUsecase basicUsecase;
+    private final IProductTaxInteractor taxInteractor;
+    private final ModelMapper mapper;
 
 
-	@Override
-	public ProductBasic save(ProductBasicRequest request) {
-		List<ProductTax> taxes = getTaxModels(request);
-		ProductBasic model = this.toModel(request);
-		model.setTaxes(taxes);
-		return this.basicUsecase.save(model);
-	}
+    @Override
+    public ProductBasic save(ProductBasicRequest request) {
+        List<ProductTax> taxes = getTaxModels(request);
+        ProductBasic model = this.toModel(request);
+        model.setTaxes(taxes);
+        return this.basicUsecase.save(model);
+    }
 
-	private List<ProductTax> getTaxModels(ProductBasicRequest request) {
-		List<ProductTax> taxList = taxInteractor.mapRequestListToModelList(request.getTaxes());
-		request.setTaxes(null);
-		return taxList;
-	}
+    @Override
+    public ProductBasic update(ProductBasic basic) {
+        return this.basicUsecase.save(basic);
+    }
 
-	@Override
-	public ProductBasicRequest toRequest(ProductBasic model) {
-		return this.mapper.map(model, ProductBasicRequest.class);
-	}
+    public ProductBasic update(ProductBasicRequest request) {
+        ProductBasic model = this.toModel(request);
+        return this.update(model);
+    }
 
-	@Override
-	public ProductBasic toModel(ProductBasicRequest request) {
-		return this.mapper.map(request, ProductBasic.class);
-	}
+    private List<ProductTax> getTaxModels(ProductBasicRequest request) {
+        List<ProductTax> taxList = taxInteractor.mapRequestListToModelList(request.getTaxes());
+        request.setTaxes(null);
+        return taxList;
+    }
+
+    @Override
+    public ProductBasicRequest toRequest(ProductBasic model) {
+        return this.mapper.map(model, ProductBasicRequest.class);
+    }
+
+    @Override
+    public ProductBasic toModel(ProductBasicRequest request) {
+        return this.mapper.map(request, ProductBasic.class);
+    }
 }

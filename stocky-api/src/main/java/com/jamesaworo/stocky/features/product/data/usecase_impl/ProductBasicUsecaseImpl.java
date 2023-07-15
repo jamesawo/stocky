@@ -20,22 +20,20 @@ import static com.jamesaworo.stocky.features.product.domain.enums.ProductQuantit
 @Usecase
 @RequiredArgsConstructor
 public class ProductBasicUsecaseImpl implements IProductBasicUsecase {
-	private final ProductBasicRepository repository;
+    private final ProductBasicRepository repository;
 
-	public ProductBasic save(ProductBasic basic) {
-		return this.repository.save(basic);
-	}
+    public ProductBasic save(ProductBasic basic) {
+        return this.repository.save(basic);
+    }
 
-	@Override
-	public int updateProductQuantity(Long basicId, Integer quantity, ProductQuantityUpdateType updateType) {
-		if (updateType == INCREMENT) {
-			return this.repository.incrementQuantity(basicId, quantity);
-		}
-		else if (updateType == DECREMENT) {
-			return this.repository.decrementQuantity(basicId, quantity);
-		}
-		else {
-			return 0;
-		}
-	}
+    @Override
+    public int updateProductQuantity(Long basicId, Integer quantity, ProductQuantityUpdateType updateType) {
+        if (updateType == INCREMENT) {
+            return this.repository.incrementQuantity(basicId, quantity);
+        } else if (updateType == DECREMENT) {
+            return this.repository.decrementQuantity(basicId, quantity);
+        } else {
+            return 0;
+        }
+    }
 }

@@ -8,5 +8,10 @@ import com.jamesaworo.stocky.features.product.domain.entity.ProductPrice;
  * @since 6/1/23
  */
 public interface IProductPriceInteractor {
-	ProductPrice save(ProductPriceRequest request);
+    ProductPrice save(ProductPriceRequest request);
+
+    ProductPrice update(ProductPrice price);
+
+    ProductPrice update(ProductPriceRequest price);
+
 }

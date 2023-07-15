@@ -8,6 +8,7 @@
 package com.jamesaworo.stocky.features.product.data.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.jamesaworo.stocky.features.product.domain.entity.ProductStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,8 +20,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductStatusRequest {
-	private Long id;
-	private String title;
-	private String description;
-	private Boolean isActiveStatus;
+    private Long id;
+    private String title;
+    private String description;
+    private Boolean isActiveStatus;
+
+    public ProductStatus toModel() {
+        return new ProductStatus(this.id);
+    }
 }
