@@ -2,7 +2,7 @@ import {HttpResponse} from '@angular/common/http';
 import {Component, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {Observable, of} from 'rxjs';
+import {firstValueFrom, Observable, of} from 'rxjs';
 import {PRODUCT_LIST_CRUMBS} from 'src/app/data/constant/crumb.constant';
 import {PageSearchPayload} from 'src/app/data/payload/common.interface';
 import {PagePayload} from 'src/app/data/payload/common.payload';
@@ -22,7 +22,6 @@ export class ProductListComponent {
     @ViewChild('productAddComponent')
     public productAddComponent?: ProductAddComponent;
 
-
     public tableData?: Observable<any>;
     public isOpenHeader = true;
     public isLoading = false;
@@ -30,16 +29,22 @@ export class ProductListComponent {
     public pageRequest = new PagePayload();
     public searchPayload = new ProductSearchRequestPayload();
     public showDrawer = false;
+    public productToUpdate?: ProductPayload;
 
     public crumbs = PRODUCT_LIST_CRUMBS;
     public tableCols: TableCol[] = [
+        {title: ''},
         {title: 'Category'},
         {title: 'Product Name'},
         {title: 'Brand Name'},
+        {title: 'Cost Price'},
+        {title: 'Margin %'},
+        {title: 'Selling Price'},
         {title: 'SKU'},
+        {title: 'Qty'},
         {title: 'Type'},
-        {title: 'Date Created'},
-        {title: 'Action'}
+        {title: 'Status'},
+        {title: 'Date Created'}
     ];
     protected readonly ModalOrDrawer = ModalOrDrawer;
 
@@ -51,7 +56,10 @@ export class ProductListComponent {
 
     public onCancelHandler = () => {};
 
-    public handleCreateProduct = async (): Promise<void> => {
+    public onToggleCreateProductDrawer = async (product?: ProductPayload): Promise<void> => {
+        if (product && product.id) {
+            this.productToUpdate = product;
+        }
         this.showDrawer = !this.showDrawer;
     };
 
@@ -75,7 +83,7 @@ export class ProductListComponent {
 
     public onResetSearchForm = (): void => {
         this.searchPayload = new ProductSearchRequestPayload();
-        this.tableData = of();
+        this.tableData = of([]);
     };
 
     public onPageSizeChange(value: number) {
@@ -86,7 +94,6 @@ export class ProductListComponent {
     public onPageIndexChange(value: number): void {
         this.pageRequest.pageNumber = value;
         this.onSearchProducts().then();
-
     }
 
     public callComponentCreateHandler() {
@@ -97,6 +104,16 @@ export class ProductListComponent {
         if (response.ok) {
             this.displayResponseBodyOnTable([response.body!]);
             this.showDrawer = !this.showDrawer;
+            this.productToUpdate = undefined;
+        }
+    }
+
+    public async onProductPriceChange(product: ProductPayload) {
+        const list: ProductPayload[] = await firstValueFrom(this.tableData!);
+        const index = list.findIndex((value) => value.id == product.id);
+        if (index != -1) {
+            list[index] = product;
+            this.displayResponseBodyOnTable([...list]);
         }
     }
 

@@ -8,7 +8,7 @@
         </h3>
 
         <fieldset formGroupName="price">
-
+            
             <nz-form-item>
                 <nz-form-label>Cost Price:</nz-form-label>
                 <nz-form-control
@@ -16,7 +16,6 @@
                     nzErrorTip="Enter cost price"
                     nzValidateStatus="success"
                 >
-                    <!--                        (nzBlur)="calculateSellingPrice()"-->
                     <nz-input-number
                         (input)="calculateSellingPrice()"
                         [nzMin]="1"

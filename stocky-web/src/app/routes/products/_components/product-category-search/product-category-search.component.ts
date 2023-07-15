@@ -36,13 +36,7 @@ export class ProductCategorySearchComponent implements OnInit, OnDestroy {
     constructor(private http: HttpClient) {}
 
     public ngOnInit(): void {
-        if (this.selected) {
-            if (this.selected.id) {
-                this.options.push(this.selected);
-            } else {
-                this.selected = undefined;
-            }
-        }
+        this.setDefault();
         this.onInitialize();
     }
 
@@ -73,6 +67,20 @@ export class ProductCategorySearchComponent implements OnInit, OnDestroy {
             return !!this.form.formGroup && !!this.form.controlName;
         }
         return false;
+    }
+
+    private setDefault() {
+        const formProps = this.form;
+        if (formProps && formProps.controlName) {
+            this.selected = formProps.formGroup.controls[formProps.controlName].value;
+        }
+
+        if (this.selected && this.selected.id) {
+            this.options.push(this.selected);
+        } else {
+            this.selected = undefined;
+        }
+
     }
 
     private onInitialize() {

@@ -1,40 +1,18 @@
-<ng-container *ngIf="canUseFormGroup(); else modelTmpl" [formGroup]="form!.formGroup">
+<nz-select
+    (ngModelChange)="onValueChange($event)"
+    [(ngModel)]="selectedOptions"
+    [class]="class"
+    [nzLoading]="isLoading"
+    nzAllowClear
 
-    <nz-select (ngModelChange)="onValueChange($event)"
-               [class]="class"
-               [formControl]="selectedControl" [nzLoading]="isLoading" nzAllowClear
-               nzMode="tags"
-               nzPlaceHolder="Select .." nzShowSearch>
-        <ng-container *ngIf="dataList | async as list">
-            <ng-container *ngFor="let data of list">
-                <ng-container *ngIf="data.isActiveStatus === true">
-                    <nz-option [nzCustomContent]="true" [nzLabel]="data.title!" [nzValue]="data">
-                        <label>{{data.title | lowercase}} ({{data.percent}}%) </label>
-                    </nz-option>
-                </ng-container>
-
-            </ng-container>
-
-        </ng-container>
-    </nz-select>
-</ng-container>
-
-<ng-template #modelTmpl>
-    <nz-select (ngModelChange)="onValueChange($event)" [(ngModel)]="value" [class]="class" [nzLoading]="isLoading" nzAllowClear
-               nzMode="tags"
-               nzPlaceHolder="Select .." nzShowSearch>
-        <ng-container *ngIf="dataList | async as list">
-
-            <ng-container *ngFor="let data of list">
-                <ng-container *ngIf="data.isActiveStatus === true">
-                    <nz-option [nzCustomContent]="true" [nzLabel]="data.title!" [nzValue]="data">
-                        <label>{{data.title | lowercase}} ({{data.percent}}%) </label>
-                    </nz-option>
-                </ng-container>
-
-            </ng-container>
-
-        </ng-container>
-    </nz-select>
-
-</ng-template>
+    nzMode="multiple"
+    nzPlaceHolder="Please select"
+    nzShowSearch
+    nzSize="default"
+>
+    <nz-option
+        *ngFor="let option of listOfOption"
+        [nzLabel]="option.label"
+        [nzValue]="option.value"
+    ></nz-option>
+</nz-select>

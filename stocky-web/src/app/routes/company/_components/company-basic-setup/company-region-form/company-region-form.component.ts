@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {firstValueFrom} from 'rxjs';
 import {CompanyDetail} from '../../../../../data/constant/company-detail.constant';
-import {getNzFormControlValidStatus, handleUsecaseRequest, markFormFieldsAsDirtyAndTouched} from '../../../../../shared/utils/util';
+import {getNzFormControlValidStatus, handleUsecaseRequest, markFormFieldsAsDirtyAndTouched, storeInLocal} from '../../../../../shared/utils/util';
 import {CompanySetupPayload} from '../../../_data/company-setup.payload';
 import {RegionLocaleUsecase} from '../../../_usecase/company-setup/region-locale.usecase';
 
@@ -74,6 +74,7 @@ export class CompanyRegionFormComponent {
         const detailsList = this.getAListOfFormControlKeyAndValueInFormGroup(this.form!);
         await handleUsecaseRequest(this.usecase.updateMany(detailsList), this.notification);
         this.isLoading = false;
+        this.storeInLocalStorage(detailsList);
     }
 
 
@@ -107,5 +108,8 @@ export class CompanyRegionFormComponent {
         return companyDetails;
     }
 
+    private storeInLocalStorage(detailsList: CompanySetupPayload[]) {
+        detailsList.forEach(value => storeInLocal(value.setupKey!, value.setupValue));
+    }
 
 }

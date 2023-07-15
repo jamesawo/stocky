@@ -25,7 +25,6 @@ export class ProductTaxPayload extends CommonPayload {
 
 export class ProductPriceTab {
     markup: number = 0;
-    taxes: ProductTaxPayload[] = [];
     costPrice: number = 0;
     sellingPrice: number = 0;
 }
@@ -44,6 +43,8 @@ export class ProductBasicTab {
     barcode?: string;
     description?: string;
     lowStockPoint: number = 20;
+    quantity?: number;
+    taxes: ProductTaxPayload[] = [];
 
 }
 

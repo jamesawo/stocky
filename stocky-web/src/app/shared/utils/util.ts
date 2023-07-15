@@ -256,3 +256,11 @@ export function calculateSellingPrice(costPrice: number = 0, markupPercent: numb
     const markupAmount = Number(costPrice) * Number((markupPercent) / 100);
     return Math.round(Number(costPrice) + Number(markupAmount));
 }
+
+export function getFromLocal(key: string) {
+    return localStorage.getItem(key);
+}
+
+export function storeInLocal(key: string, value: any) {
+    localStorage.setItem(key, value);
+}

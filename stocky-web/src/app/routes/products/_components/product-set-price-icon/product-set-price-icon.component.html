@@ -1,0 +1,120 @@
+<app-icon-button
+    [nzDropdownMenu]="menu"
+    icon="calculator"
+    nz-dropdown
+    nzPlacement="topLeft"
+    nzTrigger="click"
+></app-icon-button>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu>
+        <li (click)="toggleModalIsVisible('price')" nz-menu-item>Set Price</li>
+        <li (click)="toggleModalIsVisible('quantity')" nz-menu-item>Set Quantity</li>
+    </ul>
+</nz-dropdown-menu>
+
+<!--Price Modal-->
+<nz-modal
+    [(nzVisible)]="isPriceModalVisible"
+    [nzTitle]="priceModalTitle"
+    nzCentered
+>
+    <ng-container *nzModalContent>
+
+        <ng-container *ngIf="!isEditingPrice; else priceTmpl">
+            <nz-row [nzGutter]="16">
+                <nz-col [nzSpan]="10">
+                    <nz-statistic
+                        [nzPrefix]="prefixTpl"
+                        [nzTitle]="'Cost Price'"
+                        [nzValueTemplate]="costPriceTmpl"
+                    ></nz-statistic>
+                    <ng-template #costPriceTmpl>
+                        <app-amount-currency [amount]="product?.price?.costPrice"></app-amount-currency>
+                    </ng-template>
+                </nz-col>
+                <nz-col [nzSpan]="4">
+                    <nz-statistic
+                        [nzPrefix]="prefixTpl"
+                        [nzTitle]="'Margin %'"
+                        [nzValue]="(product?.price?.markup ?? 0 | number)!"
+                    ></nz-statistic>
+                </nz-col>
+                <nz-col [nzSpan]="10">
+                    <nz-statistic
+                        [nzPrefix]="prefixTpl"
+                        [nzTitle]="'Selling Price'"
+                        [nzValueTemplate]="sellingPriceTmpl"
+                    ></nz-statistic>
+                    <ng-template #sellingPriceTmpl>
+                        <app-amount-currency [amount]="product?.price?.sellingPrice"></app-amount-currency>
+                    </ng-template>
+                </nz-col>
+                <ng-template #prefixTpl>
+                    <app-icon-button
+                        [action]="onEditPrice"
+                        icon="edit"
+                        nz-tooltip nzTooltipTitle="Click here to update prices"></app-icon-button>
+                </ng-template>
+            </nz-row>
+        </ng-container>
+
+        <ng-template #priceTmpl>
+            <app-stock-item-price-form
+                [(stockPrice)]="price"
+                [isGroupExpenses]="false"
+                [showLegend]="false"
+            ></app-stock-item-price-form>
+        </ng-template>
+
+    </ng-container>
+
+    <div *nzModalFooter>
+        <button (click)="toggleModalIsVisible('price')" nz-button nzType="default">Cancel</button>
+        <button
+            (nzOnCancel)="emptyAction()"
+            (nzOnConfirm)="handlePriceUpdate()"
+            [nzLoading]="isLoading"
+            nz-button
+            nz-popconfirm
+            nzPopconfirmPlacement="top"
+            nzPopconfirmTitle="Are you sure?"
+            nzType="primary"
+        >Submit
+        </button>
+    </div>
+</nz-modal>
+
+<!--Quantity Modal-->
+<nz-modal
+    [(nzVisible)]="isQtyModalVisible"
+    [nzTitle]="qtyModalTitleTmpl"
+    nzCentered
+>
+    <ng-container *nzModalContent>
+        <input
+            [(ngModel)]="productQuantity"
+            nz-input
+            type="number"
+        >
+    </ng-container>
+
+    <div *nzModalFooter>
+        <button (click)="toggleModalIsVisible('quantity')" nz-button nzType="default">Cancel</button>
+        <button
+            (nzOnCancel)="emptyAction()"
+            (nzOnConfirm)="handleQuantityUpdate()"
+            [nzLoading]="isLoading"
+            nz-button
+            nz-popconfirm
+            nzPopconfirmPlacement="top"
+            nzPopconfirmTitle="Are you sure?"
+            nzType="primary"
+        >Submit
+        </button>
+    </div>
+</nz-modal>
+
+<ng-template #qtyModalTitleTmpl>
+    <span>{{quantityModalTitle}}</span>
+</ng-template>

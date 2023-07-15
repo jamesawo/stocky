@@ -66,7 +66,6 @@
             </div>
 
             <div nz-col nzSpan="24">
-
                 <div nz-row nzJustify="space-between">
                     <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" nz-col>
                         <app-search-reset-button
@@ -81,7 +80,7 @@
 
                     <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" class="text-align-end" nz-col>
                         <nz-space nzSize="small">
-                            <app-button *nzSpaceItem [props]="{title: 'Add', icon: 'plus', handler: handleCreateProduct}"></app-button>
+                            <app-button *nzSpaceItem [props]="{title: 'Add', icon: 'plus', handler: onToggleCreateProductDrawer}"></app-button>
                             <app-export-upload-button *nzSpaceItem [props]="{}"></app-export-upload-button>
                         </nz-space>
                     </div>
@@ -101,12 +100,40 @@
         [(pageIndex)]="pageRequest.pageNumber"
         [(pageSize)]="pageRequest.pageSize"
         [colHeadings]="tableCols"
-        [dataList]="tableData"
+        [dataList]="tableData!"
         [props]="{showPagination: true, isLoading: isLoadingTable}"
-        [rowTemplates]="[categoryTmpl, prodNameTmpl,
-        brandNameTmpl, skuTmpl, typeTmpl, dateTmpl, actionTmpl]"
+        [rowTemplates]="[
+        actionIconsTmpl, categoryTmpl, prodNameTmpl,
+        brandNameTmpl, costPriceTmpl,marginPriceTmpl, sellingPriceTmpl,
+        skuTmpl, quantityTmpl, typeTmpl, statusTmpl, dateTmpl]"
     ></app-table>
 </nz-card>
+
+<ng-template #actionIconsTmpl let-item="item">
+    <div class="fl">
+        <app-product-set-price-icon
+            (productChange)="onProductPriceChange($event)"
+            [product]="item"
+            nz-tooltip
+            nzTooltipPlacement="bottom"
+            nzTooltipTitle="Set price or quantity"
+        ></app-product-set-price-icon>
+
+        <app-icon-button
+            [icon]="'like'"
+            nz-tooltip
+            nzTooltipTitle="Update product status"></app-icon-button>
+
+        <app-icon-button
+            [action]="onToggleCreateProductDrawer"
+            [args]="item"
+            [icon]="'edit'"
+            nz-tooltip
+            nzTooltipTitle="Edit product details"
+        ></app-icon-button>
+
+    </div>
+</ng-template>
 
 <ng-template #categoryTmpl let-item="item">
     <app-table-item [content]="item.basic.productCategory.title"></app-table-item>
@@ -120,12 +147,32 @@
     <app-table-item [content]="item.basic.brandName"></app-table-item>
 </ng-template>
 
+<ng-template #sellingPriceTmpl let-item="item">
+    <app-amount-currency [amount]="item.price.sellingPrice"></app-amount-currency>
+</ng-template>
+
+<ng-template #costPriceTmpl let-item="item">
+    <app-amount-currency [amount]="item.price.costPrice"></app-amount-currency>
+</ng-template>
+
+<ng-template #marginPriceTmpl let-item="item">
+    <app-table-item [content]="item.price.markup"></app-table-item>
+</ng-template>
+
 <ng-template #skuTmpl let-item="item">
     <app-table-item [content]="item.basic.sku"></app-table-item>
 </ng-template>
 
+<ng-template #quantityTmpl let-item="item">
+    <app-table-item [content]="item.basic.quantity"></app-table-item>
+</ng-template>
+
 <ng-template #typeTmpl let-item="item">
     <app-table-item [content]="item.basic.isService === true ? 'SERVICE' : 'PRODUCT'"></app-table-item>
+</ng-template>
+
+<ng-template #statusTmpl let-item="item">
+    <app-table-item [content]="item.basic.status.title"></app-table-item>
 </ng-template>
 
 <ng-template #dateTmpl let-item="item">
@@ -133,10 +180,6 @@
     <ng-template #dateCreatedAtTmpl>
         <label>{{item?.createdAt | date}}</label>
     </ng-template>
-</ng-template>
-
-<ng-template #actionTmpl>
-    <app-table-item></app-table-item>
 </ng-template>
 
 <nz-drawer
@@ -152,6 +195,7 @@
         <app-product-add
             #productAddComponent
             (response)="handleFormResponse($event)"
+            [product]="productToUpdate"
             style="background: white; margin-top: -2em"
         ></app-product-add>
     </div>

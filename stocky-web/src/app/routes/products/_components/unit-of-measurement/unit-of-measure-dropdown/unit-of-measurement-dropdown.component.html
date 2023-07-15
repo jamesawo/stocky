@@ -1,9 +1,22 @@
 <ng-container *ngIf="hasFormGroup(); else modelTmpl" [formGroup]="formProps!.formGroup">
 
-    <nz-form-control [nzValidateStatus]="getFormControlValidityStatus(formProps!.controlName, formProps!.formGroup)">
-        <nz-select [formControlName]="formProps!.controlName" [nzLoading]="isLoading" nzAllowClear nzPlaceHolder="Select .." nzShowSearch>
+    <nz-form-control
+        [nzValidateStatus]="getFormControlValidityStatus(
+        formProps!.controlName, formProps!.formGroup)"
+    >
+        <nz-select
+            [formControlName]="formProps!.controlName"
+            [nzLoading]="isLoading"
+            nzAllowClear
+            nzPlaceHolder="Select .."
+            nzShowSearch
+        >
             <ng-container *ngFor="let data of measures">
-                <nz-option *ngIf="data.isActiveStatus" [nzLabel]="getLabel(data)" [nzValue]="data"></nz-option>
+                <nz-option
+                    *ngIf="data.isActiveStatus"
+                    [nzLabel]="getLabel(data)"
+                    [nzValue]="data"
+                ></nz-option>
             </ng-container>
         </nz-select>
     </nz-form-control>

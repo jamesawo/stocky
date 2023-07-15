@@ -21,6 +21,9 @@ export class ProductAddComponent implements OnInit {
     @Input()
     public showPageHeader = false;
 
+    @Input()
+    public product: ProductPayload | undefined;
+
     public startPoint = 0;
     public isLoading = false;
 
@@ -71,28 +74,30 @@ export class ProductAddComponent implements OnInit {
     };
 
     private initForm() {
+        const basic = this.product?.basic;
+        const price = this.product?.price;
         this.form = this.fb.group({
-            id: [null],
+            id: [this.product?.id ?? null],
             basic: this.fb.group({
-                productCategory: [null, [Validators.required]],
-                unitOfMeasure: [null, [Validators.required]],
-                status: [null, [Validators.required]],
-                isActive: [true, [Validators.required]],
-                useQuantity: [true, [Validators.required]],
-                isService: [false, [Validators.required]],
-                minAgeLimit: [13],
-                productName: [null, [Validators.required]],
-                brandName: [null, [Validators.required]],
-                sku: [null],
-                barcode: [null],
-                description: [null],
-                lowStockPoint: [20],
-                taxes: [[], null]
+                productCategory: [basic?.productCategory ?? null, [Validators.required]],
+                unitOfMeasure: [basic?.unitOfMeasure ?? null, [Validators.required]],
+                status: [basic?.status ?? null, [Validators.required]],
+                isActive: [basic?.isActive ?? true, [Validators.required]],
+                useQuantity: [basic?.useQuantity ?? true, [Validators.required]],
+                isService: [basic?.isService ?? false, [Validators.required]],
+                minAgeLimit: [basic?.minAgeLimit ?? 15],
+                productName: [basic?.productName ?? null, [Validators.required]],
+                brandName: [basic?.brandName ?? null, [Validators.required]],
+                sku: [basic?.sku ?? null],
+                barcode: [basic?.barcode ?? null],
+                description: [basic?.description ?? null],
+                lowStockPoint: [basic?.lowStockPoint ?? 20],
+                taxes: [basic?.taxes ?? [], []]
             }),
             price: this.fb.group({
-                markup: [null],
-                costPrice: [null],
-                sellingPrice: [null]
+                markup: [price?.markup ?? null],
+                costPrice: [price?.costPrice ?? null],
+                sellingPrice: [price?.sellingPrice ?? null]
             })
         });
     }
@@ -104,6 +109,5 @@ export class ProductAddComponent implements OnInit {
             this.initForm();
         }
         this.response.emit(response);
-
     }
 }

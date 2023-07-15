@@ -88,12 +88,8 @@
                         <div nz-col nz-tooltip nzFlex="30px" nzTooltipPlacement="top" nzTooltipTitle="Update Unit of Measurements">
                             <app-unit-of-measurement-add></app-unit-of-measurement-add>
                         </div>
-
                     </div>
-
                 </nz-form-control>
-
-
             </nz-form-item>
 
             <nz-form-item>
@@ -201,14 +197,13 @@
                 >
                     <div nz-row nzGutter="4">
                         <div nz-col nzFlex="auto">
-
-                            <app-product-tax-dropdown [form]="{formGroup: getForm(), controlName: 'taxes'}"></app-product-tax-dropdown>
-
+                            <app-product-tax-dropdown
+                                [form]="{formGroup: getForm(), controlName: 'taxes'}"
+                            ></app-product-tax-dropdown>
                         </div>
                         <div nz-col nz-tooltip nzFlex="30px" nzTooltipPlacement="top" nzTooltipTitle="Update tax setup">
                             <app-product-tax-add-btn></app-product-tax-add-btn>
                         </div>
-
                     </div>
                 </nz-form-control>
             </nz-form-item>

@@ -14,6 +14,7 @@ import {NzCollapseModule} from 'ng-zorro-antd/collapse';
 import {NzDatePickerModule} from 'ng-zorro-antd/date-picker';
 import {NzDividerModule} from 'ng-zorro-antd/divider';
 import {NzDrawerModule} from 'ng-zorro-antd/drawer';
+import {NzDropDownModule} from 'ng-zorro-antd/dropdown';
 import {NzEmptyModule} from 'ng-zorro-antd/empty';
 import {NzFormModule} from 'ng-zorro-antd/form';
 import {NzGridModule} from 'ng-zorro-antd/grid';
@@ -30,12 +31,15 @@ import {NzResultModule} from 'ng-zorro-antd/result';
 import {NzSelectModule} from 'ng-zorro-antd/select';
 import {NzSpaceModule} from 'ng-zorro-antd/space';
 import {NzSpinModule} from 'ng-zorro-antd/spin';
+import {NzStatisticModule} from 'ng-zorro-antd/statistic';
 import {NzSwitchModule} from 'ng-zorro-antd/switch';
 import {NzTableModule} from 'ng-zorro-antd/table';
 import {NzTabsModule} from 'ng-zorro-antd/tabs';
 import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
 import {NzTypographyModule} from 'ng-zorro-antd/typography';
 import {NzUploadModule} from 'ng-zorro-antd/upload';
+import {StockItemPriceFormComponent} from '../routes/stock/_components/stock-manage/stock-item-price-form/stock-item-price-form.component';
+import {AmountCurrencyComponent} from './components/amount-currency/amount-currency.component';
 
 import {AmountRangeComponent} from './components/amount-range/amount-range.component';
 import {BreadcrumbsComponent} from './components/breadcrumbs/breadcrumbs.component';
@@ -49,6 +53,7 @@ import {ExportUploadButtonComponent} from './components/export-upload-button/exp
 import {FieldsetComponent} from './components/fieldset/fieldset.component';
 import {FooterButtonComponent} from './components/footer-button/footer-button.component';
 import {HintComponent} from './components/hint/hint.component';
+import {IconButtonComponent} from './components/icon-button/icon-button.component';
 import {LoadingCardComponent} from './components/loading-card/loading-card.component';
 import {RangeDatePickerComponent} from './components/range-date-picker/range-date-picker.component';
 import {RecordStatusBadgeComponent} from './components/record-active-status/record-status-badge.component';
@@ -100,7 +105,9 @@ const THIRD_MODULES: Array<Type<void>> = [
     NzUploadModule,
     NzEmptyModule,
     NzResultModule,
-    NzListModule
+    NzListModule,
+    NzDropDownModule,
+    NzStatisticModule
 
 ];
 const COMPONENTS: Array<Type<void>> = [
@@ -130,12 +137,16 @@ const COMPONENTS: Array<Type<void>> = [
     RecordStatusBadgeComponent,
     TableItemTruncatableComponent,
     SearchModelDropdownComponent,
-    FieldsetComponent
+    FieldsetComponent,
+    AmountCurrencyComponent,
+    IconButtonComponent,
+    StockItemPriceFormComponent
 ];
 const DIRECTIVES: Array<Type<void>> = [
     DisableAutocompleteDirective
 ];
 const ICONS: Array<Type<void>> = [];
+
 const PROVIDERS: Array<Type<void>> = [AsyncPipe, UpperCasePipe];
 
 @NgModule({

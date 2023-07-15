@@ -6,7 +6,6 @@ import {StockCodeSearchComponent} from './_components/stock-code-search/stock-co
 import {StockFormComponent} from './_components/stock-manage/stock-form/stock-form.component';
 import {StockItemExtraExpensesComponent} from './_components/stock-manage/stock-item-extra-expenses/stock-item-extra-expenses.component';
 import {StockItemPanelHeaderComponent} from './_components/stock-manage/stock-item-panel-header/stock-item-panel-header.component';
-import {StockItemPriceFormComponent} from './_components/stock-manage/stock-item-price-form/stock-item-price-form.component';
 import {StockItemSettlementFormComponent} from './_components/stock-manage/stock-item-settlement-form/stock-item-settlement-form.component';
 import {StockManageAddComponent} from './_components/stock-manage/stock-manage-add/stock-manage-add.component';
 import {StockProductLocationFormComponent} from './_components/stock-product-location-form/stock-product-location-form.component';
@@ -31,7 +30,6 @@ export const STOCK_COMPONENTS: Array<Type<void>> = [
     MoveStockItemComponent,
     StockManageAddComponent,
     StockItemSettlementFormComponent,
-    StockItemPriceFormComponent,
     StockItemExtraExpensesComponent,
     StockItemPanelHeaderComponent,
     StockFormComponent

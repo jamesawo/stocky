@@ -4,6 +4,7 @@ import {ProductBasicTabComponent} from './_components/product-basic-tab/product-
 import {ProductCategorySearchComponent} from './_components/product-category-search/product-category-search.component';
 import {ProductPriceTabComponent} from './_components/product-price-tab/product-price-tab.component';
 import {ProductSearchComponent} from './_components/product-search/product-search.component';
+import {ProductSetPriceIconComponent} from './_components/product-set-price-icon/product-set-price-icon.component';
 import {ProductStatusAddBtnComponent} from './_components/product-status/product-status-add-btn/product-status-add-btn.component';
 import {ProductStatusAddComponent} from './_components/product-status/product-status-add/product-status-add.component';
 import {ProductStatusDropdownComponent} from './_components/product-status/product-status-dropdown/product-status-dropdown.component';
@@ -35,7 +36,8 @@ export const PRODUCT_COMPONENTS: Array<Type<void>> = [
     ProductTaxDropdownComponent,
     ProductTaxAddBtnComponent,
     ProductTaxAddComponent,
-    ProductSearchComponent
+    ProductSearchComponent,
+    ProductSetPriceIconComponent
 ];
 
 @NgModule({

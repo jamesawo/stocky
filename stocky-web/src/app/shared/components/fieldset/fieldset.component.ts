@@ -16,5 +16,5 @@ import {Component, Input} from '@angular/core';
 })
 export class FieldsetComponent {
     @Input()
-    public ledge?: string;
+    public legend?: string;
 }

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
-import {map, Observable} from 'rxjs';
+import {firstValueFrom} from 'rxjs';
 import {FormProps} from '../../../../../data/payload/common.types';
 import {ProductTaxPayload} from '../../../_data/product.payload';
 import {ProductTaxUsecase} from '../../../_usecase/product-tax.usecase';
@@ -12,14 +12,17 @@ import {ProductTaxUsecase} from '../../../_usecase/product-tax.usecase';
     styles: []
 })
 export class ProductTaxDropdownComponent implements OnInit {
+
+    public listOfOption: Array<{label: string; value: string}> = [];
+    public selectedOptions: string[] = [];
     public isLoading = false;
-    public dataList?: Observable<ProductTaxPayload[]>;
+    public listOfTax: ProductTaxPayload[] = [];
 
     @Input()
     class?: string;
 
     @Input()
-    form?: FormProps;
+    public form?: FormProps;
 
     @Input()
     public value?: ProductTaxPayload[] = [];
@@ -31,33 +34,49 @@ export class ProductTaxDropdownComponent implements OnInit {
 
     constructor(private usecase: ProductTaxUsecase) {}
 
+    public title(tax: ProductTaxPayload) {
+        if (tax && tax.title) {
+            const title = tax.title!;
+            return `${title[0].toUpperCase()}${title.substring(1).toLowerCase()} (${tax.percent}%)`;
+        }
+        return 'Nil';
+    }
+
     public ngOnInit(): void {
-        this.onLoadData();
+        this.setSelectedOptionsInFormGroupOrValue().then();
         this.usecase.trigger$.subscribe((change) => this.onLoadData());
+    }
+
+    public async onLoadData(): Promise<void> {
+        this.isLoading = true;
+        const children: Array<{label: string; value: string}> = [];
+        let data = await firstValueFrom(this.usecase.getMany());
+
+        for (let tax of data) {
+            children.push({label: this.title(tax), value: this.title(tax)});
+        }
+        this.listOfOption = children;
+        this.listOfTax = data;
     }
 
     public onValueChange(value: ProductTaxPayload[]) {
         if (value) {
-            this.valueChange?.emit(value);
-            this.updateFormGroupIfPresent(value);
+            const taxes = this.mapToTaxPayload(value as any);
+            this.valueChange?.emit(taxes);
+            this.updateFormGroupIfPresent(taxes);
         }
     }
 
-    public onLoadData(): void {
-        this.isLoading = true;
-        this.dataList = this.usecase.getMany().pipe(
-            map((value) => {
-                this.isLoading = false;
-                return value;
-            })
-        );
-    }
-
-    public canUseFormGroup() {
-        if (this.form) {
-            return !!this.form.formGroup && !!this.form.controlName;
+    private mapToTaxPayload(titles: string[]): ProductTaxPayload[] {
+        let taxes: ProductTaxPayload[] = [];
+        for (const tax of this.listOfTax) {
+            for (let title of titles) {
+                if (this.title(tax) == title) {
+                    taxes.push(tax);
+                }
+            }
         }
-        return false;
+        return taxes;
     }
 
     private updateFormGroupIfPresent(value: ProductTaxPayload[]) {
@@ -65,6 +84,22 @@ export class ProductTaxDropdownComponent implements OnInit {
             let control = this.form.controlName;
             this.form.formGroup.get(control)?.setValue(value);
             this.form = {...this.form!};
+        }
+    }
+
+    private async setSelectedOptionsInFormGroupOrValue() {
+        const formProps = this.form;
+        if (formProps?.formGroup && formProps.controlName) {
+            const select: ProductTaxPayload[] = formProps.formGroup.controls[formProps.controlName].value;
+            this.addSelectedItems(select);
+        } else if (this.value) {
+            this.addSelectedItems(this.value);
+        }
+    }
+
+    private addSelectedItems(list: ProductTaxPayload[]) {
+        for (let tax of list) {
+            this.selectedOptions.push(this.title(tax));
         }
     }
 }

@@ -30,6 +30,7 @@ export class UnitOfMeasurementDropdownComponent implements OnInit {
 
     public ngOnInit(): void {
         this.usecase.trigger$.subscribe((change) => this.onLoadData());
+        this.setDefault();
     }
 
     public getLabel(data: ProductUnitOfMeasurePayload): string {
@@ -53,5 +54,16 @@ export class UnitOfMeasurementDropdownComponent implements OnInit {
         this.isLoading = true;
         this.measures = await firstValueFrom(this.usecase.getMany().pipe(shareReplay()));
         this.isLoading = false;
+    }
+
+    private setDefault() {
+        const formProps = this.formProps;
+        if (formProps?.formGroup && formProps.controlName) {
+            const select = formProps.formGroup.controls[formProps.controlName].value;
+            if (select) {
+                const measures = [...this.measures ?? []];
+                this.measures = [...measures, select];
+            }
+        }
     }
 }

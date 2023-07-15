@@ -2,6 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
 import {PageResultPayload, PageSearchPayload} from '../../../data/payload/common.interface';
+import {StockPrice} from '../../stock/_data/stock.payload';
 import {ProductPayload, ProductSearchRequestPayload} from '../_data/product.payload';
 
 @Injectable({providedIn: 'root'})
@@ -13,6 +14,14 @@ export class ProductUsecase {
     public create(product: ProductPayload) {
         return this.http.post<ProductPayload>(`${this.url}/create`, product,
             {observe: 'response'});
+    }
+
+    public updatePrice(product: ProductPayload, price: StockPrice) {
+        return this.http.post<ProductPayload>(`${this.url}/set-price/${product.id}`, price, {observe: 'response'});
+    }
+
+    public updateQuantity(product: ProductPayload, quantity: number) {
+        return this.http.post<ProductPayload>(`${this.url}/set-quantity/${product.id}/${quantity}`, {}, {observe: 'response'});
     }
 
     public saveMany(products: ProductPayload[]) {

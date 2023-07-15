@@ -22,7 +22,9 @@ export class StockItemPriceFormComponent implements OnInit {
     @Input()
     public isGroupExpenses = false;
 
-
+    @Input()
+    public showLegend = true;
+    
     constructor(private renderer: Renderer2) {
     }
 

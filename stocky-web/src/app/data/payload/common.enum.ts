@@ -37,3 +37,17 @@ export enum NokRelationship {
     CHILD = 'CHILD',
     OTHER = 'OTHER',
 }
+
+export enum SettingModuleEnum {
+    BACKUP = 'BACKUP',
+    DASHBOARD = 'DASHBOARD',
+    EXPENSES = 'EXPENSES',
+    NOTIFICATION = 'NOTIFICATION',
+    PAYMENT_METHOD = 'PAYMENT_METHOD',
+    PEOPLE = 'PEOPLE',
+    PRODUCT = 'PRODUCT',
+    SALE = 'SALE',
+    STOCK = 'STOCK',
+    COMPANY = 'COMPANY',
+    TAX = 'TAX',
+}

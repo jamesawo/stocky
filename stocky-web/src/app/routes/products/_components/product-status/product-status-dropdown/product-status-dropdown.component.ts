@@ -29,6 +29,7 @@ export class ProductStatusDropdownComponent implements OnInit {
 
     public ngOnInit(): void {
         this.usecase.trigger$.subscribe((change) => this.onLoadData());
+        this.setDefault();
     }
 
     public onValueChange(value: ProductStatusPayload) {
@@ -48,5 +49,16 @@ export class ProductStatusDropdownComponent implements OnInit {
             return !!this.formProps.formGroup && !!this.formProps.controlName;
         }
         return false;
+    }
+
+    private setDefault() {
+        const formProps = this.formProps;
+        if (formProps?.formGroup && formProps.controlName) {
+            const select = formProps.formGroup.controls[formProps.controlName].value;
+            if (select) {
+                const list = [...this.statusList ?? []];
+                this.statusList = [...list, select];
+            }
+        }
     }
 }

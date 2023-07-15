@@ -11,7 +11,6 @@ import {getFormGroupFromParent, getNzFormControlValidStatus} from '../../../../s
           :host ::ng-deep div[role="alert"] {
             margin-bottom: 25px;
           }
-
         `
     ]
 })
