@@ -22,12 +22,19 @@ import static com.jamesaworo.stocky.core.constants.Table.PRODUCT_UNIT_OF_MEASURE
 @Data
 public class ProductUnitOfMeasure extends BaseModel {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String title;
-	private String unit;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String title;
+    private String unit;
 
-	@OneToMany(mappedBy = "unitOfMeasure", fetch = FetchType.LAZY)
-	private List<ProductBasic> products;
+    @OneToMany(mappedBy = "unitOfMeasure", fetch = FetchType.LAZY)
+    private List<ProductBasic> products;
+
+    public ProductUnitOfMeasure() {
+    }
+
+    public ProductUnitOfMeasure(Long id) {
+        this.id = id;
+    }
 }

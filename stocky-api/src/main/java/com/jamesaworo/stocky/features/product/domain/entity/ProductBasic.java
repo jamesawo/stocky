@@ -25,37 +25,41 @@ import static com.jamesaworo.stocky.core.constants.Table.PRODUCT_BASIC;
 @NoArgsConstructor
 @ToString
 public class ProductBasic extends BaseModel {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@ManyToOne
-	private ProductCategory productCategory;
+    @ManyToOne
+    private ProductCategory productCategory;
 
-	@ManyToOne
-	private ProductUnitOfMeasure unitOfMeasure;
+    @ManyToOne
+    private ProductUnitOfMeasure unitOfMeasure;
 
-	@ManyToOne
-	private ProductStatus status;
+    @ManyToOne
+    private ProductStatus status;
 
-	@OneToOne(mappedBy = "basic", fetch = FetchType.LAZY)
-	private Product product;
+    @OneToOne(mappedBy = "basic", fetch = FetchType.LAZY)
+    private Product product;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn()
-	private List<ProductTax> taxes;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn()
+    private List<ProductTax> taxes;
 
-	@Column(nullable = false)
-	private String productName;
-	private String brandName;
-	private String sku;
-	private String barcode;
-	private String description;
-	private Boolean isActive;
-	private Boolean useQuantity;
-	private Boolean isService;
-	private Integer minAgeLimit;
-	private Integer lowStockPoint;
-	private Integer quantity;
+    @Column(nullable = false)
+    private String productName;
 
+    @Column(unique = true)
+    private String sku;
+
+    @Column(unique = true)
+    private String barcode;
+    
+    private String brandName;
+    private String description;
+    private Boolean isActive;
+    private Boolean useQuantity;
+    private Boolean isService;
+    private Integer minAgeLimit;
+    private Integer lowStockPoint;
+    private Integer quantity;
 }

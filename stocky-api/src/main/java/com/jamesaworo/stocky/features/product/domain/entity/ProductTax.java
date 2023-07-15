@@ -20,14 +20,18 @@ import static com.jamesaworo.stocky.core.constants.Table.PRODUCT_TAX;
 @Table(name = PRODUCT_TAX)
 @Data
 public class ProductTax extends BaseModel {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String title;
-	private String description;
-	private double percent;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String title;
+    private String description;
+    private double percent;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_price_id")
-	private ProductPrice productPrice;
+
+    public ProductTax(Long id) {
+        this.id = id;
+    }
+
+    public ProductTax() {
+    }
 }

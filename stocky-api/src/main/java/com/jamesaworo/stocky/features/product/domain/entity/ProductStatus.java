@@ -21,12 +21,19 @@ import static com.jamesaworo.stocky.core.constants.Table.PRODUCT_STATUS;
 @Table(name = PRODUCT_STATUS)
 @Data
 public class ProductStatus extends BaseModel {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String title;
-	private String description;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String title;
+    private String description;
 
-	@OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
-	private List<ProductBasic> productBasics;
+    @OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
+    private List<ProductBasic> productBasics;
+
+    public ProductStatus(Long id) {
+        this.id = id;
+    }
+
+    public ProductStatus() {
+    }
 }

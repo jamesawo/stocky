@@ -1,6 +1,7 @@
 package com.jamesaworo.stocky.features.product.domain.usecase;
 
 import com.jamesaworo.stocky.features.product.domain.entity.Product;
+import com.jamesaworo.stocky.features.product.domain.entity.ProductPrice;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -14,13 +15,15 @@ import java.util.Optional;
  */
 public interface IProductUsecase {
 
-	Optional<Product> findById(Long id);
+    Optional<Product> findById(Long id);
 
-	Product save(Product product);
+    Product save(Product product);
 
-	Page<Product> findMany(Specification<Product> specification, Pageable pageable);
+    Page<Product> findMany(Specification<Product> specification, Pageable pageable);
 
-	List<Product> findMany(Specification<Product> specification);
+    List<Product> findMany(Specification<Product> specification);
 
-	Boolean updateProductQuantity(Product product, Integer quantity);
+    Boolean updateProductQuantity(Product product, Integer quantity);
+
+    Boolean tryUpdateProductPrice(Product product, ProductPrice productPrice);
 }
