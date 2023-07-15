@@ -9,7 +9,7 @@ import java.util.Optional;
  * @author Aworo James
  * @since 4/22/23
  */
-public interface ISettingPaymentMethodUsecase {
+public interface ISettingPaymentMethodUsecase extends ISettingUsecase<SettingPaymentMethod> {
 
     List<SettingPaymentMethod> all();
 
