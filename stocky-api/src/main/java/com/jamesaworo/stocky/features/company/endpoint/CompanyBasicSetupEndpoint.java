@@ -26,31 +26,31 @@ import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 @RequiredArgsConstructor
 public class CompanyBasicSetupEndpoint {
 
-	private final ICompanySetupInteractor interactor;
-	private final ICompanyBusinessCategoryInteractor businessCategoryInteractor;
+    private final ICompanySetupInteractor interactor;
+    private final ICompanyBusinessCategoryInteractor businessCategoryInteractor;
 
-	@GetMapping(value = "get-business-categories")
-	public ResponseEntity<List<CompanyBusinessCategoryRequest>> getAllBusinessCategories() {
-		return this.businessCategoryInteractor.getAll();
-	}
+    @GetMapping(value = "get-business-categories")
+    public ResponseEntity<List<CompanyBusinessCategoryRequest>> getAllBusinessCategories() {
+        return this.businessCategoryInteractor.getAll();
+    }
 
-	@GetMapping(value = "get-all")
-	public ResponseEntity<Map<String, String>> getAll() {
-		return this.interactor.getAll();
-	}
+    @GetMapping(value = "get-all")
+    public ResponseEntity<Map<String, String>> getAll() {
+        return this.interactor.getAll();
+    }
 
-	@GetMapping(value = "get-one")
-	public ResponseEntity<Optional<CompanyDetailRequest>> get(String key) {
-		return this.interactor.get(key);
-	}
+    @GetMapping(value = "get-one")
+    public ResponseEntity<Optional<CompanyDetailRequest>> get(String key) {
+        return this.interactor.get(key);
+    }
 
-	@PutMapping(value = "update-one")
-	public ResponseEntity<Optional<Boolean>> update(@RequestBody CompanyDetailRequest request) {
-		return this.interactor.update(request.getSetupKey(), request.getSetupValue());
-	}
+    @PutMapping(value = "update-one")
+    public ResponseEntity<Optional<Boolean>> update(@RequestBody CompanyDetailRequest request) {
+        return this.interactor.update(request.getSetupKey(), request.getSetupValue());
+    }
 
-	@PostMapping(value = "update-many")
-	public ResponseEntity<Optional<Boolean>> update(@RequestBody List<CompanyDetailRequest> requestList) {
-		return this.interactor.updateMany(requestList);
-	}
+    @PostMapping(value = "update-many")
+    public ResponseEntity<Optional<Boolean>> update(@RequestBody List<CompanyDetailRequest> requestList) {
+        return this.interactor.updateMany(requestList);
+    }
 }
