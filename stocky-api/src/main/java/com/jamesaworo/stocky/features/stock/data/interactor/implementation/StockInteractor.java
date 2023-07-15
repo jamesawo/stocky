@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,7 @@ public class StockInteractor implements IStockInteractor {
      * @throws RuntimeException if an exception occurs during the saving process.
      */
     @Override
+    @Transactional
     public ResponseEntity<StockRequest> save(StockRequest request) {
         try {
             Stock newStock = this.createNewStock(request);

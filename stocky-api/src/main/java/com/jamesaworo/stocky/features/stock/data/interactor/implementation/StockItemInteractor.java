@@ -11,6 +11,7 @@ import com.jamesaworo.stocky.core.annotations.Interactor;
 import com.jamesaworo.stocky.features.company.domain.entity.CompanySupplier;
 import com.jamesaworo.stocky.features.company.domain.usecase.ICompanySupplierUsecase;
 import com.jamesaworo.stocky.features.product.domain.entity.Product;
+import com.jamesaworo.stocky.features.product.domain.entity.ProductPrice;
 import com.jamesaworo.stocky.features.product.domain.usecase.IProductUsecase;
 import com.jamesaworo.stocky.features.stock.data.interactor.contract.IStockExpensesInteractor;
 import com.jamesaworo.stocky.features.stock.data.interactor.contract.IStockItemInteractor;
@@ -85,6 +86,7 @@ public class StockItemInteractor implements IStockItemInteractor {
         model.setStock(stock);
         StockItem newStockItem = this.usecase.save(model);
         this.updateStockItemExpenses(newStockItem, request.getExpenses());
+        this.updateStockItemProductPriceAndQuantity(newStockItem, request);
     }
 
     @Override
@@ -140,6 +142,24 @@ public class StockItemInteractor implements IStockItemInteractor {
             }
         }
         return new ArrayList<>(expensesList);
+    }
+
+    private void updateStockItemProductPriceAndQuantity(StockItem stock, StockItemRequest request) {
+        Integer productQuantity = stock.getProductQuantity();
+        StockPrice stockPrice = stock.getStockPrice();
+        Product product = stock.getProduct();
+
+        this.productUsecase.updateProductQuantity(product, productQuantity);
+        this.productUsecase.tryUpdateProductPrice(product, this.mapStockPriceToProductPrice(stockPrice));
+
+    }
+
+    private ProductPrice mapStockPriceToProductPrice(StockPrice stockPrice) {
+        ProductPrice productPrice = new ProductPrice();
+        productPrice.setCostPrice(stockPrice.getCostPrice() + stockPrice.getExpensesAmount());
+        productPrice.setSellingPrice(stockPrice.getSellingPrice());
+        productPrice.setMarkup(stockPrice.getMarkupPercent());
+        return productPrice;
     }
 
     @Override
