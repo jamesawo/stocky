@@ -17,6 +17,6 @@ public interface SettingNotificationRepository extends JpaRepository<SettingNoti
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE SettingNotification s SET settingValue = :value where s.settingKey = :key")
+    @Query(value = "UPDATE SettingNotification s SET s.settingValue = :value where s.settingKey = :key")
     int updateByKey(String key, String value);
 }

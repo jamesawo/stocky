@@ -30,6 +30,16 @@ public class SettingPaymentMethodUsecase implements ISettingPaymentMethodUsecase
     }
 
     @Override
+    public Boolean updateMany(List<SettingPaymentMethod> settings) {
+        return null;
+    }
+
+    @Override
+    public Boolean update(String key, String value) {
+        return null;
+    }
+
+    @Override
     public Optional<SettingPaymentMethod> getById(Long id) {
         return this.repository.findById(id);
     }

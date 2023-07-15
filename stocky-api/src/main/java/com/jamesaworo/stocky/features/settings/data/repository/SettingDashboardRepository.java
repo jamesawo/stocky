@@ -18,6 +18,6 @@ public interface SettingDashboardRepository extends JpaRepository<SettingDashboa
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE SettingDashboard s SET settingValue = :value where s.settingKey = :key")
+    @Query(value = "UPDATE SettingDashboard s SET s.settingValue = :value where s.settingKey = :key")
     int updateByKey(String key, String value);
 }

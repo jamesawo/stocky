@@ -17,6 +17,6 @@ public interface SettingTaxRepository extends JpaRepository<SettingTax, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE SettingTax s SET settingValue = :value where s.settingKey = :key")
+    @Query(value = "UPDATE SettingTax s SET s.settingValue = :value where s.settingKey = :key")
     int updateByKey(String key, String value);
 }

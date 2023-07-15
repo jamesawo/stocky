@@ -7,5 +7,4 @@ import com.jamesaworo.stocky.features.settings.data.interactor.base.ISettingBase
  * @since 4/20/23
  */
 public interface ISettingDashboardInteractor extends ISettingBaseInteractor {
-
 }

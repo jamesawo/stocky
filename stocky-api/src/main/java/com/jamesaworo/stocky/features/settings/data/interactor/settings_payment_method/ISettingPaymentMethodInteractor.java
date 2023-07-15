@@ -1,6 +1,7 @@
 package com.jamesaworo.stocky.features.settings.data.interactor.settings_payment_method;
 
-import com.jamesaworo.stocky.features.settings.data.dto.PaymentMethodDto;
+import com.jamesaworo.stocky.features.settings.data.dto.PaymentMethodRequest;
+import com.jamesaworo.stocky.features.settings.data.interactor.base.ISettingBaseInteractor;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -11,12 +12,12 @@ import java.util.Optional;
  * @since 4/20/23
  */
 
-public interface ISettingPaymentMethodInteractor {
+public interface ISettingPaymentMethodInteractor extends ISettingBaseInteractor {
 
-    ResponseEntity<Optional<PaymentMethodDto>> getByName(String name);
+    ResponseEntity<Optional<PaymentMethodRequest>> getByName(String name);
 
-    ResponseEntity<Optional<PaymentMethodDto>> getById(Long id);
+    ResponseEntity<Optional<PaymentMethodRequest>> getById(Long id);
 
-    ResponseEntity<List<PaymentMethodDto>> all();
+    ResponseEntity<List<PaymentMethodRequest>> all();
 
 }

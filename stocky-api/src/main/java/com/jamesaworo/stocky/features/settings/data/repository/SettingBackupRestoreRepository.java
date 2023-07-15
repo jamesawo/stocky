@@ -15,6 +15,6 @@ public interface SettingBackupRestoreRepository extends JpaRepository<SettingBac
     Optional<SettingBackUpRestore> findBySettingKey(String key);
 
     @Modifying
-    @Query(value = "UPDATE SettingBackUpRestore s SET settingValue = :value where s.settingKey = :key")
+    @Query(value = "UPDATE SettingBackUpRestore s SET s.settingValue = :value where s.settingKey = :key")
     int updateByKey(String key, String value);
 }

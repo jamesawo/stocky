@@ -1,7 +1,9 @@
 package com.jamesaworo.stocky.features.settings.data.interactor.base;
 
 
-import com.jamesaworo.stocky.features.settings.data.dto.SettingDto;
+import com.jamesaworo.stocky.features.settings.data.dto.SettingRequest;
+import com.jamesaworo.stocky.features.settings.domain.enums.SettingModule;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -12,12 +14,16 @@ import java.util.List;
  */
 public interface ISettingBaseInteractor {
 
-    ResponseEntity<SettingDto> get(String key);
+    default ResponseEntity<SettingRequest> get(String key, SettingModule module) {
+        return new ResponseEntity<>(new SettingRequest(), HttpStatus.OK);
+    }
 
-    ResponseEntity<List<SettingDto>> getAll();
+    ResponseEntity<SettingRequest> get(String key);
 
-    ResponseEntity<Boolean> update(SettingDto dto);
+    ResponseEntity<List<SettingRequest>> getAll();
 
-    ResponseEntity<Boolean> updateAll(List<SettingDto> list);
+    ResponseEntity<Boolean> update(SettingRequest dto);
+
+    ResponseEntity<Boolean> updateAll(List<SettingRequest> list);
 
 }

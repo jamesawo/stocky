@@ -19,6 +19,6 @@ public interface SettingStockRepository extends JpaRepository<SettingStock, Long
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE SettingStock s SET settingValue = :value where s.settingKey = :key")
+    @Query(value = "UPDATE SettingStock s SET s.settingValue = :value where s.settingKey = :key")
     int updateByKey(String key, String value);
 }

@@ -17,6 +17,6 @@ public interface SettingPeopleRepository extends JpaRepository<SettingPeople, Lo
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE SettingPeople s SET settingValue = :value where s.settingKey = :key")
+    @Query(value = "UPDATE SettingPeople s SET s.settingValue = :value where s.settingKey = :key")
     int updateByKey(String key, String value);
 }

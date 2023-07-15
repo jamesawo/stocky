@@ -17,6 +17,6 @@ public interface SettingExpensesRepository extends JpaRepository<SettingExpenses
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE SettingExpenses s SET settingValue = :value where s.settingKey = :key")
+    @Query(value = "UPDATE SettingExpenses s SET s.settingValue = :value where s.settingKey = :key")
     int updateByKey(String key, String value);
 }

@@ -1,6 +1,7 @@
 package com.jamesaworo.stocky.features.settings.data.dto;
 
 import com.jamesaworo.stocky.core.constants.enums.SettingField;
+import com.jamesaworo.stocky.features.settings.domain.entity.Setting;
 import com.jamesaworo.stocky.features.settings.domain.entity.SettingOption;
 import com.jamesaworo.stocky.features.settings.domain.enums.SettingModule;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,15 @@ public class SettingRequest {
     private String settingHint;
     private SettingModule module;
 
+    public SettingRequest(String settingKey, String settingValue) {
+        this.settingKey = settingKey;
+        this.settingValue = settingValue;
+    }
+
     public SettingRequest() {
+    }
+
+    public static SettingRequest fromModel(Setting model) {
+        return new SettingRequest(model.getSettingKey(), model.getSettingValue());
     }
 }
