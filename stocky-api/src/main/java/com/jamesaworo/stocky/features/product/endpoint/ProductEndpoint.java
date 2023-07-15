@@ -5,12 +5,14 @@ import com.jamesaworo.stocky.core.params.PageSearchResult;
 import com.jamesaworo.stocky.features.product.data.interactor.contract.IProductInteractor;
 import com.jamesaworo.stocky.features.product.data.request.ProductRequest;
 import com.jamesaworo.stocky.features.product.data.request.ProductSearchRequest;
+import com.jamesaworo.stocky.features.stock.data.request.StockPriceRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 
@@ -23,24 +25,38 @@ import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 @RequiredArgsConstructor
 public class ProductEndpoint {
 
-	private final IProductInteractor interactor;
+    private final IProductInteractor interactor;
 
-	@PostMapping(value = "/create")
-	public ResponseEntity<ProductRequest> create(@RequestBody ProductRequest request) {
-		return this.interactor.save(request);
-	}
+    @PostMapping(value = "/create")
+    public ResponseEntity<ProductRequest> create(@RequestBody ProductRequest request) {
+        return this.interactor.save(request);
+    }
 
-	@PostMapping(value = "/search-request")
-	public ResponseEntity<PageSearchResult<List<ProductRequest>>> searchProducts(
-			@Valid @RequestBody PageSearchRequest<ProductSearchRequest> request
-	) {
-		return this.interactor.search(request);
-	}
+    @PostMapping(value = "/search-request")
+    public ResponseEntity<PageSearchResult<List<ProductRequest>>> searchProducts(
+            @Valid @RequestBody PageSearchRequest<ProductSearchRequest> request
+    ) {
+        return this.interactor.search(request);
+    }
 
-	@GetMapping("search")
-	public ResponseEntity<List<ProductRequest>> search(
-			@RequestParam(value = "term") String term
-	) {
-		return this.interactor.search(term);
-	}
+    @PostMapping(value = "/set-price/{id}")
+    public ResponseEntity<Optional<ProductRequest>> setPrice(
+            @PathVariable Long id, @RequestBody StockPriceRequest price
+    ) {
+        return this.interactor.setPrice(id, price);
+    }
+
+    @PostMapping(value = "/set-quantity/{id}/{quantity}")
+    public ResponseEntity<Optional<ProductRequest>> setQuantity(
+            @PathVariable Long id,
+            @PathVariable Integer quantity) {
+        return this.interactor.setQuantity(id, quantity);
+    }
+
+    @GetMapping("search")
+    public ResponseEntity<List<ProductRequest>> search(
+            @RequestParam(value = "term") String term
+    ) {
+        return this.interactor.search(term);
+    }
 }
