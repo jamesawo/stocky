@@ -1,31 +1,13 @@
-import {
-    HttpErrorResponse,
-    HttpEvent,
-    HttpHandler,
-    HttpHeaders,
-    HttpInterceptor,
-    HttpRequest,
-    HttpResponseBase,
-} from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
-import { Router } from '@angular/router';
-import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { _HttpClient, ALAIN_I18N_TOKEN, IGNORE_BASE_URL } from '@delon/theme';
-import { environment } from '@env/environment';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
-import {
-    BehaviorSubject,
-    catchError,
-    filter,
-    mergeMap,
-    Observable,
-    of,
-    switchMap,
-    take,
-    throwError,
-} from 'rxjs';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponseBase} from '@angular/common/http';
+import {Injectable, Injector} from '@angular/core';
+import {Router} from '@angular/router';
+import {DA_SERVICE_TOKEN, ITokenService} from '@delon/auth';
+import {_HttpClient, ALAIN_I18N_TOKEN, IGNORE_BASE_URL} from '@delon/theme';
+import {environment} from '@env/environment';
+import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {BehaviorSubject, catchError, filter, mergeMap, Observable, of, switchMap, take, throwError} from 'rxjs';
 
-const CODEMESSAGE: { [key: number]: string } = {
+const CODEMESSAGE: {[key: number]: string} = {
     200: 'The server successfully returned the requested data. ',
     201: 'Create or modify data successfully. ',
     202: 'A request has been queued in the background (asynchronous task). ',
@@ -40,7 +22,7 @@ const CODEMESSAGE: { [key: number]: string } = {
     500: 'An error occurred on the server, please check the server. ',
     502: 'Bad gateway. ',
     503: 'The service is unavailable, the server is temporarily overloaded or under maintenance. ',
-    504: 'Gateway timed out.',
+    504: 'Gateway timed out.'
 };
 
 /**
@@ -85,7 +67,7 @@ export class DefaultInterceptor implements HttpInterceptor {
             !url.startsWith('https://') &&
             !url.startsWith('http://')
         ) {
-            const { baseUrl } = environment.api;
+            const {baseUrl} = environment.api;
             url =
                 baseUrl +
                 (baseUrl.endsWith('/') && url.startsWith('/')
@@ -95,7 +77,7 @@ export class DefaultInterceptor implements HttpInterceptor {
 
         const newReq = req.clone({
             url,
-            setHeaders: this.getAdditionalHeaders(req.headers),
+            setHeaders: this.getAdditionalHeaders(req.headers)
         });
         return next.handle(newReq).pipe(
             mergeMap((ev) => {
@@ -134,7 +116,7 @@ export class DefaultInterceptor implements HttpInterceptor {
     private refreshTokenRequest(): Observable<any> {
         const model = this.tokenSrv.get();
         return this.http.post(`/api/auth/refresh`, null, null, {
-            headers: { refresh_token: model?.['refresh_token'] || '' },
+            headers: {refresh_token: model?.['refresh_token'] || ''}
         });
     }
 
@@ -183,17 +165,18 @@ export class DefaultInterceptor implements HttpInterceptor {
     // #region 刷新Token方式二：使用 `@delon/auth` 的 `refresh` 接口
 
     /**
-     * 重新附加新 Token 信息
+     * Re-attach the new Token information
      *
-     * > 由于已经发起的请求，不会再走一遍 `@delon/auth` 因此需要结合业务情况重新附加新的 Token
+     * > Will not walk again due to requests already initiated `@delon/auth`
+     * Therefore, it is necessary to add a new one based on the business situationToken
      */
     private reAttachToken(req: HttpRequest<any>): HttpRequest<any> {
-        // 以下示例是以 NG-ALAIN 默认使用 `SimpleInterceptor`
+        // The following example uses NG-ALAIN by default `SimpleInterceptor`
         const token = this.tokenSrv.get()?.token;
         return req.clone({
             setHeaders: {
-                token: `Bearer ${token}`,
-            },
+                token: `Bearer ${token}`
+            }
         });
     }
 
@@ -219,12 +202,12 @@ export class DefaultInterceptor implements HttpInterceptor {
                     this.refreshToking = false;
                     this.tokenSrv.set(res);
                 },
-                error: () => this.toLogin(),
+                error: () => this.toLogin()
             });
     }
 
     private toLogin(): void {
-        this.notification.error(`未登录或登录已过期，请重新登录。`, ``);
+        this.notification.error(`Login Expired, Please login again`, ``);
         this.goTo(this.tokenSrv.login_url!);
     }
 
@@ -234,32 +217,33 @@ export class DefaultInterceptor implements HttpInterceptor {
         next: HttpHandler
     ): Observable<any> {
         this.checkStatus(ev);
-        // 业务处理：一些通用操作
+
+        // Business processing: Some common operations
         switch (ev.status) {
             case 200:
-                // 业务层级错误处理，以下是假定restful有一套统一输出格式（指不管成功与否都有相应的数据格式）情况下进行处理
-                // 例如响应内容：
-                //  错误内容：{ status: 1, msg: '非法参数' }
-                //  正确内容：{ status: 0, response: {  } }
-                // 则以下代码片断可直接适用
-                // if (ev instanceof HttpResponse) {
-                //   const body = ev.body;
-                //   if (body && body.status !== 0) {
-                //     const customError = req.context.get(CUSTOM_ERROR);
-                //     if (customError) this.injector.get(NzMessageService).error(body.msg);
-                //     // 注意：这里如果继续抛出错误会被行258的 catchError 二次拦截，导致外部实现的 Pipe、subscribe 操作被中断，例如：this.http.get('/').subscribe() 不会触发
-                //     // 如果你希望外部实现，需要手动移除行259
-                //     return if (customError) throwError({}) : of({});
-                //   } else {
-                //     // 返回原始返回体
-                //     if (req.context.get(RAW_BODY) || ev.body instanceof Blob) {
-                //        return of(ev);
-                //     }
-                //     // 重新修改 `body` 内容为 `response` 内容，对于绝大多数场景已经无须再关心业务状态码
-                //     return of(new HttpResponse(Object.assign(ev, { body: body.response })));
-                //     // 或者依然保持完整的格式
-                //     return of(ev);
-                //   }
+                // Business-level error handling, the following assumes that there is a unified output format for RESTful (meaning that there is a corresponding data format regardless of success or failure) for processing:
+                //  // For example, the response content:
+                // // Error content: { status: 1, msg: 'Invalid parameter' }
+                // // Correct content: { status: 0, response: { } }
+                // // The following code snippet can be directly applied:
+                // // if (ev instanceof HttpResponse) {
+                // //   const body = ev.body;
+                // //   if (body && body.status !== 0) {
+                // //     const customError = req.context.get(CUSTOM_ERROR);
+                // //     if (customError) this.injector.get(NzMessageService).error(body.msg);
+                // //     // Note: If you continue to throw an error here, it will be intercepted again by catchError on line 258, causing interruption of external implementations such as Pipe and subscribe operations. For example, this.http.get('/').subscribe() will not be triggered.
+                // //     // If you want it to be handled externally, you need to manually remove line 259.
+                // //     return if (customError) throwError({}) : of({});
+                // //   } else {
+                // //     // Return the original response body
+                // //     if (req.context.get(RAW_BODY) || ev.body instanceof Blob) {
+                // //        return of(ev);
+                // //     }
+                // //     // Modify the  `body`  content to be the  `response`  content, so that the business status code is no longer a concern for most scenarios
+                // //     return of(new HttpResponse(Object.assign(ev, { body: body.response })));
+                // //     // Alternatively, keep the complete format
+                // //     return of(ev);
+                // //   }
                 // }
                 break;
             case 401:
@@ -295,7 +279,7 @@ export class DefaultInterceptor implements HttpInterceptor {
     private getAdditionalHeaders(headers?: HttpHeaders): {
         [name: string]: string;
     } {
-        const res: { [name: string]: string } = {};
+        const res: {[name: string]: string} = {};
         const lang = this.injector.get(ALAIN_I18N_TOKEN).currentLang;
         if (!headers?.has('Accept-Language') && lang) {
             res['Accept-Language'] = lang;
