@@ -59,4 +59,12 @@ public class ProductEndpoint {
     ) {
         return this.interactor.search(term);
     }
+
+    @PostMapping(value = "/search-sales-products")
+    public ResponseEntity<PageSearchResult<List<ProductRequest>>> searchSalesProducts(
+            @Valid @RequestBody PageSearchRequest<ProductSearchRequest> request
+    ) {
+        return this.interactor.searchSalesProduct(request);
+    }
+
 }
