@@ -11,11 +11,13 @@ import java.util.Optional;
 
 public interface ICompanyCustomerInteractor {
 
-	ResponseEntity<PageSearchResult<List<CompanyCustomerRequest>>> search(PageSearchRequest<CompanyCustomerSearchRequest> request);
+    ResponseEntity<PageSearchResult<List<CompanyCustomerRequest>>> search(PageSearchRequest<CompanyCustomerSearchRequest> request);
 
-	ResponseEntity<CompanyCustomerRequest> save(CompanyCustomerRequest customer);
+    List<CompanyCustomerRequest> search(String term);
 
-	ResponseEntity<Optional<Boolean>> update(CompanyCustomerRequest customer);
+    ResponseEntity<CompanyCustomerRequest> save(CompanyCustomerRequest customer);
 
-	ResponseEntity<Optional<Boolean>> toggleActiveStatus(Long id);
+    ResponseEntity<Optional<Boolean>> update(CompanyCustomerRequest customer);
+
+    ResponseEntity<Optional<Boolean>> toggleActiveStatus(Long id);
 }
