@@ -27,31 +27,36 @@ import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 @RequiredArgsConstructor
 public class CompanyCustomerEndpoint {
 
-	private final ICompanyCustomerInteractor interactor;
+    private final ICompanyCustomerInteractor interactor;
 
 
-	@PostMapping(value = "/search")
-	public ResponseEntity<PageSearchResult<List<CompanyCustomerRequest>>> search(
-			@RequestBody PageSearchRequest<CompanyCustomerSearchRequest> request
-	) {
-		return this.interactor.search(request);
-	}
+    @PostMapping(value = "/search")
+    public ResponseEntity<PageSearchResult<List<CompanyCustomerRequest>>> search(
+            @RequestBody PageSearchRequest<CompanyCustomerSearchRequest> request
+    ) {
+        return this.interactor.search(request);
+    }
+
+    @GetMapping(value = "/search-by-term")
+    public List<CompanyCustomerRequest> searchWithTerm(@RequestParam String term) {
+        return this.interactor.search(term);
+    }
 
 
-	@PostMapping(value = "/create")
-	public ResponseEntity<CompanyCustomerRequest> save(@RequestBody CompanyCustomerRequest customer) {
-		return this.interactor.save(customer);
-	}
+    @PostMapping(value = "/create")
+    public ResponseEntity<CompanyCustomerRequest> save(@RequestBody CompanyCustomerRequest customer) {
+        return this.interactor.save(customer);
+    }
 
 
-	@PutMapping(value = "/update")
-	public ResponseEntity<Optional<Boolean>> update(CompanyCustomerRequest customer) {
-		return this.interactor.update(customer);
-	}
+    @PutMapping(value = "/update")
+    public ResponseEntity<Optional<Boolean>> update(CompanyCustomerRequest customer) {
+        return this.interactor.update(customer);
+    }
 
 
-	@PutMapping(value = "/status/{id}")
-	public ResponseEntity<Optional<Boolean>> toggleActiveStatus(@PathVariable(value = "id") Long id) {
-		return this.interactor.toggleActiveStatus(id);
-	}
+    @PutMapping(value = "/status/{id}")
+    public ResponseEntity<Optional<Boolean>> toggleActiveStatus(@PathVariable(value = "id") Long id) {
+        return this.interactor.toggleActiveStatus(id);
+    }
 }
