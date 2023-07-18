@@ -24,4 +24,7 @@ public interface IProductInteractor {
     ResponseEntity<Optional<ProductRequest>> setPrice(Long productId, StockPriceRequest priceRequest);
 
     ResponseEntity<Optional<ProductRequest>> setQuantity(Long id, Integer quantity);
+
+    ResponseEntity<PageSearchResult<List<ProductRequest>>> searchSalesProduct(PageSearchRequest<ProductSearchRequest> request);
+
 }

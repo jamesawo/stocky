@@ -26,6 +26,7 @@ import java.util.Optional;
 
 import static com.jamesaworo.stocky.core.params.PageParam.toPageSearchResult;
 import static com.jamesaworo.stocky.features.product.data.request.specification.ProductSearchSpecification.productSpecification;
+import static com.jamesaworo.stocky.features.product.data.request.specification.ProductSearchSpecification.salesProductSpecification;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.http.ResponseEntity.ok;
 import static org.springframework.util.ObjectUtils.isEmpty;
@@ -157,6 +158,13 @@ public class ProductInteractor implements IProductInteractor, Mapper<ProductRequ
             return toRequest(product);
         });
         return ok().body(optionalProductRequest);
+    }
+
+    @Override
+    public ResponseEntity<PageSearchResult<List<ProductRequest>>> searchSalesProduct(PageSearchRequest<ProductSearchRequest> request) {
+        Page<Product> page = this.usecase.findMany(salesProductSpecification(request.getSearchRequest()), request.getPage().toPageable());
+        List<ProductRequest> requests = page.getContent().stream().map(this::toRequest).collect(toList());
+        return ok().body(toPageSearchResult(requests, page));
     }
 
     public ProductRequest toRequest(Product model) {

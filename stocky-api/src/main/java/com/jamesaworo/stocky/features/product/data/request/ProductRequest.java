@@ -19,9 +19,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductRequest {
-	private Long id;
-	private ProductBasicRequest basic;
-	private ProductPriceRequest price;
-	private String createdAt;
-	private Boolean isActiveStatus;
+    private Long id;
+    private ProductBasicRequest basic;
+    private ProductPriceRequest price;
+    private String createdAt;
+    private Boolean isActiveStatus;
 }
