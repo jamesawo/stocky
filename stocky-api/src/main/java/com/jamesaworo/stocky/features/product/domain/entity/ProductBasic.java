@@ -38,8 +38,8 @@ public class ProductBasic extends BaseModel {
     @ManyToOne
     private ProductStatus status;
 
-    @OneToOne(mappedBy = "basic", fetch = FetchType.LAZY)
-    private Product product;
+//    @OneToOne(mappedBy = "basic", fetch = FetchType.LAZY)
+//    private Product product;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn()
@@ -53,7 +53,7 @@ public class ProductBasic extends BaseModel {
 
     @Column(unique = true)
     private String barcode;
-    
+
     private String brandName;
     private String description;
     private Boolean isActive;
