@@ -20,18 +20,17 @@ import static com.jamesaworo.stocky.core.constants.Table.PRODUCT;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product extends BaseModel {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@OneToOne
-	private ProductBasic basic;
+    @OneToOne
+    private ProductBasic basic;
 
-	@OneToOne
-	private ProductPrice price;
+    @OneToOne
+    private ProductPrice price;
 
-
-	public Product(Long id) {
-		this.id = id;
-	}
+    public Product(Long id) {
+        this.id = id;
+    }
 }

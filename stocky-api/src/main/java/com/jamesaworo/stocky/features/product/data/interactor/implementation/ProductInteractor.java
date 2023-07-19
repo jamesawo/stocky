@@ -103,11 +103,12 @@ public class ProductInteractor implements IProductInteractor, Mapper<ProductRequ
     private void createNewProduct(ProductBasic basic, ProductPrice price, ProductRequest request) {
         try {
             Product product = Product.builder().basic(basic).price(price).build();
+            Product savedProduct = this.usecase.save(product);
 
-            request.setId(product.getId());
-            request.setCreatedAt(product.getCreatedAt().toString());
-            request.setIsActiveStatus(product.getIsActiveStatus());
-            this.usecase.save(product);
+            request.setId(savedProduct.getId());
+            request.setCreatedAt(savedProduct.getCreatedAt().toString());
+            request.setIsActiveStatus(savedProduct.getIsActiveStatus());
+
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -133,6 +134,7 @@ public class ProductInteractor implements IProductInteractor, Mapper<ProductRequ
     @Override
     public ResponseEntity<Optional<ProductRequest>> setPrice(Long productId, StockPriceRequest stockPriceRequest) {
         Optional<Product> optionalProduct = this.usecase.findById(productId);
+
         Optional<ProductRequest> optionalProductRequest = optionalProduct.map(product -> {
             ProductPrice price = product.getPrice();
 
@@ -165,6 +167,17 @@ public class ProductInteractor implements IProductInteractor, Mapper<ProductRequ
         Page<Product> page = this.usecase.findMany(salesProductSpecification(request.getSearchRequest()), request.getPage().toPageable());
         List<ProductRequest> requests = page.getContent().stream().map(this::toRequest).collect(toList());
         return ok().body(toPageSearchResult(requests, page));
+    }
+
+    @Override
+    public ResponseEntity<Boolean> setDiscount(ProductDiscountRequest request) {
+        Optional<Product> optionalProduct = this.usecase.findById(request.getProductId());
+
+        Boolean res = optionalProduct.map(
+                product -> this.priceInteractor.applyDiscount(
+                        product.getPrice(), request)).orElse(Boolean.FALSE);
+
+        return ok().body(res);
     }
 
     public ProductRequest toRequest(Product model) {

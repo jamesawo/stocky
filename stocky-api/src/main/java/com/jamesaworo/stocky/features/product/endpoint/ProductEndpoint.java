@@ -3,6 +3,7 @@ package com.jamesaworo.stocky.features.product.endpoint;
 import com.jamesaworo.stocky.core.params.PageSearchRequest;
 import com.jamesaworo.stocky.core.params.PageSearchResult;
 import com.jamesaworo.stocky.features.product.data.interactor.contract.IProductInteractor;
+import com.jamesaworo.stocky.features.product.data.request.ProductDiscountRequest;
 import com.jamesaworo.stocky.features.product.data.request.ProductRequest;
 import com.jamesaworo.stocky.features.product.data.request.ProductSearchRequest;
 import com.jamesaworo.stocky.features.stock.data.request.StockPriceRequest;
@@ -45,6 +46,15 @@ public class ProductEndpoint {
     ) {
         return this.interactor.setPrice(id, price);
     }
+
+
+    @PostMapping(value = "/set-discount")
+    public ResponseEntity<Boolean> setDiscount(
+            @RequestBody ProductDiscountRequest discountRequest
+    ) {
+        return this.interactor.setDiscount(discountRequest);
+    }
+
 
     @PostMapping(value = "/set-quantity/{id}/{quantity}")
     public ResponseEntity<Optional<ProductRequest>> setQuantity(

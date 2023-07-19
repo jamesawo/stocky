@@ -2,6 +2,7 @@ package com.jamesaworo.stocky.features.product.data.interactor.contract;
 
 import com.jamesaworo.stocky.core.params.PageSearchRequest;
 import com.jamesaworo.stocky.core.params.PageSearchResult;
+import com.jamesaworo.stocky.features.product.data.request.ProductDiscountRequest;
 import com.jamesaworo.stocky.features.product.data.request.ProductRequest;
 import com.jamesaworo.stocky.features.product.data.request.ProductSearchRequest;
 import com.jamesaworo.stocky.features.stock.data.request.StockPriceRequest;
@@ -27,4 +28,5 @@ public interface IProductInteractor {
 
     ResponseEntity<PageSearchResult<List<ProductRequest>>> searchSalesProduct(PageSearchRequest<ProductSearchRequest> request);
 
+    ResponseEntity<Boolean> setDiscount(ProductDiscountRequest discountRequest);
 }
