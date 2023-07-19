@@ -2,16 +2,12 @@ import {HttpResponse} from '@angular/common/http';
 import {Component, Input} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {CommonAddProps, PopupViewProps} from 'src/app/data/payload/common.types';
+import {CommonAddProps, CommonInputProps, PopupViewProps} from 'src/app/data/payload/common.types';
 import {ModalOrDrawer} from '../../../../../../data/payload/common.enum';
 import {handleUsecaseRequest, markFormFieldsAsDirtyAndTouched, toggleModalOrDrawer} from '../../../../../../shared/utils/util';
 import {CustomerPayload} from '../../../../_data/company.payload';
 import {PeopleCustomerUsecase} from '../../../../_usecase/people-customer.usecase';
 
-export type ExpensesAddBtnProps = {
-    showTable?: boolean;
-    showForm?: boolean
-}
 
 @Component({
     selector: 'app-company-people-customer-add-btn',
@@ -27,6 +23,9 @@ export class CompanyPeopleCustomerAddBtnComponent {
 
     @Input()
     public popup: PopupViewProps = {display: ModalOrDrawer.DRAWER};
+
+    @Input()
+    public buttonProps: CommonInputProps = {size: 'large'};
 
     public showDrawer = false;
     public isLoading = false;

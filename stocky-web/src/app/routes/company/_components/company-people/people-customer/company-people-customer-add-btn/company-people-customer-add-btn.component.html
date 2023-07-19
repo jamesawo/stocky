@@ -1,4 +1,10 @@
-<app-button [props]="{handler: toggle, title: 'Add', icon: 'plus'}"></app-button>
+<app-button [props]="{
+    handler: toggle,
+    title: 'Add',
+    icon: 'plus',
+    size: buttonProps.size
+  }"
+></app-button>
 
 <ng-container *ngIf="popup.display == ModalOrDrawer.DRAWER; else modalTmpl">
     <nz-drawer
