@@ -117,23 +117,23 @@ public class CompanyCustomerSearchSpecification {
     }
 
     private static Predicate customerFirstNamePredicate(CriteriaBuilder criteriaBuilder, String name) {
-        return criteriaBuilder.like(criteriaBuilder.lower(mainRoot.get("customerFirstName")), "%" + name + "%");
+        return criteriaBuilder.like(criteriaBuilder.lower(mainRoot.get("customerFirstName")), "%" + name.toLowerCase() + "%");
     }
 
     private static Predicate lastNamePredicate(CriteriaBuilder criteriaBuilder, String name) {
-        return criteriaBuilder.like(criteriaBuilder.lower(mainRoot.get("customerLastName")), "%" + name + "%");
+        return criteriaBuilder.like(criteriaBuilder.lower(mainRoot.get("customerLastName")), "%" + name.toLowerCase() + "%");
     }
 
     private static Predicate phoneNumberPredicate(CriteriaBuilder criteriaBuilder, String search) {
-        return criteriaBuilder.like(criteriaBuilder.lower(mainRoot.get("customerPhone")), "%" + search + "%");
+        return criteriaBuilder.like(criteriaBuilder.lower(mainRoot.get("customerPhone")), "%" + search.toLowerCase() + "%");
     }
 
     private static Predicate emailPredicate(CriteriaBuilder criteriaBuilder, String search) {
-        return criteriaBuilder.like(criteriaBuilder.lower(mainRoot.get("customerEmail")), "%" + search + "%");
+        return criteriaBuilder.like(criteriaBuilder.lower(mainRoot.get("customerEmail")), "%" + search.toLowerCase() + "%");
     }
 
     private static Predicate addressPredicate(CriteriaBuilder criteriaBuilder, String search) {
-        return criteriaBuilder.like(criteriaBuilder.lower(mainRoot.get("customerAddress")), "%" + search + "%");
+        return criteriaBuilder.like(criteriaBuilder.lower(mainRoot.get("customerAddress")), "%" + search.toLowerCase() + "%");
     }
 
     private static Predicate customerTagPredicate(CriteriaBuilder criteriaBuilder, CustomerTagEnum tagEnum) {

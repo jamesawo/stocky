@@ -20,11 +20,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CompanyCustomerRequest {
-	private Long id;
-	private String customerFirstName;
-	private String customerLastName;
-	private String customerEmail;
-	private String customerPhone;
-	private String customerAddress;
-	private CustomerTagEnum customerTag;
+    private Long id;
+    private String customerFirstName;
+    private String customerLastName;
+    private String customerEmail;
+    private String customerPhone;
+    private String customerAddress;
+    private CustomerTagEnum customerTag;
+    private Boolean isActiveStatus;
 }
