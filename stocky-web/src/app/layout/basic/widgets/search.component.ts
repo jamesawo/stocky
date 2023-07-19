@@ -10,11 +10,12 @@ import {
     OnDestroy,
     Output
 } from '@angular/core';
-import { BehaviorSubject, debounceTime, distinctUntilChanged, tap } from 'rxjs';
+import {BehaviorSubject, debounceTime, distinctUntilChanged, tap} from 'rxjs';
 
 @Component({
     selector: 'header-search',
     template: `
+        <!--
         <nz-input-group [nzPrefix]="iconTpl" [nzSuffix]="loadingTpl">
             <ng-template #iconTpl>
                 <i nz-icon [nzType]="focus ? 'arrow-down' : 'search'"></i>
@@ -37,6 +38,7 @@ import { BehaviorSubject, debounceTime, distinctUntilChanged, tap } from 'rxjs';
         <nz-autocomplete nzBackfill #auto>
             <nz-auto-option *ngFor="let i of options" [nzValue]="i">{{ i }}</nz-auto-option>
         </nz-autocomplete>
+        -->
     `,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -51,6 +53,9 @@ export class HeaderSearchComponent implements AfterViewInit, OnDestroy {
     focus = false;
     @HostBinding('class.alain-default__search-toggled')
     searchToggled = false;
+    @Output() readonly toggleChangeChange = new EventEmitter<boolean>();
+
+    constructor(private el: ElementRef<HTMLElement>, private cdr: ChangeDetectorRef) {}
 
     @Input()
     set toggleChange(value: boolean) {
@@ -63,9 +68,6 @@ export class HeaderSearchComponent implements AfterViewInit, OnDestroy {
             setTimeout(() => this.qIpt!.focus());
         }
     }
-    @Output() readonly toggleChangeChange = new EventEmitter<boolean>();
-
-    constructor(private el: ElementRef<HTMLElement>, private cdr: ChangeDetectorRef) {}
 
     ngAfterViewInit(): void {
         this.qIpt = this.el.nativeElement.querySelector('.ant-input') as HTMLInputElement;
