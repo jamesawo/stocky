@@ -175,6 +175,7 @@ export class CustomerPayload {
     customerPhone?: string;
     customerAddress?: string;
     customerTag?: string = CustomerTagEnum.ROOKIE;
+    isActiveStatus?: boolean;
 }
 
 export class CustomerSearchPayload {
