@@ -33,6 +33,7 @@ public class Table {
     // PRODUCT TABLES
     public static final String PRODUCT = PREFIX + "PRODUCTS";
     public static final String PRODUCT_CATEGORY = PRODUCT + "_CATEGORIES";
+    public static final String PRODUCT_DISCOUNT = PRODUCT + "_DISCOUNT_PERIOD";
     public static final String PRODUCT_VARIATIONS = PRODUCT + "_VARIATIONS";
     public static final String PRODUCT_UNIT_OF_MEASURE = PRODUCT + "_UNIT_OF_MEASURES";
     public static final String PRODUCT_STATUS = PRODUCT + "_STATUS";
