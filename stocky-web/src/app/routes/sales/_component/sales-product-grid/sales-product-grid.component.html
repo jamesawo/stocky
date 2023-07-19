@@ -1,0 +1,47 @@
+<nz-list nzGrid>
+    <div [nzGutter]="16" nz-row>
+        <div *ngFor="let product of products"
+             [nzLg]="8"
+             [nzMd]="8"
+             [nzSm]="12"
+             [nzXXl]="8"
+             [nzXl]="8"
+             [nzXs]="24"
+             nz-col
+        >
+            <nz-list-item>
+                <div
+                    class="grid-wrapper tc-ns hover-bg-washed-green"
+                >
+
+                    <div class="grid flex-wrap justify-between">
+                        <span>
+                             {{getProductTitle(product)}}
+                        </span>
+
+                        <span class="mt2">
+                            QTY:
+                            <span [ngStyle]="{color: isLowQuantity(product)? '#af2d2d': '#9eebcf'}" class="b">
+                                {{product?.basic?.quantity}}
+                            </span>
+                        </span>
+                    </div>
+
+                    <div class="db">
+                        <app-amount-currency [amount]="product?.price?.sellingPrice" [class]="'mt2 f4'"></app-amount-currency>
+                    </div>
+
+                    <button (click)="onAddProductToCart(product)"
+                            class="mt1 mb2"
+                            nz-button nzType="default"
+                    >
+                        <span class="mr1" nz-icon nzTheme="outline" nzType="shopping-cart"></span>
+                        Add to cart
+                    </button>
+
+                </div>
+            </nz-list-item>
+
+        </div>
+    </div>
+</nz-list>

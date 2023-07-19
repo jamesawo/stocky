@@ -1,0 +1,37 @@
+<nz-form-item>
+    <nz-form-label>
+        <app-hint content="Search or create a customer before accepting payment"></app-hint>
+        Search or Create Customer
+    </nz-form-label>
+    <nz-form-control
+        [nzSpan]="24"
+        nzErrorTip=""
+        nzValidateStatus="success"
+    >
+        <div nz-row nzGutter="4">
+            <div nz-col nzFlex="auto">
+                <app-search-model-dropdown
+                    (valueChange)="onCustomerSelected($event)"
+                    [minLength]="3"
+                    [optionTemplate]="optionTmpl"
+                    [option]="'customerFirstName'"
+                    [props]="{placeholder: 'Search Customer',mode: 'default'}"
+                    [searchUrl]="CompanyRoutes.CUSTOMER_SEARCH"
+                ></app-search-model-dropdown>
+                
+                <ng-template #optionTmpl let-item="item">
+                    <span>{{item.customerFirstName}} - {{item.customerFirstName}} ({{item.customerPhone}})</span>
+                </ng-template>
+
+            </div>
+            <div nz-col nz-tooltip nzFlex="30px"
+                 nzTooltipPlacement="top"
+                 nzTooltipTitle="Create a new customer">
+                <app-company-people-customer-add-btn
+                    [buttonProps]="{size: 'default'}"
+                    [popup]="{display: ModalOrDrawer.DRAWER}"
+                ></app-company-people-customer-add-btn>
+            </div>
+        </div>
+    </nz-form-control>
+</nz-form-item>

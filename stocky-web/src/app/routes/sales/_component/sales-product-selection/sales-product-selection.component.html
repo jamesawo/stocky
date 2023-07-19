@@ -1,0 +1,20 @@
+<ng-container *ngIf="!isSearching; else isSearchingTmpl">
+
+    <ng-container *ngIf="type == display.grid; else listTmpl">
+        <app-sales-product-grid></app-sales-product-grid>
+    </ng-container>
+
+    <ng-template #listTmpl>
+        <app-sales-product-list></app-sales-product-list>
+    </ng-template>
+    
+</ng-container>
+
+<ng-template #isSearchingTmpl>
+    <nz-card>
+        <div class="flex justify-center">
+            <span nz-icon nzTheme="outline" nzType="loading"></span>
+        </div>
+    </nz-card>
+
+</ng-template>

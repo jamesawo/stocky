@@ -1,0 +1,18 @@
+<div class="cart-amount-wrapper">
+    <div class="cart-amount">
+        <span>Discount: </span>
+        <app-amount-currency [amount]="cart.discountTotal"></app-amount-currency>
+    </div>
+    <div class="cart-amount">
+        <span>Tax: </span>
+        <app-amount-currency [amount]="cart.taxTotal"></app-amount-currency>
+    </div>
+    <div class="cart-amount">
+        <span>Sub Total: </span>
+        <app-amount-currency [amount]="cart.subTotal"></app-amount-currency>
+    </div>
+    <div class="cart-amount grand-total">
+        <span>Grand Total: </span>
+        <app-amount-currency [amount]="cart.grandTotal"></app-amount-currency>
+    </div>
+</div>

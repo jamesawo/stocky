@@ -1,0 +1,25 @@
+<nz-list nzBordered>
+
+    <ng-container *ngFor="let product of products; let i = index">
+        <nz-list-item class="hover-bg-washed-green">
+
+            <span nz-typography>{{concatProductName(product)}}</span>
+
+            <app-amount-currency [amount]="product?.price?.sellingPrice"></app-amount-currency>
+
+            <span class="mt2">
+                QTY:
+                <span [ngStyle]="{color: isLowQuantity(product)? '#af2d2d': '#189b69'}" class="b">
+                    {{product?.basic?.quantity}}
+                </span>
+            </span>
+
+            <button (click)="onAddProductToCart(product)" class="mt1" nz-button nzType="default">
+                <span class="mr1" nz-icon nzTheme="outline" nzType="shopping-cart"></span>
+                Add to cart
+            </button>
+
+        </nz-list-item>
+    </ng-container>
+
+</nz-list>

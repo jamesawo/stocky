@@ -1,0 +1,50 @@
+<nz-list>
+
+    <ng-container *ngFor="let item of cart?.items; let i = index">
+
+        <div class="pa3 flex justify-between item-wrapper" nz-row>
+
+            <div class="self-center" nz-col nzFlex="auto">
+                <span nz-typography>
+                    {{concatProductName(item.product)}}
+                </span>
+            </div>
+
+            <div class="self-center flex justify-between" nz-col nz-row nzFlex="250px">
+
+                <app-amount-currency [amount]="item.subTotal" class="b mr2 self-center"></app-amount-currency>
+
+                <div class="tr self-center" nz-col nz-row>
+
+                    <app-icon-button
+                        [action]="decrement"
+                        [args]="{cart, item}"
+                        class="self-baseline"
+                        icon="minus"
+                    ></app-icon-button>
+
+                    <input
+                        (ngModelChange)="item.updateQuantity($event)"
+                        [ngModel]="item.quantity"
+                        class="item-quantity"
+                        min="1"
+                        nz-input
+                        type="number"
+                    >
+
+                    <app-icon-button
+                        [action]="increment"
+                        [args]="{cart, item}"
+                        class="self-baseline"
+                        icon="plus"
+                    ></app-icon-button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </ng-container>
+
+</nz-list>

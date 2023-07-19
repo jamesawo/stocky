@@ -1,0 +1,28 @@
+<nz-form-control>
+    <nz-form-item>
+        <nz-form-control [nzValidateStatus]="'success'">
+            <nz-form-label [nzNoColon]="true">
+                <span>
+                    <span class="text-red-dark m-r-3px">*</span>
+                    Product Name or Brand
+                </span>
+            </nz-form-label>
+            <nz-form-control [nzSpan]="24">
+                <nz-input-group [nzSuffix]="suffixIconSearch" style="width: 100%">
+                    <input (input)="onInput($event)"
+                           [autofocus]="true"
+                           nz-input
+                           nzSize="large"
+                           placeholder="start typing to search..."
+                           type="text"
+                    />
+                </nz-input-group>
+            </nz-form-control>
+            <ng-template #suffixIconSearch>
+                <span [nzType]="!isLoading ? 'search': 'loading'" nz-icon></span>
+            </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+</nz-form-control>
+
+<app-product-categories-tab class="nt2-ns"></app-product-categories-tab>

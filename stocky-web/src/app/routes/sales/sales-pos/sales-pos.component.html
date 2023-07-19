@@ -1,2 +1,13 @@
-<page-header></page-header>
-<app-coming-soon></app-coming-soon>
+<page-header [breadcrumb]="breadCrumbTmpl" title="Sales Point   "></page-header>
+<ng-template #breadCrumbTmpl></ng-template>
+<div nz-row>
+
+    <div class="mr1" nz-col nzFlex="3">
+        <app-sales-product-search-and-selection></app-sales-product-search-and-selection>
+    </div>
+
+    <div class="ml1" nz-col nzFlex="2">
+        <app-sale-cart></app-sale-cart>
+    </div>
+
+</div>
