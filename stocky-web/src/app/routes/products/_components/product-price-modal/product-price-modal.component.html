@@ -1,0 +1,71 @@
+<!--Price Modal-->
+<nz-modal
+    [(nzVisible)]="visibility"
+    [nzTitle]="priceModalTitle"
+    nzCentered
+>
+    <ng-container *nzModalContent>
+
+        <ng-container *ngIf="!isEditingPrice; else priceTmpl">
+            <nz-row [nzGutter]="16">
+                <nz-col [nzSpan]="10">
+                    <nz-statistic
+                        [nzPrefix]="prefixTpl"
+                        [nzTitle]="'Cost Price'"
+                        [nzValueTemplate]="costPriceTmpl"
+                    ></nz-statistic>
+                    <ng-template #costPriceTmpl>
+                        <app-amount-currency [amount]="product?.price?.costPrice"></app-amount-currency>
+                    </ng-template>
+                </nz-col>
+                <nz-col [nzSpan]="4">
+                    <nz-statistic
+                        [nzPrefix]="prefixTpl"
+                        [nzTitle]="'Margin %'"
+                        [nzValue]="(product?.price?.markup ?? 0 | number)!"
+                    ></nz-statistic>
+                </nz-col>
+                <nz-col [nzSpan]="10">
+                    <nz-statistic
+                        [nzPrefix]="prefixTpl"
+                        [nzTitle]="'Selling Price'"
+                        [nzValueTemplate]="sellingPriceTmpl"
+                    ></nz-statistic>
+                    <ng-template #sellingPriceTmpl>
+                        <app-amount-currency [amount]="product?.price?.sellingPrice"></app-amount-currency>
+                    </ng-template>
+                </nz-col>
+                <ng-template #prefixTpl>
+                    <app-icon-button
+                        [action]="onEditPrice"
+                        icon="edit"
+                        nz-tooltip nzTooltipTitle="Click here to update prices"></app-icon-button>
+                </ng-template>
+            </nz-row>
+        </ng-container>
+
+        <ng-template #priceTmpl>
+            <app-stock-item-price-form
+                [(stockPrice)]="price"
+                [isGroupExpenses]="false"
+                [showLegend]="false"
+            ></app-stock-item-price-form>
+        </ng-template>
+
+    </ng-container>
+
+    <div *nzModalFooter>
+        <button (click)="visibility = false" nz-button nzType="default">Cancel</button>
+        <button
+            (nzOnCancel)="emptyAction()"
+            (nzOnConfirm)="handlePriceUpdate()"
+            [nzLoading]="isLoading"
+            nz-button
+            nz-popconfirm
+            nzPopconfirmPlacement="top"
+            nzPopconfirmTitle="Are you sure?"
+            nzType="primary"
+        >Submit
+        </button>
+    </div>
+</nz-modal>

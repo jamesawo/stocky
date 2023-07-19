@@ -1,0 +1,49 @@
+<nz-modal
+    [(nzVisible)]="visibility"
+    [nzClosable]="true"
+    [nzTitle]="'Set Product Discount'"
+    nzCentered
+>
+    <ng-container *nzModalContent>
+        <div nz-row>
+
+            <div nz-col nzSpan="24">
+                <span>Enter discount percent (%)</span>
+                <input (input)="onInputChange($event)" [(ngModel)]="discount" min="1" nz-input type="number">
+            </div>
+
+            <div class="mt3" nz-col nzSpan="12">
+                <div class="mr1">
+                    <span>Available from </span>
+                    <app-date-picker [(select)]="startDate" class="mr1"></app-date-picker>
+                </div>
+
+            </div>
+
+            <div class="mt3" nz-col nzSpan="12">
+                <div class="ml1">
+                    <span>Available Till </span>
+                    <app-date-picker [(select)]="endDate"></app-date-picker>
+                </div>
+
+            </div>
+
+        </div>
+    </ng-container>
+
+    <div *nzModalFooter>
+        <button (click)="visibility = false" nz-button nzType="default">Cancel</button>
+        <button
+            (nzOnCancel)="emptyAction()"
+            (nzOnConfirm)="handleConfirmAction()"
+            [nzLoading]="isLoading"
+            nz-button
+            nz-popconfirm
+            nzPopconfirmPlacement="top"
+            nzPopconfirmTitle="Are you sure?"
+            nzType="primary"
+        >Submit
+        </button>
+    </div>
+</nz-modal>
+

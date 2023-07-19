@@ -1,0 +1,32 @@
+<nz-modal
+    [(nzVisible)]="visibility"
+    [nzTitle]="qtyModalTitleTmpl"
+    nzCentered
+>
+    <ng-container *nzModalContent>
+        <input
+            (input)="inputChange($event)"
+            [(ngModel)]="productQuantity"
+            min="1"
+            nz-input
+            type="number"
+        >
+    </ng-container>
+
+    <div *nzModalFooter>
+        <button (click)="visibility = false" nz-button nzType="default">Cancel</button>
+        <button
+            (nzOnCancel)="emptyAction()"
+            (nzOnConfirm)="handleQuantityUpdate()"
+            [nzLoading]="isLoading"
+            nz-button
+            nz-popconfirm
+            nzPopconfirmPlacement="top"
+            nzPopconfirmTitle="Are you sure?"
+            nzType="primary"
+        >Submit
+        </button>
+    </div>
+</nz-modal>
+
+<ng-template #qtyModalTitleTmpl><span>{{quantityModalTitle}}</span></ng-template>

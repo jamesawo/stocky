@@ -1,0 +1,36 @@
+<div [class]="class" class="flex-row">
+    <span class="fw4 mr1">Search from: </span>
+
+    <button
+        (click)="onSelectAll(!selectAll)"
+        [ngStyle]="{ 'border-color' : selectAll ? '#9eebcf' : ''  }"
+        nz-button
+        nzSize="small"
+        nzType="default"
+    >ALL
+        <span *ngIf="selectAll"
+              class="light-green"
+              nz-icon nzTheme="outline"
+              nzType="check-circle"
+        ></span>
+    </button>
+
+    <ng-container *ngFor="let tab of categories">
+        <button
+            (click)="handleSelect(tab)"
+            [ngStyle]="{ 'border-color' : selection.has(tab) ? '#9eebcf' : '' }"
+            nz-button
+            nzSize="small"
+            nzType="default"
+        >{{tab.title}}
+            <span
+                *ngIf="selection.has(tab)"
+                class="light-green"
+                nz-icon
+                nzTheme="outline"
+                nzType="check-circle"
+            ></span>
+        </button>
+    </ng-container>
+
+</div>

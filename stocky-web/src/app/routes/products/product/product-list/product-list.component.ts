@@ -6,9 +6,9 @@ import {firstValueFrom, Observable, of} from 'rxjs';
 import {PRODUCT_LIST_CRUMBS} from 'src/app/data/constant/crumb.constant';
 import {PageSearchPayload} from 'src/app/data/payload/common.interface';
 import {PagePayload} from 'src/app/data/payload/common.payload';
-import {ProductPayload, ProductSearchRequestPayload} from 'src/app/routes/products/_data/product.payload';
+import {ProductPayload, ProductSearchRequestPayload, ProductTaxPayload} from 'src/app/routes/products/_data/product.payload';
 import {ProductUsecase} from 'src/app/routes/products/_usecase/product.usecase';
-import {handleUsecaseRequest} from 'src/app/shared/utils/util';
+import {getTaxTitle, handleUsecaseRequest} from 'src/app/shared/utils/util';
 import {ModalOrDrawer} from '../../../../data/payload/common.enum';
 import {TableCol} from '../../../../shared/components/table/table.component';
 import {ProductAddComponent} from '../product-add/product-add.component';
@@ -40,9 +40,11 @@ export class ProductListComponent {
         {title: 'Cost Price'},
         {title: 'Margin %'},
         {title: 'Selling Price'},
+        {title: 'Discount %'},
         {title: 'SKU'},
         {title: 'Qty'},
         {title: 'Type'},
+        {title: 'Taxes'},
         {title: 'Status'},
         {title: 'Date Created'}
     ];
@@ -115,6 +117,13 @@ export class ProductListComponent {
             list[index] = product;
             this.displayResponseBodyOnTable([...list]);
         }
+    }
+
+    public concatProductTax(taxes: ProductTaxPayload[]) {
+        if (taxes) {
+            return '[' + taxes.map(tax => ` ${getTaxTitle(tax)}`).toString() + ' ]';
+        }
+        return '[ ]';
     }
 
     private displayResponseBodyOnTable(body: ProductPayload[]) {

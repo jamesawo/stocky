@@ -6,7 +6,7 @@ import {distinctUntilChanged, filter, tap} from 'rxjs/operators';
 import {FormProps, SearchProps} from '../../../../data/payload/common.types';
 import {ProductSearchResultPayload} from '../../_data/product.payload';
 
-
+//deprecated
 @Component({
     selector: 'app-product-search',
     templateUrl: './product-search.component.html',
@@ -27,7 +27,7 @@ export class ProductSearchComponent implements OnInit, OnDestroy {
     public value: EventEmitter<string> = new EventEmitter<string>();
     @Input()
     public props?: SearchProps;
-    private url: string = environment.api.baseUrl + '/product-auto-search';
+    private url: string = environment.api.baseUrl + '/product';
     private loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private subscription: Subscription = new Subscription();
 

@@ -1,6 +1,7 @@
 import {NgModule, Type} from '@angular/core';
 import {SharedModule} from '@shared';
 import {ProductBasicTabComponent} from './_components/product-basic-tab/product-basic-tab.component';
+import {ProductCategoriesTabComponent} from './_components/product-categories-tab/product-categories-tab.component';
 import {ProductCategorySearchComponent} from './_components/product-category-search/product-category-search.component';
 import {ProductPriceTabComponent} from './_components/product-price-tab/product-price-tab.component';
 import {ProductSearchComponent} from './_components/product-search/product-search.component';
@@ -19,6 +20,9 @@ import {ProductListComponent} from './product/product-list/product-list.componen
 
 import {ProductRoutingModule} from './products-routing.module';
 import {ProductVariantListComponent} from './variant/variant-list/product-variant-list.component';
+import { ProductPriceModalComponent } from './_components/product-price-modal/product-price-modal.component';
+import { ProductQuantityModalComponent } from './_components/product-quantity-modal/product-quantity-modal.component';
+import { ProductDiscountModalComponent } from './_components/product-discount-modal/product-discount-modal.component';
 
 export const PRODUCT_COMPONENTS: Array<Type<void>> = [
     ProductListComponent,
@@ -37,12 +41,13 @@ export const PRODUCT_COMPONENTS: Array<Type<void>> = [
     ProductTaxAddBtnComponent,
     ProductTaxAddComponent,
     ProductSearchComponent,
-    ProductSetPriceIconComponent
+    ProductSetPriceIconComponent,
+    ProductCategoriesTabComponent
 ];
 
 @NgModule({
     imports: [ProductRoutingModule, SharedModule],
-    declarations: [...PRODUCT_COMPONENTS],
+    declarations: [...PRODUCT_COMPONENTS, ProductPriceModalComponent, ProductQuantityModalComponent, ProductDiscountModalComponent],
     exports: [...PRODUCT_COMPONENTS]
 })
 export class ProductsModule {

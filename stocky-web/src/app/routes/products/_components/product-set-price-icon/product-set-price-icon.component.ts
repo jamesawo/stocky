@@ -1,11 +1,15 @@
-import {HttpResponse} from '@angular/common/http';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {handleUsecaseRequest} from '../../../../shared/utils/util';
-import {StockPrice} from '../../../stock/_data/stock.payload';
 import {ProductPayload} from '../../_data/product.payload';
 import {ProductUsecase} from '../../_usecase/product.usecase';
+
+enum ModalType {
+    PRICE,
+    QUANTITY,
+    DISCOUNT,
+    OFF
+}
 
 @Component({
     selector: 'app-product-set-price-icon',
@@ -13,7 +17,6 @@ import {ProductUsecase} from '../../_usecase/product.usecase';
     styles: []
 })
 export class ProductSetPriceIconComponent {
-
     @Input()
     public product?: ProductPayload;
 
@@ -22,10 +25,14 @@ export class ProductSetPriceIconComponent {
 
     public isPriceModalVisible = false;
     public isQtyModalVisible = false;
-    public isEditingPrice = false;
-    public price = new StockPrice();
-    public productQuantity = 0;
-    public isLoading = false;
+    public isDiscountModalVisible = false;
+
+    protected readonly ModalType = ModalType;
+
+
+    // public price = new StockPrice();
+    // public isLoading = false;
+    // public productQuantity = 0;
 
     constructor(
         private notification: NzNotificationService,
@@ -33,72 +40,31 @@ export class ProductSetPriceIconComponent {
         private productUsecase: ProductUsecase
     ) {}
 
-    public get priceModalTitle() {
-        return `LATEST PRICE:  ${this.product?.basic.productName} (${this.product?.basic.brandName})`;
-    };
 
-    public get quantityModalTitle() {
-        return `QUANTITY:  ${this.product?.basic.productName} ( ${this.productQuantity} )`;
-    };
-
-    public onEditPrice = () => {
-        this.setPrice();
-        this.isEditingPrice = !this.isEditingPrice;
-    };
-
-    public toggleModalIsVisible(type: 'price' | 'quantity' | 'off') {
-        if (type == 'price') {
+    public toggleModalVisibility(type: ModalType) {
+        if (type == ModalType.PRICE) {
             this.isPriceModalVisible = !this.isPriceModalVisible;
-        } else if (type == 'quantity') {
-            this.productQuantity = this.product?.basic.quantity ?? 0;
+        } else if (type == ModalType.QUANTITY) {
+            //this.productQuantity = this.product?.basic.quantity ?? 0;
             this.isQtyModalVisible = !this.isQtyModalVisible;
+        } else if (type == ModalType.DISCOUNT) {
+            this.isDiscountModalVisible = !this.isDiscountModalVisible;
         } else {
             this.isPriceModalVisible = false;
             this.isQtyModalVisible = false;
         }
     }
 
-    public async handlePriceUpdate() {
-        if (this.product && this.product.id) {
-            this.isLoading = true;
-            const res = await handleUsecaseRequest(
-                this.productUsecase.updatePrice(this.product, this.price),
-                this.notification
-            );
-            this.isLoading = false;
-            this.onAfterPriceUpdate(res);
-        }
-    }
 
-    public handleQuantityUpdate = async () => {
-        if (this.product && this.product.id && this.productQuantity) {
-            this.isLoading = true;
-            const res = await handleUsecaseRequest(
-                this.productUsecase.updateQuantity(this.product, this.productQuantity),
-                this.notification
-            );
-            this.isLoading = false;
-            this.onAfterPriceUpdate(res);
-        }
-    };
+    // public emptyAction() {
+    // }
 
-    public emptyAction() {
-    }
 
-    private setPrice(): void {
-        if (this.product && this.product.price) {
-            const productPriceTab = this.product.price;
-            this.price.sellingPrice = productPriceTab.sellingPrice;
-            this.price.costPrice = productPriceTab.costPrice;
-            this.price.markupPercent = productPriceTab.markup;
-        }
-    }
-
-    private onAfterPriceUpdate(res: HttpResponse<ProductPayload>) {
-        if (res.ok && res.body) {
-            this.product = res.body;
-            this.productChange.emit(res.body);
-            this.toggleModalIsVisible('off');
-        }
-    }
+    // private onAfterPriceUpdate(res: HttpResponse<ProductPayload>) {
+    //     if (res.ok && res.body) {
+    //         this.product = res.body;
+    //         this.productChange.emit(res.body);
+    //         this.toggleModalVisibility(ModalType.OFF);
+    //     }
+    // }
 }

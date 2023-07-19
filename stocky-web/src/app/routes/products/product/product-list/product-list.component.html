@@ -104,8 +104,10 @@
         [props]="{showPagination: true, isLoading: isLoadingTable}"
         [rowTemplates]="[
         actionIconsTmpl, categoryTmpl, prodNameTmpl,
-        brandNameTmpl, costPriceTmpl,marginPriceTmpl, sellingPriceTmpl,
-        skuTmpl, quantityTmpl, typeTmpl, statusTmpl, dateTmpl]"
+        brandNameTmpl, costPriceTmpl,marginPriceTmpl,
+        sellingPriceTmpl, discountTmpl, skuTmpl,
+        quantityTmpl, typeTmpl, statusTmpl,
+        taxesTmpl, dateTmpl]"
     ></app-table>
 </nz-card>
 
@@ -159,6 +161,10 @@
     <app-table-item [content]="item.price.markup"></app-table-item>
 </ng-template>
 
+<ng-template #discountTmpl let-item="item">
+    <app-table-item [content]="item.price.discount"></app-table-item>
+</ng-template>
+
 <ng-template #skuTmpl let-item="item">
     <app-table-item [content]="item.basic.sku"></app-table-item>
 </ng-template>
@@ -172,6 +178,10 @@
 </ng-template>
 
 <ng-template #statusTmpl let-item="item">
+    <app-table-item [content]="concatProductTax(item.basic.taxes)"></app-table-item>
+</ng-template>
+
+<ng-template #taxesTmpl let-item="item">
     <app-table-item [content]="item.basic.status.title"></app-table-item>
 </ng-template>
 

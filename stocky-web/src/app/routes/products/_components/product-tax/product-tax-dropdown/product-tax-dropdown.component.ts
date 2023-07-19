@@ -3,6 +3,7 @@ import {FormControl} from '@angular/forms';
 
 import {firstValueFrom} from 'rxjs';
 import {FormProps} from '../../../../../data/payload/common.types';
+import {getTaxTitle} from '../../../../../shared/utils/util';
 import {ProductTaxPayload} from '../../../_data/product.payload';
 import {ProductTaxUsecase} from '../../../_usecase/product-tax.usecase';
 
@@ -35,11 +36,7 @@ export class ProductTaxDropdownComponent implements OnInit {
     constructor(private usecase: ProductTaxUsecase) {}
 
     public title(tax: ProductTaxPayload) {
-        if (tax && tax.title) {
-            const title = tax.title!;
-            return `${title[0].toUpperCase()}${title.substring(1).toLowerCase()} (${tax.percent}%)`;
-        }
-        return 'Nil';
+        return getTaxTitle(tax);
     }
 
     public ngOnInit(): void {

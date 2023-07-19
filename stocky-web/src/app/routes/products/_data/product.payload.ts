@@ -27,6 +27,7 @@ export class ProductPriceTab {
     markup: number = 0;
     costPrice: number = 0;
     sellingPrice: number = 0;
+    discount: number = 0;
 }
 
 export class ProductBasicTab {
@@ -69,6 +70,9 @@ export class ProductSearchRequestPayload {
     dateRange?: DateRangeParam;
     sellingPriceParam?: AmountRangeParam;
     costPriceParam?: AmountRangeParam;
+    categories?: ProductCategoryPayload[] = [];
+    productOrBrandName?: string;
+
 }
 
 export class ProductSearchResultPayload {
@@ -76,4 +80,11 @@ export class ProductSearchResultPayload {
     productName?: string;
     brandName?: string;
     category?: ProductCategoryPayload;
+}
+
+export class ProductDiscountPayload {
+    productId?: number;
+    start?: string;
+    end?: string;
+    discount?: number;
 }
