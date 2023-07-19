@@ -87,7 +87,10 @@ export class SearchModelDropdownComponent {
             if (this.searchUrl.length > 0) {
                 return this.http
                     .get(`${this.baseUrl}/${this.url}${searchTerm}`)
-                    .pipe(catchError(() => of([])), map((res: any) => res));
+                    .pipe(
+                        catchError(() => of([])),
+                        map((res: any) => res)
+                    );
             }
             this.msg.error('search parameter error');
             return of();
@@ -98,7 +101,7 @@ export class SearchModelDropdownComponent {
             .pipe(
                 filter((res) => res !== null && res.length >= this.minLength),
                 distinctUntilChanged())
-            .pipe(debounceTime(1000)).pipe(switchMap(getDataFromBackend));
+            .pipe(debounceTime(500)).pipe(switchMap(getDataFromBackend));
 
 
         optionList$.subscribe(data => {

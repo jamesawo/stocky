@@ -5,6 +5,7 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {first, firstValueFrom, from, map, Observable, switchMap} from 'rxjs';
 import {ModalOrDrawer} from '../../data/payload/common.enum';
 import {TableEditCacheMap} from '../../data/payload/common.types';
+import {ProductPayload, ProductTaxPayload} from '../../routes/products/_data/product.payload';
 
 export function isFormInvalid(form: FormGroup): boolean {
     if (form && form.controls) {
@@ -118,7 +119,6 @@ export function handleHttpRequestError(
     }
 }
 
-
 export async function handleUsecaseRequest<T>(
     arg: Observable<T>,
     notificationService: NzNotificationService,
@@ -217,7 +217,6 @@ export async function handleCancelEditingTableItem<T extends {id: any}>(
     return editMap;
 }
 
-
 export function getFormGroupFromParent(mainForm: FormGroup, childFormName: string): FormGroup<any> {
     return mainForm.get(childFormName) as FormGroup;
 }
@@ -231,7 +230,6 @@ export function checkFormControlCharacterLimit(formControl: AbstractControl, lim
         }
     }
 }
-
 
 export function toggleModalOrDrawer(type: ModalOrDrawer, showDrawer: boolean, showModal: boolean) {
     if (type === ModalOrDrawer.DRAWER) {
@@ -252,9 +250,38 @@ export function getDateString(date?: Date): string {
     return datePipe.transform(dateParam, 'YYYY-MM-dd') ?? '';
 }
 
+export function getProductFullName(product: ProductPayload): string {
+    const basic = product?.basic;
+    return `${basic?.productName ?? ''} - ${basic?.brandName ?? ''}`;
+}
+
+export function getProductName(product: ProductPayload): string {
+    const basic = product?.basic;
+    return `${basic?.productName ?? ''}`;
+}
+
+export function generateColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
 export function calculateSellingPrice(costPrice: number = 0, markupPercent: number = 0) {
-    const markupAmount = Number(costPrice) * Number((markupPercent) / 100);
-    return Math.round(Number(costPrice) + Number(markupAmount));
+    // const markupAmount = Number(costPrice) * Number((markupPercent) / 100);
+    // return Math.round(Number(costPrice) + Number(markupAmount));
+    const markupAmount = calculatePercentage(markupPercent, costPrice);
+    return Number(costPrice) + Number(markupAmount);
+}
+
+export function getTaxTitle(tax: ProductTaxPayload) {
+    if (tax && tax.title) {
+        const title = tax.title!;
+        return `${title[0].toUpperCase()}${title.substring(1).toLowerCase()} (${tax.percent}%)`;
+    }
+    return '-';
 }
 
 export function getFromLocal(key: string) {
@@ -263,4 +290,8 @@ export function getFromLocal(key: string) {
 
 export function storeInLocal(key: string, value: any) {
     localStorage.setItem(key, value);
+}
+
+export function calculatePercentage(percent: number, price: number) {
+    return Math.round(Number(price) * Number((percent) / 100));
 }

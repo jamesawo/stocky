@@ -9,6 +9,7 @@ import {NzAutocompleteModule} from 'ng-zorro-antd/auto-complete';
 import {NzBadgeModule} from 'ng-zorro-antd/badge';
 import {NzBreadCrumbModule} from 'ng-zorro-antd/breadcrumb';
 import {NzCalendarModule} from 'ng-zorro-antd/calendar';
+import {NzCarouselModule} from 'ng-zorro-antd/carousel';
 import {NzCheckboxModule} from 'ng-zorro-antd/checkbox';
 import {NzCollapseModule} from 'ng-zorro-antd/collapse';
 import {NzDatePickerModule} from 'ng-zorro-antd/date-picker';
@@ -38,9 +39,9 @@ import {NzTabsModule} from 'ng-zorro-antd/tabs';
 import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
 import {NzTypographyModule} from 'ng-zorro-antd/typography';
 import {NzUploadModule} from 'ng-zorro-antd/upload';
+//
 import {StockItemPriceFormComponent} from '../routes/stock/_components/stock-manage/stock-item-price-form/stock-item-price-form.component';
 import {AmountCurrencyComponent} from './components/amount-currency/amount-currency.component';
-
 import {AmountRangeComponent} from './components/amount-range/amount-range.component';
 import {BreadcrumbsComponent} from './components/breadcrumbs/breadcrumbs.component';
 import {BusinessCategoryDropdownComponent} from './components/business-category-dropdown/business-category-dropdown.component';
@@ -57,6 +58,7 @@ import {IconButtonComponent} from './components/icon-button/icon-button.componen
 import {LoadingCardComponent} from './components/loading-card/loading-card.component';
 import {RangeDatePickerComponent} from './components/range-date-picker/range-date-picker.component';
 import {RecordStatusBadgeComponent} from './components/record-active-status/record-status-badge.component';
+import {ResizableComponent} from './components/resizable/resizable.component';
 import {SearchModelDropdownComponent} from './components/search-model-dropdown/search-model-dropdown.component';
 import {SearchResetButtonComponent} from './components/search-reset-button/search-reset-button.component';
 import {SearchResultTableComponent} from './components/search-result-table/search-result-table.component';
@@ -107,7 +109,8 @@ const THIRD_MODULES: Array<Type<void>> = [
     NzResultModule,
     NzListModule,
     NzDropDownModule,
-    NzStatisticModule
+    NzStatisticModule,
+    NzCarouselModule
 
 ];
 const COMPONENTS: Array<Type<void>> = [
@@ -140,7 +143,8 @@ const COMPONENTS: Array<Type<void>> = [
     FieldsetComponent,
     AmountCurrencyComponent,
     IconButtonComponent,
-    StockItemPriceFormComponent
+    StockItemPriceFormComponent,
+    ResizableComponent
 ];
 const DIRECTIVES: Array<Type<void>> = [
     DisableAutocompleteDirective

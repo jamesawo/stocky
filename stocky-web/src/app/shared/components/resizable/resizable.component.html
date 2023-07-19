@@ -1,1 +1,42 @@
-<p>resizable works!</p>
+<!--<div class="container">-->
+<!--    <div-->
+<!--        (mousedown)="setStatus($event, 2)"-->
+<!--        (window:mouseup)="setStatus($event, 0)"-->
+<!--        [style.height.px]="height"-->
+<!--        [style.transform]="'translate3d(' + x + 'px,' + y + 'px,' + '0px)'"-->
+<!--        [style.width.px]="width"-->
+<!--        class="resizable"-->
+<!--    >-->
+<!--        <div-->
+<!--            (mousedown)="setStatus($event, 1, topLeftResize)"-->
+<!--            class="resizer top-left"-->
+<!--        ></div>-->
+<!--        <div-->
+<!--            (mousedown)="setStatus($event, 1, topRightResize)"-->
+<!--            class="resizer top-right"-->
+<!--        ></div>-->
+<!--        <div-->
+<!--            (mousedown)="setStatus($event, 1, bottomLeftResize)"-->
+<!--            class="resizer bottom-left"-->
+<!--        ></div>-->
+<!--        <div-->
+<!--            (mousedown)="setStatus($event, 1, bottomRightResize)"-->
+<!--            class="resizer bottom-right"-->
+<!--        ></div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<nz-drawer
+    [nzContent]="content"
+    [nzMaskClosable]="true"
+    [nzMask]="false"
+    [nzVisible]="true"
+    nzPlacement="right"
+    nzSize="large"
+>
+    <ng-template #content>
+        <nz-card>
+            <h5>Hello Content</h5>
+        </nz-card>
+    </ng-template>
+</nz-drawer>

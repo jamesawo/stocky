@@ -1,0 +1,60 @@
+.container {
+    position: relative;
+    width: 500px;
+    height: 400px;
+    border: 1px solid black;
+}
+
+textarea {
+    width: calc(100% - 4px);
+    position: absolute;
+    height: calc(100% - 4px);
+    background-color: transparent;
+    border: none;
+}
+
+.resizable {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 150px;
+    height: 100px;
+    border: 1px dashed darkcyan;
+    background-color: lawngreen;
+}
+
+.resizer {
+    position: absolute;
+    width: 4px;
+    height: 100%;
+    background-color: darkgoldenrod;
+    cursor: col-resize;
+    cursor: -moz-col-resize;
+    cursor: -webkit-col-resize;
+}
+
+.resizer:active {
+    cursor: col-resize;
+    cursor: -moz-col-resize;
+    cursor: -webkit-col-resize;
+}
+
+.top-left {
+    top: 0px;
+    left: 0px;
+}
+
+.top-right {
+    left: calc(100% - 5px);
+    top: -3px;
+}
+
+.bottom-left {
+    top: calc(100% - 5px);
+    left: -3px;
+}
+
+.bottom-right {
+    top: calc(100% - 5px);
+    left: calc(100% - 5px);
+}
