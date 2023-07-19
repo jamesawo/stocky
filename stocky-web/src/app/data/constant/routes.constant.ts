@@ -8,6 +8,11 @@ export class SupplierRoutes {
 }
 
 
+export class CompanyRoutes {
+    static CUSTOMER_SEARCH = '/company/customer/search-by-term?term=';
+
+}
+
 export class StockRoutes {
 
 }
