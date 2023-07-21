@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {MOCK_PRODUCT_CATEGORIES} from '../../../../../../_mock/_product';
+import {firstValueFrom, shareReplay} from 'rxjs';
 import {SaleProductsUsecase} from '../../../sales/_usecase/sale-products.usecase';
 import {ProductCategoryPayload} from '../../_data/product.payload';
 import {ProductCategoryUsecase} from '../../_usecase/product-category.usecase';
@@ -17,9 +17,7 @@ export class ProductCategoriesTabComponent {
     @Output()
     public selectChange = new EventEmitter<ProductCategoryPayload[]>();
 
-    // public categories: Array<ProductCategoryPayload> = [];
-
-    public categories: Array<ProductCategoryPayload> = MOCK_PRODUCT_CATEGORIES;
+    public categories: Array<ProductCategoryPayload> = [];
 
     public selection: Set<ProductCategoryPayload> = new Set<ProductCategoryPayload>();
     public selectAll = true;
@@ -32,7 +30,7 @@ export class ProductCategoriesTabComponent {
     }
 
     async ngOnInit() {
-        // this.categories = await firstValueFrom(this.usecase.getMany().pipe(shareReplay()));
+        this.categories = await firstValueFrom(this.usecase.getMany().pipe(shareReplay()));
         this.onSelectAll(true);
     }
 

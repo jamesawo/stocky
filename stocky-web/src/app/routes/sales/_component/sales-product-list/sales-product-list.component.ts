@@ -1,7 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {Subscription} from 'rxjs';
-import {MOCK_PRODUCTS} from '../../../../../../_mock/_product';
 import {PageResultPayload} from '../../../../data/payload/common.interface';
 import {PagePayload} from '../../../../data/payload/common.payload';
 import {getProductFullName, getProductName} from '../../../../shared/utils/util';
@@ -17,11 +16,9 @@ import {SaleProductsUsecase} from '../../_usecase/sale-products.usecase';
     styles: []
 })
 export class SalesProductListComponent implements OnInit, OnDestroy {
-    // @Input()
-    // public products?: Array<ProductPayload> = [];
-
-    public products?: Array<ProductPayload> = MOCK_PRODUCTS;
-
+    @Input()
+    public products?: Array<ProductPayload> = [];
+    
     public cart?: SaleCart;
 
     @Input()
