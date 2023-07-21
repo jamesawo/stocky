@@ -172,5 +172,55 @@ export const MOCK_PRODUCTS: Array<ProductPayload> = [
         },
         'createdAt': '2023-07-20',
         'isActiveStatus': true
+    },
+    {
+        'id': 4,
+        'basic': {
+            'productCategory': {
+                'id': 103,
+                'title': 'Books',
+                'description': 'Fiction and non-fiction books',
+                'isActiveStatus': true
+            },
+            'unitOfMeasure': {
+                'id': 203,
+                'title': 'Book',
+                'unit': 'bk'
+            },
+            'status': {
+                'id': 303,
+                'title': 'Available',
+                'description': 'Product is in stock',
+                'isActiveStatus': true
+            },
+            'isActive': true,
+            'useQuantity': true,
+            'isService': false,
+            'minAgeLimit': 0,
+            'productName': 'The Uniform Gatsby',
+            'brandName': 'ClassicBooks',
+            'sku': 'CB001',
+            'barcode': '543216789012',
+            'description': 'A timeless classic novel by F. Scott Fitzgerald',
+            'lowStockPoint': 10,
+            'quantity': 50,
+            'taxes': [
+                {
+                    'id': 404,
+                    'title': 'GST',
+                    'description': 'Goods and Services Tax',
+                    'isActiveStatus': true,
+                    'percent': 5
+                }
+            ]
+        },
+        'price': {
+            'markup': 10,
+            'costPrice': 12,
+            'sellingPrice': 15,
+            'discount': 0
+        },
+        'createdAt': '2023-07-20',
+        'isActiveStatus': true
     }
 ] as ProductPayload[];
