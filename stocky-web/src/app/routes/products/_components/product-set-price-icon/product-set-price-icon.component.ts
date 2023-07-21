@@ -30,10 +30,6 @@ export class ProductSetPriceIconComponent {
     protected readonly ModalType = ModalType;
 
 
-    // public price = new StockPrice();
-    // public isLoading = false;
-    // public productQuantity = 0;
-
     constructor(
         private notification: NzNotificationService,
         private modal: NzModalService,
@@ -56,15 +52,4 @@ export class ProductSetPriceIconComponent {
     }
 
 
-    // public emptyAction() {
-    // }
-
-
-    // private onAfterPriceUpdate(res: HttpResponse<ProductPayload>) {
-    //     if (res.ok && res.body) {
-    //         this.product = res.body;
-    //         this.productChange.emit(res.body);
-    //         this.toggleModalVisibility(ModalType.OFF);
-    //     }
-    // }
 }
