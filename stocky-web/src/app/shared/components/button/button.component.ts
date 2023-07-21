@@ -31,6 +31,9 @@ export class ButtonComponent implements OnDestroy, OnInit {
         icon: ''
     };
 
+    @Input()
+    public btnClass: string = '';
+
     private sub = new Subscription();
 
     constructor(private service: ResponsiveService) {}
