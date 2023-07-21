@@ -1,10 +1,7 @@
 import {Component, Input} from '@angular/core';
+import {SaleProductSearchDisplayView} from '../../_data/sale-cart.enum';
 import {SaleProductsUsecase} from '../../_usecase/sale-products.usecase';
 
-export enum DisplayType {
-    'list',
-    'grid'
-}
 
 @Component({
     selector: 'app-sales-product-selection',
@@ -12,11 +9,11 @@ export enum DisplayType {
     styles: []
 })
 export class SalesProductSelectionComponent {
-    public readonly display = DisplayType;
+    public readonly display = SaleProductSearchDisplayView;
     public isSearching = false;
 
     @Input()
-    public type: DisplayType = DisplayType.grid;
+    public type: SaleProductSearchDisplayView = SaleProductSearchDisplayView.grid;
 
     constructor(private saleProductUsecase: SaleProductsUsecase) {}
 

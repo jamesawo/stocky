@@ -10,6 +10,11 @@ import {SaleCartUsecase} from '../../_usecase/sale-cart.usecase';
     templateUrl: './sale-cart-items.component.html',
     styles: [
         `
+          .cart-items {
+            max-height: 250px;
+            overflow-y: scroll;
+          }
+
           .item-wrapper {
             border-style: solid;
             border-width: 0.5px;
@@ -63,6 +68,16 @@ export class SaleCartItemsComponent implements OnInit, OnDestroy {
         if (arg && arg.cart && arg.item) {
             arg.item.decrement();
             arg.cart.updateAmount();
+        }
+    }
+
+    public onQuantityChange(ev: any, item: SaleCartItem, cart?: SaleCart) {
+        const value = ev.target.value;
+        if (value && value > 0) {
+            item.updateQuantity(Number(value));
+            cart?.updateAmount();
+        } else {
+            ev.target.value = 1;
         }
     }
 

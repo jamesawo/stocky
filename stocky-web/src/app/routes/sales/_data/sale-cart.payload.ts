@@ -133,4 +133,12 @@ export class SaleCart {
         this.grandTotal = this.items.reduce((accumulator, currentValue) => accumulator + Number(currentValue.grandTotal), 0);
     };
 
+    public emptyCart = () => {
+        this.items = [];
+        this.discountTotal = 0;
+        this.taxTotal = 0;
+        this.subTotal = 0;
+        this.grandTotal = 0;
+    };
+
 }

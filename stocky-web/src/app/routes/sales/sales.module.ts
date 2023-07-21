@@ -15,6 +15,7 @@ import {SalesOrderComponent} from './sales-order/sales-order.component';
 import {SalesPosComponent} from './sales-pos/sales-pos.component';
 import {SalesRefundComponent} from './sales-refund/sales-refund.component';
 import {SalesRoutingModule} from './sales-routing.module';
+import { SaleCartButtonsComponent } from './_component/sale-cart-buttons/sale-cart-buttons.component';
 
 const COMPONENTS: Array<Type<void>> = [
     SalesPosComponent,
@@ -33,7 +34,7 @@ const COMPONENTS: Array<Type<void>> = [
 
 @NgModule({
     imports: [SalesRoutingModule, SharedModule, ProductsModule, CompanyModule],
-    declarations: [...COMPONENTS],
+    declarations: [...COMPONENTS, SaleCartButtonsComponent],
     exports: [...COMPONENTS]
 
 })

@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.column-1 {
+    flex: 1;
+    padding-right: 14px;
+    padding-left: 14px;
+    width: 100%;
+}
+
+.column-2 {
+    flex: 1;
+    padding-left: 10px;
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+}
+
+
+.column-2 button {
+    flex: 1;
+}
+
+.mr-15 {
+    margin-right: 15px;
+}

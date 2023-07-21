@@ -6,7 +6,12 @@
     <div class="">
         <div class="flex justify-between mb2">
             <div>
-                <span></span>
+                <app-icon-button
+                    [action]="handleClearSearchResult"
+                    [icon]="'clear'"
+                    [text]="'Clear search'"
+                    [tooltipTitle]="'Clear the list of products search result'"
+                ></app-icon-button>
             </div>
 
             <div class="">
@@ -24,7 +29,7 @@
                     <app-icon-button
                         [action]="toggleView"
                         [class]="'tr'"
-                        [icon]="listView ? 'unordered-list': 'appstore'"
+                        [icon]="isListView ? 'unordered-list': 'appstore'"
                         [tooltipTitle]="'Toggle between list and grid layout'"
                     ></app-icon-button>
                 </span>
@@ -33,7 +38,7 @@
         </div>
 
         <app-sales-product-selection
-            [type]="listView ? display.list: display.grid"
+            [type]="isListView ? display.list: display.grid"
         ></app-sales-product-selection>
 
     </div>
