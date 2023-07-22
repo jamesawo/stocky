@@ -1,4 +1,4 @@
-<nz-list>
+<nz-list nzBordered>
 
     <div class="cart-items">
 
@@ -7,9 +7,7 @@
             <div class="pa3 flex justify-between item-wrapper" nz-row>
 
                 <div class="self-center" nz-col nzFlex="auto">
-                <span nz-typography>
-                    {{concatProductName(item.product)}}
-                </span>
+                    <span [innerHTML]="concatProductName(item.product)" nz-typography></span>
                 </div>
 
                 <div class="self-center flex justify-between" nz-col nz-row nzFlex="250px">
