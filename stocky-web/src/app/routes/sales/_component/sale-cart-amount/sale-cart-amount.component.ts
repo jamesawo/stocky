@@ -26,8 +26,25 @@ import {SaleCartUsecase} from '../../_usecase/sale-cart.usecase';
 
           .grand-total {
             font-weight: 900;
-            font-size: 18px;
+            font-size: 19px;
           }
+
+          /* Media query for medium screens (e.g., tablets) */
+          @media screen and (min-width: 40em) and (max-width: 52em) {
+            .grand-total {
+              font-weight: 900;
+              font-size: 17px;
+            }
+          }
+
+          /* Media query for small screens (e.g., phones) */
+          @media screen and (max-width: 640px) {
+            .grand-total {
+              font-weight: 900;
+              font-size: 17px;
+            }
+          }
+
         `
     ]
 })
