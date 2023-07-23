@@ -6,11 +6,14 @@
 
             <div class="pa3 flex justify-between item-wrapper" nz-row>
 
-                <div class="self-center" nz-col nzFlex="auto">
-                    <span [innerHTML]="concatProductName(item.product)" nz-typography></span>
+                <div class="item-product self-center" nz-col nzFlex="auto">
+                    <app-table-item-truncatable
+                        [content]="concatProductName(item.product)"
+                        [limit]="limit"
+                        [showToolTip]="showToolTip"></app-table-item-truncatable>
                 </div>
 
-                <div class="self-center flex justify-between" nz-col nz-row nzFlex="250px">
+                <div [nzFlex]="statsWidth" class="item-stats self-center flex justify-between" nz-col nz-row>
 
                     <app-amount-currency [amount]="item.subTotal" class="b mr2 self-center"></app-amount-currency>
 

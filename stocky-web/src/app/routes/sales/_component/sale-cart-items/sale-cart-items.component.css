@@ -1,0 +1,40 @@
+
+.cart-items {
+    max-height: 250px;
+    overflow-y: scroll;
+}
+
+.item-wrapper {
+    border-style: solid;
+    border-width: 0.5px;
+    border-color: lightgray;
+}
+
+.item-control {
+    align-self: baseline;
+    text-align: end;
+    max-width: 150px;
+    width: max-content;
+}
+
+.item-quantity {
+    min-width: 70px;
+    max-width: 100px;
+    width: 73px;
+}
+
+@media screen and (max-width: 640px) {
+    .item-product {
+        margin-bottom: 17px;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .item-stats {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+}

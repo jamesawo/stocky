@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {getProductName} from '../../../../shared/utils/util';
+import {ResponsiveService} from '../../../../shared/utils/responsive.service';
+import {getProductFullName} from '../../../../shared/utils/util';
 import {ProductPayload} from '../../../products/_data/product.payload';
 import {SaleCart, SaleCartItem} from '../../_data/sale-cart.payload';
 import {SaleCartUsecase} from '../../_usecase/sale-cart.usecase';
@@ -8,40 +9,38 @@ import {SaleCartUsecase} from '../../_usecase/sale-cart.usecase';
 @Component({
     selector: 'app-sale-cart-items',
     templateUrl: './sale-cart-items.component.html',
-    styles: [
-        `
-          .cart-items {
-            max-height: 250px;
-            overflow-y: scroll;
-          }
-
-          .item-wrapper {
-            border-style: solid;
-            border-width: 0.5px;
-            border-color: lightgray;
-          }
-
-          .item-control {
-            align-self: baseline;
-            text-align: end;
-            max-width: 150px;
-            width: max-content;
-          }
-
-          .item-quantity {
-            min-width: 70px;
-            max-width: 100px;
-            width: 73px;
-          }
-        `
-    ]
+    styleUrls: ['./sale-cart-items.component.css']
 })
 export class SaleCartItemsComponent implements OnInit, OnDestroy {
 
     public cart?: SaleCart;
+    public limit: number = 5;
+    public showToolTip: boolean = false;
+    public statsWidth: string = '250px';
+
     private sub = new Subscription();
 
-    constructor(private cartUsecase: SaleCartUsecase) {}
+    constructor(
+        private cartUsecase: SaleCartUsecase,
+        private responsive: ResponsiveService
+    ) {}
+
+
+    public calculateDrawerWidth(screenWidth: number): void {
+
+        if (screenWidth && screenWidth < 700) {
+            // on mobile view
+            this.limit = 50;
+            this.showToolTip = false;
+            this.statsWidth = 'auto';
+
+        } else {
+            this.showToolTip = true;
+            this.limit = 20;
+            this.statsWidth = '250px';
+        }
+
+    }
 
     public ngOnDestroy(): void {
         this.sub.unsubscribe();
@@ -49,12 +48,15 @@ export class SaleCartItemsComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.sub.add(
+            this.responsive.screenWidth$.subscribe(value => this.calculateDrawerWidth(value))
+        );
+        this.sub.add(
             this.cartUsecase.cart$.subscribe(cart => this.cart = cart)
         );
     }
 
     public concatProductName(product: ProductPayload) {
-        return getProductName(product);
+        return getProductFullName(product);
     }
 
     public increment(arg: {cart: SaleCart, item: SaleCartItem,}) {
@@ -80,6 +82,5 @@ export class SaleCartItemsComponent implements OnInit, OnDestroy {
             ev.target.value = 1;
         }
     }
-
-
+    
 }
