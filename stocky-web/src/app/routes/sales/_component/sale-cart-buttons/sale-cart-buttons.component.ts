@@ -1,8 +1,5 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NzModalService} from 'ng-zorro-antd/modal';
-import {Observable} from 'rxjs';
-import {CommonPayload} from '../../../../data/payload/common.payload';
-import {PaymentOptionUsecase} from '../../../company/_usecase/payment-option.usecase';
 import {SaleCart} from '../../_data/sale-cart.payload';
 import {SaleCartUsecase} from '../../_usecase/sale-cart.usecase';
 
@@ -19,26 +16,30 @@ export class SaleCartButtonsComponent implements OnInit {
     public isLoadingPayment = false;
     public isSavingOrder = false;
     public cart?: SaleCart;
-    public paymentOptions$?: Observable<CommonPayload[]>;
-    public paymentOption?: CommonPayload;
+
 
     constructor(
         private cartUsecase: SaleCartUsecase,
-        private modalService: NzModalService,
-        private paymentUsecase: PaymentOptionUsecase
+        private modalService: NzModalService
     ) {}
 
 
     public ngOnInit(): void {
         this.cartUsecase.cart$.subscribe(cart => this.cart = cart);
-        this.paymentOptions$ = this.paymentUsecase.getAll();
     }
 
-    public handlePayButton = (arg?: any) => {
+    public handleShowModal = (arg?: any) => {
+
+        const canProceed = this.canProceedToPayment();
+
         this.modalService.create({
             nzContent: this.modalTemp,
             nzFooter: null
         });
+    };
+
+    public handlePayButton = (arg?: any) => {
+        console.log('making payment');
     };
 
     public handleClearButton = (arg?: any) => {
@@ -46,14 +47,14 @@ export class SaleCartButtonsComponent implements OnInit {
     };
 
     public handleSaveButton = (arg?: any) => {
-
     };
 
-    public emptyAction() {
+    private canProceedToPayment(): boolean {
+        const cart = this.cart;
+        console.log(cart);
+        return false;
 
     }
 
-    public isSelected(option: CommonPayload) {
-        return this.paymentOption?.id === option.id;
-    }
+
 }
