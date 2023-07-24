@@ -1,13 +1,14 @@
 <nz-list nzBordered>
 
     <ng-container *ngFor="let product of products; let i = index">
-        <nz-list-item class="">
+
+        <nz-list-item (dblclick)="onAddProductToCart(product)" class="hover-bg-washed-green">
 
             <div class="item-product hover-bg-washed-green">
                 <span nz-typography>{{concatProductName(product)}}</span>
             </div>
-            
-            <div class="item-stats tl ">
+
+            <div class="item-stats overflow-x-scroll-m ">
 
                 <app-amount-currency [amount]="product?.price?.sellingPrice" class="b"></app-amount-currency>
 
