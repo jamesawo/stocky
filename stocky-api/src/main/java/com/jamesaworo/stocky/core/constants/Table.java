@@ -58,6 +58,7 @@ public class Table {
     public static final String COMPANY_PAYMENT_OPTION = COMPANY + "_PAYMENT_OPTIONS";
     public static final String COMPANY_LOCATION = COMPANY + "_LOCATIONS";
 
+    // STOCK TABLES
     public static final String STOCK = PREFIX + "STOCK";
     public static final String STOCK_SETTLEMENT = STOCK + "_SETTLEMENT";
     public static final String STOCK_GROUP_EXPENSES = STOCK + "_GROUP_EXPENSES";
@@ -65,5 +66,14 @@ public class Table {
     public static final String STOCK_ITEM = STOCK + "_ITEMS";
     public static final String STOCK_ITEM_EXPENSES = STOCK + "_ITEM_EXPENSES";
     public static final String STOCK_PRICE = STOCK + "_PRICE";
+
+    // SALE TABLES
+    public static final String SALES = PREFIX + "SALES";
+    public static final String SALES_TRANSACTION = SALES + "_TRANSACTIONS";
+    public static final String SALES_TRANSACTION_AMOUNT = SALES + "_TRANSACTION_AMOUNTS";
+    public static final String SALES_TRANSACTION_ITEM = SALES + "_TRANSACTION_ITEM";
+    public static final String SALES_TRANSACTION_INSTALLMENT = SALES + "_TRANSACTION_INSTALLMENTS";
+    public static final String SALES_TRANSACTION_AND_ITEMS = SALES + "TRANSACTION_AND_ITEM";
+
 
 }
