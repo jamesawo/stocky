@@ -7,6 +7,7 @@
     nz-button
     nz-tooltip type="button"
 >
-
+    <span *ngIf="text" [innerHTML]="text"></span>
+    
     <span [class]="css" nz-icon nzType="{{icon}}"></span>
 </button>

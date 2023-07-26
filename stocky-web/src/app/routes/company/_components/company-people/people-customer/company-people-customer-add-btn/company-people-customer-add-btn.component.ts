@@ -1,9 +1,10 @@
 import {HttpResponse} from '@angular/common/http';
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {CommonAddProps, CommonInputProps, PopupViewProps} from 'src/app/data/payload/common.types';
 import {ModalOrDrawer} from '../../../../../../data/payload/common.enum';
+import {ResponsiveService} from '../../../../../../shared/utils/responsive.service';
 import {handleUsecaseRequest, markFormFieldsAsDirtyAndTouched, toggleModalOrDrawer} from '../../../../../../shared/utils/util';
 import {CustomerPayload} from '../../../../_data/company.payload';
 import {PeopleCustomerUsecase} from '../../../../_usecase/people-customer.usecase';
@@ -14,7 +15,7 @@ import {PeopleCustomerUsecase} from '../../../../_usecase/people-customer.usecas
     templateUrl: './company-people-customer-add-btn.component.html',
     styles: []
 })
-export class CompanyPeopleCustomerAddBtnComponent {
+export class CompanyPeopleCustomerAddBtnComponent implements OnInit {
     @Input()
     public customer: CustomerPayload = new CustomerPayload();
 
@@ -32,13 +33,16 @@ export class CompanyPeopleCustomerAddBtnComponent {
     public showModal = false;
     public form: FormGroup = this.formBuild;
     public pageTitle = 'Add New Customer';
+    public screenWidth?: number;
+
 
     protected readonly ModalOrDrawer = ModalOrDrawer;
 
     constructor(
         private fb: FormBuilder,
         private usecase: PeopleCustomerUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private responsiveService: ResponsiveService
     ) {}
 
     public get formBuild() {
@@ -50,6 +54,20 @@ export class CompanyPeopleCustomerAddBtnComponent {
             customerPhone: [this.customer.customerPhone, []],
             customerAddress: [this.customer.customerAddress, []],
             customerTag: [this.customer.customerTag, [Validators.required]]
+        });
+    }
+
+    public calculateDrawerWidth(screenWidth: number): void {
+        if (screenWidth && screenWidth < 700) {
+            this.screenWidth = 350;
+        } else {
+            this.screenWidth = 750;
+        }
+    }
+
+    public ngOnInit(): void {
+        this.responsiveService.screenWidth$.subscribe(value => {
+            this.calculateDrawerWidth(value);
         });
     }
 

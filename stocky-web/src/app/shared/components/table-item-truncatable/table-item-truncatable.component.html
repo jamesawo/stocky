@@ -11,5 +11,12 @@
 
 
 <ng-template #slicedContentTmpl>
-    <span [nzTooltipColor]="color" [nzTooltipTitle]="content" nz-tooltip>{{slicedContent}}</span>
+    <ng-container *ngIf="showToolTip; else noToolTipTmpl">
+        <span [nzTooltipColor]="color" [nzTooltipTitle]="content" nz-tooltip>{{slicedContent}}</span>
+    </ng-container>
+
+    <ng-template #noToolTipTmpl>
+        <span>{{slicedContent}}</span>
+    </ng-template>
+
 </ng-template>

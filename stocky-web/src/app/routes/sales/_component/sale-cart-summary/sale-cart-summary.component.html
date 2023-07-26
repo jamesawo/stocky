@@ -1,0 +1,8 @@
+<div class="cart-amount-summary nt4">
+    <div *ngIf="cart" class="b fw4 flex flex-row self-center">
+        <span class="fw4 f5 mr1">
+            Grand Total:
+        </span>
+        <app-amount-currency [amount]="cart.grandTotal" class="fw4 f5"></app-amount-currency>
+    </div>
+</div>

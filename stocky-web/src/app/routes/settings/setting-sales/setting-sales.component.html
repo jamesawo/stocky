@@ -1,4 +1,4 @@
-<page-header [breadcrumb]='breadcrumb' title="Sales Setting">
+<page-header [breadcrumb]="breadcrumb" title="Sales Setting">
     <ng-template #breadcrumb>
         <app-breadcrumbs [crumbs]="crumbs"></app-breadcrumbs>
     </ng-template>
@@ -6,15 +6,14 @@
 </page-header>
 
 <nz-card>
-    <div class='wd-100p'>
+    <div class="wd-100p">
         <article nz-typography>
-            <!--            <h5 nz-typography>Configure Dashboard </h5>-->
             <p nz-typography>
                 Manage your sales rules.
             </p>
         </article>
         <nz-divider></nz-divider>
-
+        
         <app-setting-form (onSubmit)="submitForm($event)" [settings$]="settings"></app-setting-form>
     </div>
 </nz-card>

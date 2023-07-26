@@ -24,17 +24,20 @@ import static com.jamesaworo.stocky.core.constants.Table.COMPANY_EMPLOYEE;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompanyEmployee extends BaseModel {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@OneToOne
-	private CompanyEmployeePersonalDetail personalDetail;
+    @OneToOne
+    private CompanyEmployeePersonalDetail personalDetail;
 
-	@OneToOne
-	private CompanyEmployeeNokDetail nokDetail;
+    @OneToOne
+    private CompanyEmployeeNokDetail nokDetail;
 
-	@OneToOne
-	private User accountDetail;
+    @OneToOne
+    private User accountDetail;
 
+    public CompanyEmployee(Long id) {
+        this.id = id;
+    }
 }

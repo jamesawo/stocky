@@ -18,6 +18,7 @@ export class ProductCategoriesTabComponent {
     public selectChange = new EventEmitter<ProductCategoryPayload[]>();
 
     public categories: Array<ProductCategoryPayload> = [];
+
     public selection: Set<ProductCategoryPayload> = new Set<ProductCategoryPayload>();
     public selectAll = true;
 

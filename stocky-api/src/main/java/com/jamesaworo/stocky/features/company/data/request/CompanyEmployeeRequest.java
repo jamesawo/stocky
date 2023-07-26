@@ -20,10 +20,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CompanyEmployeeRequest {
-	private Long id;
-	private CompanyEmployeePersonalDetailRequest personalDetail;
-	private CompanyEmployeeNokDetailRequest nokDetail;
-	private UserRequest accountDetail;
-	private String createdAt;
-	private Boolean isActiveStatus;
+    private Long id;
+    private CompanyEmployeePersonalDetailRequest personalDetail;
+    private CompanyEmployeeNokDetailRequest nokDetail;
+    private UserRequest accountDetail;
+    private String createdAt;
+    private Boolean isActiveStatus;
+
 }

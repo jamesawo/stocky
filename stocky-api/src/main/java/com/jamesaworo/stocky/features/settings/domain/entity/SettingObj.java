@@ -13,6 +13,7 @@ import com.jamesaworo.stocky.features.settings.domain.enums.SettingModule;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Setter
@@ -22,8 +23,29 @@ public class SettingObj {
     String key;
     String value;
     SettingField field;
-    Map<String, String> options;
+    Map<String, String> options = new HashMap<>();
     String title;
     String hint;
     SettingModule module;
+
+    public SettingObj() {
+    }
+
+    public SettingObj(String key, String value, SettingField field, String title, SettingModule module) {
+        this.key = key;
+        this.value = value;
+        this.field = field;
+        this.title = title;
+        this.module = module;
+    }
+
+    public SettingObj(String key, String value, SettingField field, String title, SettingModule module, String hint) {
+        this.key = key;
+        this.value = value;
+        this.field = field;
+        this.hint = hint;
+        this.module = module;
+        this.title = title;
+    }
+
 }

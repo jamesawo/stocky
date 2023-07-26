@@ -62,6 +62,7 @@ import {ResizableComponent} from './components/resizable/resizable.component';
 import {SearchModelDropdownComponent} from './components/search-model-dropdown/search-model-dropdown.component';
 import {SearchResetButtonComponent} from './components/search-reset-button/search-reset-button.component';
 import {SearchResultTableComponent} from './components/search-result-table/search-result-table.component';
+import {SimpleButtonComponent} from './components/simple-button/simple-button.component';
 import {StatusBadgeComponent} from './components/status-badge/status-badge.component';
 import {SwitchToggleComponent} from './components/switch-toggle/switch-toggle.component';
 import {TableItemEditableComponent} from './components/table-item-editable/table-item-editable.component';
@@ -144,7 +145,8 @@ const COMPONENTS: Array<Type<void>> = [
     AmountCurrencyComponent,
     IconButtonComponent,
     StockItemPriceFormComponent,
-    ResizableComponent
+    ResizableComponent,
+    SimpleButtonComponent
 ];
 const DIRECTIVES: Array<Type<void>> = [
     DisableAutocompleteDirective

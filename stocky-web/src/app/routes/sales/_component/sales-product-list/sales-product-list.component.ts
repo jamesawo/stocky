@@ -1,10 +1,12 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {Subscription} from 'rxjs';
+import {MOCK_PRODUCTS} from '../../../../../../_mock/_product';
 import {PageResultPayload} from '../../../../data/payload/common.interface';
 import {PagePayload} from '../../../../data/payload/common.payload';
 import {getProductFullName, getProductName} from '../../../../shared/utils/util';
 import {ProductPayload} from '../../../products/_data/product.payload';
+import {SaleCartNotifyType} from '../../_data/sale-cart.enum';
 import {SaleCart} from '../../_data/sale-cart.payload';
 import {SaleCartUsecase} from '../../_usecase/sale-cart.usecase';
 import {SaleProductsUsecase} from '../../_usecase/sale-products.usecase';
@@ -12,11 +14,12 @@ import {SaleProductsUsecase} from '../../_usecase/sale-products.usecase';
 @Component({
     selector: 'app-sales-product-list',
     templateUrl: './sales-product-list.component.html',
-    styles: []
+    styleUrls: ['./sales-product-list.component.css']
 })
 export class SalesProductListComponent implements OnInit, OnDestroy {
     @Input()
-    public products?: Array<ProductPayload> = [];
+    // public products?: Array<ProductPayload> = [];
+    public products?: Array<ProductPayload> = MOCK_PRODUCTS;
 
     public cart?: SaleCart;
 
@@ -37,6 +40,9 @@ export class SalesProductListComponent implements OnInit, OnDestroy {
         );
         this.sub.add(
             this.saleProductUsecase.searchResult$.subscribe(value => this.updateProductList(value))
+        );
+        this.sub.add(
+            this.saleCartUsecase.notifyType$.subscribe(val => this.onNotifyChange(val))
         );
     }
 
@@ -75,6 +81,12 @@ export class SalesProductListComponent implements OnInit, OnDestroy {
             this.msg.info(getProductName(product) + ' Added to cart!');
         } else {
             this.msg.error(getProductName(product) + ' Already in cart!');
+        }
+    }
+
+    private onNotifyChange(type: SaleCartNotifyType) {
+        if (type && type == SaleCartNotifyType.CLEAR_PRODUCT_RESULT) {
+            this.products = [];
         }
     }
 

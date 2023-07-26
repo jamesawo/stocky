@@ -1,0 +1,35 @@
+<ng-container *ngIf="usePopConfirm; else noPopConfirmButton">
+    <button
+        (nzOnCancel)="cancelAction(args)"
+        (nzOnConfirm)="action(args)"
+        [class]="buttonClass"
+        [nzCancelText]="popCancelText"
+        [nzOkText]="popOkText"
+        [nzPopconfirmPlacement]="popConfirmPlacement"
+        [nzPopconfirmTitle]="popConfirmTitle"
+        [nzSize]="buttonSize" [nzType]="buttonType"
+        class="mr-15 w-100"
+        nz-button
+        nz-popconfirm
+    >
+        <span *ngIf="icon" [class]="iconClass" [nzType]="icon" nz-icon nzTheme="outline"></span>
+        <span *ngIf="buttonText" [innerHTML]="buttonText"></span>
+    </button>
+</ng-container>
+
+
+<ng-template #noPopConfirmButton>
+    <button
+        (click)="action(args)"
+        [class]="buttonClass"
+        [nzSize]="buttonSize"
+        [nzType]="buttonType"
+        class="mr-15 w-100"
+        nz-button
+    >
+        <span *ngIf="icon" [class]="iconClass" [nzType]="icon" nz-icon nzTheme="outline"></span>
+        <span *ngIf="buttonText" [innerHTML]="buttonText"></span>
+
+    </button>
+
+</ng-template>

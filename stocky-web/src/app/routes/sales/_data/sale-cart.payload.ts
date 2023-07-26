@@ -3,6 +3,7 @@ import {CustomerPayload} from '../../company/_data/company.payload';
 import {ProductPayload} from '../../products/_data/product.payload';
 
 export class SaleCartItem {
+    id?: number;
     product: ProductPayload = new ProductPayload();
     quantity: number = 0;
     discount: number = 0;
@@ -79,6 +80,10 @@ export class SaleCartItem {
         this.grandTotal = sub - this.discount;
     };
 
+    public canProceedToPayment = (): {status: boolean, message: string} => {
+        return {message: '', status: false};
+    };
+
 }
 
 export class SaleCart {
@@ -131,6 +136,14 @@ export class SaleCart {
 
     public updateTotal = (): void => {
         this.grandTotal = this.items.reduce((accumulator, currentValue) => accumulator + Number(currentValue.grandTotal), 0);
+    };
+
+    public emptyCart = () => {
+        this.items = [];
+        this.discountTotal = 0;
+        this.taxTotal = 0;
+        this.subTotal = 0;
+        this.grandTotal = 0;
     };
 
 }

@@ -46,7 +46,7 @@ export enum SettingModuleEnum {
     PAYMENT_METHOD = 'PAYMENT_METHOD',
     PEOPLE = 'PEOPLE',
     PRODUCT = 'PRODUCT',
-    SALE = 'SALE',
+    SALES = 'SALES',
     STOCK = 'STOCK',
     COMPANY = 'COMPANY',
     TAX = 'TAX',

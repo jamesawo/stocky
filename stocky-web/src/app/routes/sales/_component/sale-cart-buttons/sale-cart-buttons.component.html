@@ -1,0 +1,48 @@
+<div class="container">
+
+    <div class="column-1">
+        <app-simple-button
+            [action]="handleShowModal"
+            buttonClass="ml1 mr1" buttonText="Proceed"
+            buttonType="primary" icon="credit-card"
+        >
+        </app-simple-button>
+    </div>
+
+    <div class="column-2">
+
+        <app-simple-button
+            [action]="handleClearButton"
+            [usePopConfirm]="true"
+            buttonText="Clear" class="flex-grow-1 ml2"
+            icon="delete" popCancelText="No, Cancel"
+            popOkText="Yes, Clear Items"
+        >
+        </app-simple-button>
+
+
+        <app-simple-button
+            [action]="handleSaveButton"
+            [usePopConfirm]="true"
+            buttonText="Save"
+            class="flex-grow-1 ml2 mr-11"
+            icon="delete" popCancelText="No, Cancel"
+            popOkText="Yes, Save as order"
+        ></app-simple-button>
+
+    </div>
+</div>
+
+<ng-template #modalTmpl class="p-modal">
+
+    <app-sale-cart-payment-options></app-sale-cart-payment-options>
+
+    <app-simple-button
+        [action]="handlePayButton"
+        [usePopConfirm]="true"
+        buttonClass="flex-grow-1 ml1 mr1" buttonText="Pay"
+        buttonType="primary" icon="credit-card"
+    >
+    </app-simple-button>
+
+</ng-template>

@@ -33,7 +33,6 @@ public class SettingSaleUsecase implements ISettingUsecase<SettingSale> {
 
     @Override
     public Boolean updateMany(List<SettingSale> settings) {
-
         try {
             settings.forEach(s -> this.update(s.getSettingKey(), s.getSettingValue()));
             return true;
