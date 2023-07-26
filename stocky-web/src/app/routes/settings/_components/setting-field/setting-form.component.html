@@ -1,6 +1,7 @@
 <ng-container *ngIf="settings as settings; else loading">
 
-    <form (ngSubmit)="submit()" [formGroup]="formGroup" nz-form nzLayout="horizontal">
+    <!--    TODO:: refactor setting form, make form control able to send value to api for each formControlType-->
+    <form (ngSubmit)="submit()" [formGroup]="emptyFormGroup" nz-form nzLayout="horizontal">
 
         <ng-container *ngFor="let setting of settings">
 
@@ -16,34 +17,34 @@
                 <nz-form-control [nzSpan]="12">
                     <div [ngSwitch]="setting.settingField">
 
-                        <div *ngSwitchCase="input">
+                        <div *ngSwitchCase="settingField.INPUT">
                             <ng-container [ngTemplateOutletContext]="{ setting: setting }"
                                           [ngTemplateOutlet]="inputTmpl"></ng-container>
                         </div>
 
-                        <div *ngSwitchCase="select">
+                        <div *ngSwitchCase="settingField.SELECT">
                             <ng-container
                                 [ngTemplateOutletContext]="{ setting: setting }"
                                 [ngTemplateOutlet]="selectTmpl"></ng-container>
                         </div>
 
-                        <div *ngSwitchCase="textarea">
+                        <div *ngSwitchCase="settingField.TEXTAREA">
                             <ng-container
                                 [ngTemplateOutletContext]="{ setting: setting }"
                                 [ngTemplateOutlet]="textareaTmpl"></ng-container>
                         </div>
 
-                        <div *ngSwitchCase="radio">
+                        <div *ngSwitchCase="settingField.RADIO">
                             <ng-container [ngTemplateOutletContext]="{ setting: setting }"
                                           [ngTemplateOutlet]="radioTmpl"></ng-container>
                         </div>
 
-                        <div *ngSwitchCase="date">
+                        <div *ngSwitchCase="settingField.DATE">
                             <ng-container [ngTemplateOutletContext]="{ setting: setting }"
                                           [ngTemplateOutlet]="dateTmpl"></ng-container>
                         </div>
 
-                        <div *ngSwitchCase="toggle">
+                        <div *ngSwitchCase="settingField.TOGGLE">
                             <ng-container
                                 [ngTemplateOutletContext]="{ setting: setting }"
                                 [ngTemplateOutlet]="toggleTmpl"
@@ -84,13 +85,20 @@
 
         <ng-template #toggleTmpl let-setting="setting">
             <nz-switch
-                [formControlName]="setting.settingKey"
+                (ngModelChange)="onSwitchValueChange($event, setting)"
+                [ngModelOptions]="{standalone: true}"
+                [ngModel]="getSwitchValue(setting)"
                 [nzCheckedChildren]="checkedTemplate"
-                [nzControl]="setting.settingValue === 'true'"
                 [nzUnCheckedChildren]="unCheckedTemplate"
             ></nz-switch>
-            <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
-            <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
+            <ng-template #checkedTemplate>
+                <span [innerText]="'YES'"></span>
+                <span nz-icon nzType="check"></span>
+            </ng-template>
+            <ng-template #unCheckedTemplate>
+                <span [innerText]="'NO'"></span>
+                <span nz-icon nzType="close"></span>
+            </ng-template>
         </ng-template>
 
         <ng-template #selectTmpl let-setting="setting">
@@ -100,6 +108,7 @@
             </nz-select>
         </ng-template>
     </form>
+
 </ng-container>
 
 <ng-template #loading>
