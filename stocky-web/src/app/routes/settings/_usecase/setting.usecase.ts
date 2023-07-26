@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
 import {firstValueFrom} from 'rxjs';
 import {SettingModuleEnum} from '../../../data/payload/common.enum';
-import {getFromLocal, storeInLocal} from '../../../shared/utils/util';
+import {getFromLocal, storeInLocal, stringToBoolean} from '../../../shared/utils/util';
 import {SettingPayload} from '../_data/setting.payload';
 
 @Injectable({providedIn: 'root'})
@@ -12,12 +12,24 @@ export class SettingUsecase {
 
     constructor(private http: HttpClient) {}
 
-    public async getByKey(key: string, module: SettingModuleEnum): Promise<string> {
+    public async getByKey(key: string, module: SettingModuleEnum, ignoreCache = false): Promise<string> {
+        if (ignoreCache) {
+            return await this.getFromApi(key, module);
+        }
+        return this.getFromLocalOrApi(key, module);
+    }
+
+    public async getByKeyAsBool(key: string, module: SettingModuleEnum, ignoreCache = false): Promise<boolean> {
+        let value = await this.getByKey(key, module, ignoreCache);
+        return stringToBoolean(value);
+    }
+
+    private async getFromLocalOrApi(key: string, module: SettingModuleEnum): Promise<string> {
         const localValue = await this.getFromLocal(key);
         return localValue ? localValue : await this.getFromApi(key, module);
     }
 
-    private async getFromApi(key: string, module: SettingModuleEnum) {
+    private async getFromApi(key: string, module: SettingModuleEnum): Promise<string> {
         const httpCall = this.http.get<SettingPayload>(`${this.url}/find?key=${key}&module=${module}`);
         const result = await firstValueFrom(httpCall);
 
