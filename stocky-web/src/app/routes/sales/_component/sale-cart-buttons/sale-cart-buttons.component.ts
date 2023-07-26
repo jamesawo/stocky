@@ -1,5 +1,8 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NzModalService} from 'ng-zorro-antd/modal';
+import {SettingConstant} from '../../../../data/constant/setting.constant';
+import {SettingModuleEnum} from '../../../../data/payload/common.enum';
+import {SettingUsecase} from '../../../settings/_usecase/setting.usecase';
 import {SaleCart} from '../../_data/sale-cart.payload';
 import {SaleCartUsecase} from '../../_usecase/sale-cart.usecase';
 
@@ -20,7 +23,8 @@ export class SaleCartButtonsComponent implements OnInit {
 
     constructor(
         private cartUsecase: SaleCartUsecase,
-        private modalService: NzModalService
+        private modalService: NzModalService,
+        private settingUsecase: SettingUsecase
     ) {}
 
 
@@ -49,8 +53,11 @@ export class SaleCartButtonsComponent implements OnInit {
     public handleSaveButton = (arg?: any) => {
     };
 
-    private canProceedToPayment(): boolean {
+    private async canProceedToPayment(): Promise<boolean> {
         const cart = this.cart;
+        const enforceCustomer = await this.settingUsecase.getByKey(SettingConstant.SETTING_SALES_ENFORCE_CUSTOMER_ON_SALES_CHECKOUT, SettingModuleEnum.SALES);
+
+        console.log(enforceCustomer);
         console.log(cart);
         return false;
 

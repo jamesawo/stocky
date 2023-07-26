@@ -3,8 +3,11 @@ import {SharedModule} from '@shared';
 import {CompanyModule} from '../company/company.module';
 import {ProductsModule} from '../products/products.module';
 import {SaleCartAmountComponent} from './_component/sale-cart-amount/sale-cart-amount.component';
+import {SaleCartButtonsComponent} from './_component/sale-cart-buttons/sale-cart-buttons.component';
 import {SaleCartCustomerSearchComponent} from './_component/sale-cart-customer-search/sale-cart-customer-search.component';
 import {SaleCartItemsComponent} from './_component/sale-cart-items/sale-cart-items.component';
+import {SaleCartPaymentOptionsComponent} from './_component/sale-cart-payment-options/sale-cart-payment-options.component';
+import {SaleCartSummaryComponent} from './_component/sale-cart-summary/sale-cart-summary.component';
 import {SaleCartComponent} from './_component/sale-cart/sale-cart.component';
 import {SalesProductGridComponent} from './_component/sales-product-grid/sales-product-grid.component';
 import {SalesProductListComponent} from './_component/sales-product-list/sales-product-list.component';
@@ -15,7 +18,6 @@ import {SalesOrderComponent} from './sales-order/sales-order.component';
 import {SalesPosComponent} from './sales-pos/sales-pos.component';
 import {SalesRefundComponent} from './sales-refund/sales-refund.component';
 import {SalesRoutingModule} from './sales-routing.module';
-import { SaleCartButtonsComponent } from './_component/sale-cart-buttons/sale-cart-buttons.component';
 
 const COMPONENTS: Array<Type<void>> = [
     SalesPosComponent,
@@ -29,12 +31,16 @@ const COMPONENTS: Array<Type<void>> = [
     SaleCartComponent,
     SaleCartCustomerSearchComponent,
     SaleCartItemsComponent,
-    SaleCartAmountComponent
+    SaleCartAmountComponent,
+    SaleCartButtonsComponent,
+    SaleCartPaymentOptionsComponent,
+    SaleCartSummaryComponent
 ];
 
 @NgModule({
     imports: [SalesRoutingModule, SharedModule, ProductsModule, CompanyModule],
-    declarations: [...COMPONENTS, SaleCartButtonsComponent],
+    declarations: [...COMPONENTS
+    ],
     exports: [...COMPONENTS]
 
 })

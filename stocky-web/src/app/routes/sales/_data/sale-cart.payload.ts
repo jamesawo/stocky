@@ -3,6 +3,7 @@ import {CustomerPayload} from '../../company/_data/company.payload';
 import {ProductPayload} from '../../products/_data/product.payload';
 
 export class SaleCartItem {
+    id?: number;
     product: ProductPayload = new ProductPayload();
     quantity: number = 0;
     discount: number = 0;
@@ -77,6 +78,10 @@ export class SaleCartItem {
     public updateGrandTotal = (): void => {
         const sub = this.subTotal + this.tax;
         this.grandTotal = sub - this.discount;
+    };
+
+    public canProceedToPayment = (): {status: boolean, message: string} => {
+        return {message: '', status: false};
     };
 
 }

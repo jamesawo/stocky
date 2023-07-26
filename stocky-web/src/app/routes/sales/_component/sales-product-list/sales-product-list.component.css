@@ -1,0 +1,18 @@
+/* Media query for small screens (e.g., phones) */
+@media screen and (max-width: 640px) {
+    .item-product {
+        margin-bottom: 17px;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    .item-stats {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+}
+
+

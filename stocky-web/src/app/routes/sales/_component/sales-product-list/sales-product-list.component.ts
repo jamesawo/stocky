@@ -14,10 +14,11 @@ import {SaleProductsUsecase} from '../../_usecase/sale-products.usecase';
 @Component({
     selector: 'app-sales-product-list',
     templateUrl: './sales-product-list.component.html',
-    styles: []
+    styleUrls: ['./sales-product-list.component.css']
 })
 export class SalesProductListComponent implements OnInit, OnDestroy {
     @Input()
+    // public products?: Array<ProductPayload> = [];
     public products?: Array<ProductPayload> = MOCK_PRODUCTS;
 
     public cart?: SaleCart;

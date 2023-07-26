@@ -1,0 +1,26 @@
+<nz-form-item>
+    <nz-form-label class="self-center">Choose Payment Option</nz-form-label>
+    <nz-form-control>
+        <nz-radio-group [(ngModel)]="paymentOption" class="pa3" nzButtonStyle="outline" nzSize="large">
+
+            <ng-container *ngIf="paymentOptions$ | async as paymentOptions">
+
+                <ng-container *ngFor="let option of paymentOptions">
+
+                    <label *ngIf="option.isActiveStatus"
+                           [ngStyle]="{ 'border-color' : isSelected(option) ? '#9eebcf' : ''  }"
+                           [nzValue]="option"
+                           nz-radio-button
+                    >
+                        <span *ngIf="isSelected(option)" class="mr2" nz-icon nzTheme="outline" nzType="check-circle"></span>
+
+                        <span [innerHTML]="option.title"></span>
+
+                    </label>
+                </ng-container>
+
+            </ng-container>
+
+        </nz-radio-group>
+    </nz-form-control>
+</nz-form-item>
