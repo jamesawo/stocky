@@ -16,9 +16,15 @@ export class TableItemTruncatableComponent {
     @Input()
     public limit: number = 10;
 
+    @Input()
+    public showToolTip = true;
+
     public get slicedContent() {
         const content = <string>this.content;
-        return content.slice(0, this.limit) + '...';
+        if (this.limit < content.length) {
+            return content.slice(0, this.limit) + '...';
+        }
+        return content;
 
     };
 
