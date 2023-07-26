@@ -71,9 +71,7 @@ export function handleCreatePdfResourceUrl(blobFile: ArrayBuffer): string {
 }
 
 export function showSuccessNotification(
-    service: any,
-    content: string = 'Your request was successful',
-    title: string = 'Successful'
+    service: any, content: string = 'Your request was successful', title: string = 'Successful'
 ): void {
     if (service) {
         service.success(title, content);
@@ -81,9 +79,7 @@ export function showSuccessNotification(
 }
 
 export function showErrorNotification(
-    service: NzNotificationService,
-    content: string = 'Failed, please try again!',
-    title: string = 'There was a problem.'
+    service: NzNotificationService, content: string = 'Failed, please try again!', title: string = 'There was a problem.'
 ): void {
     if (service) {
         service.error(title, content);
@@ -91,10 +87,7 @@ export function showErrorNotification(
 }
 
 export function handleHttpRequestError(
-    erObj: any,
-    opts?: {service?: NzNotificationService; title?: string},
-    errorMessage?: string,
-    errorList?: string[]
+    erObj: any, opts?: {service?: NzNotificationService; title?: string}, errorMessage?: string, errorList?: string[]
 ): void {
     errorMessage = erObj?.error?.message ?? 'There was a problem.';
     errorList = erObj?.error?.error ?? [];
@@ -120,9 +113,7 @@ export function handleHttpRequestError(
 }
 
 export async function handleUsecaseRequest<T>(
-    arg: Observable<T>,
-    notificationService: NzNotificationService,
-    message?: {success: string; error: string}
+    arg: Observable<T>, notificationService: NzNotificationService, message?: {success: string; error: string}
 ): Promise<T> {
     try {
         const value: any = await firstValueFrom(arg, {defaultValue: undefined});
@@ -140,8 +131,7 @@ export async function handleUsecaseRequest<T>(
 }
 
 export function handleAppendToObservableListIfResponse<T>(
-    source: Observable<T[]>,
-    item: HttpResponse<T>
+    source: Observable<T[]>, item: HttpResponse<T>
 ): Observable<T[]> | undefined {
     if (item && item.ok && item.body) {
         return from(source!.pipe(map((list) => [...list, {...item.body!}])));
@@ -150,9 +140,7 @@ export function handleAppendToObservableListIfResponse<T>(
 }
 
 export function handleUpdateObservableListIfResponse<T>(
-    source: Observable<T[]>,
-    response: HttpResponse<T>
-): Observable<T[]> {
+    source: Observable<T[]>, response: HttpResponse<T>): Observable<T[]> {
     if (response && response.ok) {
         const update: any = response.body;
         return from(
@@ -170,8 +158,7 @@ export function handleUpdateObservableListIfResponse<T>(
 }
 
 export function handleFindFromObservableList<T>(
-    source: Observable<T[]>,
-    opts: {key: string; value: number}
+    source: Observable<T[]>, opts: {key: string; value: number}
 ): Promise<T> {
     return firstValueFrom(
         source.pipe(
@@ -189,9 +176,7 @@ export function handleFindFromObservableList<T>(
 }
 
 export function handleRemoveFromObservableListIfStatus<T>(
-    source: Observable<T[]>,
-    opts: {key: string; value: number},
-    response: HttpResponse<any>
+    source: Observable<T[]>, opts: {key: string; value: number}, response: HttpResponse<any>
 ): Observable<T[]> {
     if (response && response.ok && response.body === true) {
         return source.pipe(map((list: T[]) => list.filter((item: any) => item[opts.key] !== opts.value)));
@@ -200,9 +185,7 @@ export function handleRemoveFromObservableListIfStatus<T>(
 }
 
 export async function handleCancelEditingTableItem<T extends {id: any}>(
-    item: T,
-    list: Observable<T[]>,
-    editMap: TableEditCacheMap<T>
+    item: T, list: Observable<T[]>, editMap: TableEditCacheMap<T>
 ) {
     if (item) {
         let payload = await handleFindFromObservableList(list, {key: 'id', value: item.id});
@@ -270,8 +253,6 @@ export function generateColor() {
 }
 
 export function calculateSellingPrice(costPrice: number = 0, markupPercent: number = 0) {
-    // const markupAmount = Number(costPrice) * Number((markupPercent) / 100);
-    // return Math.round(Number(costPrice) + Number(markupAmount));
     const markupAmount = calculatePercentage(markupPercent, costPrice);
     return Number(costPrice) + Number(markupAmount);
 }
@@ -294,4 +275,14 @@ export function storeInLocal(key: string, value: any) {
 
 export function calculatePercentage(percent: number, price: number) {
     return Math.round(Number(price) * Number((percent) / 100));
+}
+
+export function stringToBoolean(str: string): boolean {
+    const lowercaseStr = str.toLowerCase();
+    if (lowercaseStr === 'true') {
+        return true;
+    } else if (lowercaseStr === 'false') {
+        return false;
+    }
+    throw new Error('Invalid string value. Expected \'true\' or \'false\'.');
 }

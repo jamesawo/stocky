@@ -1,3 +1,5 @@
-# 建议统一在 `widgets` 目录下自定义小部件
+# It is recommended to customize widgets under the  `widgets`  directory
 
-> 注：`@delon/form` 本身提供 NG-ZORRO 数据录入组件的全部实现，以及若干第三方组件的代码，可从[widgets-third](https://github.com/ng-alain/delon/tree/master/packages/form/widgets-third)中获取并放置 `widgets` 目录下注册即可。
+> Note:  `@delon/form`  itself provides the complete implementation of NG-ZORRO data entry components, as well as the code for several third-party
+> components, which can be obtained from [widgets-third](https://github.com/ng-alain/delon/tree/master/packages/form/widgets-third) and registered under
+> the  `widgets`  directory.
