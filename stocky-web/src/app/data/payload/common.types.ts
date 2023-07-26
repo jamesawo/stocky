@@ -16,8 +16,8 @@ export type CommonAddProps = {
 }
 
 export type FormProps = {
-    formGroup: FormGroup,
-    controlName: string
+    formGroup: FormGroup;
+    controlName: string;
 };
 
 export type SearchProps = {
