@@ -73,7 +73,7 @@ public class Table {
     public static final String SALES_TRANSACTION_AMOUNT = SALES + "_TRANSACTION_AMOUNTS";
     public static final String SALES_TRANSACTION_ITEM = SALES + "_TRANSACTION_ITEM";
     public static final String SALES_TRANSACTION_INSTALLMENT = SALES + "_TRANSACTION_INSTALLMENTS";
-    public static final String SALES_TRANSACTION_AND_ITEMS = SALES + "TRANSACTION_AND_ITEM";
+    public static final String SALES_TRANSACTION_AND_ITEMS = SALES + "_TRANSACTION_AND_ITEM";
 
 
 }
