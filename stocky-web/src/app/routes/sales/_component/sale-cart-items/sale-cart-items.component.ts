@@ -3,7 +3,8 @@ import {Subscription} from 'rxjs';
 import {ResponsiveService} from '../../../../shared/utils/responsive.service';
 import {getProductFullName} from '../../../../shared/utils/util';
 import {ProductPayload} from '../../../products/_data/product.payload';
-import {SaleCart, SaleCartItem} from '../../_data/sale-cart.payload';
+import {SaleCartItem} from '../../_data/sale-cart-item.payload';
+import {SaleCart} from '../../_data/sale-cart.payload';
 import {SaleCartUsecase} from '../../_usecase/sale-cart.usecase';
 
 @Component({
@@ -82,5 +83,5 @@ export class SaleCartItemsComponent implements OnInit, OnDestroy {
             ev.target.value = 1;
         }
     }
-    
+
 }
