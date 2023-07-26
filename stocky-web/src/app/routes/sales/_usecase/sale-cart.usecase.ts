@@ -8,13 +8,10 @@ import {SaleCart} from '../_data/sale-cart.payload';
     providedIn: 'root'
 })
 export class SaleCartUsecase {
-    
     public cart: BehaviorSubject<SaleCart>;
     public cart$: Observable<SaleCart>;
-
     public notifyType: BehaviorSubject<SaleCartNotifyType>;
     public notifyType$: Observable<SaleCartNotifyType>;
-
 
     constructor(private http: HttpClient) {
 

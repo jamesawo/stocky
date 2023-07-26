@@ -5,7 +5,11 @@ import {SalesPosComponent} from './sales-pos/sales-pos.component';
 import {SalesRefundComponent} from './sales-refund/sales-refund.component';
 
 const routes: Routes = [
-    {path: 'sale-pos', component: SalesPosComponent},
+    {
+        path: 'sale-pos',
+        component: SalesPosComponent,
+        canDeactivate: [(component: SalesPosComponent) => component.canDeactivate()]
+    },
     {path: 'order', component: SalesOrderComponent},
     {path: 'refund', component: SalesRefundComponent}
 ];
