@@ -1,3 +1,5 @@
+import {UrlTree} from '@angular/router';
+import {Observable} from 'rxjs';
 import {PagePayload} from './common.payload';
 
 export interface IDateRange {
@@ -15,3 +17,9 @@ export interface PageResultPayload<T> {
     result?: T[];
 }
 
+
+export type CanDeactivateType = Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree;
+
+export interface CanComponentDeactivate {
+    canDeactivate: () => CanDeactivateType;
+}
