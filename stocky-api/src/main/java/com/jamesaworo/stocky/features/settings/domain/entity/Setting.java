@@ -11,7 +11,9 @@ import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
@@ -79,23 +81,24 @@ public class Setting extends BaseModel {
 
     }
 
-    /* public Setting(SettingObj obj) {
-         this.id = obj.getId();
-         this.settingKey = obj.getKey();
-         this.settingValue = obj.getValue();
-         this.settingField = obj.getField();
-         this.settingTitle = obj.getTitle();
-         this.settingOptions = mapOptionsToCollection(obj.getOptions());
-         this.settingHint = obj.getHint();
-         this.module = obj.getModule();
-     }
+    // active
+    public Setting(SettingObj obj) {
+        this.id = obj.getId();
+        this.settingKey = obj.getKey();
+        this.settingValue = obj.getValue();
+        this.settingField = obj.getField();
+        this.settingTitle = obj.getTitle();
+        this.settingOptions = mapOptionsToCollection(obj.getOptions());
+        this.settingHint = obj.getHint();
+        this.module = obj.getModule();
+    }
 
-     private static Collection<SettingOption> mapOptionsToCollection(Map<String, String> options) {
-         Collection<SettingOption> settingOptions = new ArrayList<>();
-         options.forEach((key, value) -> settingOptions.add(new SettingOption(key, value)));
-         return settingOptions;
-     }
- */
+    private static Collection<SettingOption> mapOptionsToCollection(Map<String, String> options) {
+        Collection<SettingOption> settingOptions = new ArrayList<>();
+        options.forEach((key, value) -> settingOptions.add(new SettingOption(key, value)));
+        return settingOptions;
+    }
+
     @PrePersist()
     void prePersist() {
         this.setCreatedAt(LocalDateTime.now());

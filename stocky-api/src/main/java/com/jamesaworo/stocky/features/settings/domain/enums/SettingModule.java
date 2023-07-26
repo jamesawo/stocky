@@ -81,7 +81,7 @@ public enum SettingModule {
             return context.getBean(SettingProductInteractor.class);
         }
     },
-    SALE {
+    SALES {
         public ISettingUsecase<?> usecase(ApplicationContext context) {
             return context.getBean(SettingSaleUsecase.class);
         }
