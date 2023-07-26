@@ -9,13 +9,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ICompanyCustomerUsecase {
-	CompanyCustomer save(CompanyCustomer customer);
+    CompanyCustomer save(CompanyCustomer customer);
 
-	List<CompanyCustomer> findMany(Specification<CompanyCustomer> specification);
+    List<CompanyCustomer> findMany(Specification<CompanyCustomer> specification);
 
-	Page<CompanyCustomer> findMany(Specification<CompanyCustomer> specification, Pageable pageable);
+    Page<CompanyCustomer> findMany(Specification<CompanyCustomer> specification, Pageable pageable);
 
-	Optional<Boolean> update(CompanyCustomer customer);
+    Optional<Boolean> update(CompanyCustomer customer);
 
-	Optional<Boolean> toggleActiveStatus(Long id);
+    Optional<Boolean> toggleActiveStatus(Long id);
+
+    Optional<CompanyCustomer> findOne(Long id);
 }

@@ -24,18 +24,21 @@ import static com.jamesaworo.stocky.core.constants.Table.COMPANY_CUSTOMER;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompanyCustomer extends BaseModel {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	@Column(nullable = false)
-	private String customerFirstName;
-	private String customerLastName;
-	@Column(unique = true)
-	private String customerEmail;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(nullable = false)
+    private String customerFirstName;
+    private String customerLastName;
+    @Column(unique = true)
+    private String customerEmail;
 
-	@Column(unique = true)
-	private String customerPhone;
-	private String customerAddress;
-	private CustomerTagEnum customerTag;
+    @Column(unique = true)
+    private String customerPhone;
+    private String customerAddress;
+    private CustomerTagEnum customerTag;
 
+    public CompanyCustomer(Long id) {
+        this.id = id;
+    }
 }

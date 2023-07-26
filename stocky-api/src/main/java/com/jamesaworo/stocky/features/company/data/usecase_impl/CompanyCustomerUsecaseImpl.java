@@ -26,51 +26,52 @@ import static java.util.Optional.of;
 @RequiredArgsConstructor
 @Slf4j
 public class CompanyCustomerUsecaseImpl implements ICompanyCustomerUsecase {
-	private final CompanyCustomerRepository repository;
+    private final CompanyCustomerRepository repository;
 
-	public Optional<CompanyCustomer> findOne(Long id) {
-		return this.repository.findById(id);
-	}
+    @Override
+    public Optional<CompanyCustomer> findOne(Long id) {
+        return this.repository.findById(id);
+    }
 
-	@Override
-	public CompanyCustomer save(CompanyCustomer customer) {
-		return this.repository.save(customer);
-	}
+    @Override
+    public CompanyCustomer save(CompanyCustomer customer) {
+        return this.repository.save(customer);
+    }
 
-	@Override
-	public List<CompanyCustomer> findMany(Specification<CompanyCustomer> specification) {
-		return this.repository.findAll(specification);
-	}
+    @Override
+    public List<CompanyCustomer> findMany(Specification<CompanyCustomer> specification) {
+        return this.repository.findAll(specification);
+    }
 
-	@Override
-	public Page<CompanyCustomer> findMany(Specification<CompanyCustomer> specification, Pageable pageable) {
-		return this.repository.findAll(specification, pageable);
-	}
+    @Override
+    public Page<CompanyCustomer> findMany(Specification<CompanyCustomer> specification, Pageable pageable) {
+        return this.repository.findAll(specification, pageable);
+    }
 
-	@Override
-	public Optional<Boolean> update(CompanyCustomer customer) {
-		try {
-			Optional<CompanyCustomer> optionalCustomer = this.findOne(customer.getId());
-			return optionalCustomer.map(value -> {
-				this.save(customer);
-				return Boolean.TRUE;
-			});
+    @Override
+    public Optional<Boolean> update(CompanyCustomer customer) {
+        try {
+            Optional<CompanyCustomer> optionalCustomer = this.findOne(customer.getId());
+            return optionalCustomer.map(value -> {
+                this.save(customer);
+                return Boolean.TRUE;
+            });
 
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return of(Boolean.FALSE);
-		}
-	}
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return of(Boolean.FALSE);
+        }
+    }
 
-	@Override
-	public Optional<Boolean> toggleActiveStatus(Long id) {
-		Optional<CompanyCustomer> optionalCustomer = this.findOne(id);
-		return optionalCustomer.map(this::updateCustomerIsActiveStatus);
+    @Override
+    public Optional<Boolean> toggleActiveStatus(Long id) {
+        Optional<CompanyCustomer> optionalCustomer = this.findOne(id);
+        return optionalCustomer.map(this::updateCustomerIsActiveStatus);
 
-	}
+    }
 
-	private Boolean updateCustomerIsActiveStatus(CompanyCustomer customer) {
-		int count = this.repository.updateIsActiveStatus(!customer.getIsActiveStatus(), customer.getId());
-		return count == 1;
-	}
+    private Boolean updateCustomerIsActiveStatus(CompanyCustomer customer) {
+        int count = this.repository.updateIsActiveStatus(!customer.getIsActiveStatus(), customer.getId());
+        return count == 1;
+    }
 }
