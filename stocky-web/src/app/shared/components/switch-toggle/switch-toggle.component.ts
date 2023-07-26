@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormProps} from '../../../data/payload/common.types';
 
 @Component({
     selector: 'app-switch-toggle',
@@ -6,6 +7,9 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
     styles: []
 })
 export class SwitchToggleComponent implements OnInit {
+
+    @Input()
+    public formProps?: FormProps;
 
     @Input()
     hasError: boolean = false;
@@ -25,13 +29,35 @@ export class SwitchToggleComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.setValueIfFormProps();
     }
 
     public onSwitchToggled(value: boolean) {
+        this.setFormControlValueOnChange(value);
         this.valueChange.emit(value);
     }
 
     public onClear() {
         this.value = undefined;
+    }
+
+    private setValueIfFormProps() {
+        const formProps = this.formProps;
+
+        if (formProps && formProps.formGroup && formProps.controlName) {
+            const controlValue = formProps.formGroup.controls[formProps.controlName].value;
+            if (typeof controlValue == 'string') {
+                this.value = controlValue === 'true';
+            } else if (typeof controlValue == 'boolean') {
+                this.value = controlValue;
+            }
+        }
+    }
+
+    private setFormControlValueOnChange(value: boolean) {
+        const formProps = this.formProps;
+        if (formProps && formProps.formGroup && formProps.controlName) {
+            formProps.formGroup.controls[formProps.controlName].setValue(value);
+        }
     }
 }

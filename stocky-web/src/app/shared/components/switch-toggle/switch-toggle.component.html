@@ -1,8 +1,9 @@
 <nz-form-item>
-    <nz-form-label *ngIf="props.showLabel === true"
-                   [nzNoColon]="true" class=""
-                   nzFor="switchToggle"
-    >Status
+    <nz-form-label
+        *ngIf="props.showLabel"
+        [nzNoColon]="true" class=""
+        nzFor="switchToggle">
+        Status
         <span
             class="m-l-3px"
             nz-icon
