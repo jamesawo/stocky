@@ -10,8 +10,8 @@ package com.jamesaworo.stocky.features.sale.data.usecase_impl;
 import com.jamesaworo.stocky.core.annotations.Usecase;
 import com.jamesaworo.stocky.core.mapper.Mapper;
 import com.jamesaworo.stocky.core.utils.Util;
+import com.jamesaworo.stocky.features.authentication.domain.usecase.IUserUsecase;
 import com.jamesaworo.stocky.features.company.domain.entity.CompanyCustomer;
-import com.jamesaworo.stocky.features.company.domain.entity.CompanyEmployee;
 import com.jamesaworo.stocky.features.company.domain.usecase.ICompanyCustomerUsecase;
 import com.jamesaworo.stocky.features.company.domain.usecase.ICompanyEmployeeUsecase;
 import com.jamesaworo.stocky.features.sale.data.repository.SaleTransactionRepository;
@@ -48,6 +48,7 @@ public class SaleTransactionUsecaseImpl implements SaleTransactionUsecase, Mappe
     private final SaleTransactionItemUsecase itemUsecase;
     private final ICompanyCustomerUsecase customerUsecase;
     private final ICompanyEmployeeUsecase employeeUsecase;
+    private final IUserUsecase userUsecase;
 
 
     /**
@@ -109,10 +110,12 @@ public class SaleTransactionUsecaseImpl implements SaleTransactionUsecase, Mappe
      * @since 1.0.0
      */
     private void findAndSetEmployee(SaleTransaction transaction) {
-        Optional<CompanyEmployee> optionalEmployee = this.employeeUsecase.findOne(transaction.getEmployee().getId());
-        optionalEmployee.ifPresent(transaction::setEmployee);
-    }
+        /* todo:: add user to transaction not employee
+        Optional<CompanyEmployee> optionalEmployee = this.employeeUsecase.findOne(transaction.getUser().getId());
+        optionalEmployee.ifPresent(transaction::setUser);
+        */
 
+    }
 
     /**
      * Saves and sets the items for the given SaleTransaction.
@@ -146,31 +149,69 @@ public class SaleTransactionUsecaseImpl implements SaleTransactionUsecase, Mappe
         transaction.setTime(LocalTime.now());
     }
 
+    /**
+     * This method is used to find multiple SaleTransaction objects based on the given Specification and Pageable.
+     *
+     * @param specification the Specification used to filter the SaleTransaction objects.
+     * @param pageable      the Pageable used to paginate the results.
+     * @return a Page object containing the filtered SaleTransaction objects.
+     */
     @Override
     public Page<SaleTransaction> findMany(Specification<SaleTransaction> specification, Pageable pageable) {
         return this.repository.findAll(specification, pageable);
     }
 
+    /**
+     * This method is used to find multiple SaleTransaction objects based on the given Specification.
+     *
+     * @param specification the Specification used to filter the SaleTransaction objects.
+     * @return a List object containing the filtered SaleTransaction objects.
+     */
     @Override
     public List<SaleTransaction> findMany(Specification<SaleTransaction> specification) {
         return this.repository.findAll(specification);
     }
 
+    /**
+     * This method is used to find a single SaleTransaction object based on the given id.
+     *
+     * @param id the id of the SaleTransaction object to be retrieved.
+     * @return an Optional object containing the SaleTransaction object if found, otherwise empty.
+     */
     @Override
     public Optional<SaleTransaction> findOne(Long id) {
         return this.repository.findById(id);
     }
 
+    /**
+     * This method is used to find a single SaleTransaction object based on the given reference and token.
+     *
+     * @param reference the reference of the SaleTransaction object to be retrieved.
+     * @param token     the token of the SaleTransaction object to be retrieved.
+     * @return an Optional object containing the SaleTransaction object if found, otherwise empty.
+     */
     @Override
     public Optional<SaleTransaction> findOne(String reference, String token) {
         return this.repository.findByReferenceEqualsAndTokenEquals(reference, token);
     }
 
+    /**
+     * This method is used to convert a SaleTransaction object to a SaleTransactionRequest object.
+     *
+     * @param model the SaleTransaction object to be converted.
+     * @return a SaleTransactionRequest object representing the converted SaleTransaction.
+     */
     @Override
     public SaleTransactionRequest toRequest(SaleTransaction model) {
         return mapper.map(model, SaleTransactionRequest.class);
     }
 
+    /**
+     * This method is used to convert a SaleTransactionRequest object to a SaleTransaction object.
+     *
+     * @param request the SaleTransactionRequest object to be converted.
+     * @return a SaleTransaction object representing the converted SaleTransactionRequest.
+     */
     @Override
     public SaleTransaction toModel(SaleTransactionRequest request) {
         return mapper.map(request, SaleTransaction.class);

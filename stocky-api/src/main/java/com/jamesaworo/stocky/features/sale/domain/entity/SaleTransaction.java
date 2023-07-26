@@ -8,8 +8,8 @@
 package com.jamesaworo.stocky.features.sale.domain.entity;
 
 import com.jamesaworo.stocky.core.base.BaseModel;
+import com.jamesaworo.stocky.features.authentication.domain.entity.User;
 import com.jamesaworo.stocky.features.company.domain.entity.CompanyCustomer;
-import com.jamesaworo.stocky.features.company.domain.entity.CompanyEmployee;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import lombok.*;
 import org.hibernate.annotations.Type;
@@ -50,7 +50,7 @@ public class SaleTransaction extends BaseModel {
     private CompanyCustomer customer;
 
     @OneToOne
-    private CompanyEmployee employee;
+    private User user;
 
     @OneToOne
     private SaleTransactionAmount amount;

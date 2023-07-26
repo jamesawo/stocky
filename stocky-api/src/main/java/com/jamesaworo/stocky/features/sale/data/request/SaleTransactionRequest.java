@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.jamesaworo.stocky.features.company.data.request.CompanyCustomerRequest;
 import com.jamesaworo.stocky.features.company.data.request.CompanyEmployeeRequest;
 import com.jamesaworo.stocky.features.company.domain.entity.CompanyCustomer;
-import com.jamesaworo.stocky.features.company.domain.entity.CompanyEmployee;
 import com.jamesaworo.stocky.features.sale.domain.entity.SaleTransaction;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -55,7 +54,7 @@ public class SaleTransactionRequest {
         transaction.setTime(!isEmpty(request.getTime()) ? LocalTime.parse(request.getTime()) : null);
         transaction.setReference(request.getReference());
         transaction.setToken(request.getToken());
-        transaction.setEmployee(new CompanyEmployee(request.getEmployee().getId()));
+        /*transaction.setEmployee(new CompanyEmployee(request.getEmployee().getId()));*/
         transaction.setCustomer(new CompanyCustomer(request.getCustomer().getId()));
         transaction.setAmount(SaleTransactionAmountRequest.toModel(request.getAmount()));
         transaction.setInstallment(SaleTransactionInstallmentRequest.toModel(request.getInstallment()));
