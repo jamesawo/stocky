@@ -29,6 +29,11 @@ public class Util {
         return RandomStringUtils.randomAlphanumeric(count);
     }
 
+    public static String receiptToken(Integer count) {
+        String prefix = randomString(2);
+        return String.format("%s%s", prefix, randomNumeric(count));
+    }
+
     public static String randomString(Integer count) {
         return RandomStringUtils.randomAlphabetic(count);
     }
