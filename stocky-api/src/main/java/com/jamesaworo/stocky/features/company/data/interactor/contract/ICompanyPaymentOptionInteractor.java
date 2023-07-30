@@ -8,13 +8,13 @@ import java.util.Optional;
 
 public interface ICompanyPaymentOptionInteractor {
 
-	ResponseEntity<List<CommonRequest>> findAll();
+    ResponseEntity<List<CommonRequest>> findAll(boolean filterIsActive);
 
-	ResponseEntity<Optional<CommonRequest>> save(CommonRequest request);
+    ResponseEntity<Optional<CommonRequest>> save(CommonRequest request);
 
-	ResponseEntity<Optional<CommonRequest>> find(Long id);
+    ResponseEntity<Optional<CommonRequest>> find(Long id);
 
-	ResponseEntity<Optional<CommonRequest>> update(CommonRequest request);
+    ResponseEntity<Optional<CommonRequest>> update(CommonRequest request);
 
-	ResponseEntity<Optional<Boolean>> toggleActiveStatus(Long id);
+    ResponseEntity<Optional<Boolean>> toggleActiveStatus(Long id);
 }
