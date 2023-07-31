@@ -56,4 +56,10 @@ public class CompanyRegionSetupUsecaseImpl implements ICompanyRegionSetupUsecase
         Optional<CompanyRegionDetail> companyRegionDetail = this.get(key);
         return companyRegionDetail.map(region -> new Setting(region.getSetupKey(), region.getSetupValue())).orElse(new Setting());
     }
+
+    @Override
+    public Optional<String> getSettingValue(String key) {
+        Optional<CompanyRegionDetail> optionalDetail = this.get(key);
+        return optionalDetail.map(CompanyRegionDetail::getSetupValue);
+    }
 }

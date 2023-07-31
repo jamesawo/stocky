@@ -10,7 +10,7 @@ package com.jamesaworo.stocky.features.company.data.usecase_impl;
 import com.jamesaworo.stocky.core.annotations.Usecase;
 import com.jamesaworo.stocky.features.company.data.repository.CompanyBasicDetailRepository;
 import com.jamesaworo.stocky.features.company.domain.entity.CompanyBasicDetail;
-import com.jamesaworo.stocky.features.company.domain.usecase.ICompanySetupUsecase;
+import com.jamesaworo.stocky.features.company.domain.usecase.ICompanyBasicDetailUsecase;
 import com.jamesaworo.stocky.features.settings.domain.entity.Setting;
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @Usecase
 @RequiredArgsConstructor
-public class CompanySetupUsecaseImpl implements ICompanySetupUsecase {
+public class CompanyBasicDetailUsecaseImpl implements ICompanyBasicDetailUsecase {
 
     private final CompanyBasicDetailRepository repository;
 
@@ -55,5 +55,11 @@ public class CompanySetupUsecaseImpl implements ICompanySetupUsecase {
         list.forEach(basicDetail -> {
             this.update(basicDetail.getSetupKey(), basicDetail.getSetupValue());
         });
+    }
+
+    @Override
+    public Optional<String> getValue(String key) {
+        Optional<CompanyBasicDetail> optional = this.get(key);
+        return optional.map(CompanyBasicDetail::getSetupValue);
     }
 }

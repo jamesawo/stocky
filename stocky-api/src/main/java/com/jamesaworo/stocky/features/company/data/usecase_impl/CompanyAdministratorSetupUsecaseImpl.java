@@ -57,4 +57,10 @@ public class CompanyAdministratorSetupUsecaseImpl implements ICompanyAdministrat
             this.update(basicDetail.getSetupKey(), basicDetail.getSetupValue());
         });
     }
+
+    @Override
+    public Optional<String> getValue(String key) {
+        Optional<CompanyAdministratorDetail> optional = this.get(key);
+        return optional.map(CompanyAdministratorDetail::getSetupValue);
+    }
 }
