@@ -2,8 +2,8 @@ package com.jamesaworo.stocky.features.settings.data.interactor.setting_company;
 
 import com.jamesaworo.stocky.core.annotations.Interactor;
 import com.jamesaworo.stocky.features.company.domain.usecase.ICompanyAdministratorSetupUsecase;
+import com.jamesaworo.stocky.features.company.domain.usecase.ICompanyBasicDetailUsecase;
 import com.jamesaworo.stocky.features.company.domain.usecase.ICompanyRegionSetupUsecase;
-import com.jamesaworo.stocky.features.company.domain.usecase.ICompanySetupUsecase;
 import com.jamesaworo.stocky.features.settings.data.dto.SettingRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SettingCompanyInteractor implements ISettingCompanyInteractor {
 
-    private final ICompanySetupUsecase basicDetails;
+    private final ICompanyBasicDetailUsecase basicDetails;
     private final ICompanyRegionSetupUsecase regionUsecase;
     private final ICompanyAdministratorSetupUsecase administratorSetupUsecase;
 
