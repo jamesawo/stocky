@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {PRODUCT_CREATE_POPOVER} from '../../../../data/constant/message.constant';
+import {ProductPopover} from '../../../../data/constant/message.constant';
 import {calculateSellingPrice, getFormGroupFromParent} from '../../../../shared/utils/util';
 
 @Component({
@@ -9,7 +9,7 @@ import {calculateSellingPrice, getFormGroupFromParent} from '../../../../shared/
     styles: []
 })
 export class ProductPriceTabComponent {
-    public popover = PRODUCT_CREATE_POPOVER;
+    public popover = ProductPopover;
 
     @Input()
     public formGroup?: FormGroup;

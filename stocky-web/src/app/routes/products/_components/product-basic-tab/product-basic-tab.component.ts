@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {PRODUCT_CREATE_POPOVER} from '../../../../data/constant/message.constant';
+import {ProductPopover} from '../../../../data/constant/message.constant';
 import {getFormGroupFromParent, getNzFormControlValidStatus} from '../../../../shared/utils/util';
 
 @Component({
@@ -15,7 +15,7 @@ import {getFormGroupFromParent, getNzFormControlValidStatus} from '../../../../s
     ]
 })
 export class ProductBasicTabComponent {
-    public popover = PRODUCT_CREATE_POPOVER;
+    public popover = ProductPopover;
 
     @Input()
     public formGroup?: FormGroup;

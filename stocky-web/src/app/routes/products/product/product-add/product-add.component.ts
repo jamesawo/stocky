@@ -3,7 +3,7 @@ import {Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild} 
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {PRODUCT_ADD_CRUMBS} from '../../../../data/constant/crumb.constant';
-import {Message, PRODUCT_CREATE_POPOVER} from '../../../../data/constant/message.constant';
+import {Message, ProductPopover} from '../../../../data/constant/message.constant';
 import {handleUsecaseRequest, markFormFieldsAsDirtyAndTouched} from '../../../../shared/utils/util';
 import {ProductPayload} from '../../_data/product.payload';
 import {ProductUsecase} from '../../_usecase/product.usecase';
@@ -29,7 +29,7 @@ export class ProductAddComponent implements OnInit {
 
     public tabs?: {title: string; template: TemplateRef<any>}[];
     public crumbs = PRODUCT_ADD_CRUMBS;
-    public popover = PRODUCT_CREATE_POPOVER;
+    public popover = ProductPopover;
     public form!: FormGroup;
 
     @ViewChild('basicTmpl', {static: true})
