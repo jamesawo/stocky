@@ -29,9 +29,8 @@ public class Util {
         return RandomStringUtils.randomAlphanumeric(count);
     }
 
-    public static String receiptToken(Integer count) {
-        String prefix = randomString(2);
-        return String.format("%s%s", prefix, randomNumeric(count));
+    public static String receiptSerial(Integer count) {
+        return String.format("%s%s", randomString(2), randomNumeric(count));
     }
 
     public static String randomString(Integer count) {
@@ -51,7 +50,7 @@ public class Util {
     }
 
     public static String formatAmount(Double amount) {
-        return String.format("%,.2f", amount);
+        return String.format("%,.2f", isNotEmpty(amount) ? amount : 0.0);
     }
 
 

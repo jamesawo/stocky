@@ -16,6 +16,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Locale;
 
 @Component
 public class ExportUtil {
@@ -24,6 +25,7 @@ public class ExportUtil {
 
     public static byte[] generatePDFBytes(HashMap<String, Object> parameters, InputStream reportFileAsInputStream, JRDataSource dataSource) {
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            parameters.put(JRParameter.REPORT_LOCALE, Locale.ENGLISH);
             JasperReport jasperReport = JasperCompileManager.compileReport(reportFileAsInputStream);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
             JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
