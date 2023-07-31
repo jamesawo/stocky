@@ -14,6 +14,7 @@ import {SalesProductListComponent} from './_component/sales-product-list/sales-p
 import {SalesProductSearchAndSelectionComponent} from './_component/sales-product-search-and-selection/sales-product-search-and-selection.component';
 import {SalesProductSearchComponent} from './_component/sales-product-search/sales-product-search.component';
 import {SalesProductSelectionComponent} from './_component/sales-product-selection/sales-product-selection.component';
+import {SalesTransactionReceiptViewerComponent} from './_component/sales-transaction-receipt-viewer/sales-transaction-receipt-viewer.component';
 import {SalesOrderComponent} from './sales-order/sales-order.component';
 import {SalesPosComponent} from './sales-pos/sales-pos.component';
 import {SalesRefundComponent} from './sales-refund/sales-refund.component';
@@ -34,7 +35,9 @@ const COMPONENTS: Array<Type<void>> = [
     SaleCartAmountComponent,
     SaleCartButtonsComponent,
     SaleCartPaymentOptionsComponent,
-    SaleCartSummaryComponent
+    SaleCartSummaryComponent,
+    SalesTransactionReceiptViewerComponent
+
 ];
 
 @NgModule({

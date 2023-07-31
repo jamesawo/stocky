@@ -1,12 +1,20 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {HttpResponse} from '@angular/common/http';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Subscription} from 'rxjs';
+import {Message} from '../../../../data/constant/message.constant';
 import {SettingConstant} from '../../../../data/constant/setting.constant';
 import {SettingModuleEnum} from '../../../../data/payload/common.enum';
+import {handleUsecaseRequest} from '../../../../shared/utils/util';
 import {SettingUsecase} from '../../../settings/_usecase/setting.usecase';
 import {SaleCart} from '../../_data/sale-cart.payload';
+import {SaleTransaction} from '../../_data/sale-transaction.payload';
 import {SaleCartUsecase} from '../../_usecase/sale-cart.usecase';
+import {SaleTransactionReceiptUsecase} from '../../_usecase/sale-transaction-receipt.usecase';
+import {SaleTransactionUsecase} from '../../_usecase/sale-transaction.usecase';
+
+export type StatusResponseType = {message: string, status: boolean}
 
 @Component({
     selector: 'app-sale-cart-buttons',
@@ -15,25 +23,27 @@ import {SaleCartUsecase} from '../../_usecase/sale-cart.usecase';
 })
 export class SaleCartButtonsComponent implements OnInit, OnDestroy {
 
-    @ViewChild('modalTmpl')
-    public modalTemp?: TemplateRef<any>;
-
+    public showReceipt = false;
     public isLoadingPayment = false;
     public isSavingOrder = false;
     public cart?: SaleCart;
     public isCustomerRequired?: boolean;
-    public validationError = 'Validation Error!';
+    public arrayBuffer?: any;
 
+    public readonly message = Message;
+    public receiptUrl?: string;
     private sub = new Subscription();
-
 
     constructor(
         private cartUsecase: SaleCartUsecase,
         private modalService: NzModalService,
         private settingUsecase: SettingUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private transactionUsecase: SaleTransactionUsecase,
+        private receiptUsecase: SaleTransactionReceiptUsecase
     ) {}
 
+    public emptyAction = () => {};
 
     public async ngOnInit(): Promise<void> {
         this.sub.add(
@@ -47,26 +57,23 @@ export class SaleCartButtonsComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy() {
-        this.handleCleanUp();
+        this.sub.unsubscribe();
     }
 
-
-    public handleShowModal = (arg?: any) => {
-
-        const canProceed = this.canProceedToPayment();
-        if (!canProceed.status) {
-            this.notification.error(this.validationError, canProceed.message, {nzPlacement: 'top'});
+    public handleSaveTransaction = async (arg?: any) => {
+        if (!this.cart) {
+            this.notification.error(this.message.VALIDATION_ERROR, this.message.CART_IS_REQUIRED, {nzPlacement: 'top'});
             return;
         }
 
-        this.modalService.create({
-            nzContent: this.modalTemp,
-            nzFooter: null
-        });
-    };
-
-    public handlePayButton = (arg?: any) => {
-        console.log('making payment');
+        const response = this.canProceedToPayment();
+        if (!response.status) {
+            this.notification.error(this.message.VALIDATION_ERROR, response.message, {nzPlacement: 'top'});
+            return;
+        }
+        const transaction = this.cart!.toTransaction();
+        const res = await handleUsecaseRequest(this.transactionUsecase.save(transaction), this.notification);
+        this.handlePreviewReceipt(res);
     };
 
     public handleClearButton = (arg?: any) => {
@@ -74,10 +81,22 @@ export class SaleCartButtonsComponent implements OnInit, OnDestroy {
     };
 
     public handleSaveButton = (arg?: any) => {
+        //todo:: save cart items as order that can be processed later.
     };
 
-    private canProceedToPayment(): {message: string, status: boolean} {
+    private handlePreviewReceipt(res: HttpResponse<SaleTransaction>) {
+        if (res.ok && res.body && res.body.receiptUrl) {
+            this.receiptUsecase.onPreviewReceipt(res.body.receiptUrl);
+            this.cart?.emptyCart();
+        }
+    }
+
+    private canProceedToPayment(): StatusResponseType {
         const cart = this.cart;
+
+        if (!cart) {
+            return {message: 'Cart is not present, kindly refresh and add products', status: false};
+        }
 
         if (!cart?.items || !cart?.items.length) {
             return {message: 'Cart is empty, please add some products', status: false};
@@ -87,11 +106,17 @@ export class SaleCartButtonsComponent implements OnInit, OnDestroy {
             return {message: 'Customer is required, please search or create one', status: false};
         }
 
-        return {message: '', status: true};
+        if (!this.hasPaymentOption()) {
 
+            return {message: this.message.SELECT_PAYMENT_OPTION, status: false};
+        }
+
+        return {message: '', status: true};
     }
 
-    private handleCleanUp = async () => {
-        this.sub.unsubscribe();
-    };
+    private hasPaymentOption(): boolean {
+        const hasOption = this.cart && this.cart.paymentOption && this.cart.paymentOption.id;
+        return !!hasOption;
+    }
+
 }

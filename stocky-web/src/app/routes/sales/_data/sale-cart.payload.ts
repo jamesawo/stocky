@@ -1,3 +1,4 @@
+import {CommonPayload} from '../../../data/payload/common.payload';
 import {CustomerPayload} from '../../company/_data/company.payload';
 import {ProductPayload} from '../../products/_data/product.payload';
 import {SaleCartItem} from './sale-cart-item.payload';
@@ -11,6 +12,7 @@ export class SaleCart {
     taxTotal: number = 0;
     subTotal: number = 0;
     grandTotal: number = 0;
+    paymentOption?: CommonPayload;
 
     public isProductExist = (product: ProductPayload): boolean => {
         const item = this.items.find(value => value.product.id === product.id);
@@ -67,9 +69,10 @@ export class SaleCart {
     public toTransaction = () => {
         let transaction = new SaleTransaction();
         transaction.customer = this.customer;
-        transaction.amount = transaction.toAmount(this);
-        transaction.installment = transaction.toInstallment();
-        transaction.items = transaction.toItems(this);
+        transaction.amount = transaction.getAmountFromCart(this);
+        transaction.installment = transaction.getFullPaymentInstallment();
+        transaction.items = transaction.getItemsFromCartItems(this);
+        transaction.paymentOption = this.paymentOption;
         return transaction;
     };
 

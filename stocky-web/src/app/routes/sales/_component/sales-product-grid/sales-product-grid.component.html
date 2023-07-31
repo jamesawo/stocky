@@ -15,19 +15,27 @@
                 >
 
                     <div class="grid flex-wrap justify-between">
-                        <span>
-                             {{getProductTitle(product)}}
-                        </span>
+                        <div class="flex flex-row justify-between w-100 pl2 pr2">
+                            <span>{{getProductTitle(product)}}</span>
+                        </div>
 
-                        <span class="mt2">
-                            QTY:
-                            <span [ngStyle]="{color: isLowQuantity(product)? '#af2d2d': '#9eebcf'}" class="b">
-                                {{product?.basic?.quantity}}
-                            </span>
-                        </span>
+                        <div class="mt2 flex flex-row w-100 pl2 pr2">
+                            <label>
+                                QTY:
+                                <span [ngStyle]="{color: isLowQuantity(product)? '#af2d2d': '#9eebcf'}" class="b">
+                                    {{product?.basic?.quantity}}
+                                </span>
+                            </label>
+
+                            <label *ngIf="product?.price?.discount" class="ml2">
+                                Discount:
+                                <span> {{product?.price?.discount}}% </span>
+                            </label>
+
+                        </div>
                     </div>
 
-                    <div class="db">
+                    <div class="db mt2 mb1">
                         <app-amount-currency [amount]="product?.price?.sellingPrice" [class]="'mt2 f4'"></app-amount-currency>
                     </div>
 

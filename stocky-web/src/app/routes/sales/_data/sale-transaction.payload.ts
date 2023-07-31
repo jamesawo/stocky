@@ -1,3 +1,4 @@
+import {CommonPayload} from '../../../data/payload/common.payload';
 import {CustomerPayload, EmployeePayload} from '../../company/_data/company.payload';
 import {ProductPayload} from '../../products/_data/product.payload';
 import {SaleCartItem} from './sale-cart-item.payload';
@@ -22,6 +23,7 @@ export class SaleTransactionInstallment {
 export class SaleTransactionItem {
     id?: number;
     product?: ProductPayload;
+    price: number = 0;
     quantity: number = 0;
     grandTotal: number = 0;
     discount: number = 0;
@@ -32,7 +34,7 @@ export class SaleTransactionItem {
 export class SaleTransaction {
     id?: number;
     reference?: string;
-    token?: string;
+    serial?: string;
     time?: string;
     date?: string;
     customer?: CustomerPayload;
@@ -42,29 +44,28 @@ export class SaleTransaction {
     items?: SaleTransactionItem[] = [];
     other?: string;
     receiptUrl?: string;
+    paymentOption?: CommonPayload;
 
-    public toAmount = (cart: SaleCart) => {
+    public getAmountFromCart = (cart: SaleCart) => {
         let transAmount = new SaleTransactionAmount();
         transAmount.discountTotal = cart.discountTotal;
         transAmount.grandTotal = cart.grandTotal;
         transAmount.subTotal = cart.subTotal;
         transAmount.taxTotal = cart.taxTotal;
-        // this.amount = transAmount;
         return transAmount;
     };
 
-    public toInstallment = () => {
+    public getFullPaymentInstallment = () => {
         let tranInstallment = new SaleTransactionInstallment();
         tranInstallment.installmentType = SaleTransactionInstallmentType.FULL_PAYMENT;
-        // this.installment = tranInstallment;
         return tranInstallment;
     };
 
-    public toItems = (cart: SaleCart) => {
-        return cart.items.map(cartItem => this.toTransactionItem(cartItem));
+    public getItemsFromCartItems = (cart: SaleCart) => {
+        return cart.items.map(cartItem => this.fromCartItem(cartItem));
     };
 
-    private toTransactionItem = (cartItem: SaleCartItem) => {
+    private fromCartItem = (cartItem: SaleCartItem) => {
         let transItem = new SaleTransactionItem();
         transItem.product = cartItem.product;
         transItem.quantity = cartItem.quantity;
@@ -72,6 +73,7 @@ export class SaleTransaction {
         transItem.discount = cartItem.discount;
         transItem.tax = cartItem.tax;
         transItem.subTotal = cartItem.subTotal;
+        transItem.price = cartItem.price;
         return transItem;
     };
 

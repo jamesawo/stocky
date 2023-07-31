@@ -1,7 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {Subscription} from 'rxjs';
-import {MOCK_PRODUCTS} from '../../../../../../_mock/_product';
 import {PageResultPayload} from '../../../../data/payload/common.interface';
 import {PagePayload} from '../../../../data/payload/common.payload';
 import {getProductFullName, getProductName} from '../../../../shared/utils/util';
@@ -26,8 +25,9 @@ import {SaleProductsUsecase} from '../../_usecase/sale-products.usecase';
             justify-content: center;
             align-items: center;
             background-color: #1890ff;
+            //background-color: #010e279e;
             height: 120px;
-            font-size: 16px;
+            font-size: 14px;
             line-height: 20px;
             border-radius: 4px;
             text-align: center;
@@ -36,6 +36,7 @@ import {SaleProductsUsecase} from '../../_usecase/sale-products.usecase';
             padding-right: 5px;
             padding-top: 3px;
             word-wrap: break-word;
+            width: 100%;
           }
 
         `
@@ -44,8 +45,7 @@ import {SaleProductsUsecase} from '../../_usecase/sale-products.usecase';
 export class SalesProductGridComponent implements OnInit, OnDestroy {
 
     @Input()
-    public products?: Array<ProductPayload> = MOCK_PRODUCTS;
-    // public products?: Array<ProductPayload> = [];
+    public products?: Array<ProductPayload> = [];
 
     public cart?: SaleCart;
 

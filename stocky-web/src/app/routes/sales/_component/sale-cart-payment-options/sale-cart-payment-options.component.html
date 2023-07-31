@@ -1,26 +1,29 @@
 <nz-form-item>
-    <nz-form-label class="self-center">Choose Payment Option</nz-form-label>
+    <nz-form-label class="self-center">Choose Payment Method</nz-form-label>
     <nz-form-control>
-        <nz-radio-group [(ngModel)]="paymentOption" class="pa3" nzButtonStyle="outline" nzSize="large">
+        <ng-container *ngIf="paymentOptions$ | async as paymentOptions">
+            <ng-container *ngIf="paymentOptions.length > 0; else noRecordTmpl">
+                <nz-radio-group [(ngModel)]="paymentOption" class="pa3" nzButtonStyle="outline" nzSize="large">
+                    <ng-container *ngFor="let option of paymentOptions">
 
-            <ng-container *ngIf="paymentOptions$ | async as paymentOptions">
+                        <label (click)="onSelectPaymentMethod(option)"
+                               *ngIf="option.isActiveStatus"
+                               [ngStyle]="{ 'border-color' : isSelected(option) ? '#9eebcf' : ''  }"
+                               [nzValue]="option"
+                               nz-radio
+                        >
+                            <span *ngIf="showIcon && isSelected(option)" class="mr2" nz-icon nzTheme="outline" nzType="check-circle"></span>
+                            <span [innerHTML]="option.title" class="b"></span>
 
-                <ng-container *ngFor="let option of paymentOptions">
+                        </label>
 
-                    <label *ngIf="option.isActiveStatus"
-                           [ngStyle]="{ 'border-color' : isSelected(option) ? '#9eebcf' : ''  }"
-                           [nzValue]="option"
-                           nz-radio-button
-                    >
-                        <span *ngIf="isSelected(option)" class="mr2" nz-icon nzTheme="outline" nzType="check-circle"></span>
-
-                        <span [innerHTML]="option.title"></span>
-
-                    </label>
-                </ng-container>
-
+                    </ng-container>
+                </nz-radio-group>
             </ng-container>
-
-        </nz-radio-group>
+        </ng-container>
     </nz-form-control>
 </nz-form-item>
+
+<ng-template #noRecordTmpl>
+    <app-nothing-found text="oops, no options found!"></app-nothing-found>
+</ng-template>

@@ -13,10 +13,17 @@
                 <app-amount-currency [amount]="product?.price?.sellingPrice" class="b"></app-amount-currency>
 
                 <label class="mv0 mh4">
-                    QTY:
-                    <span [ngStyle]="{color: isLowQuantity(product)? '#af2d2d': '#189b69'}" class="b">
+                    <label>
+                        QTY:
+                        <span [ngStyle]="{color: isLowQuantity(product)? '#af2d2d': '#189b69'}" class="b">
                          {{product?.basic?.quantity}}
                      </span>
+                    </label>
+                    <label *ngIf="product?.price?.discount" class="ml2">
+                        <code>
+                            -{{product?.price?.discount}}%
+                        </code>
+                    </label>
                 </label>
 
                 <button (click)="onAddProductToCart(product)" class="mt1" nz-button nzType="default">

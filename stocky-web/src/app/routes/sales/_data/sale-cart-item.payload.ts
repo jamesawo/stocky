@@ -9,13 +9,14 @@ export class SaleCartItem {
     subTotal: number = 0;
     grandTotal: number = 0;
     tax: number = 0;
+    price: number = 0;
 
     constructor(product?: ProductPayload) {
         if (product && product.id) {
             this.product = product;
+            this.price = product.price?.sellingPrice ?? 0;
             this.increment();
-            this.updateTax();
-            this.updateDiscount();
+            this.updateAmount();
         }
     }
 
@@ -26,14 +27,14 @@ export class SaleCartItem {
     public increment = (): void => {
         if (this.hasProduct) {
             this.quantity += 1;
-            this.updateSubTotal();
+            this.updateAmount();
         }
     };
 
     public decrement = (): void => {
         if (this.quantity > 1) {
             this.quantity -= 1;
-            this.updateSubTotal();
+            this.updateAmount();
         }
     };
 
@@ -48,7 +49,7 @@ export class SaleCartItem {
     public updateQuantity = (quantity: number) => {
         if (quantity >= 1) {
             this.quantity = quantity;
-            this.updateSubTotal();
+            this.updateAmount();
         }
     };
 
@@ -60,7 +61,8 @@ export class SaleCartItem {
             const price = this.product?.price?.sellingPrice ?? 0;
             taxSum += calculatePercentage(percent, price);
         }
-        this.tax = taxSum;
+        this.tax = taxSum * this.quantity;
+        this.updateSubTotal();
     };
 
     public updateDiscount = () => {
@@ -69,7 +71,8 @@ export class SaleCartItem {
             const sellingPrice = price?.sellingPrice ?? 0;
             const percent = price?.discount ?? 0;
 
-            this.discount += calculatePercentage(percent, sellingPrice);
+            const percentage = calculatePercentage(percent, sellingPrice);
+            this.discount = calculatePercentage(percent, sellingPrice) * this.quantity;
             this.updateSubTotal();
         }
     };
@@ -79,8 +82,11 @@ export class SaleCartItem {
         this.grandTotal = sub - this.discount;
     };
 
-    public canProceedToPayment = (): {status: boolean, message: string} => {
-        return {message: '', status: false};
+    public updateAmount = (): void => {
+        this.updateTax();
+        this.updateDiscount();
+        this.updateSubTotal();
+        this.updateGrandTotal();
     };
 
 }

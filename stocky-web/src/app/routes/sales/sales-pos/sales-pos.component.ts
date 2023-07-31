@@ -27,6 +27,8 @@ export class SalesPosComponent implements CanComponentDeactivate, OnInit {
     canDeactivate(): Observable<boolean> {
         let canDeactivate = new Subject<boolean>();
 
+        /*
+        todo:: temporary disabled; rethink then reimplement
         if (this.cart && this.cart?.items?.length > 0) {
 
             this.modalService.confirm(
@@ -49,9 +51,10 @@ export class SalesPosComponent implements CanComponentDeactivate, OnInit {
 
             return of(true);
         }
-
-
         return canDeactivate.asObservable();
+        */
+        return of(true);
+
     }
 
 

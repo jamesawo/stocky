@@ -1,9 +1,14 @@
 <div class="container">
 
+    <div class="column-1" style="margin-bottom: -20px">
+        <app-sale-cart-payment-options></app-sale-cart-payment-options>
+    </div>
+
     <div class="column-1">
         <app-simple-button
-            [action]="handleShowModal"
-            buttonClass="ml1 mr1" buttonText="Proceed"
+            [action]="handleSaveTransaction"
+            [usePopConfirm]="true"
+            buttonClass="ml1 mr1" buttonText="Pay"
             buttonType="primary" icon="credit-card"
         >
         </app-simple-button>
@@ -23,6 +28,7 @@
 
         <app-simple-button
             [action]="handleSaveButton"
+            [disabled]="true"
             [usePopConfirm]="true"
             buttonText="Save"
             class="flex-grow-1 ml2 mr-11"
@@ -32,17 +38,20 @@
 
     </div>
 </div>
-
-<ng-template #modalTmpl class="p-modal">
-
-    <app-sale-cart-payment-options></app-sale-cart-payment-options>
-
-    <app-simple-button
-        [action]="handlePayButton"
-        [usePopConfirm]="true"
-        buttonClass="flex-grow-1 ml1 mr1" buttonText="Pay"
-        buttonType="primary" icon="credit-card"
+<ng-container *ngIf="showReceipt">
+    <nz-drawer
+        [nzContent]="receiptTmpl"
+        [nzVisible]="showReceipt"
+        [nzWidth]="720"
     >
-    </app-simple-button>
+        <ng-template #receiptTmpl>
+            <app-sales-transaction-receipt-viewer
+                [data]="arrayBuffer"
+                [downloadAction]="emptyAction" [printAction]="emptyAction"
+                [receiptUrl]="receiptUrl"></app-sales-transaction-receipt-viewer>
+        </ng-template>
 
-</ng-template>
+    </nz-drawer>
+</ng-container>
+
+
