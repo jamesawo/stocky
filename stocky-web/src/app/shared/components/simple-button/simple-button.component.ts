@@ -9,6 +9,9 @@ import {NzButtonSize, NzButtonType} from 'ng-zorro-antd/button';
 export class SimpleButtonComponent {
 
     @Input()
+    public disabled = false;
+
+    @Input()
     public usePopConfirm = false;
 
     @Input()

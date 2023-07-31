@@ -56,6 +56,7 @@ import {FooterButtonComponent} from './components/footer-button/footer-button.co
 import {HintComponent} from './components/hint/hint.component';
 import {IconButtonComponent} from './components/icon-button/icon-button.component';
 import {LoadingCardComponent} from './components/loading-card/loading-card.component';
+import {NothingFoundComponent} from './components/nothing-found/nothing-found.component';
 import {RangeDatePickerComponent} from './components/range-date-picker/range-date-picker.component';
 import {RecordStatusBadgeComponent} from './components/record-active-status/record-status-badge.component';
 import {ResizableComponent} from './components/resizable/resizable.component';
@@ -146,7 +147,8 @@ const COMPONENTS: Array<Type<void>> = [
     IconButtonComponent,
     StockItemPriceFormComponent,
     ResizableComponent,
-    SimpleButtonComponent
+    SimpleButtonComponent,
+    NothingFoundComponent
 ];
 const DIRECTIVES: Array<Type<void>> = [
     DisableAutocompleteDirective

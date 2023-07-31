@@ -6,17 +6,17 @@
 
 
 <ng-template #emptyContentTmpl>
-    <span class="b">-</span>
+    <span [class]="class" class="b">-</span>
 </ng-template>
 
 
 <ng-template #slicedContentTmpl>
     <ng-container *ngIf="showToolTip; else noToolTipTmpl">
-        <span [nzTooltipColor]="color" [nzTooltipTitle]="content" nz-tooltip>{{slicedContent}}</span>
+        <span [class]="class" [nzTooltipColor]="color" [nzTooltipTitle]="content" nz-tooltip>{{slicedContent}}</span>
     </ng-container>
 
     <ng-template #noToolTipTmpl>
-        <span>{{slicedContent}}</span>
+        <span [class]="class">{{slicedContent}}</span>
     </ng-template>
 
 </ng-template>
