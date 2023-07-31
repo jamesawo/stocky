@@ -1,13 +1,17 @@
 package com.jamesaworo.stocky.features.product.data.usecase_impl;
 
 import com.jamesaworo.stocky.core.annotations.Usecase;
+import com.jamesaworo.stocky.core.constants.Setting;
 import com.jamesaworo.stocky.features.product.data.repository.ProductRepository;
 import com.jamesaworo.stocky.features.product.domain.entity.Product;
 import com.jamesaworo.stocky.features.product.domain.entity.ProductBasic;
 import com.jamesaworo.stocky.features.product.domain.entity.ProductPrice;
+import com.jamesaworo.stocky.features.product.domain.enums.ProductQuantityUpdateType;
 import com.jamesaworo.stocky.features.product.domain.usecase.IProductBasicUsecase;
 import com.jamesaworo.stocky.features.product.domain.usecase.IProductPriceUsecase;
 import com.jamesaworo.stocky.features.product.domain.usecase.IProductUsecase;
+import com.jamesaworo.stocky.features.settings.domain.entity.SettingStock;
+import com.jamesaworo.stocky.features.settings.domain.usecase.ISettingUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +20,7 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.List;
 import java.util.Optional;
 
+import static com.jamesaworo.stocky.features.product.domain.enums.ProductQuantityUpdateType.DECREMENT;
 import static com.jamesaworo.stocky.features.product.domain.enums.ProductQuantityUpdateType.INCREMENT;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
@@ -30,6 +35,9 @@ public class ProductUsecaseImpl implements IProductUsecase {
     private final ProductRepository repository;
     private final IProductBasicUsecase basicUsecase;
     private final IProductPriceUsecase priceUsecase;
+
+    private final ISettingUsecase<SettingStock> settingUsecase;
+
 
     @Override
     public Optional<Product> findById(Long id) {
@@ -52,19 +60,14 @@ public class ProductUsecaseImpl implements IProductUsecase {
     }
 
     @Override
-    public Boolean updateProductQuantity(Product product, Integer quantity) {
-        Optional<Product> optionalProduct = this.findById(product.getId());
-        return optionalProduct.map(existingProduct -> {
-            ProductBasic basic = existingProduct.getBasic();
-            int result = this.basicUsecase.updateProductQuantity(basic.getId(), quantity, INCREMENT);
-            return result == 1;
-        }).orElse(Boolean.FALSE);
+    public void updateProductQuantity(Product product, Integer quantity) {
+        updateQuantity(product, quantity, INCREMENT);
     }
 
     @Override
-    public Boolean tryUpdateProductPrice(Product product, ProductPrice productPrice) {
+    public void tryUpdateProductPrice(Product product, ProductPrice productPrice) {
         Optional<Product> optionalProduct = this.findById(product.getId());
-        return optionalProduct.map(existingProduct -> {
+        optionalProduct.map(existingProduct -> {
             ProductPrice existingProductPrice = existingProduct.getPrice();
             existingProductPrice.setCostPrice(productPrice.getCostPrice());
             existingProductPrice.setSellingPrice(productPrice.getSellingPrice());
@@ -72,6 +75,27 @@ public class ProductUsecaseImpl implements IProductUsecase {
 
             ProductPrice saved = this.priceUsecase.save(existingProductPrice);
             return !isEmpty(saved);
-        }).orElse(Boolean.FALSE);
+        });
+    }
+
+    @Override
+    public void deductProductQuantityAfterSales(Product product, Integer deductBy) {
+        Optional<Product> optionalProduct = this.findById(product.getId());
+        optionalProduct.ifPresent(exitingProduct -> {
+            if (exitingProduct.getBasic().getQuantity() >= deductBy) {
+                updateQuantity(exitingProduct, deductBy, DECREMENT);
+            }
+        });
+    }
+
+    private void updateQuantity(Product product, Integer quantity, ProductQuantityUpdateType productQuantityUpdateType) {
+        Optional<SettingStock> optionalSetting = this.settingUsecase.get(Setting.SETTING_STOCK_ENABLE_STOCK);
+        optionalSetting.ifPresent(setting -> {
+            Optional<Product> optionalProduct = this.findById(product.getId());
+            optionalProduct.ifPresent(existingProduct -> {
+                ProductBasic basic = existingProduct.getBasic();
+                this.basicUsecase.updateProductQuantity(basic.getId(), quantity, productQuantityUpdateType);
+            });
+        });
     }
 }

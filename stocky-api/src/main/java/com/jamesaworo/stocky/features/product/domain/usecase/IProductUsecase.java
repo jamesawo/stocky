@@ -23,7 +23,9 @@ public interface IProductUsecase {
 
     List<Product> findMany(Specification<Product> specification);
 
-    Boolean updateProductQuantity(Product product, Integer quantity);
+    void updateProductQuantity(Product product, Integer quantity);
 
-    Boolean tryUpdateProductPrice(Product product, ProductPrice productPrice);
+    void tryUpdateProductPrice(Product product, ProductPrice productPrice);
+
+    void deductProductQuantityAfterSales(Product product, Integer deductBy);
 }
