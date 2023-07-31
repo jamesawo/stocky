@@ -24,11 +24,15 @@ import static com.jamesaworo.stocky.core.constants.Table.COMPANY_PAYMENT_OPTION;
 @AllArgsConstructor
 public class CompanyPaymentOption extends BaseModel {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(unique = true, nullable = false)
-	private String title;
-	private String description;
+    @Column(unique = true, nullable = false)
+    private String title;
+    private String description;
+
+    public CompanyPaymentOption(Long id) {
+        this.id = id;
+    }
 }

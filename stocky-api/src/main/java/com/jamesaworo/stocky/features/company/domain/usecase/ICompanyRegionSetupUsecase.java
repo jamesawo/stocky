@@ -18,4 +18,6 @@ public interface ICompanyRegionSetupUsecase {
 
     Setting getAsSetting(String key);
 
+    Optional<String> getSettingValue(String key);
+
 }

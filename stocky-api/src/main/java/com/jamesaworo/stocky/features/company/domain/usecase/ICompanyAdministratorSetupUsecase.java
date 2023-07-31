@@ -17,4 +17,6 @@ public interface ICompanyAdministratorSetupUsecase {
     Optional<Boolean> update(String key, String value);
 
     void updateMany(List<CompanyAdministratorDetail> list);
+
+    Optional<String> getValue(String key);
 }

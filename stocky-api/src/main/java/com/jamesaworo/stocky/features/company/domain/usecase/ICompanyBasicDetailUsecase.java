@@ -6,7 +6,7 @@ import com.jamesaworo.stocky.features.settings.domain.entity.Setting;
 import java.util.List;
 import java.util.Optional;
 
-public interface ICompanySetupUsecase {
+public interface ICompanyBasicDetailUsecase {
 
     List<CompanyBasicDetail> all();
 
@@ -17,4 +17,6 @@ public interface ICompanySetupUsecase {
     Optional<Boolean> update(String key, String value);
 
     void updateMany(List<CompanyBasicDetail> list);
+
+    Optional<String> getValue(String key);
 }
