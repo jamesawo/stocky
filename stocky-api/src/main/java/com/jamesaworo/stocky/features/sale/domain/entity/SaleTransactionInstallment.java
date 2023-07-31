@@ -28,5 +28,8 @@ public class SaleTransactionInstallment {
     private Long id;
 
     private SaleTransactionInstallmentType installmentType;
-    
+
+    @OneToOne(mappedBy = "installment", optional = false)
+    private SaleTransaction transaction;
+
 }

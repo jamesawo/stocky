@@ -29,6 +29,7 @@ public class SaleTransactionItemRequest {
     private Double discount;
     private Double tax;
     private Double subTotal;
+    private Double price;
 
     public static SaleTransactionItem toModel(SaleTransactionItemRequest request) {
         SaleTransactionItem item = new SaleTransactionItem();
@@ -39,6 +40,7 @@ public class SaleTransactionItemRequest {
         item.setDiscount(request.getDiscount());
         item.setTax(request.getTax());
         item.setSubTotal(request.getSubTotal());
+        item.setPrice(request.price);
         return item;
 
     }

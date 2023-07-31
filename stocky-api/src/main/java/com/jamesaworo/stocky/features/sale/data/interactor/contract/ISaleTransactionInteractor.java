@@ -29,4 +29,7 @@ public interface ISaleTransactionInteractor {
 
     ResponseEntity<Optional<byte[]>> getReceiptPdfBytes(String reference, String token);
 
+    Optional<byte[]> getReceiptBytes(String reference, String serial);
+
+    ResponseEntity<byte[]> getReceipt(String reference, String serial);
 }

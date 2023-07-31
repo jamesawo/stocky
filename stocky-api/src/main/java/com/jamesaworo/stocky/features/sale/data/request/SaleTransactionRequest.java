@@ -8,23 +8,25 @@
 package com.jamesaworo.stocky.features.sale.data.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.jamesaworo.stocky.core.request.CommonRequest;
+import com.jamesaworo.stocky.core.utils.Util;
 import com.jamesaworo.stocky.features.company.data.request.CompanyCustomerRequest;
 import com.jamesaworo.stocky.features.company.data.request.CompanyEmployeeRequest;
 import com.jamesaworo.stocky.features.company.domain.entity.CompanyCustomer;
+import com.jamesaworo.stocky.features.company.domain.entity.CompanyPaymentOption;
 import com.jamesaworo.stocky.features.sale.domain.entity.SaleTransaction;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.modelmapper.ModelMapper;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalTime;
 import java.util.List;
 
-import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 import static com.jamesaworo.stocky.core.constants.Global.SALES_TRANSACTION_ENDPOINT;
 import static com.jamesaworo.stocky.core.utils.Util.parseToLocalDate;
-import static java.util.stream.Collectors.toList;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 @Getter
@@ -35,7 +37,7 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 public class SaleTransactionRequest {
     private Long id;
     private String reference;
-    private String token;
+    private String serial;
     private String time;
     private String date;
     private CompanyCustomerRequest customer;
@@ -45,6 +47,7 @@ public class SaleTransactionRequest {
     private List<SaleTransactionItemRequest> items;
     private String other;
     private String receiptUrl;
+    private CommonRequest paymentOption;
 
 
     public static SaleTransaction toModel(SaleTransactionRequest request) {
@@ -53,19 +56,39 @@ public class SaleTransactionRequest {
         transaction.setDate(!isEmpty(request.getDate()) ? parseToLocalDate(request.getDate()) : null);
         transaction.setTime(!isEmpty(request.getTime()) ? LocalTime.parse(request.getTime()) : null);
         transaction.setReference(request.getReference());
-        transaction.setToken(request.getToken());
-        /*transaction.setEmployee(new CompanyEmployee(request.getEmployee().getId()));*/
-        transaction.setCustomer(new CompanyCustomer(request.getCustomer().getId()));
+        transaction.setSerial(request.getSerial());
+
+        /*todo:: set user making this transaction*/
+
+        if (!isEmpty(request.getCustomer())) {
+            transaction.setCustomer(new CompanyCustomer(request.getCustomer().getId()));
+        } else {
+            transaction.setCustomer(null);
+        }
+
+        if (!isEmpty(request.getPaymentOption()) && !isEmpty(request.getPaymentOption().getId())) {
+            transaction.setPaymentOption(new CompanyPaymentOption(request.getPaymentOption().getId()));
+        }
+
         transaction.setAmount(SaleTransactionAmountRequest.toModel(request.getAmount()));
         transaction.setInstallment(SaleTransactionInstallmentRequest.toModel(request.getInstallment()));
-        transaction.setItems(request.getItems().stream().map(SaleTransactionItemRequest::toModel).collect(toList()));
         transaction.setOther(request.getOther());
+
         return transaction;
     }
 
-    public static String receiptUrl(String reference, String token) {
+    public static SaleTransactionRequest toRequest(SaleTransaction transaction) {
+        ModelMapper mapper = new ModelMapper();
+        SaleTransactionRequest request = mapper.map(transaction, SaleTransactionRequest.class);
+        request.setTime(Util.formatTime(transaction.getTime()));
+        request.setDate(Util.formatDate(transaction.getDate()));
+        request.setReceiptUrl(receiptUrl(transaction.getReference(), transaction.getSerial()));
+        return request;
+    }
+
+    public static String receiptUrl(String reference, String serial) {
         String serverUri = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString();
-        String base = serverUri + API_PREFIX + SALES_TRANSACTION_ENDPOINT;
-        return String.format("%s/pdf-receipt?ref=%s&token=%s", base, reference, token);
+        String base = serverUri + SALES_TRANSACTION_ENDPOINT;
+        return String.format("%s/pdf-receipt?ref=%s&serial=%s", base, reference, serial);
     }
 }

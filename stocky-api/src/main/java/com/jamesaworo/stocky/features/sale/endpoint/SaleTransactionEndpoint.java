@@ -13,29 +13,26 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
-import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 import static com.jamesaworo.stocky.core.constants.Global.SALES_TRANSACTION_ENDPOINT;
 
 @RestController
-@RequestMapping(value = API_PREFIX + SALES_TRANSACTION_ENDPOINT)
+@RequestMapping(value = SALES_TRANSACTION_ENDPOINT)
 @RequiredArgsConstructor
 public class SaleTransactionEndpoint {
 
     private final ISaleTransactionInteractor interactor;
 
     @PostMapping("create")
-    public ResponseEntity<SaleTransactionRequest> saveTransaction(@RequestBody SaleTransactionRequest request) {
-        return this.interactor.save(request);
+    public ResponseEntity<SaleTransactionRequest> saveTransaction(@RequestBody SaleTransactionRequest transaction) {
+        return this.interactor.save(transaction);
     }
 
     @GetMapping("/pdf-receipt")
-    public ResponseEntity<Optional<byte[]>> downloadReceiptPdf(
-            @RequestParam(value = "reference") String reference,
-            @RequestParam(value = "token") String token
+    public ResponseEntity<byte[]> downloadReceiptPdf(
+            @RequestParam(value = "ref") String reference,
+            @RequestParam(value = "serial") String serial
     ) {
-        return this.interactor.getReceiptPdfBytes(reference, token);
+        return this.interactor.getReceipt(reference, serial);
     }
 
 }

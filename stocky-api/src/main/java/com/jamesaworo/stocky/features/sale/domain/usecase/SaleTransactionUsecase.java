@@ -1,6 +1,7 @@
 package com.jamesaworo.stocky.features.sale.domain.usecase;
 
 import com.jamesaworo.stocky.features.sale.domain.entity.SaleTransaction;
+import com.jamesaworo.stocky.features.sale.domain.entity.SaleTransactionItem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -10,7 +11,7 @@ import java.util.Optional;
 
 public interface SaleTransactionUsecase {
 
-    SaleTransaction save(SaleTransaction saleTransaction);
+    SaleTransaction save(SaleTransaction saleTransaction, List<SaleTransactionItem> transactionItems);
 
     Page<SaleTransaction> findMany(Specification<SaleTransaction> specification, Pageable pageable);
 

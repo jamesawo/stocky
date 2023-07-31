@@ -33,4 +33,8 @@ public class SaleTransactionAmount {
     private Double taxTotal;
 
     private Double subTotal;
+    
+    @OneToOne(mappedBy = "amount", optional = false)
+    private SaleTransaction transaction;
+
 }

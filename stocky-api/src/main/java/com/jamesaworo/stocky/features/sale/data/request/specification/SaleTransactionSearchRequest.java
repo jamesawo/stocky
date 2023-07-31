@@ -27,7 +27,7 @@ import java.time.LocalTime;
 public class SaleTransactionSearchRequest {
     private Long id;
     private String reference;
-    private String token;
+    private String serial;
     private LocalTime time;
     private LocalDate date;
     private CompanyCustomerRequest customer;

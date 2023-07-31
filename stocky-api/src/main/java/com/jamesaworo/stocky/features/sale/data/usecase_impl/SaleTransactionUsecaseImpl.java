@@ -14,9 +14,11 @@ import com.jamesaworo.stocky.features.authentication.domain.usecase.IUserUsecase
 import com.jamesaworo.stocky.features.company.domain.entity.CompanyCustomer;
 import com.jamesaworo.stocky.features.company.domain.usecase.ICompanyCustomerUsecase;
 import com.jamesaworo.stocky.features.company.domain.usecase.ICompanyEmployeeUsecase;
+import com.jamesaworo.stocky.features.product.domain.usecase.IProductUsecase;
 import com.jamesaworo.stocky.features.sale.data.repository.SaleTransactionRepository;
 import com.jamesaworo.stocky.features.sale.data.request.SaleTransactionRequest;
 import com.jamesaworo.stocky.features.sale.domain.entity.SaleTransaction;
+import com.jamesaworo.stocky.features.sale.domain.entity.SaleTransactionItem;
 import com.jamesaworo.stocky.features.sale.domain.usecase.SaleTransactionAmountUsecase;
 import com.jamesaworo.stocky.features.sale.domain.usecase.SaleTransactionInstallmentUsecase;
 import com.jamesaworo.stocky.features.sale.domain.usecase.SaleTransactionItemUsecase;
@@ -26,14 +28,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.stream.Collectors.toList;
+import static com.jamesaworo.stocky.core.utils.Util.receiptSerial;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 
@@ -49,6 +51,7 @@ public class SaleTransactionUsecaseImpl implements SaleTransactionUsecase, Mappe
     private final ICompanyCustomerUsecase customerUsecase;
     private final ICompanyEmployeeUsecase employeeUsecase;
     private final IUserUsecase userUsecase;
+    private final IProductUsecase productUsecase;
 
 
     /**
@@ -64,23 +67,29 @@ public class SaleTransactionUsecaseImpl implements SaleTransactionUsecase, Mappe
      * <p> Saves and sets the installment details for the transaction.</p>
      * <p>  Finally, saves the transaction to the repository.</p>
      *
-     * @param transaction The SaleTransaction object to be saved.
+     * @param transaction      The SaleTransaction object to be saved.
+     * @param transactionItems The List of SaleTransactionItems
      * @return The saved SaleTransaction object.
      * @throws RuntimeException if there is an error while saving the transaction and Roll back Database operations.
      * @since 1.0.0
      */
     @Override
     @Transactional
-    public SaleTransaction save(SaleTransaction transaction) {
+    public SaleTransaction save(SaleTransaction transaction, List<SaleTransactionItem> transactionItems) {
         try {
-            this.saveAndSetItems(transaction);
             this.findAndSetCustomer(transaction);
             this.findAndSetEmployee(transaction);
-            this.saveAndSetReferenceTokenDateAndTime(transaction);
+            this.saveAndSetReceiptDateAndTime(transaction);
+
             this.amountUsecase.saveAndSet(transaction);
             this.installmentUsecase.saveAndSet(transaction);
 
-            return this.repository.save(transaction);
+            SaleTransaction savedTransaction = this.repository.save(transaction);
+            this.saveAndSetReceiptReferenceSerial(savedTransaction);
+            this.saveAndSetItems(savedTransaction, transactionItems);
+            this.deductProductQuantityAfterSales(transactionItems);
+
+            return savedTransaction;
         } catch (Exception e) {
             throw new RuntimeException("Error while saving the transaction.", e);
         }
@@ -96,8 +105,12 @@ public class SaleTransactionUsecaseImpl implements SaleTransactionUsecase, Mappe
      * @since 1.0.0
      */
     private void findAndSetCustomer(SaleTransaction transaction) {
-        Optional<CompanyCustomer> optionalCustomer = this.customerUsecase.findOne(transaction.getCustomer().getId());
-        optionalCustomer.ifPresent(transaction::setCustomer);
+        if (!isEmpty(transaction.getCustomer()) && transaction.getCustomer().getId() != null) {
+            Optional<CompanyCustomer> optionalCustomer = this.customerUsecase.findOne(transaction.getCustomer().getId());
+            optionalCustomer.ifPresent(transaction::setCustomer);
+        } else {
+            transaction.setCustomer(null);
+        }
     }
 
     /**
@@ -124,29 +137,62 @@ public class SaleTransactionUsecaseImpl implements SaleTransactionUsecase, Mappe
      * If the list is not empty, it saves each item using the item use case and sets the saved items in the transaction.
      *
      * @param transaction The SaleTransaction object for which to save and set the items.
+     * @param items       The List of SaleTransactionItem which is part of the transaction object.
      * @since 1.0.0
      */
-    private void saveAndSetItems(SaleTransaction transaction) {
-        if (!isEmpty(transaction.getItems())) {
-            transaction.setItems(transaction.getItems().stream().map(itemUsecase::save).collect(toList()));
+    private void saveAndSetItems(SaleTransaction transaction, List<SaleTransactionItem> items) {
+        if (!isEmpty(items)) {
+            for (SaleTransactionItem item : items) {
+                item.setTransaction(transaction);
+                SaleTransactionItem save = itemUsecase.save(item);
+                item.setId(save.getId());
+            }
         }
     }
 
     /**
-     * Generates and sets a unique token and reference for the provided SaleTransaction.
+     * Generates and sets a unique serial and reference for the provided SaleTransaction.
      * <p>
      * This method generates a random alphanumeric string of length 6 for the token and length 10 for the reference,
      * and sets them in the provided SaleTransaction object.
-     * It also sets the current date and time in the transaction object.
      *
      * @param transaction The SaleTransaction object for which to generate and set the token and reference.
      * @since 1.0.0
      */
-    private void saveAndSetReferenceTokenDateAndTime(SaleTransaction transaction) {
-        transaction.setReference(Util.randomAlphanumeric(10));
-        transaction.setToken(Util.randomAlphanumeric(6));
+    private void saveAndSetReceiptReferenceSerial(SaleTransaction transaction) {
+        transaction.setReference(Util.randomNumeric(10));
+        String serial = receiptSerial(5) + (!isEmpty(transaction.getId()) ? transaction.getId() : "");
+        transaction.setSerial(serial);
+        this.repository.save(transaction);
+    }
+
+    /**
+     * Sets date and time properties of the transaction object
+     *
+     * @param transaction The SaleTransaction object for which to generate and set the token and reference.
+     * @since 1.0.0
+     */
+    private void saveAndSetReceiptDateAndTime(SaleTransaction transaction) {
         transaction.setDate(LocalDate.now());
         transaction.setTime(LocalTime.now());
+    }
+
+    /**
+     * This method is used to deduct the quantity of product sold from product stock balance
+     * <p>
+     * This method performs the following steps:
+     * 1. Iterates through the list of sale transaction items
+     * 2. Calls deduct method on product usecase
+     *
+     * @param items The saved list of sale transaction item
+     */
+    private void deductProductQuantityAfterSales(List<SaleTransactionItem> items) {
+        for (SaleTransactionItem item : items) {
+            Optional<SaleTransactionItem> optionalItem = this.itemUsecase.find(item.getId());
+            optionalItem.ifPresent(savedItem -> {
+                this.productUsecase.deductProductQuantityAfterSales(savedItem.getProduct(), savedItem.getQuantity());
+            });
+        }
     }
 
     /**
@@ -184,15 +230,15 @@ public class SaleTransactionUsecaseImpl implements SaleTransactionUsecase, Mappe
     }
 
     /**
-     * This method is used to find a single SaleTransaction object based on the given reference and token.
+     * This method is used to find a single SaleTransaction object based on the given reference and serial.
      *
      * @param reference the reference of the SaleTransaction object to be retrieved.
-     * @param token     the token of the SaleTransaction object to be retrieved.
+     * @param serial    the serial of the SaleTransaction object to be retrieved.
      * @return an Optional object containing the SaleTransaction object if found, otherwise empty.
      */
     @Override
-    public Optional<SaleTransaction> findOne(String reference, String token) {
-        return this.repository.findByReferenceEqualsAndTokenEquals(reference, token);
+    public Optional<SaleTransaction> findOne(String reference, String serial) {
+        return this.repository.findByReferenceEqualsAndSerialEquals(reference, serial);
     }
 
     /**

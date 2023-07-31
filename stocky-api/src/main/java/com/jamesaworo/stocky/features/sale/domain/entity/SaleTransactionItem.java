@@ -32,6 +32,8 @@ public class SaleTransactionItem {
 
     private Integer quantity;
 
+    private Double price;
+
     private Double grandTotal;
 
     private Double discount;
@@ -40,5 +42,6 @@ public class SaleTransactionItem {
 
     private Double subTotal;
 
-    
+    @ManyToOne(fetch = FetchType.LAZY)
+    private SaleTransaction transaction;
 }

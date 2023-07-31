@@ -10,6 +10,7 @@ package com.jamesaworo.stocky.features.sale.domain.entity;
 import com.jamesaworo.stocky.core.base.BaseModel;
 import com.jamesaworo.stocky.features.authentication.domain.entity.User;
 import com.jamesaworo.stocky.features.company.domain.entity.CompanyCustomer;
+import com.jamesaworo.stocky.features.company.domain.entity.CompanyPaymentOption;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import lombok.*;
 import org.hibernate.annotations.Type;
@@ -21,7 +22,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static com.jamesaworo.stocky.core.constants.Table.SALES_TRANSACTION;
-import static com.jamesaworo.stocky.core.constants.Table.SALES_TRANSACTION_AND_ITEMS;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -40,7 +40,7 @@ public class SaleTransaction extends BaseModel {
 
     private String reference;
 
-    private String token;
+    private String serial;
 
     private LocalTime time;
 
@@ -58,16 +58,14 @@ public class SaleTransaction extends BaseModel {
     @OneToOne
     private SaleTransactionInstallment installment;
 
-    @OneToMany()
-    @JoinTable(name = SALES_TRANSACTION_AND_ITEMS,
-            joinColumns = @JoinColumn(name = "SALE_TRANSACTION_ID"),
-            inverseJoinColumns = @JoinColumn(name = "SALES_TRANSACTION_ITEM_ID")
-    )
+    @OneToMany(mappedBy = "transaction")
     private List<SaleTransactionItem> items;
 
     @Type(type = "json")
     @Column(columnDefinition = "json")
     private String other;
 
+    @OneToOne
+    private CompanyPaymentOption paymentOption;
 
 }
