@@ -18,8 +18,8 @@ export class PaymentOptionUsecase {
         return this.http.post<CommonPayload>(`${this.url}/create`, payload, {observe: 'response'});
     }
 
-    public getAll() {
-        return this.http.get<CommonPayload[]>(`${this.url}/all`);
+    public getAll(filterIsActive = false) {
+        return this.http.get<CommonPayload[]>(`${this.url}/all?filterIsActive=${filterIsActive}`);
     }
 
     public remove(id: number) {
