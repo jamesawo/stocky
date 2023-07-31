@@ -4,6 +4,9 @@ export class Message {
     static INVALID_FORM_FIELDS = `Some fields are invalid. <br>Please fix it and try again`;
     static INVALID_ENTRY_TRY_AGAIN = 'Please check your form entries and try again!';
     static VALIDATION_ERROR = 'Validation Error';
+    static SELECT_PAYMENT_OPTION = 'Select Payment Option';
+    static PAYMENT_OPTION_REQUIRED = 'Please ensure that you have selected a payment option before continuing';
+    static CART_IS_REQUIRED = 'The cart is not found, please refresh and add products';
 }
 
 export class PopOverConstant {
@@ -11,7 +14,7 @@ export class PopOverConstant {
     static PRODUCT_CATEGORY_PARENT = `When creating a subcategory, <br> please select its parent category first.`;
 }
 
-export class PRODUCT_CREATE_POPOVER {
+export class ProductPopover {
     static PRODUCT_BASIC_DETAIL = `Provide essential information about the product, such as its category, title, etc.`;
     static PRODUCT_BRAND = `Specify the brand or manufacturer of the product. <br> Enter the name of the company or brand that produces or markets the product`;
     static PRODUCT_SKU = `Enter the unique Stock Keeping Unit (SKU) for the product. <br> The SKU is a distinct identifier used to track inventory and manage product variations`;
