@@ -1,0 +1,12 @@
+<nz-input-group [nzSuffix]="suffixIconSearch" style="width: 100%">
+    <input (ngModelChange)="onSearch($event)" [ngModel]="setting.settingValue" class="w-100" nz-input nzSize="default">
+</nz-input-group>
+
+<ng-template #suffixIconSearch>
+    <ng-container *ngIf="isLoading; else notLoadingTmpl">
+        <span nz-icon nzType="loading"></span>
+    </ng-container>
+    <ng-template #notLoadingTmpl>
+        <span nz-icon nzType="search"></span>
+    </ng-template>
+</ng-template>

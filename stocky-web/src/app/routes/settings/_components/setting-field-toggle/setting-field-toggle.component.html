@@ -1,0 +1,18 @@
+<nz-switch
+    (ngModelChange)="onSwitchValueChange($event, setting)"
+    [ngModelOptions]="{standalone: true}"
+    [ngModel]="getSwitchValue(setting)"
+    [nzCheckedChildren]="checkedTemplate"
+    [nzLoading]="isLoading"
+    [nzUnCheckedChildren]="unCheckedTemplate"
+></nz-switch>
+
+<ng-template #checkedTemplate>
+    <span [innerText]="'YES'"></span>
+    <span nz-icon nzType="check"></span>
+</ng-template>
+
+<ng-template #unCheckedTemplate>
+    <span [innerText]="'NO'"></span>
+    <span nz-icon nzType="close"></span>
+</ng-template>

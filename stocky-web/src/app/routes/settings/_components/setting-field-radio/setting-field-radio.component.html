@@ -1,0 +1,11 @@
+<nz-radio-group
+    (ngModelChange)="onOptionChange($event)"
+    [ngModel]="option"
+>
+    <ng-container *ngFor="let option of options">
+        <label nz-radio nzValue="{{option?.optionValue}}">{{option?.optionLabel}}</label>
+    </ng-container>
+</nz-radio-group>
+<span *ngIf="isLoading" nz-icon nzType="loading"> saving... </span>
+
+

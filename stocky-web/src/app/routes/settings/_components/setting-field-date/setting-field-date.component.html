@@ -1,0 +1,7 @@
+<div class="flex flex-row ">
+    <app-date-picker #datePickerComponent (selectChange)="onDateChange($event)" class="w-100"></app-date-picker>
+    <span *ngIf="isLoading" class="self-center ml1" nz-icon nzType="loading"></span>
+</div>
+
+
+
