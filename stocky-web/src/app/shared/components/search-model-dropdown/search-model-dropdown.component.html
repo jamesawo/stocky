@@ -26,7 +26,7 @@
     </ng-container>
 
     <nz-option *ngIf="isLoading" nzCustomContent nzDisabled>
-        <ng-container *ngIf="minLength < searchChange$.getValue().length">
+        <ng-container *ngIf="minLength < searchSubject.getValue().length">
             <span class="loading-icon" nz-icon nzType="loading"></span>
             Loading Data...
         </ng-container>

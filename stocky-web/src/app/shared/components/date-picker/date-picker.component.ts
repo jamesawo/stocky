@@ -48,7 +48,6 @@ export class DatePickerComponent implements OnInit {
     }
 
     public setDefaultDate(value: string): void {
-        //const convert = new Date(value);
         this.selectedDate = parse(value, this.dateFormat, new Date());
         this.setFormControl(value);
     }
