@@ -1,7 +1,8 @@
-import { SettingField } from './setting.enum';
+import {SettingModuleEnum} from '../../../data/payload/common.enum';
+import {SettingField} from './setting.enum';
 
 export class SettingOption {
-    optionKey?: string;
+    optionLabel?: string;
     optionValue?: string;
 }
 
@@ -13,4 +14,5 @@ export class SettingPayload {
     settingTitle?: string;
     settingOptions?: SettingOption[];
     settingHint?: string;
+    settingModule?: SettingModuleEnum;
 }

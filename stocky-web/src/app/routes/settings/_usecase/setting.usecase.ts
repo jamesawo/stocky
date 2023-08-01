@@ -8,9 +8,14 @@ import {SettingPayload} from '../_data/setting.payload';
 
 @Injectable({providedIn: 'root'})
 export class SettingUsecase {
+
     private url = environment.api.baseUrl + '/setting';
 
     constructor(private http: HttpClient) {}
+
+    public updateValue(payload: SettingPayload) {
+        return this.http.put<boolean>(`${this.url}/update`, payload);
+    }
 
     public async getByKey(key: string, module: SettingModuleEnum, ignoreCache = false): Promise<string> {
         if (ignoreCache) {
