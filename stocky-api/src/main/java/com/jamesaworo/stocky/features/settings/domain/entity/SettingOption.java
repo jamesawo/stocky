@@ -8,11 +8,11 @@ import lombok.Data;
  */
 @Data
 public class SettingOption {
-    private String optionKey;
+    private String optionLabel;
     private String optionValue;
 
-    public SettingOption(String optionKey, String optionValue) {
-        this.optionKey = optionKey;
+    public SettingOption(String optionLabel, String optionValue) {
+        this.optionLabel = optionLabel;
         this.optionValue = optionValue;
     }
 }

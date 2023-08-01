@@ -25,7 +25,8 @@ import static org.springframework.http.ResponseEntity.ok;
 @AllArgsConstructor
 public class SettingStockInteractor implements ISettingStockInteractor, Mapper<SettingRequest, SettingStock> {
 
-    private SettingStockUsecase usecase;
+    private final SettingStockUsecase usecase;
+    private final ModelMapper mapper;
 
     @Override
     public ResponseEntity<SettingRequest> get(String key) {
@@ -55,13 +56,11 @@ public class SettingStockInteractor implements ISettingStockInteractor, Mapper<S
 
     @Override
     public SettingRequest toRequest(SettingStock model) {
-        ModelMapper mapper = new ModelMapper();
         return mapper.map(model, SettingRequest.class);
     }
 
     @Override
     public SettingStock toModel(SettingRequest request) {
-        ModelMapper mapper = new ModelMapper();
         return mapper.map(request, SettingStock.class);
     }
 }

@@ -88,7 +88,7 @@ public class Setting extends BaseModel {
         this.settingValue = obj.getValue();
         this.settingField = obj.getField();
         this.settingTitle = obj.getTitle();
-        this.settingOptions = mapOptionsToCollection(obj.getOptions());
+        this.settingOptions = obj.getOptions();
         this.settingHint = obj.getHint();
         this.module = obj.getModule();
     }
