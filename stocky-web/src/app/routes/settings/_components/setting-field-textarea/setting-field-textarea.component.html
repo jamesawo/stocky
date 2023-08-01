@@ -1,0 +1,11 @@
+<nz-input-group [nzSuffix]="suffixIconSearch" style="width: 100%">
+    <textarea (ngModelChange)="onSearch($event)" [ngModel]="setting.settingValue" nz-input rows="4" style="border: 0px"></textarea>
+</nz-input-group>
+
+<ng-template #suffixIconSearch>
+    <ng-container *ngIf="isLoading; else notLoadingTmpl">
+        <span nz-icon nzType="loading"></span>
+    </ng-container>
+    <ng-template #notLoadingTmpl>
+    </ng-template>
+</ng-template>

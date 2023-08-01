@@ -67,7 +67,8 @@ public class SettingInteractor implements ISettingBaseInteractor {
      */
     @Override
     public ResponseEntity<Boolean> update(SettingRequest dto) {
-        return null;
+        ISettingBaseInteractor interactor = dto.getSettingModule().interactor(context);
+        return interactor.update(dto);
     }
 
     /**

@@ -12,10 +12,7 @@ import com.jamesaworo.stocky.features.settings.data.interactor.base.SettingInter
 import com.jamesaworo.stocky.features.settings.domain.enums.SettingModule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 
@@ -25,13 +22,18 @@ import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 public class SettingEndpoint {
 
     private final SettingInteractor interactor;
-    
+
     @GetMapping(value = "/find")
     public ResponseEntity<SettingRequest> getSettingByKeyAndModule(
             @RequestParam() String key,
             @RequestParam() SettingModule module
     ) {
         return this.interactor.get(key, module);
+    }
+
+    @PutMapping(value = "/update")
+    public ResponseEntity<Boolean> updateSettingByKeyAndModule(@RequestBody SettingRequest request) {
+        return this.interactor.update(request);
     }
 
 

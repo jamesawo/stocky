@@ -25,7 +25,7 @@ public class SettingRequest {
     private String settingTitle;
     private Collection<SettingOption> settingOptions;
     private String settingHint;
-    private SettingModule module;
+    private SettingModule settingModule;
 
     public SettingRequest(String settingKey, String settingValue) {
         this.settingKey = settingKey;

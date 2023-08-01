@@ -1,4 +1,4 @@
-<page-header [breadcrumb]='breadcrumb' title="Product Setting">
+<page-header [breadcrumb]="breadcrumb" title="Product Setting">
     <ng-template #breadcrumb>
         <app-breadcrumbs [crumbs]="crumbs"></app-breadcrumbs>
     </ng-template>
@@ -6,7 +6,7 @@
 </page-header>
 
 <nz-card>
-    <div class='wd-100p'>
+    <div class="wd-100p">
         <article nz-typography>
             <h5 nz-typography>Product <small class="m-l-10px"></small></h5>
 
@@ -17,6 +17,6 @@
         </article>
         <nz-divider></nz-divider>
 
-        <app-setting-form (onSubmit)="submitForm($event)" [settings$]="settings"></app-setting-form>
+        <app-setting-form [settings$]="settings"></app-setting-form>
     </div>
 </nz-card>

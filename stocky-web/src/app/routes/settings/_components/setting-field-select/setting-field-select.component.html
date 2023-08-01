@@ -1,0 +1,9 @@
+<nz-select
+    (ngModelChange)="onOptionChange($event)"
+    [ngModel]="option"
+    [nzLoading]="isLoading"
+    class="wd-100p" nzPlaceHolder="Select..">
+    <ng-container *ngFor="let option of options">
+        <nz-option nzLabel="{{option?.optionLabel}}" nzValue="{{option?.optionValue}}"></nz-option>
+    </ng-container>
+</nz-select>

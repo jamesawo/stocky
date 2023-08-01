@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SettingPaymentMethodInteractor implements ISettingPaymentMethodInteractor, Mapper<PaymentMethodRequest, SettingPaymentMethod> {
 
-    // todo:: refactor this class
     private final SettingPaymentMethodUsecase usecase;
 
 
@@ -83,11 +82,11 @@ public class SettingPaymentMethodInteractor implements ISettingPaymentMethodInte
 
     @Override
     public ResponseEntity<Boolean> update(SettingRequest dto) {
-        return null;
+        throw new RuntimeException("Interface method not implemented");
     }
 
     @Override
     public ResponseEntity<Boolean> updateAll(List<SettingRequest> list) {
-        return null;
+        throw new RuntimeException("Interface method not implemented");
     }
 }

@@ -23,5 +23,5 @@ export class AmountCurrencyComponent implements OnInit {
             CompanyDetail.COMPANY_LOCALE_CURRENCY, SettingModuleEnum.COMPANY
         );
     }
-    
+
 }

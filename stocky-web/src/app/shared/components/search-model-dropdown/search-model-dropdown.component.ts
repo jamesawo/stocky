@@ -20,7 +20,7 @@ export class SearchModelDropdownComponent {
     public isLoading = false;
 
     /* The text to search with from the nz-select input element entered by the user */
-    public searchChange$ = new BehaviorSubject('');
+    public searchSubject = new BehaviorSubject('');
 
     /* If to use formGroup and formControlName to pass data back to caller */
     @Input()
@@ -77,12 +77,11 @@ export class SearchModelDropdownComponent {
 
     public onSearch(value: string): void {
         this.isLoading = true;
-        this.searchChange$.next(value);
+        this.searchSubject.next(value);
     }
 
     public ngOnInit(): void {
         this.setDefaultValues();
-
         const getDataFromBackend = (searchTerm: string): Observable<any> => {
             if (this.searchUrl.length > 0) {
                 return this.http
@@ -95,15 +94,11 @@ export class SearchModelDropdownComponent {
             this.msg.error('search parameter error');
             return of();
         };
-
-
-        const optionList$ = this.searchChange$
+        const optionList$ = this.searchSubject
             .pipe(
                 filter((res) => res !== null && res.length >= this.minLength),
                 distinctUntilChanged())
             .pipe(debounceTime(500)).pipe(switchMap(getDataFromBackend));
-
-
         optionList$.subscribe(data => {
             this.value = data;
             this.isLoading = false;
@@ -150,6 +145,5 @@ export class SearchModelDropdownComponent {
             this.defaultValues = this.value;
         }
     }
-
 
 }
