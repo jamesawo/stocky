@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.jamesaworo.stocky.core.constants.Global.FALSE;
-import static com.jamesaworo.stocky.core.constants.Global.TRUE;
 import static com.jamesaworo.stocky.core.constants.Setting.*;
 import static com.jamesaworo.stocky.core.constants.enums.SettingField.INPUT;
 import static com.jamesaworo.stocky.core.constants.enums.SettingField.TOGGLE;
@@ -34,7 +33,7 @@ public class SettingsSeeds {
                             strip(SETTING_DASHBOARD_SHOW_EMPLOYEE_PERFORMANCE), DASHBOARD
                     )
             ),
-            
+
             new SettingDashboard(
                     new SettingObj(
                             SETTING_DASHBOARD_SHOW_PRODUCT_PERFORMANCE, FALSE, TOGGLE,
@@ -136,8 +135,8 @@ public class SettingsSeeds {
         );
     }
 
-    private static String[] options() {
-        return new String[]{TRUE, FALSE};
+    private static SettingOption options(String label, String value) {
+        return new SettingOption(label, value);
     }
 
     private static String strip(String input) {
