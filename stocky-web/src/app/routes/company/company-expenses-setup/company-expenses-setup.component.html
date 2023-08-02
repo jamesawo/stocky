@@ -11,11 +11,12 @@
 
         <form *ngIf="isOpenHeader" autocomplete="off" class="ph-main" nz-form nzLayout="vertical">
 
-            <div [nzGutter]="[12, 24]" nz-row>
+            <div [nzGutter]="[12, 12]" nz-row>
 
                 <div nz-col nzSpan="24">
 
-                    <div nz-row nzGutter="10">
+                    <div [nzGutter]="[8, 16]" nz-row>
+
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <app-company-expense-category-dropdown
                                 [(select)]="searchPayload.category"
@@ -23,15 +24,15 @@
                             ></app-company-expense-category-dropdown>
                         </div>
 
-                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
-                            <nz-form-label>Registered By</nz-form-label>
+                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" class="re-user" nz-col>
+                            <label>Registered By</label>
                             <app-company-user-search
                                 [props]="{showLabel: false}"
                             ></app-company-user-search>
                         </div>
 
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
-                            <nz-form-label>Approved By</nz-form-label>
+                            <label>Approved By</label>
                             <app-company-user-search
                                 [props]="{showLabel: false}"
                             ></app-company-user-search>
@@ -57,7 +58,6 @@
 
                     </div>
                 </div>
-
             </div>
 
             <div nz-col nzSpan="24">

@@ -1,16 +1,16 @@
-import { NgModule, Type } from '@angular/core';
-import { SharedModule } from '@shared';
+import {NgModule, Type} from '@angular/core';
+import {SharedModule} from '@shared';
 // dashboard pages
-import { DashboardComponent } from './dashboard/dashboard.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
 // single pages
-import { CallbackComponent } from './passport/callback.component';
-import { UserLockComponent } from './passport/lock/lock.component';
+import {CallbackComponent} from './passport/callback.component';
+import {UserLockComponent} from './passport/lock/lock.component';
 // passport pages
-import { UserLoginComponent } from './passport/login/login.component';
-import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
-import { UserRegisterComponent } from './passport/register/register.component';
-import { RouteRoutingModule } from './routes-routing.module';
-import { ProductsModule } from './products/products.module';
+import {UserLoginComponent} from './passport/login/login.component';
+import {UserRegisterResultComponent} from './passport/register-result/register-result.component';
+import {UserRegisterComponent} from './passport/register/register.component';
+import {ProductsModule} from './products/products.module';
+import {RouteRoutingModule} from './routes-routing.module';
 
 const COMPONENTS: Array<Type<void>> = [
     DashboardComponent,
@@ -20,13 +20,14 @@ const COMPONENTS: Array<Type<void>> = [
     UserRegisterResultComponent,
     // single pages
     CallbackComponent,
-    UserLockComponent,
+    UserLockComponent
     // product _components
 ];
 
 @NgModule({
     imports: [SharedModule, RouteRoutingModule, ProductsModule],
     declarations: COMPONENTS,
-    exports: [SharedModule],
+    exports: [SharedModule]
 })
-export class RoutesModule {}
+export class RoutesModule {
+}

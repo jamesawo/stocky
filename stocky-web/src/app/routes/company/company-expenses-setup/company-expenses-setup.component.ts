@@ -13,7 +13,16 @@ import {ExpensesUsecase} from '../_usecase/company-expenses/expenses.usecase';
 @Component({
     selector: 'app-company-expenses-setup',
     templateUrl: './company-expenses-setup.component.html',
-    styles: []
+    styles: [
+        `
+          @media (min-width: 320px) and (max-width: 460px) {
+            .re-user {
+              padding: 30px 4px 0px;
+            }
+          }
+
+        `
+    ]
 })
 export class CompanyExpensesSetupComponent {
     public crumbs = EXPENSES_SETUP;
@@ -22,7 +31,7 @@ export class CompanyExpensesSetupComponent {
     public searchPayload: ExpensesSearchPayload = new ExpensesSearchPayload();
     public isLoadingTable = false;
     public pageRequest = new PagePayload();
-    
+
     public tableCols: TableCol[] = [
         {title: 'Amount'},
         {title: 'Category'},
