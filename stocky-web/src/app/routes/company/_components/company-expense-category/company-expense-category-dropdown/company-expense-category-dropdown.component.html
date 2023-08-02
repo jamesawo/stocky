@@ -1,4 +1,4 @@
-<nz-form-label *ngIf="props.showLabel">Expenses Category</nz-form-label>
+<label *ngIf="props.showLabel"> Expenses Category </label>
 
 <ng-container *ngIf="formProps && formProps.formGroup && formProps.controlName; else modelTmpl" [formGroup]="formProps.formGroup!">
 
