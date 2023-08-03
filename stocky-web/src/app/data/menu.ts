@@ -1,4 +1,5 @@
 import {Menu} from '@delon/theme';
+import {MenuRoute} from './menu.payload';
 
 export const MENU_BAG: Menu[] = [
     {
@@ -7,8 +8,11 @@ export const MENU_BAG: Menu[] = [
         children: [
             {
                 text: 'Dashboard',
-                link: '/dashboard',
-                icon: {type: 'icon', value: 'appstore'}
+                link: MenuRoute.DASHBOARD.Home,
+                icon: {type: 'icon', value: 'appstore'},
+                children: [
+                    {text: 'Home', link: MenuRoute.DASHBOARD.Home}
+                ]
             },
 
             {
@@ -17,12 +21,12 @@ export const MENU_BAG: Menu[] = [
                 children: [
                     {
                         text: 'Categories',
-                        link: '/products/category-list'
+                        link: MenuRoute.PRODUCT.Categories
                     },
 
                     {
                         text: 'Products',
-                        link: '/products/product-list'
+                        link: MenuRoute.PRODUCT.Products
                     }
                 ]
             },
@@ -31,9 +35,10 @@ export const MENU_BAG: Menu[] = [
                 text: 'Sales',
                 icon: {type: 'icon', value: 'credit-card'},
                 children: [
-                    {text: 'Sale', link: '/sales/sale-pos'},
-                    {text: 'Order', link: '/sales/order'},
-                    {text: 'Refund', link: '/sales/refund'}
+                    {text: 'Sale', link: MenuRoute.SALE.Sale},
+                    {text: 'Order', link: MenuRoute.SALE.Order},
+                    {text: 'Refund', link: MenuRoute.SALE.Refund},
+                    {text: 'Shift', link: MenuRoute.SALE.Shift}
                 ]
             },
 
@@ -41,13 +46,13 @@ export const MENU_BAG: Menu[] = [
                 text: 'Stock',
                 icon: {type: 'icon', value: 'appstore-add'},
                 children: [
-                    {text: 'Manage Stock', link: '/stock/manage-stock'},
-                    {text: 'Count Stock', link: '/stock/view-stock-count'},
-                    {text: 'View Low Stock', link: 'stock/view-low-stock'},
-                    {text: 'Reconcile Stock', link: '/stock/reconcile-stock'},
-                    {text: 'Record Stock Balance', link: '/stock/record-stock-balance'},
-                    {text: 'Record Damaged Stock', link: '/stock/record-damaged-stock'},
-                    {text: 'Move Stock Items', link: '/stock/move-stock-items'}
+                    {text: 'Manage Stock', link: MenuRoute.STOCK.Manage_Stock},
+                    {text: 'Count Stock', link: MenuRoute.STOCK.Count_Stock},
+                    {text: 'View Low Stock', link: MenuRoute.STOCK.View_Low_Stock},
+                    {text: 'Reconcile Stock', link: MenuRoute.STOCK.Reconcile_Stock},
+                    {text: 'Record Stock Balance', link: MenuRoute.STOCK.Record_Stock_Balance},
+                    {text: 'Record Damaged Stock', link: MenuRoute.STOCK.Record_Damaged_Stock},
+                    {text: 'Move Stock Items', link: MenuRoute.STOCK.Move_Stock_Items}
                 ]
             },
 
@@ -55,21 +60,21 @@ export const MENU_BAG: Menu[] = [
                 text: 'Company',
                 icon: {type: 'icon', value: 'shop'},
                 children: [
-                    {text: 'Basic Setup', link: '/company/basic-setup'},
-                    {text: 'Tax Setup', link: '/company/tax-setup'},
-                    {text: 'Payment Options', link: '/company/payment-options'},
+                    {text: 'Basic Setup', link: MenuRoute.COMPANY.Basic_Setup},
+                    {text: 'Tax Setup', link: MenuRoute.COMPANY.Tax_Setup},
+                    {text: 'Payment Options', link: MenuRoute.COMPANY.Payment_Options},
                     {
                         text: 'People Setup',
                         link: '/company/people',
                         children: [
-                            {text: 'Customers', link: '/company/people/customers'},
-                            {text: 'Employees', link: '/company/people/employees'},
-                            {text: 'Suppliers', link: '/company/people/suppliers'}
+                            {text: 'Customers', link: MenuRoute.COMPANY_PEOPLE.Customers},
+                            {text: 'Employees', link: MenuRoute.COMPANY_PEOPLE.Employees},
+                            {text: 'Suppliers', link: MenuRoute.COMPANY_PEOPLE.Suppliers}
                         ]
                     },
-                    {text: 'Location Setup', link: '/company/location-setup'},
-                    {text: 'Expenses Setup', link: '/company/expenses-setup'},
-                    {text: 'Role Setup', link: '/company/role-setup'}
+                    {text: 'Location Setup', link: MenuRoute.COMPANY.Location_Setup},
+                    {text: 'Expenses Setup', link: MenuRoute.COMPANY.Expenses_Setup},
+                    {text: 'Role Setup', link: MenuRoute.COMPANY.Role_Setup}
 
                 ]
             },
@@ -78,11 +83,11 @@ export const MENU_BAG: Menu[] = [
                 text: 'Reports',
                 icon: {type: 'icon', value: 'file-pdf'},
                 children: [
-                    {text: 'Sales', link: '/reports/sales-report'},
-                    {text: 'Expense', link: '/reports/expenses-report'},
-                    {text: 'Employee', link: '/reports/employees-report'},
-                    {text: 'Customer', link: '/reports/customers-report'},
-                    {text: 'Stock', link: '/reports/stock-report'}
+                    {text: 'Sales', link: MenuRoute.REPORT.Sales},
+                    {text: 'Expense', link: MenuRoute.REPORT.Expense},
+                    {text: 'Employee', link: MenuRoute.REPORT.Employee},
+                    {text: 'Customer', link: MenuRoute.REPORT.Customer},
+                    {text: 'Stock', link: MenuRoute.REPORT.Stock}
                 ]
             },
 
@@ -90,12 +95,12 @@ export const MENU_BAG: Menu[] = [
                 text: 'Settings',
                 icon: {type: 'icon', value: 'setting'},
                 children: [
-                    {text: 'Dashboard', link: '/settings/dashboard'},
-                    {text: 'Expenses', link: '/settings/expenses'},
-                    {text: 'Sales', link: '/settings/sales'},
-                    {text: 'People', link: '/settings/people'},
-                    {text: 'Stock', link: '/settings/stock'},
-                    {text: 'Product', link: '/settings/product'}
+                    {text: 'Dashboard', link: MenuRoute.SETTING.Dashboard},
+                    {text: 'Expenses', link: MenuRoute.SETTING.Expenses},
+                    {text: 'Sales', link: MenuRoute.SETTING.Sales},
+                    {text: 'People', link: MenuRoute.SETTING.People},
+                    {text: 'Stock', link: MenuRoute.SETTING.Stock},
+                    {text: 'Product', link: MenuRoute.SETTING.Product}
                 ]
             },
 
@@ -103,11 +108,11 @@ export const MENU_BAG: Menu[] = [
                 text: 'Subscription',
                 icon: {type: 'icon', value: 'wallet'},
                 children: [
-                    {text: 'Plan', link: '/paywall/plan'},
-                    {text: 'Payments', link: '/paywall/payments'},
-                    {text: 'Settings', link: '/paywall/settings'},
-                    {text: 'Billing', link: '/paywall/billing'},
-                    {text: 'Notification', link: '/paywall/notification'}
+                    {text: 'Plan', link: MenuRoute.SUBSCRIPTION.Plan},
+                    {text: 'Payments', link: MenuRoute.SUBSCRIPTION.Payments},
+                    {text: 'Settings', link: MenuRoute.SUBSCRIPTION.Settings},
+                    {text: 'Billing', link: MenuRoute.SUBSCRIPTION.Billing},
+                    {text: 'Notification', link: MenuRoute.SUBSCRIPTION.Notification}
                 ]
             }
         ]
