@@ -22,7 +22,7 @@ public class SaleTransactionEndpoint {
 
     private final ISaleTransactionInteractor interactor;
 
-    @PostMapping("create")
+    @PostMapping("/create")
     public ResponseEntity<SaleTransactionRequest> saveTransaction(@RequestBody SaleTransactionRequest transaction) {
         return this.interactor.save(transaction);
     }
@@ -33,6 +33,11 @@ public class SaleTransactionEndpoint {
             @RequestParam(value = "serial") String serial
     ) {
         return this.interactor.getReceipt(reference, serial);
+    }
+
+    @PostMapping(value = "/daily-sales-report")
+    public ResponseEntity<byte[]> dailySalesShift() {
+        return null;
     }
 
 }
