@@ -8,6 +8,7 @@
 package com.jamesaworo.stocky.features.sale.data.request.specification;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.jamesaworo.stocky.core.params.DateRangeParam;
 import com.jamesaworo.stocky.features.company.data.request.CompanyCustomerRequest;
 import com.jamesaworo.stocky.features.company.data.request.CompanyEmployeeRequest;
 import com.jamesaworo.stocky.features.sale.data.request.SaleTransactionInstallmentRequest;
@@ -33,5 +34,6 @@ public class SaleTransactionSearchRequest {
     private CompanyCustomerRequest customer;
     private CompanyEmployeeRequest employee;
     private SaleTransactionInstallmentRequest installment;
+    private DateRangeParam dateRange;
 
 }

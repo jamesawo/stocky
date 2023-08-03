@@ -15,7 +15,6 @@ import com.jamesaworo.stocky.features.company.data.request.CompanyEmployeeReques
 import com.jamesaworo.stocky.features.company.domain.entity.CompanyCustomer;
 import com.jamesaworo.stocky.features.company.domain.entity.CompanyPaymentOption;
 import com.jamesaworo.stocky.features.sale.domain.entity.SaleTransaction;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,7 +31,6 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SaleTransactionRequest {
     private Long id;

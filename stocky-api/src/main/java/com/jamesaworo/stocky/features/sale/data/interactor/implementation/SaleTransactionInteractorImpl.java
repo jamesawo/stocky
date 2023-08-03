@@ -11,7 +11,7 @@ import com.jamesaworo.stocky.core.annotations.Interactor;
 import com.jamesaworo.stocky.core.mapper.Mapper;
 import com.jamesaworo.stocky.core.params.PageSearchRequest;
 import com.jamesaworo.stocky.core.params.PageSearchResult;
-import com.jamesaworo.stocky.features.sale.data.export.SalesReportExporter;
+import com.jamesaworo.stocky.features.sale.data.export.SalesReceiptExporter;
 import com.jamesaworo.stocky.features.sale.data.interactor.contract.ISaleTransactionInteractor;
 import com.jamesaworo.stocky.features.sale.data.request.SaleTransactionItemRequest;
 import com.jamesaworo.stocky.features.sale.data.request.SaleTransactionRequest;
@@ -42,7 +42,7 @@ public class SaleTransactionInteractorImpl implements ISaleTransactionInteractor
 
     private final SaleTransactionUsecase usecase;
     private final ModelMapper mapper;
-    private final SalesReportExporter exporter;
+    private final SalesReceiptExporter exporter;
 
 
     @Override
@@ -75,12 +75,6 @@ public class SaleTransactionInteractorImpl implements ISaleTransactionInteractor
     }
 
     @Override
-    public ResponseEntity<Optional<byte[]>> getReceiptPdfBytes(String reference, String serial) {
-        Optional<SaleTransaction> optional = this.usecase.findOne(reference, serial);
-        return ok().body(optional.map(exporter::export));
-    }
-
-    @Override
     public SaleTransactionRequest toRequest(SaleTransaction model) {
         return mapper.map(model, SaleTransactionRequest.class);
     }
@@ -104,5 +98,10 @@ public class SaleTransactionInteractorImpl implements ISaleTransactionInteractor
                 .header(HttpHeaders.CONTENT_DISPOSITION, RECEIPT_FILE_NAME)
                 .body(optionalBytes.get())).orElseThrow(() -> new RuntimeException(RECEIPT_NOT_FOUND)
         );
+    }
+
+    public ResponseEntity<byte[]> getSaleTransactionReport(SaleTransactionSearchRequest request) {
+        List<SaleTransaction> sales = this.usecase.findMany(salesSaleTransactionSpecification(request));
+
     }
 }
