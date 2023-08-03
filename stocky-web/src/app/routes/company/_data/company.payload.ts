@@ -66,6 +66,10 @@ export class UserPayload {
     basicDetails?: UserBasicDetailsPayload;
     accountDetails?: UserAccountDetailsPayload;
     emergencyDetails?: UserEmergencyDetails;
+
+    constructor(id?: number) {
+        this.id = id;
+    }
 }
 
 export class SupplierPayload {

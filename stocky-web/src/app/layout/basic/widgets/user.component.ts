@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import {Router} from '@angular/router';
 import {DA_SERVICE_TOKEN, ITokenService} from '@delon/auth';
 import {SettingsService, User} from '@delon/theme';
+import {MenuRoute} from '../../../data/menu.payload';
 
 @Component({
     selector: 'header-user',
@@ -18,17 +19,16 @@ import {SettingsService, User} from '@delon/theme';
 
         <nz-dropdown-menu #userMenu="nzDropdownMenu">
             <div nz-menu class="width-sm">
-                <div nz-menu-item routerLink="#">
+                <div nz-menu-item nzDisabled>
                     <i nz-icon nzType="user" class="mr-sm"></i>
                     {{ 'Help Center' }}
-                    <!--                    <app-coming-soon-text></app-coming-soon-text>-->
                 </div>
-                <div nz-menu-item routerLink="#">
+                <div nz-menu-item nzDisabled>
                     <i nz-icon nzType="setting" class="mr-sm"></i>
                     {{ 'Settings' | i18n }}
                 </div>
                 <li nz-menu-divider></li>
-                <div nz-menu-item routerLink="#">
+                <div nz-menu-item [routerLink]="route.SALE.Shift">
                     <i nz-icon nzType="credit-card" class="mr-sm"></i>
                     {{ 'Shit Report' | i18n }}
                 </div>
@@ -43,6 +43,8 @@ import {SettingsService, User} from '@delon/theme';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderUserComponent {
+    route = MenuRoute;
+
     constructor(private settings: SettingsService, private router: Router, @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) {}
 
     get user(): User {
@@ -51,6 +53,6 @@ export class HeaderUserComponent {
 
     logout(): void {
         this.tokenService.clear();
-        this.router.navigateByUrl(this.tokenService.login_url!);
+        this.router.navigateByUrl(this.tokenService.login_url!).then();
     }
 }

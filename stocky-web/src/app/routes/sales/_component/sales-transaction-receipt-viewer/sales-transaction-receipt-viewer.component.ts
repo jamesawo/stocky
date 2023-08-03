@@ -48,7 +48,6 @@ export class SalesTransactionReceiptViewerComponent implements OnInit {
     public closeAction: (arg?: any) => void = () => {};
 
     ngOnInit(): void {
-        // this.onLoadSafeUrl();
         this.onLoadDataUrl();
     }
 
