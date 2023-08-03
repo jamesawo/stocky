@@ -9,7 +9,7 @@ import {ReceiptViewType} from '../_data/sale-types';
 @Injectable({
     providedIn: 'root'
 })
-export class SaleTransactionReceiptUsecase {
+export class SaleTransactionReportUsecase {
 
     private url = environment.api.baseUrl + '/sales/transaction';
     private drawerRef?: NzDrawerRef<any>;
@@ -19,7 +19,8 @@ export class SaleTransactionReceiptUsecase {
         private http: HttpClient
     ) {}
 
-    public handleDownloadReceipt(receiptDataUrl?: ArrayBuffer) {
+    public handleDownloadAction(receiptDataUrl?: ArrayBuffer) {
+        console.log('handle download', receiptDataUrl);
         if (receiptDataUrl) {
             const fileURL = handleCreatePdfResourceUrl(receiptDataUrl);
             let anchorElement = document.createElement('a');
@@ -33,7 +34,7 @@ export class SaleTransactionReceiptUsecase {
         }
     };
 
-    public handlePrintReceipt(receiptDataUrl?: ArrayBuffer) {
+    public handlePrintAction(receiptDataUrl?: ArrayBuffer) {
         if (receiptDataUrl) {
             const fileURL = handleCreatePdfResourceUrl(receiptDataUrl);
             let openWindow: any = window.open(`${fileURL}`, '', 'height=480px, width=640px');
@@ -42,9 +43,13 @@ export class SaleTransactionReceiptUsecase {
         }
     };
 
-    public onPreviewReceipt(receiptUrl: string): NzDrawerRef<SalesTransactionReceiptViewerComponent> {
+    public handleCloseAction(args?: any) {
+        console.log(this.drawerRef);
+        this.drawerRef?.close(args);
+    }
 
-        return this.drawerService
+    public handlePreviewReceipt(receiptUrl: string): NzDrawerRef<SalesTransactionReceiptViewerComponent> {
+        this.drawerRef = this.drawerService
             .create<SalesTransactionReceiptViewerComponent,
                 ReceiptViewType, any>({
                 nzTitle: 'Preview Receipt',
@@ -56,16 +61,14 @@ export class SaleTransactionReceiptUsecase {
                 nzContent: SalesTransactionReceiptViewerComponent,
                 nzContentParams: {
                     receiptUrl: receiptUrl,
-                    downloadAction: this.handleDownloadReceipt,
-                    printAction: this.handlePrintReceipt,
-                    closeAction: this.handleClosePreviewer
+                    downloadAction: this.handleDownloadAction,
+                    printAction: this.handlePrintAction,
+                    closeAction: this.handleCloseAction,
+                    showControls: true
                 }
             });
 
-    }
-
-    public handleClosePreviewer(args?: any) {
-        this.drawerRef?.close(args);
+        return this.drawerRef;
     }
 
     public getReceiptData(reference: string, serial: string) {

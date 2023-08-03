@@ -11,10 +11,15 @@ import lombok.Data;
 
 @Data
 public class SaleTransactionReportData {
-    private String numberOfItems;
     private String customer;
     private String date;
-    private String subAmount;
-    private String totalAmount;
-    
+    private String time;
+    private String cashier;
+    private String receiptSerial;
+    private Double taxAmount;
+    private Double discountAmount;
+    private Double subTotalAmount;
+    private Double grandTotalAmount;
+    private String qty;
+
 }
