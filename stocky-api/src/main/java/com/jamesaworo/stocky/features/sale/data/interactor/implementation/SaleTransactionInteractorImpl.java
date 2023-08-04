@@ -12,6 +12,7 @@ import com.jamesaworo.stocky.core.mapper.Mapper;
 import com.jamesaworo.stocky.core.params.PageSearchRequest;
 import com.jamesaworo.stocky.core.params.PageSearchResult;
 import com.jamesaworo.stocky.features.sale.data.export.SalesReceiptExporter;
+import com.jamesaworo.stocky.features.sale.data.export.SalesReportExporter;
 import com.jamesaworo.stocky.features.sale.data.interactor.contract.ISaleTransactionInteractor;
 import com.jamesaworo.stocky.features.sale.data.request.SaleTransactionItemRequest;
 import com.jamesaworo.stocky.features.sale.data.request.SaleTransactionRequest;
@@ -28,6 +29,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.Optional;
 
+import static com.jamesaworo.stocky.core.constants.ReportConstant.*;
 import static com.jamesaworo.stocky.core.params.PageParam.toPageSearchResult;
 import static com.jamesaworo.stocky.features.sale.data.request.specification.SaleTransactionSearchSpecification.salesSaleTransactionSpecification;
 import static java.util.stream.Collectors.toList;
@@ -36,13 +38,11 @@ import static org.springframework.http.ResponseEntity.ok;
 @Interactor
 @RequiredArgsConstructor
 public class SaleTransactionInteractorImpl implements ISaleTransactionInteractor, Mapper<SaleTransactionRequest, SaleTransaction> {
-    public static final String RECEIPT_NOT_FOUND = "Receipt not found, Invalid details supplied";
-    public static final String RECEIPT_FILE_NAME = "inline; filename=\"Receipt.pdf\"";
-    public static final String PDF_CONTENT_TYPE = "application/pdf; charset=UTF-8";
 
     private final SaleTransactionUsecase usecase;
     private final ModelMapper mapper;
-    private final SalesReceiptExporter exporter;
+    private final SalesReceiptExporter receiptExporter;
+    private final SalesReportExporter reportExporter;
 
 
     @Override
@@ -85,23 +85,47 @@ public class SaleTransactionInteractorImpl implements ISaleTransactionInteractor
     }
 
     @Override
-    public Optional<byte[]> getReceiptBytes(String reference, String serial) {
+    public Optional<byte[]> findTransactionReceipt(String reference, String serial) {
         Optional<SaleTransaction> optional = this.usecase.findOne(reference, serial);
-        return optional.map(exporter::export);
+        return optional.map(receiptExporter::export);
     }
 
+    /*@Override
+    public ResponseEntity<byte[]> searchReceiptByReferenceAndSerialNumber(String reference, String serial) {
+
+        if (isEmpty(serial)) {
+            return this.searchReceiptBySerial(serial);
+        }
+
+        Optional<SaleTransaction> optional = this.usecase.findOne(reference, serial);
+        return exportReceiptBytes(optional);
+    }
+    */
+
     @Override
-    public ResponseEntity<byte[]> getReceipt(String reference, String serial) {
-        Optional<byte[]> optionalBytes = this.getReceiptBytes(reference, serial);
-        return optionalBytes.map(bytes -> ResponseEntity.ok()
+    public ResponseEntity<byte[]> searchReceiptBySerial(String serial) {
+        Optional<SaleTransaction> optional = this.usecase.findOne(serial);
+        return exportReceiptBytes(optional);
+    }
+
+    private ResponseEntity<byte[]> exportReceiptBytes(Optional<SaleTransaction> optional) {
+        Optional<byte[]> optionalBytes = optional.map(receiptExporter::export);
+        return optionalBytes.map(bytes -> ok()
                 .header(HttpHeaders.CONTENT_TYPE, PDF_CONTENT_TYPE)
                 .header(HttpHeaders.CONTENT_DISPOSITION, RECEIPT_FILE_NAME)
+                .header(HttpHeaders.CONTENT_LENGTH, String.valueOf(bytes.length))
                 .body(optionalBytes.get())).orElseThrow(() -> new RuntimeException(RECEIPT_NOT_FOUND)
         );
     }
 
-    public ResponseEntity<byte[]> getSaleTransactionReport(SaleTransactionSearchRequest request) {
+    @Override
+    public ResponseEntity<byte[]> searchSaleTransactionReport(SaleTransactionSearchRequest request) {
         List<SaleTransaction> sales = this.usecase.findMany(salesSaleTransactionSpecification(request));
-
+        byte[] pdfData = this.reportExporter.export(sales);
+        return ok()
+                .header(HttpHeaders.CONTENT_TYPE, PDF_CONTENT_TYPE)
+                .header(HttpHeaders.CONTENT_DISPOSITION, REPORT_FILE_NAME)
+                .header(HttpHeaders.CONTENT_LENGTH, String.valueOf(pdfData.length))
+                .body(pdfData);
     }
 }

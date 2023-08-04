@@ -21,4 +21,6 @@ public interface SaleTransactionUsecase {
 
 
     Optional<SaleTransaction> findOne(String reference, String token);
+
+    Optional<SaleTransaction> findOne(String serial);
 }

@@ -9,6 +9,7 @@ package com.jamesaworo.stocky.features.sale.endpoint;
 
 import com.jamesaworo.stocky.features.sale.data.interactor.contract.ISaleTransactionInteractor;
 import com.jamesaworo.stocky.features.sale.data.request.SaleTransactionRequest;
+import com.jamesaworo.stocky.features.sale.data.request.specification.SaleTransactionSearchRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,17 +28,25 @@ public class SaleTransactionEndpoint {
         return this.interactor.save(transaction);
     }
 
-    @GetMapping("/pdf-receipt")
-    public ResponseEntity<byte[]> downloadReceiptPdf(
+    /*@GetMapping("/search-receipt")
+    public ResponseEntity<byte[]> searchReceiptBySerialAndReference(
             @RequestParam(value = "ref") String reference,
             @RequestParam(value = "serial") String serial
     ) {
-        return this.interactor.getReceipt(reference, serial);
+        return this.interactor.searchReceiptByReferenceAndSerialNumber(reference, serial);
+    }
+*/
+    @GetMapping("/search-receipt")
+    public ResponseEntity<byte[]> searchReceiptBySerial(
+            @RequestParam(value = "serial") String serial
+    ) {
+        return this.interactor.searchReceiptBySerial(serial);
     }
 
-    @PostMapping(value = "/daily-sales-report")
-    public ResponseEntity<byte[]> dailySalesShift() {
-        return null;
+
+    @PostMapping(value = "/search-report")
+    public ResponseEntity<byte[]> searchTransactionReport(@RequestBody SaleTransactionSearchRequest request) {
+        return this.interactor.searchSaleTransactionReport(request);
     }
 
 }

@@ -26,6 +26,7 @@ import java.util.List;
 
 import static com.jamesaworo.stocky.core.constants.Global.SALES_TRANSACTION_ENDPOINT;
 import static com.jamesaworo.stocky.core.utils.Util.parseToLocalDate;
+import static java.lang.String.format;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 @Getter
@@ -80,13 +81,13 @@ public class SaleTransactionRequest {
         SaleTransactionRequest request = mapper.map(transaction, SaleTransactionRequest.class);
         request.setTime(Util.formatTime(transaction.getTime()));
         request.setDate(Util.formatDate(transaction.getDate()));
-        request.setReceiptUrl(receiptUrl(transaction.getReference(), transaction.getSerial()));
+        request.setReceiptUrl(receiptUrl(transaction.getSerial()));
         return request;
     }
 
-    public static String receiptUrl(String reference, String serial) {
+    public static String receiptUrl(String serial) {
         String serverUri = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString();
         String base = serverUri + SALES_TRANSACTION_ENDPOINT;
-        return String.format("%s/pdf-receipt?ref=%s&serial=%s", base, reference, serial);
+        return format("%s/search-receipt?serial=%s", base, serial);
     }
 }

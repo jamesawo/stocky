@@ -242,6 +242,17 @@ public class SaleTransactionUsecaseImpl implements SaleTransactionUsecase, Mappe
     }
 
     /**
+     * This method is used to find a single SaleTransaction object based on serial of the transaction.
+     *
+     * @param serial the serial of the SaleTransaction object to be retrieved.
+     * @return an Optional object containing the SaleTransaction object if found, otherwise empty.
+     */
+    @Override
+    public Optional<SaleTransaction> findOne(String serial) {
+        return this.repository.findBySerialEqualsIgnoreCase(serial);
+    }
+
+    /**
      * This method is used to convert a SaleTransaction object to a SaleTransactionRequest object.
      *
      * @param model the SaleTransaction object to be converted.

@@ -16,7 +16,7 @@ public enum SaleReportFileEnum {
     },
 
     SALE_REPORT {
-        final String name = "/sales_report";
+        final String name = "/daily_shift_report";
 
         @Override
         public InputStream asInputStream() {
