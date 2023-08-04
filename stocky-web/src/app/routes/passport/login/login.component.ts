@@ -1,38 +1,26 @@
-import { HttpContext } from '@angular/common/http';
-import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    Inject,
-    OnDestroy,
-    Optional,
-} from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { StartupService } from '@core';
-import { ReuseTabService } from '@delon/abc/reuse-tab';
-import {
-    ALLOW_ANONYMOUS,
-    DA_SERVICE_TOKEN,
-    ITokenService,
-    SocialService,
-} from '@delon/auth';
-import { _HttpClient, SettingsService } from '@delon/theme';
+import {HttpContext} from '@angular/common/http';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, Optional} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {StartupService} from '@core';
+import {ReuseTabService} from '@delon/abc/reuse-tab';
+import {ALLOW_ANONYMOUS, DA_SERVICE_TOKEN, ITokenService, SocialService} from '@delon/auth';
+import {_HttpClient, SettingsService} from '@delon/theme';
 
-import { finalize } from 'rxjs';
+import {finalize} from 'rxjs';
 
 @Component({
     selector: 'passport-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.less'],
     providers: [SocialService],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserLoginComponent implements OnDestroy {
     form = this.fb.nonNullable.group({
         userName: ['admin', [Validators.required, Validators.required]],
         password: ['password', [Validators.required, Validators.required]],
-        remember: [true],
+        remember: [true]
     });
 
     // #region fields
@@ -56,7 +44,7 @@ export class UserLoginComponent implements OnDestroy {
 
     submit(): void {
         this.error = '';
-        const { userName, password } = this.form.controls;
+        const {userName, password} = this.form.controls;
         userName.markAsDirty();
         userName.updateValueAndValidity();
         password.markAsDirty();
@@ -73,11 +61,11 @@ export class UserLoginComponent implements OnDestroy {
                 {
                     type: this.type,
                     userName: this.form.value.userName,
-                    password: this.form.value.password,
+                    password: this.form.value.password
                 },
                 null,
                 {
-                    context: new HttpContext().set(ALLOW_ANONYMOUS, true),
+                    context: new HttpContext().set(ALLOW_ANONYMOUS, true)
                 }
             )
             .pipe(
@@ -87,11 +75,14 @@ export class UserLoginComponent implements OnDestroy {
                 })
             )
             .subscribe((res) => {
+                console.log(res);
+
                 if (res.msg !== 'ok') {
                     this.error = res.msg;
                     this.cdr.detectChanges();
                     return;
                 }
+
                 this.reuseTabService.clear();
                 res.user.expired = +new Date() + 1000 * 60 * 5;
                 this.tokenService.set(res.user);
@@ -100,7 +91,7 @@ export class UserLoginComponent implements OnDestroy {
                     if (url.includes('/passport')) {
                         url = '/';
                     }
-                    this.router.navigateByUrl(url);
+                    this.router.navigateByUrl(url).then();
                 });
             });
     }

@@ -10,6 +10,11 @@
     width: 100%;
 }
 
+.mgb--13 {
+    margin-bottom: -24px;
+    margin-left: 6px;
+}
+
 .column-2 {
     flex: 1;
     padding-left: 10px;

@@ -13,9 +13,7 @@ export enum LocalStorageKey {
 export class PassportUsecase {
     private url: string = environment.api.baseUrl;
 
-    constructor(private http: _HttpClient,
-                private menuService: MenuService
-    ) {}
+    constructor(private http: _HttpClient, private menuService: MenuService) {}
 
     public login(username: string, password: string) {
         return this.http.post<LoginResponse>(`${this.url}/auth/login`, {
@@ -35,6 +33,11 @@ export class PassportUsecase {
             return JSON.parse(item);
         }
         return undefined;
+    }
+
+    public getLoggedInUsername(): string | undefined {
+        const loginResponse = this.getLoginResponse();
+        return loginResponse?.username;
     }
 
     public removeLoginResponse(): void {
@@ -59,7 +62,7 @@ export class PassportUsecase {
         const user: any = {
             name: loginResponse.fullName,
             avatar: loginResponse.profilePicUrl ?? './assets/tmp/img/avatar.jpg',
-            email: loginResponse.email,
+            username: loginResponse.username,
             token: loginResponse.token
         };
         return user;

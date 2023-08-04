@@ -70,6 +70,17 @@ export function handleCreatePdfResourceUrl(blobFile: ArrayBuffer): string {
     return URL.createObjectURL(file);
 }
 
+export function handleFileDownload(fileUrl: string): void {
+    let anchorElement = document.createElement('a');
+    document.body.appendChild(anchorElement);
+    anchorElement.setAttribute('style', 'display: none');
+    anchorElement.href = fileUrl;
+    anchorElement.download = `report.pdf`;
+    anchorElement.click();
+    window.URL.revokeObjectURL(fileUrl);
+    anchorElement.remove();
+}
+
 export function showSuccessNotification(
     service: any, content: string = 'Your request was successful', title: string = 'Successful'
 ): void {

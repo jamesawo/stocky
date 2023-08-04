@@ -2,7 +2,7 @@ import {HttpResponse} from '@angular/common/http';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {Subscription} from 'rxjs';
+import {firstValueFrom, Subscription} from 'rxjs';
 import {Message} from '../../../../data/constant/message.constant';
 import {SettingConstant} from '../../../../data/constant/setting.constant';
 import {SettingModuleEnum} from '../../../../data/payload/common.enum';
@@ -11,7 +11,7 @@ import {SettingUsecase} from '../../../settings/_usecase/setting.usecase';
 import {SaleCart} from '../../_data/sale-cart.payload';
 import {SaleTransaction} from '../../_data/sale-transaction.payload';
 import {SaleCartUsecase} from '../../_usecase/sale-cart.usecase';
-import {SaleTransactionReceiptUsecase} from '../../_usecase/sale-transaction-receipt.usecase';
+import {SaleTransactionReportUsecase} from '../../_usecase/sale-transaction-report.usecase';
 import {SaleTransactionUsecase} from '../../_usecase/sale-transaction.usecase';
 
 export type StatusResponseType = {message: string, status: boolean}
@@ -23,15 +23,11 @@ export type StatusResponseType = {message: string, status: boolean}
 })
 export class SaleCartButtonsComponent implements OnInit, OnDestroy {
 
-    public showReceipt = false;
-    public isLoadingPayment = false;
-    public isSavingOrder = false;
     public cart?: SaleCart;
     public isCustomerRequired?: boolean;
     public arrayBuffer?: any;
 
     public readonly message = Message;
-    public receiptUrl?: string;
     private sub = new Subscription();
 
     constructor(
@@ -40,7 +36,7 @@ export class SaleCartButtonsComponent implements OnInit, OnDestroy {
         private settingUsecase: SettingUsecase,
         private notification: NzNotificationService,
         private transactionUsecase: SaleTransactionUsecase,
-        private receiptUsecase: SaleTransactionReceiptUsecase
+        private receiptUsecase: SaleTransactionReportUsecase
     ) {}
 
     public emptyAction = () => {};
@@ -73,7 +69,7 @@ export class SaleCartButtonsComponent implements OnInit, OnDestroy {
         }
         const transaction = this.cart!.toTransaction();
         const res = await handleUsecaseRequest(this.transactionUsecase.save(transaction), this.notification);
-        this.handlePreviewReceipt(res);
+        await this.handlePreviewReceipt(res);
     };
 
     public handleClearButton = (arg?: any) => {
@@ -84,10 +80,14 @@ export class SaleCartButtonsComponent implements OnInit, OnDestroy {
         //todo:: save cart items as order that can be processed later.
     };
 
-    private handlePreviewReceipt(res: HttpResponse<SaleTransaction>) {
+    private async handlePreviewReceipt(res: HttpResponse<SaleTransaction>) {
         if (res.ok && res.body && res.body.receiptUrl) {
-            this.receiptUsecase.onPreviewReceipt(res.body.receiptUrl);
-            this.cart?.emptyCart();
+            const {reference, serial} = res.body;
+            if (reference && serial) {
+                const data = await firstValueFrom(this.receiptUsecase.searchTransactionReceipt(serial));
+                this.receiptUsecase.handlePreviewReceipt(data);
+                this.cart?.emptyCart();
+            }
         }
     }
 

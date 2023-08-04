@@ -1,6 +1,7 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
-import {handleCreatePdfResourceUrl} from '../../../../shared/utils/util';
+import {handleCreatePdfResourceUrl, handleFileDownload} from '../../../../shared/utils/util';
+import {ComponentReportPreviewType} from '../../_data/sale.interface';
 
 @Component({
     selector: 'app-sales-transaction-receipt-viewer',
@@ -8,10 +9,23 @@ import {handleCreatePdfResourceUrl} from '../../../../shared/utils/util';
     styles: [
 
         `
-          .pdf-viewer-box {
+          /*.pdf-viewer-box {
             display: flex;
             align-items: center;
             justify-content: center;
+          }
+          */
+
+          .pdf-container {
+            width: 100%;
+            height: 600px; /* Set an appropriate height for your use case */
+            overflow: hidden;
+          }
+
+          iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
           }
 
           .iframe > iframe > #toolbar {
@@ -21,53 +35,56 @@ import {handleCreatePdfResourceUrl} from '../../../../shared/utils/util';
         `
     ]
 })
-export class SalesTransactionReceiptViewerComponent implements OnInit {
-
-    @ViewChild('divElement')
-    public divElement?: ElementRef<HTMLDivElement>;
+export class SalesTransactionReceiptViewerComponent implements ComponentReportPreviewType, OnInit, OnChanges {
 
     @Input()
     public data?: ArrayBuffer;
 
     @Input()
-    public receiptUrl?: string;
-
-    public dataUrl?: SafeResourceUrl;
+    public showControls = false;
 
     public isContentLoaded = false;
+    public resourceUrl?: SafeResourceUrl;
 
     constructor(private sanitizer: DomSanitizer) {}
 
-    @Input()
-    public downloadAction: (arg?: any) => void = () => {};
+    public downloadAction: (arg?: any) => void = () => {
+        if (this.data) {
+            const fileUrl = handleCreatePdfResourceUrl(this.data);
+            handleFileDownload(fileUrl);
+        }
+    };
 
-    @Input()
-    public printAction: (arg?: any) => void = () => {};
+    public printAction: (arg?: any) => void = () => {
+        if (this.data) {
+            const fileURL = handleCreatePdfResourceUrl(this.data);
+            let openWindow: any = window.open(`${fileURL}`, '', 'height=550px, width=550px');
+            openWindow.focus();
+            openWindow.print();
+        }
+    };
 
-    @Input()
-    public closeAction: (arg?: any) => void = () => {};
 
-    ngOnInit(): void {
-        this.onLoadDataUrl();
+    public ngOnInit(): void {
+        if (this.data) {
+            this.onLoadReportBuffer(this.data as ArrayBuffer);
+        }
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        this.ngOnInit();
     }
 
     public onClear() {
         this.isContentLoaded = false;
         this.data = undefined;
-        this.dataUrl = '';
+        this.resourceUrl = undefined;
     }
 
-    public onLoadSafeUrl() {
-        if (this.data) {
-            const fileURL = `${handleCreatePdfResourceUrl(this.data)}#toolbar=0`;
-            this.dataUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
-            this.isContentLoaded = true;
-        }
-    }
-
-    public onLoadDataUrl() {
-        if (this.receiptUrl) {
-            this.dataUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.receiptUrl);
+    public onLoadReportBuffer(buffer: ArrayBuffer) {
+        if (buffer) {
+            const fileURL = `${handleCreatePdfResourceUrl(buffer)}#toolbar=0`;
+            this.resourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
             this.isContentLoaded = true;
         }
     }

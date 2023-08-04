@@ -67,7 +67,7 @@ export class UserPayload {
     accountDetails?: UserAccountDetailsPayload;
     emergencyDetails?: UserEmergencyDetails;
 
-    constructor(id?: number) {
+    constructor(id?: number, username?: string) {
         this.id = id;
     }
 }
@@ -151,6 +151,7 @@ export class EmployeeNokPayload {
 }
 
 export class EmployeeUserAccountPayload {
+    id?: number;
     username?: string;
     password?: string;
     roles?: RolePayload;

@@ -38,7 +38,8 @@ export const MENU_BAG: Menu[] = [
                     {text: 'Sale', link: MenuRoute.SALE.Sale},
                     {text: 'Order', link: MenuRoute.SALE.Order},
                     {text: 'Refund', link: MenuRoute.SALE.Refund},
-                    {text: 'Shift', link: MenuRoute.SALE.Shift}
+                    {text: 'Shift Report', link: MenuRoute.SALE.Shift},
+                    {text: 'RePrint Receipt', link: MenuRoute.SALE.RePrint}
                 ]
             },
 
