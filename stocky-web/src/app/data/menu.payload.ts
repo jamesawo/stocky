@@ -11,7 +11,8 @@ enum SaleRoute {
     Sale = '/sales/sale-pos',
     Order = '/sales/order',
     Refund = '/sales/refund',
-    Shift = '/sales/sale-shift'
+    Shift = '/sales/sale-shift',
+    RePrint = '/sales/reprint-receipt',
 }
 
 enum StockRoute {

@@ -51,3 +51,13 @@ export enum SettingModuleEnum {
     COMPANY = 'COMPANY',
     TAX = 'TAX',
 }
+
+export enum ReportFilePreviewType {
+    IFRAME,
+    OBJECT
+}
+
+export enum ReportDataType {
+    ARRAY_BUFFER,
+    FILE_URL
+}

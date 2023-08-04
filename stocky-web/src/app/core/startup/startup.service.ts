@@ -1,16 +1,16 @@
-import { Inject, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { MenuService, SettingsService, TitleService } from '@delon/theme';
-import { ACLService } from '@delon/acl';
+import {HttpClient} from '@angular/common/http';
+import {Inject, Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import {ACLService} from '@delon/acl';
+import {DA_SERVICE_TOKEN, ITokenService} from '@delon/auth';
+import {MenuService, SettingsService, TitleService} from '@delon/theme';
+import {NzIconService} from 'ng-zorro-antd/icon';
 // import { I18NService } from '../i18n/i18n.service';
-import { Observable, of } from 'rxjs';
-import { NzIconService } from 'ng-zorro-antd/icon';
+import {Observable, of} from 'rxjs';
+import {MENU_BAG} from 'src/app/data/menu';
 
-import { ICONS } from '../../../style-icons';
-import { ICONS_AUTO } from '../../../style-icons-auto';
-import { MENU_BAG } from 'src/app/data/menu';
+import {ICONS} from '../../../style-icons';
+import {ICONS_AUTO} from '../../../style-icons-auto';
 
 @Injectable()
 export class StartupService {
@@ -83,14 +83,14 @@ export class StartupService {
 
         // mock
         const app: any = {
-            name: `ng-alain`,
-            description: `Stocky, A store management software`,
+            name: `Stocky`,
+            description: `Stocky, A store management software`
         };
         const user: any = {
             name: 'Admin',
             avatar: './assets/tmp/img/avatar.jpg',
-            email: 'cipchk@qq.com',
-            token: '123456789',
+            email: 'superadmin',
+            token: '123456789'
         };
         this.settingService.setApp(app);
         this.settingService.setUser(user);
