@@ -30,25 +30,26 @@ import static com.jamesaworo.stocky.core.constants.Table.AUTH_USER_ROLE;
 @EntityListeners(AuditingEntityListener.class)
 public class User extends BaseModel {
 
-	@Id()
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@NotNull(message = "Username cannot be empty")
-	@Column(nullable = false, unique = true)
-	private String username;
-	private String password;
-	private LocalDate expirationDate = LocalDate.now().plusMonths(6);
+    @NotNull(message = "Username cannot be empty")
+    @Column(nullable = false, unique = true, updatable = false)
+    private String username;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = AUTH_USER_ROLE,
-			joinColumns = @JoinColumn(name = "user_id"),
-			inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles;
+    private String password;
+    private LocalDate expirationDate = LocalDate.now().plusMonths(6);
 
-	public boolean isAccountExpired() {
-		return this.getExpirationDate().isBefore(LocalDate.now());
-	}
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = AUTH_USER_ROLE,
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
+    public boolean isAccountExpired() {
+        return this.getExpirationDate().isBefore(LocalDate.now());
+    }
 
 
 }
