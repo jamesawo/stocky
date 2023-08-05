@@ -36,14 +36,14 @@ public class SaleTransactionEndpoint {
         return this.interactor.searchReceiptByReferenceAndSerialNumber(reference, serial);
     }
 */
+
     @GetMapping("/search-receipt")
     public ResponseEntity<byte[]> searchReceiptBySerial(
             @RequestParam(value = "serial") String serial
     ) {
         return this.interactor.searchReceiptBySerial(serial);
     }
-
-
+    
     @PostMapping(value = "/search-report")
     public ResponseEntity<byte[]> searchTransactionReport(@RequestBody SaleTransactionSearchRequest request) {
         return this.interactor.searchSaleTransactionReport(request);

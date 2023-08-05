@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {firstValueFrom} from 'rxjs';
 import {SaleTransactionReportUsecase} from '../_usecase/sale-transaction-report.usecase';
 
 @Component({
@@ -8,13 +9,21 @@ import {SaleTransactionReportUsecase} from '../_usecase/sale-transaction-report.
 })
 export class SalesReprintReceiptComponent {
     public isLoading = false;
-    public receiptNumber = '';
+    public receiptSerial = '';
     public isValidInput = true;
 
     constructor(private usecase: SaleTransactionReportUsecase) {}
 
-    public onSearch() {
+    public async onSearch() {
+        if (!this.receiptSerial) {
+            this.isValidInput = false;
+            return;
+        } else {
+            this.isValidInput = true;
+        }
 
-
+        const res = await firstValueFrom(this.usecase.searchTransactionReceipt(this.receiptSerial));
+        this.usecase.handlePreviewReceipt(res);
     }
+
 }

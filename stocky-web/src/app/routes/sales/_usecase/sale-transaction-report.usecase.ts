@@ -39,12 +39,11 @@ export class SaleTransactionReportUsecase {
     }
 
     public searchTransactionReceipt(serial: string): Observable<ArrayBuffer> {
-        // return this.http.get(`${this.url}/pdf-receipt?ref=${reference}&serial=${serial}`, {responseType: 'arraybuffer'});
         return this.http.get(`${this.url}/search-receipt?serial=${serial}`, {responseType: 'arraybuffer'});
     }
 
     public searchTransactionReport(searchRequest: SaleTransactionSearchRequest): Observable<ArrayBuffer> {
-        return this.http.post(`${this.url}/search-transaction-report`, searchRequest, {responseType: 'arraybuffer'});
+        return this.http.post(`${this.url}/search-report`, searchRequest, {responseType: 'arraybuffer'});
     }
 
     private getDrawerSize(): number {

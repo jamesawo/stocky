@@ -7,7 +7,7 @@
                 <div [nzLg]="16" [nzXs]="24" class="m-t-sm-1em" nz-col>
                     <nz-form-label [nzNoColon]="false" nzFor="billNumber">Receipt Number</nz-form-label>
                     <nz-form-control [nzValidateStatus]="isValidInput ? 'success' : 'error'">
-                        <input [(ngModel)]="receiptNumber" nz-input>
+                        <input [(ngModel)]="receiptSerial" nz-input placeholder="Enter receipt serial number">
                     </nz-form-control>
 
                 </div>
