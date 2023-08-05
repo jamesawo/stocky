@@ -1,5 +1,6 @@
+import {DateRangeParam} from '../../../data/param/common.param';
 import {CommonPayload} from '../../../data/payload/common.payload';
-import {CustomerPayload, EmployeePayload} from '../../company/_data/company.payload';
+import {CustomerPayload, EmployeePayload, EmployeeUserAccountPayload} from '../../company/_data/company.payload';
 import {ProductPayload} from '../../products/_data/product.payload';
 import {SaleCartItem} from './sale-cart-item.payload';
 import {SaleTransactionInstallmentType} from './sale-cart.enum';
@@ -77,4 +78,16 @@ export class SaleTransaction {
         return transItem;
     };
 
+}
+
+export class SaleTransactionSearchRequest {
+    id?: number;
+    reference?: string;
+    serial?: string;
+    time?: string;
+    date?: string;
+    customer?: CustomerPayload;
+    user?: EmployeeUserAccountPayload;
+    installment?: SaleTransactionInstallment;
+    dateRange?: DateRangeParam;
 }

@@ -1,6 +1,6 @@
 <div class="container">
 
-    <div class="column-1" style="margin-bottom: -20px">
+    <div class="column-1 mgb--13">
         <app-sale-cart-payment-options></app-sale-cart-payment-options>
     </div>
 
@@ -38,20 +38,4 @@
 
     </div>
 </div>
-<ng-container *ngIf="showReceipt">
-    <nz-drawer
-        [nzContent]="receiptTmpl"
-        [nzVisible]="showReceipt"
-        [nzWidth]="720"
-    >
-        <ng-template #receiptTmpl>
-            <app-sales-transaction-receipt-viewer
-                [data]="arrayBuffer"
-                [downloadAction]="emptyAction" [printAction]="emptyAction"
-                [receiptUrl]="receiptUrl"></app-sales-transaction-receipt-viewer>
-        </ng-template>
-
-    </nz-drawer>
-</ng-container>
-
 

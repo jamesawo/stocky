@@ -6,7 +6,6 @@ import {AmountRangeParam} from '../../../data/param/common.param';
     templateUrl: './amount-range.component.html',
     styles: [`
       ::ng-deep .switch > nz-switch > button {
-
       }
     `]
 })

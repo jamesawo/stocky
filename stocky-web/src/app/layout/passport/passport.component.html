@@ -1,16 +1,19 @@
 <div class="container">
-    <header-i18n showLangText="false" class="langs"></header-i18n>
+    <header-i18n class="langs" showLangText="false"></header-i18n>
     <div class="wrap">
         <div class="top">
             <div class="head">
-                <img class="logo" src="./assets/images/logo.svg" />
+                <img class="logo" src="./assets/images/logo.svg"/>
             </div>
             <div class="desc">Login to continue</div>
         </div>
         <router-outlet></router-outlet>
         <global-footer [links]="links">
             Copyright
-            <i class="anticon anticon-copyright"></i> 2023 <a href="#" target="_blank">Stocky</a> Store Manager
+            <i class="anticon anticon-copyright"></i>
+            2023
+            <a href="#" target="_blank">Stocky</a>
+            Store Management Software
         </global-footer>
     </div>
 </div>

@@ -1,35 +1,27 @@
 <div class="pdf-viewer-box">
+    <div class="tc">
+        <ng-container *ngIf="showControls">
+            <div class="mb3 flex flex-row justify-start w-100">
+                <app-simple-button
+                    [action]="printAction" [args]="data" buttonText="Print"
+                    class="mr2" icon="printer"></app-simple-button>
 
-    <div class="text-align-center">
-        <ng-container *ngIf="dataUrl; else emptyTemplateRef">
-            <ng-template>
-                <div class="mb1 flex flex-row justify-between w-100">
-
-                    <app-simple-button
-                        [action]="printAction" [args]="data" buttonText="Print"
-                        class="mr2" icon="printer"></app-simple-button>
-
-                    <app-simple-button
-                        [action]="downloadAction" [args]="data" [disabled]="!isContentLoaded"
-                        buttonText="Download" class="mr2" icon="download"
-                    ></app-simple-button>
-
-                    <app-simple-button
-                        [action]="closeAction" [args]="data"
-                        buttonText="Close" icon="close"></app-simple-button>
-                </div>
-            </ng-template>
-            
-            <div class="iframe">
-                <iframe [src]="dataUrl" height="100%" style="min-height: 550px" width="100%"></iframe>
+                <app-simple-button
+                    [action]="downloadAction" [args]="data" [disabled]="!isContentLoaded"
+                    buttonText="Download" class="mr2" icon="download"
+                ></app-simple-button>
+                
             </div>
-
         </ng-container>
     </div>
-
-
-    <ng-template #emptyTemplateRef>
-        <nz-empty></nz-empty>
-    </ng-template>
-
 </div>
+<ng-container *ngIf="resourceUrl; else emptyTemplateRef">
+    <div class="pdf-container">
+        <!--<object [attr.data]="resourceUrl" style="min-height: 550px;" type="application/pdf"></object>-->
+        <iframe [src]="resourceUrl"></iframe>
+    </div>
+</ng-container>
+<ng-template #emptyTemplateRef>
+    <nz-empty></nz-empty>
+</ng-template>
+

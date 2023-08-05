@@ -41,4 +41,18 @@ public class CompanyCustomer extends BaseModel {
     public CompanyCustomer(Long id) {
         this.id = id;
     }
+
+    public String getFullName() {
+
+        String firstName = this.customerFirstName != null ? this.customerFirstName : "";
+        String lastName = this.customerLastName != null ? this.customerLastName : "";
+
+        return firstName + " " + lastName;
+    }
+
+    public String getFullNameAndPhone() {
+        String phone = this.customerPhone != null ? this.customerPhone : "";
+        return String.format("%s, (%s)", this.getFullName(), phone);
+
+    }
 }

@@ -19,4 +19,6 @@ public interface SaleTransactionRepository extends JpaRepository<SaleTransaction
     List<SaleTransaction> findAll(Specification<SaleTransaction> specification);
 
     Optional<SaleTransaction> findByReferenceEqualsAndSerialEquals(String reference, String token);
+
+    Optional<SaleTransaction> findBySerialEqualsIgnoreCase(String token);
 }

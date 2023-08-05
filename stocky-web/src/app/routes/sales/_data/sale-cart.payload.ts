@@ -64,8 +64,7 @@ export class SaleCart {
         this.subTotal = 0;
         this.grandTotal = 0;
     };
-
-
+    
     public toTransaction = () => {
         let transaction = new SaleTransaction();
         transaction.customer = this.customer;

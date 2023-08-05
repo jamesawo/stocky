@@ -27,9 +27,11 @@ public interface ISaleTransactionInteractor {
 
     ResponseEntity<Optional<SaleTransactionRequest>> findOne(Long id);
 
-    ResponseEntity<Optional<byte[]>> getReceiptPdfBytes(String reference, String token);
+    Optional<byte[]> findTransactionReceipt(String reference, String serial);
 
-    Optional<byte[]> getReceiptBytes(String reference, String serial);
+//    ResponseEntity<byte[]> searchReceiptByReferenceAndSerialNumber(String reference, String serial);
 
-    ResponseEntity<byte[]> getReceipt(String reference, String serial);
+    ResponseEntity<byte[]> searchReceiptBySerial(String serial);
+
+    ResponseEntity<byte[]> searchSaleTransactionReport(SaleTransactionSearchRequest request);
 }

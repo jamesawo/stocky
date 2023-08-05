@@ -13,6 +13,16 @@ public enum SaleReportFileEnum {
         public InputStream asInputStream() {
             return ExportUtil.getFileFromClassPathAsInputStream(SRC + name + EXT);
         }
+    },
+
+    SALE_REPORT {
+        final String name = "/daily_shift_report";
+
+        @Override
+        public InputStream asInputStream() {
+            return ExportUtil.getFileFromClassPathAsInputStream(SRC + name + EXT);
+        }
+
     };
 
     public static final String SRC = "/report/sales";

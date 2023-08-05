@@ -15,9 +15,12 @@ import {SalesProductSearchAndSelectionComponent} from './_component/sales-produc
 import {SalesProductSearchComponent} from './_component/sales-product-search/sales-product-search.component';
 import {SalesProductSelectionComponent} from './_component/sales-product-selection/sales-product-selection.component';
 import {SalesTransactionReceiptViewerComponent} from './_component/sales-transaction-receipt-viewer/sales-transaction-receipt-viewer.component';
+import {SalesCashierShiftComponent} from './sales-cashier-shift/sales-cashier-shift.component';
+import {SalesDailyCollectionComponent} from './sales-daily-collection/sales-daily-collection.component';
 import {SalesOrderComponent} from './sales-order/sales-order.component';
 import {SalesPosComponent} from './sales-pos/sales-pos.component';
 import {SalesRefundComponent} from './sales-refund/sales-refund.component';
+import {SalesReprintReceiptComponent} from './sales-reprint-receipt/sales-reprint-receipt.component';
 import {SalesRoutingModule} from './sales-routing.module';
 
 const COMPONENTS: Array<Type<void>> = [
@@ -36,14 +39,16 @@ const COMPONENTS: Array<Type<void>> = [
     SaleCartButtonsComponent,
     SaleCartPaymentOptionsComponent,
     SaleCartSummaryComponent,
-    SalesTransactionReceiptViewerComponent
+    SalesTransactionReceiptViewerComponent,
+    SalesDailyCollectionComponent,
+    SalesCashierShiftComponent,
+    SalesReprintReceiptComponent
 
 ];
 
 @NgModule({
     imports: [SalesRoutingModule, SharedModule, ProductsModule, CompanyModule],
-    declarations: [...COMPONENTS
-    ],
+    declarations: [...COMPONENTS],
     exports: [...COMPONENTS]
 
 })

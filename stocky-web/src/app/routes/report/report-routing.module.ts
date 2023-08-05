@@ -1,17 +1,13 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {ReportCustomerComponent} from './report-customer/report-customer.component';
-import {ReportEmployeeComponent} from './report-employee/report-employee.component';
-import {ReportExpenseComponent} from './report-expense/report-expense.component';
-import {ReportSalesComponent} from './report-sales/report-sales.component';
-import {ReportStockComponent} from './report-stock/report-stock.component';
+import {ComingSoonComponent} from '../../shared/components/coming-soon/coming-soon.component';
 
 const routes: Routes = [
-    {path: 'sales-report', component: ReportSalesComponent},
-    {path: 'expenses-report', component: ReportExpenseComponent},
-    {path: 'employees-report', component: ReportEmployeeComponent},
-    {path: 'customers-report', component: ReportCustomerComponent},
-    {path: 'stock-report', component: ReportStockComponent}
+    {path: 'sales-report', component: ComingSoonComponent},
+    {path: 'expenses-report', component: ComingSoonComponent},
+    {path: 'employees-report', component: ComingSoonComponent},
+    {path: 'customers-report', component: ComingSoonComponent},
+    {path: 'stock-report', component: ComingSoonComponent}
 ];
 
 @NgModule({

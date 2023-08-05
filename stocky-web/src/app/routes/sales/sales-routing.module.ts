@@ -1,8 +1,9 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {SalesOrderComponent} from './sales-order/sales-order.component';
+import {ComingSoonComponent} from '../../shared/components/coming-soon/coming-soon.component';
+import {SalesCashierShiftComponent} from './sales-cashier-shift/sales-cashier-shift.component';
 import {SalesPosComponent} from './sales-pos/sales-pos.component';
-import {SalesRefundComponent} from './sales-refund/sales-refund.component';
+import {SalesReprintReceiptComponent} from './sales-reprint-receipt/sales-reprint-receipt.component';
 
 const routes: Routes = [
     {
@@ -10,8 +11,11 @@ const routes: Routes = [
         component: SalesPosComponent,
         canDeactivate: [(component: SalesPosComponent) => component.canDeactivate()]
     },
-    {path: 'order', component: SalesOrderComponent},
-    {path: 'refund', component: SalesRefundComponent}
+    {path: 'order', component: ComingSoonComponent},
+    {path: 'refund', component: ComingSoonComponent},
+    {path: 'sale-shift', component: SalesCashierShiftComponent},
+    {path: 'reprint-receipt', component: SalesReprintReceiptComponent}
+
 ];
 
 @NgModule({

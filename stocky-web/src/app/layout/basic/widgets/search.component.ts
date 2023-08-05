@@ -15,7 +15,6 @@ import {BehaviorSubject, debounceTime, distinctUntilChanged, tap} from 'rxjs';
 @Component({
     selector: 'header-search',
     template: `
-        <!--
         <nz-input-group [nzPrefix]="iconTpl" [nzSuffix]="loadingTpl">
             <ng-template #iconTpl>
                 <i nz-icon [nzType]="focus ? 'arrow-down' : 'search'"></i>
@@ -38,7 +37,6 @@ import {BehaviorSubject, debounceTime, distinctUntilChanged, tap} from 'rxjs';
         <nz-autocomplete nzBackfill #auto>
             <nz-auto-option *ngFor="let i of options" [nzValue]="i">{{ i }}</nz-auto-option>
         </nz-autocomplete>
-        -->
     `,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
