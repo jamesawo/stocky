@@ -90,18 +90,6 @@ public class SaleTransactionInteractorImpl implements ISaleTransactionInteractor
         return optional.map(receiptExporter::export);
     }
 
-    /*@Override
-    public ResponseEntity<byte[]> searchReceiptByReferenceAndSerialNumber(String reference, String serial) {
-
-        if (isEmpty(serial)) {
-            return this.searchReceiptBySerial(serial);
-        }
-
-        Optional<SaleTransaction> optional = this.usecase.findOne(reference, serial);
-        return exportReceiptBytes(optional);
-    }
-    */
-
     @Override
     public ResponseEntity<byte[]> searchReceiptBySerial(String serial) {
         Optional<SaleTransaction> optional = this.usecase.findOne(serial);
