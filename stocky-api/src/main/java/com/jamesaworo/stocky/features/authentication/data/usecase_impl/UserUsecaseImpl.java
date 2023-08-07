@@ -12,6 +12,7 @@ import com.jamesaworo.stocky.features.authentication.data.repository.UserReposit
 import com.jamesaworo.stocky.features.authentication.domain.entity.User;
 import com.jamesaworo.stocky.features.authentication.domain.usecase.IUserUsecase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
@@ -23,20 +24,19 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @RequiredArgsConstructor
 public class UserUsecaseImpl implements IUserUsecase {
     private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Override
     public User save(User user) {
-        throwsIfUsernameIsTaken(user.getUsername());
+        throwIfUsernameIsTaken(user.getUsername());
         this.encodePassword(user);
         return this.repository.save(user);
     }
 
     public void encodePassword(User user) {
-        // todo implement spring securities
-        //		PasswordEncoder encoder = new BCryptPasswordEncoder();
-        //		String encodedPassword = encoder.encode(password);
-        //		user.setPassword(encodedPassword);
+        String encoded = this.passwordEncoder.encode(user.getPassword());
+        user.setPassword(encoded);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class UserUsecaseImpl implements IUserUsecase {
 
     @Override
     public void checkDuplicateUsername(String username) {
-        this.throwsIfUsernameIsTaken(username);
+        this.throwIfUsernameIsTaken(username);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class UserUsecaseImpl implements IUserUsecase {
         return count == 1;
     }
 
-    public void throwsIfUsernameIsTaken(String username) {
+    public void throwIfUsernameIsTaken(String username) {
         Optional<User> optionalUser = this.repository.findByUsernameEqualsIgnoreCase(username);
         if (optionalUser.isPresent()) {
             throw new ResponseStatusException(BAD_REQUEST, String.format("USERNAME %s IS ALREADY TAKEN", username));

@@ -1,6 +1,6 @@
 /*
  * @Author: james.junior
- * @Date: 6/18/23 19:27
+ * @Date: 8/6/23 02:35
  *
  * @Project: stocky-api
  */
@@ -13,21 +13,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserRequest {
+public class LoginUser {
     private Long id;
     private String username;
-    private String password;
-    private LocalDate expirationDate;
-    private Collection<RoleRequest> roles;
-    private Boolean isActiveStatus;
-    private String name;
-
+    private String token;
+    private String fullName;
+    private String email;
+    private boolean enabled;
+    private List<String> access;
 }
