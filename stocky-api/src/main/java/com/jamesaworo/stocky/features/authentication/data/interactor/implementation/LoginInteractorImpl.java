@@ -22,13 +22,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
-import static java.lang.String.format;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
@@ -37,7 +35,7 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 public class LoginInteractorImpl implements ILoginInteractor {
 
     public static final String USER_NOT_FOUND = " %s not found";
-    private static final String INVALID_USERNAME = "Invalid Username/Password";
+    private static final String INVALID_USERNAME = "Invalid login credentials";
     private static final String ACCOUNT_EXPIRED = "Error! Account Is Expired";
     private static final String ACCOUNT_DISABLED = "Error! Account Is Currently Disabled";
     private static final String INVALID_LOGIN = "Invalid Login Credentials";
@@ -55,7 +53,7 @@ public class LoginInteractorImpl implements ILoginInteractor {
 
     private User findByUsernameOrThrow(String username) {
         Optional<User> optional = this.userUsecase.findByUsername(username);
-        return optional.orElseThrow(() -> new UsernameNotFoundException(format(USER_NOT_FOUND, username)));
+        return optional.orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, INVALID_USERNAME));
     }
 
     private LoginResponse authenticateUser(User user, String password) {
@@ -111,7 +109,7 @@ public class LoginInteractorImpl implements ILoginInteractor {
     private List<Menu> menu(Map<String, String> usersPermissions) {
         Menu main = new Menu("MENU", true);
         for (AppModuleEnum module : AppModuleEnum.values()) {
-            Menu sub = Menu.subWithChildren(module.name(), module.pageIcon(), usersPermissions, module.pageRoute());
+            Menu sub = Menu.parentWithChildren(module.name(), module.pageIcon(), usersPermissions, module.pageRoute());
             if (sub.getChildren() != null && sub.getChildren().size() > 0) {
                 Menu.appendChild(main, sub);
             }

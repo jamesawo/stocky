@@ -80,8 +80,13 @@ public class Menu {
         return menuItem;
     }
 
-    public static Menu subWithChildren(String parentText, String iconValue, Map<String, String> permissions, List<AppModuleRoute> pages) {
-        Menu parent = parent(parentText, new MenuIcon("icon", iconValue));
+    public static Menu parentWithChildren(
+            String parentText,
+            String parentIconValue,
+            Map<String, String> permissions,
+            List<AppModuleRoute> pages
+    ) {
+        Menu parent = parent(parentText, new MenuIcon("icon", parentIconValue));
         if (pages != null && pages.size() > 0) {
             pages.forEach(route -> {
                 if (!isEmpty(permissions) && permissions.containsKey(route.getPermission())) {
