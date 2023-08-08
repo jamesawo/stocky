@@ -7,10 +7,10 @@ import {MenuService, SettingsService, TitleService} from '@delon/theme';
 import {NzIconService} from 'ng-zorro-antd/icon';
 // import { I18NService } from '../i18n/i18n.service';
 import {Observable, of} from 'rxjs';
-import {MENU_BAG} from 'src/app/data/menu';
 
 import {ICONS} from '../../../style-icons';
 import {ICONS_AUTO} from '../../../style-icons-auto';
+import {PassportUsecase} from '../../routes/passport/_usecase/passport.usecase';
 
 @Injectable()
 export class StartupService {
@@ -23,17 +23,14 @@ export class StartupService {
         private titleService: TitleService,
         @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
         private httpClient: HttpClient,
-        private router: Router
+        private router: Router,
+        private passportUsecase: PassportUsecase
     ) {
         iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
     }
 
     load(): Observable<void> {
-        // http
-        // return this.viaHttp();
-        // mock: Don’t use it in a production environment. ViaMock is just to simulate some data to make the scaffolding work normally
-        // return this.viaMockI18n();
-        return this.viaMock();
+        return this.viaLocal();
     }
 
     /*
@@ -74,12 +71,37 @@ export class StartupService {
 
      */
 
+    private viaLocal(): Observable<void> {
+
+        const tokenData = this.tokenService.get();
+        if (!tokenData?.token) {
+            this.router.navigateByUrl(this.tokenService.login_url!).then();
+            return of(void 0);
+        }
+
+        const res = this.passportUsecase.getLoginResponse();
+        if (res && res.app && res.user && res.menu) {
+
+            this.settingService.setApp(res.app);
+            this.settingService.setUser(res.user);
+            this.aclService.setAbility(res.user?.access ?? []);
+
+            this.menuService.add(res.menu);
+            this.titleService.suffix = res.app.name;
+        }
+        return of(void 0);
+
+    }
+
+    /*
+
     private viaMock(): Observable<void> {
-        // const tokenData = this.tokenService.get();
-        // if (!tokenData.token) {
-        //   this.router.navigateByUrl(this.tokenService.login_url!);
-        //   return;
-        // }
+
+        const tokenData = this.tokenService.get();
+        if (!tokenData.token) {
+          this.router.navigateByUrl(this.tokenService.login_url!);
+          return;
+        }
 
         // mock
         const app: any = {
@@ -99,4 +121,6 @@ export class StartupService {
         this.titleService.suffix = app.name;
         return of(void 0);
     }
+
+     */
 }
