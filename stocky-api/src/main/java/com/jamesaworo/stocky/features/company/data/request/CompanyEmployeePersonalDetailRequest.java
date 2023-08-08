@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDate;
 
@@ -21,11 +22,17 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CompanyEmployeePersonalDetailRequest {
-	private Long id;
-	private String employeeFirstName;
-	private String employeeLastName;
-	private String employeeEmail;
-	private String employeePhone;
-	private String employeeAddress;
-	private LocalDate employeeDateOfBirth;
+    private Long id;
+    private String employeeFirstName;
+    private String employeeLastName;
+    private String employeeEmail;
+    private String employeePhone;
+    private String employeeAddress;
+    private LocalDate employeeDateOfBirth;
+
+    public String getFullName() {
+        String firstName = ObjectUtils.isEmpty(this.employeeFirstName) ? "" : this.employeeFirstName;
+        String lastName = ObjectUtils.isEmpty(this.employeeLastName) ? "" : this.employeeLastName;
+        return String.format("%s %s", firstName, lastName);
+    }
 }

@@ -62,8 +62,8 @@ public enum AppModuleEnum {
             return List.of(
                     new AppModuleRoute("Manage Stock", STOCK_ACCESS_PAGE_STOCK_MANAGE, "/stock/manage-stock"),
                     new AppModuleRoute("Count Stock", STOCK_COUNT_ACCESS_PAGE_COUNT_STOCK, "/stock/view-stock-count"),
-                    new AppModuleRoute("Low Stock Balance", STOCK_LOW_STOCK_ACCESS_PAGE_LOW_STOCK, "stock/view-low-stock"),
-                    new AppModuleRoute("Reconcile Stock", STOCK_RECONCILE_ACCESS_PAGE_RECONCILE_STOCK, "stock/reconcile-stock"),
+                    new AppModuleRoute("Low Stock Balance", STOCK_LOW_STOCK_ACCESS_PAGE_LOW_STOCK, "/stock/view-low-stock"),
+                    new AppModuleRoute("Reconcile Stock", STOCK_RECONCILE_ACCESS_PAGE_RECONCILE_STOCK, "/stock/reconcile-stock"),
                     new AppModuleRoute("Record Stock Balance", STOCK_RECORD_STOCK_BALANCE_ACCESS_PAGE_RECORD_STOCK_BALANCE, "/stock/record-stock-balance"),
                     new AppModuleRoute("Record Damaged Stock", STOCK_RECORD_DAMAGED_GOODS_ACCESS_PAGE_RECORD_DAMAGED_GOODS, "/stock/record-damaged-stock"),
                     new AppModuleRoute("Move Stock Items", STOCK_MOVE_ITEM_ACCESS_PAGE_MOVE_STOCK_ITEM, "/stock/move-stock-items")
@@ -77,10 +77,10 @@ public enum AppModuleEnum {
     REPORT {
         public List<AppModuleRoute> pageRoute() {
             return List.of(
-                    new AppModuleRoute("Sales", REPORT_ACCESS_PAGE_REPORT_SALES, "/reports/sales-report'"),
-                    new AppModuleRoute("Expense", REPORT_ACCESS_PAGE_REPORT_EXPENSES, "/reports/expenses-report'"),
-                    new AppModuleRoute("Employee", REPORT_ACCESS_PAGE_REPORT_EMPLOYEE, "/reports/employees-report'"),
-                    new AppModuleRoute("Customer", REPORT_ACCESS_PAGE_REPORT_CUSTOMER, "/reports/customers-report'"),
+                    new AppModuleRoute("Sales", REPORT_ACCESS_PAGE_REPORT_SALES, "/reports/sales-report"),
+                    new AppModuleRoute("Expense", REPORT_ACCESS_PAGE_REPORT_EXPENSES, "/reports/expenses-report"),
+                    new AppModuleRoute("Employee", REPORT_ACCESS_PAGE_REPORT_EMPLOYEE, "/reports/employees-report"),
+                    new AppModuleRoute("Customer", REPORT_ACCESS_PAGE_REPORT_CUSTOMER, "/reports/customers-report"),
                     new AppModuleRoute("Stock", REPORT_ACCESS_PAGE_REPORT_STOCK, "/reports/stock-report")
             );
         }
@@ -122,10 +122,10 @@ public enum AppModuleEnum {
     PAYWALL {
         public List<AppModuleRoute> pageRoute() {
             return List.of(
-                    new AppModuleRoute("Plan", PAYWALL_ACCESS_PAGE_PAYWALL_PLAN, "/paywall/plan'"),
-                    new AppModuleRoute("Payments", PAYWALL_ACCESS_PAGE_PAYWALL_PAYMENTS, "/paywall/payments'"),
-                    new AppModuleRoute("Settings", PAYWALL_ACCESS_PAGE_PAYWALL_SETTINGS, "/paywall/settings'"),
-                    new AppModuleRoute("Billing", PAYWALL_ACCESS_PAGE_PAYWALL_BILLING, "/paywall/billing'"),
+                    new AppModuleRoute("Plan", PAYWALL_ACCESS_PAGE_PAYWALL_PLAN, "/paywall/plan"),
+                    new AppModuleRoute("Payments", PAYWALL_ACCESS_PAGE_PAYWALL_PAYMENTS, "/paywall/payments"),
+                    new AppModuleRoute("Settings", PAYWALL_ACCESS_PAGE_PAYWALL_SETTINGS, "/paywall/settings"),
+                    new AppModuleRoute("Billing", PAYWALL_ACCESS_PAGE_PAYWALL_BILLING, "/paywall/billing"),
                     new AppModuleRoute("Notification", PAYWALL_ACCESS_PAGE_PAYWALL_NOTIFICATION, "/paywall/notification")
             );
         }
