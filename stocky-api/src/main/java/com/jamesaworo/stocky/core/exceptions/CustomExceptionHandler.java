@@ -309,15 +309,13 @@ public class CustomExceptionHandler extends RuntimeException {
                 new CustomExceptionResponse(status, List.of(reason), code));
     }
 
-    /*
-     @ExceptionHandler(TokenExpiredException.class) public ResponseEntity<CustomExceptionResponse> handleTokenExpiredException(TokenExpiredException ex) {
-     HttpStatus status = HttpStatus.UNAUTHORIZED;
-     int code = status.value();
-     String message = ex.getMessage();
-     <p>
-     return ResponseEntity.status(status).body(new CustomExceptionResponse(status, List.of(message), code));
-     }
-     */
+    @ExceptionHandler(TokenValidationException.class)
+    public ResponseEntity<CustomExceptionResponse> handleTokenExpiredException(TokenValidationException ex) {
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+        int code = status.value();
+        String message = ex.getMessage();
+        return ResponseEntity.status(status).body(new CustomExceptionResponse(status, List.of(message), code));
+    }
 
     @ExceptionHandler(InvalidDataAccessApiUsageException.class)
     public ResponseEntity<CustomExceptionResponse> handleInvalidDataAccessApiUsageException(
@@ -326,8 +324,8 @@ public class CustomExceptionHandler extends RuntimeException {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         int code = status.value();
         String message = ex.getMessage();
-
         return ResponseEntity.status(status).body(new CustomExceptionResponse(status, List.of(message), code));
+
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
