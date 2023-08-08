@@ -1,32 +1,33 @@
-import {HttpContext} from '@angular/common/http';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, Optional} from '@angular/core';
+import {HttpResponse} from '@angular/common/http';
+import {ChangeDetectorRef, Component, Inject, OnDestroy, Optional} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {StartupService} from '@core';
 import {ReuseTabService} from '@delon/abc/reuse-tab';
-import {ALLOW_ANONYMOUS, DA_SERVICE_TOKEN, ITokenService, SocialService} from '@delon/auth';
+import {DA_SERVICE_TOKEN, ITokenService, SocialService} from '@delon/auth';
 import {_HttpClient, SettingsService} from '@delon/theme';
+import {LoginResponse} from '../_data/passport.payload';
+import {PassportUsecase} from '../_usecase/passport.usecase';
 
-import {finalize} from 'rxjs';
-
+// changeDetection: ChangeDetectionStrategy.OnPush
 @Component({
     selector: 'passport-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.less'],
-    providers: [SocialService],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    providers: [SocialService]
 })
 export class UserLoginComponent implements OnDestroy {
     form = this.fb.nonNullable.group({
-        userName: ['admin', [Validators.required, Validators.required]],
-        password: ['password', [Validators.required, Validators.required]],
+        userName: [null, [Validators.required, Validators.required]],
+        password: [null, [Validators.required, Validators.required]],
         remember: [true]
     });
 
-    // #region fields
-    error = '';
-    type = 0;
-    loading = false;
+
+    public error = '';
+    public errorList?: string[];
+    // type = 0;
+    public loading = false;
 
     constructor(
         private fb: FormBuilder,
@@ -39,7 +40,8 @@ export class UserLoginComponent implements OnDestroy {
         @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
         private startupSrv: StartupService,
         private http: _HttpClient,
-        private cdr: ChangeDetectorRef
+        private cdr: ChangeDetectorRef,
+        private usecase: PassportUsecase
     ) {}
 
     submit(): void {
@@ -49,52 +51,45 @@ export class UserLoginComponent implements OnDestroy {
         userName.updateValueAndValidity();
         password.markAsDirty();
         password.updateValueAndValidity();
+
         if (userName.invalid || password.invalid) {
             return;
         }
 
         this.loading = true;
         this.cdr.detectChanges();
-        this.http
-            .post(
-                '/login/account',
-                {
-                    type: this.type,
-                    userName: this.form.value.userName,
-                    password: this.form.value.password
-                },
-                null,
-                {
-                    context: new HttpContext().set(ALLOW_ANONYMOUS, true)
-                }
-            )
-            .pipe(
-                finalize(() => {
-                    this.loading = false;
-                    this.cdr.detectChanges();
-                })
-            )
-            .subscribe((res) => {
-                console.log(res);
 
-                if (res.msg !== 'ok') {
-                    this.error = res.msg;
-                    this.cdr.detectChanges();
-                    return;
-                }
-
-                this.reuseTabService.clear();
-                res.user.expired = +new Date() + 1000 * 60 * 5;
-                this.tokenService.set(res.user);
-                this.startupSrv.load().subscribe(() => {
-                    let url = this.tokenService.referrer!.url || '/';
-                    if (url.includes('/passport')) {
-                        url = '/';
-                    }
-                    this.router.navigateByUrl(url).then();
-                });
-            });
+        this.usecase.login(userName.value!, password.value!).subscribe({
+            next: (res) => this.handleLoginSuccess(res),
+            error: (err) => this.handleLoginFailed(err)
+        });
     }
 
     ngOnDestroy(): void {}
+
+    private handleLoginSuccess(res: HttpResponse<LoginResponse>): void {
+        if (!res.ok || !res.body) {
+            this.error = res.statusText;
+            this.cdr.detectChanges();
+            return;
+        }
+
+        this.reuseTabService.clear();
+        this.usecase.storeLoginResponse(res.body);
+        this.tokenService.set({token: res.body.user?.token});
+
+        this.startupSrv.load().subscribe(() => {
+            let url = this.tokenService.referrer!.url || '/';
+            if (url.includes('/passport')) {
+                url = '/';
+            }
+            this.router.navigateByUrl(url).then();
+        });
+    }
+
+    private handleLoginFailed(err: any): void {
+        this.error = err.error.message ?? '';
+        this.errorList = err.error.error ?? [];
+        this.loading = false;
+    }
 }

@@ -4,6 +4,7 @@ import {NzModalService} from 'ng-zorro-antd/modal';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {firstValueFrom, Subscription} from 'rxjs';
 import {Message} from '../../../../data/constant/message.constant';
+import {PermissionConstant} from '../../../../data/constant/permission.constant';
 import {SettingConstant} from '../../../../data/constant/setting.constant';
 import {SettingModuleEnum} from '../../../../data/payload/common.enum';
 import {handleUsecaseRequest} from '../../../../shared/utils/util';
@@ -28,6 +29,7 @@ export class SaleCartButtonsComponent implements OnInit, OnDestroy {
     public arrayBuffer?: any;
 
     public readonly message = Message;
+    protected readonly PermissionConstant = PermissionConstant;
     private sub = new Subscription();
 
     constructor(
@@ -76,7 +78,7 @@ export class SaleCartButtonsComponent implements OnInit, OnDestroy {
         this.cart?.emptyCart();
     };
 
-    public handleSaveButton = (arg?: any) => {
+    public handleSaveAsOrderButton = (arg?: any) => {
         //todo:: save cart items as order that can be processed later.
     };
 
@@ -118,5 +120,4 @@ export class SaleCartButtonsComponent implements OnInit, OnDestroy {
         const hasOption = this.cart && this.cart.paymentOption && this.cart.paymentOption.id;
         return !!hasOption;
     }
-
 }

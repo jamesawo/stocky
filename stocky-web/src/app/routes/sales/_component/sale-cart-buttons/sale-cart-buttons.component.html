@@ -26,8 +26,9 @@
         </app-simple-button>
 
 
+        <!--            [acl]="{ ability: ['ACCESS_ACTION_SALE_SAVE_ORDER'], mode: 'allOf' }"-->
         <app-simple-button
-            [action]="handleSaveButton"
+            [action]="handleSaveAsOrderButton"
             [disabled]="true"
             [usePopConfirm]="true"
             buttonText="Save"
