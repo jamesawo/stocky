@@ -1,5 +1,5 @@
 import {registerLocaleData} from '@angular/common';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {default as ngLang} from '@angular/common/locales/en';
 import {APP_INITIALIZER, LOCALE_ID, NgModule, Type} from '@angular/core';
@@ -8,6 +8,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {IconDefinition} from '@ant-design/icons-angular';
 import {CaretLeftOutline, SettingOutline, StepBackwardOutline} from '@ant-design/icons-angular/icons';
 import {StartupService} from '@core';
+import {DelonACLModule} from '@delon/acl';
+import {JWTInterceptor} from '@delon/auth';
 import {DELON_LOCALE, en_US as delonLang} from '@delon/theme';
 
 import {JsonSchemaModule, SharedModule} from '@shared';
@@ -47,15 +49,14 @@ const LANG_PROVIDES = [
 const FORM_MODULES = [JsonSchemaModule];
 
 let INTERCEPTOR_PROVIDES: any[] = [
-    // { provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true }
+    // {provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true},
+    // {provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true}
 ];
 
 const GLOBAL_THIRD_MODULES: Array<Type<void>> = [];
 
-export function StartupServiceFactory(
-    startupService: StartupService
-): () => Observable<void> {
+export function StartupServiceFactory(startupService: StartupService): () => Observable<void> {
     return () => startupService.load();
 }
 
@@ -90,6 +91,7 @@ const icons: IconDefinition[] = [
         NzMessageModule,
         NzNotificationModule,
         NzIconModule.forChild(icons),
+        DelonACLModule.forRoot(),
         ...FORM_MODULES,
         ...GLOBAL_THIRD_MODULES
     ],

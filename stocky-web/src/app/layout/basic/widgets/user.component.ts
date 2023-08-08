@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import {Router} from '@angular/router';
 import {DA_SERVICE_TOKEN, ITokenService} from '@delon/auth';
 import {SettingsService, User} from '@delon/theme';
-import {MenuRoute} from '../../../data/menu.payload';
+import {MenuRoute} from '../../../data/constant/menu.payload';
 
 @Component({
     selector: 'header-user',

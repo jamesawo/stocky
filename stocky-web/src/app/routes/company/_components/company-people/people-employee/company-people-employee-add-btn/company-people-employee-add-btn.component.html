@@ -241,19 +241,15 @@
                                 [nzValidateStatus]="getNzFormControlValidStatus('username', getFormGroup('accountDetail'))"
                                 nzErrorTip=""
                             >
-                                <input formControlName="username" nz-input placeholder="Enter username"/>
+                                <input disableAutocomplete formControlName="username" nz-input placeholder="Enter username"/>
                             </nz-form-control>
                         </nz-form-item>
 
                         <nz-form-item>
                             <nz-form-label>Account Password</nz-form-label>
-                            <nz-form-control
-                                [nzSpan]="24"
-                                [nzValidateStatus]="getNzFormControlValidStatus('password', getFormGroup('accountDetail'))"
-                                nzErrorTip=""
-                            >
-                                <input formControlName="password" nz-input placeholder="Enter password" type="password"/>
-                            </nz-form-control>
+                            <app-password-input
+                                [form]="getFormGroup('accountDetail')"
+                                [props]="{formControlName: 'password', size: 'default'}"></app-password-input>
                         </nz-form-item>
                     </div>
 

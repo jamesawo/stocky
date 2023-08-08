@@ -1,42 +1,40 @@
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponseBase} from '@angular/common/http';
 import {Injectable, Injector} from '@angular/core';
 import {Router} from '@angular/router';
+
 import {DA_SERVICE_TOKEN, ITokenService} from '@delon/auth';
 import {_HttpClient, ALAIN_I18N_TOKEN, IGNORE_BASE_URL} from '@delon/theme';
+
 import {environment} from '@env/environment';
+
 import {NzNotificationService} from 'ng-zorro-antd/notification';
+
 import {BehaviorSubject, catchError, filter, mergeMap, Observable, of, switchMap, take, throwError} from 'rxjs';
 
 const CODEMESSAGE: {[key: number]: string} = {
     200: 'The server successfully returned the requested data. ',
-    201: 'Create or modify data successfully. ',
-    202: 'A request has been queued in the background (asynchronous task). ',
+    201: 'New or modified data succeeded. ',
+    202: 'A request has entered the background queue (async task). ',
     204: 'Delete data successfully. ',
     400: 'There was an error in the request sent, and the server did not create or modify data. ',
-    401: 'User does not have permission (wrong token, username, password). ',
-    403: 'The user is authorized, but access is forbidden. ',
+    401: 'User does not have permission (token, username, password incorrect). ',
+    403: 'User is authorized, but access is forbidden. ',
     404: 'The request was made for a record that does not exist, and the server did not operate. ',
     406: 'The requested format is not available. ',
-    410: 'The requested resource has been permanently deleted and will no longer be available. ',
+    410: 'The requested resource was permanently deleted and will no longer be available. ',
     422: 'A validation error occurred while creating an object. ',
-    500: 'An error occurred on the server, please check the server. ',
+    500: 'The server encountered an error, please check the server. ',
     502: 'Bad gateway. ',
-    503: 'The service is unavailable, the server is temporarily overloaded or under maintenance. ',
-    504: 'Gateway timed out.'
+    503: 'The service is unavailable, the server is temporarily overloaded or maintained. ',
+    504: 'Gateway timed out. '
 };
 
-/**
- * 默认HTTP拦截器，其注册细节见 `app.module.ts`
- */
 @Injectable()
 export class DefaultInterceptor implements HttpInterceptor {
     private refreshTokenEnabled = environment.api.refreshTokenEnabled;
-    private refreshTokenType: 're-request' | 'auth-refresh' =
-        environment.api.refreshTokenType;
+    private refreshTokenType: 're-request' | 'auth-refresh' = environment.api.refreshTokenType;
     private refreshToking = false;
-    private refreshToken$: BehaviorSubject<any> = new BehaviorSubject<any>(
-        null
-    );
+    private refreshToken$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
     constructor(private injector: Injector) {
         if (this.refreshTokenType === 'auth-refresh') {
@@ -56,11 +54,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         return this.injector.get(_HttpClient);
     }
 
-    intercept(
-        req: HttpRequest<any>,
-        next: HttpHandler
-    ): Observable<HttpEvent<any>> {
-        // 统一加上服务端前缀
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         let url = req.url;
         if (
             !req.context.get(IGNORE_BASE_URL) &&
@@ -68,24 +62,15 @@ export class DefaultInterceptor implements HttpInterceptor {
             !url.startsWith('http://')
         ) {
             const {baseUrl} = environment.api;
-            url =
-                baseUrl +
-                (baseUrl.endsWith('/') && url.startsWith('/')
-                    ? url.substring(1)
-                    : url);
+            url = baseUrl + (baseUrl.endsWith('/') && url.startsWith('/') ? url.substring(1) : url);
         }
 
-        const newReq = req.clone({
-            url,
-            setHeaders: this.getAdditionalHeaders(req.headers)
-        });
+        const newReq = req.clone({url, setHeaders: this.getAdditionalHeaders(req.headers)});
         return next.handle(newReq).pipe(
             mergeMap((ev) => {
-                // 允许统一对请求错误处理
                 if (ev instanceof HttpResponseBase) {
                     return this.handleData(ev, newReq, next);
                 }
-                // 若一切都正常，则后续操作
                 return of(ev);
             })
             // catchError((err: HttpErrorResponse) => this.handleData(err, newReq, next))
@@ -102,17 +87,9 @@ export class DefaultInterceptor implements HttpInterceptor {
         }
 
         const errortext = CODEMESSAGE[ev.status] || ev.statusText;
-        this.notification.error(
-            `Wrong request ${ev.status}: ${ev.url}`,
-            errortext
-        );
+        this.notification.error(`请求错误 ${ev.status}: ${ev.url}`, errortext);
     }
 
-    // #region 刷新Token方式一：使用 401 重新刷新 Token
-
-    /**
-     * 刷新 Token 请求
-     */
     private refreshTokenRequest(): Observable<any> {
         const model = this.tokenSrv.get();
         return this.http.post(`/api/auth/refresh`, null, null, {
@@ -125,12 +102,10 @@ export class DefaultInterceptor implements HttpInterceptor {
         req: HttpRequest<any>,
         next: HttpHandler
     ): Observable<any> {
-        // 1、若请求为刷新Token请求，表示来自刷新Token可以直接跳转登录页
         if ([`/api/auth/refresh`].some((url) => req.url.includes(url))) {
             this.toLogin();
             return throwError(() => ev);
         }
-        // 2、如果 `refreshToking` 为 `true` 表示已经在请求刷新 Token 中，后续所有请求转入等待状态，直至结果返回后再重新发起请求
         if (this.refreshToking) {
             return this.refreshToken$.pipe(
                 filter((v) => !!v),
@@ -138,18 +113,14 @@ export class DefaultInterceptor implements HttpInterceptor {
                 switchMap(() => next.handle(this.reAttachToken(req)))
             );
         }
-        // 3、尝试调用刷新 Token
         this.refreshToking = true;
         this.refreshToken$.next(null);
 
         return this.refreshTokenRequest().pipe(
             switchMap((res) => {
-                // 通知后续请求继续执行
                 this.refreshToking = false;
                 this.refreshToken$.next(res);
-                // 重新保存新 token
                 this.tokenSrv.set(res);
-                // 重新发起请求
                 return next.handle(this.reAttachToken(req));
             }),
             catchError((err) => {
@@ -160,18 +131,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         );
     }
 
-    // #endregion
-
-    // #region 刷新Token方式二：使用 `@delon/auth` 的 `refresh` 接口
-
-    /**
-     * Re-attach the new Token information
-     *
-     * > Will not walk again due to requests already initiated `@delon/auth`
-     * Therefore, it is necessary to add a new one based on the business situationToken
-     */
     private reAttachToken(req: HttpRequest<any>): HttpRequest<any> {
-        // The following example uses NG-ALAIN by default `SimpleInterceptor`
         const token = this.tokenSrv.get()?.token;
         return req.clone({
             setHeaders: {
@@ -179,8 +139,6 @@ export class DefaultInterceptor implements HttpInterceptor {
             }
         });
     }
-
-    // #endregion
 
     private buildAuthRefresh(): void {
         if (!this.refreshTokenEnabled) {
@@ -191,7 +149,7 @@ export class DefaultInterceptor implements HttpInterceptor {
                 filter(() => !this.refreshToking),
                 switchMap((res) => {
                     console.log(res);
-                    this.refreshToking = true; // here
+                    this.refreshToking = true;
                     return this.refreshTokenRequest();
                 })
             )
@@ -207,7 +165,7 @@ export class DefaultInterceptor implements HttpInterceptor {
     }
 
     private toLogin(): void {
-        this.notification.error(`Login Expired, Please login again`, ``);
+        this.notification.error(`未登录或登录已过期，请重新登录。`, ``);
         this.goTo(this.tokenSrv.login_url!);
     }
 
@@ -217,40 +175,11 @@ export class DefaultInterceptor implements HttpInterceptor {
         next: HttpHandler
     ): Observable<any> {
         this.checkStatus(ev);
-
-        // Business processing: Some common operations
         switch (ev.status) {
             case 200:
-                // Business-level error handling, the following assumes that there is a unified output format for RESTful (meaning that there is a corresponding data format regardless of success or failure) for processing:
-                //  // For example, the response content:
-                // // Error content: { status: 1, msg: 'Invalid parameter' }
-                // // Correct content: { status: 0, response: { } }
-                // // The following code snippet can be directly applied:
-                // // if (ev instanceof HttpResponse) {
-                // //   const body = ev.body;
-                // //   if (body && body.status !== 0) {
-                // //     const customError = req.context.get(CUSTOM_ERROR);
-                // //     if (customError) this.injector.get(NzMessageService).error(body.msg);
-                // //     // Note: If you continue to throw an error here, it will be intercepted again by catchError on line 258, causing interruption of external implementations such as Pipe and subscribe operations. For example, this.http.get('/').subscribe() will not be triggered.
-                // //     // If you want it to be handled externally, you need to manually remove line 259.
-                // //     return if (customError) throwError({}) : of({});
-                // //   } else {
-                // //     // Return the original response body
-                // //     if (req.context.get(RAW_BODY) || ev.body instanceof Blob) {
-                // //        return of(ev);
-                // //     }
-                // //     // Modify the  `body`  content to be the  `response`  content, so that the business status code is no longer a concern for most scenarios
-                // //     return of(new HttpResponse(Object.assign(ev, { body: body.response })));
-                // //     // Alternatively, keep the complete format
-                // //     return of(ev);
-                // //   }
-                // }
                 break;
             case 401:
-                if (
-                    this.refreshTokenEnabled &&
-                    this.refreshTokenType === 're-request'
-                ) {
+                if (this.refreshTokenEnabled && this.refreshTokenType === 're-request') {
                     return this.tryRefreshToken(ev, req, next);
                 }
                 this.toLogin();
@@ -262,10 +191,7 @@ export class DefaultInterceptor implements HttpInterceptor {
                 break;
             default:
                 if (ev instanceof HttpErrorResponse) {
-                    console.warn(
-                        'Unknown errors, most of which are caused by the backend not supporting cross-domain CORS or invalid configuration, please refer to https://ng-alain.com/docs/server Solve cross-domain problems',
-                        ev
-                    );
+                    console.warn('Warning', ev);
                 }
                 break;
         }
@@ -276,9 +202,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         }
     }
 
-    private getAdditionalHeaders(headers?: HttpHeaders): {
-        [name: string]: string;
-    } {
+    private getAdditionalHeaders(headers?: HttpHeaders): {[name: string]: string} {
         const res: {[name: string]: string} = {};
         const lang = this.injector.get(ALAIN_I18N_TOKEN).currentLang;
         if (!headers?.has('Accept-Language') && lang) {

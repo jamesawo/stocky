@@ -7,17 +7,19 @@ import java.util.Optional;
 
 public interface IUserUsecase {
 
-	User save(User user);
+    User save(User user);
 
-	Optional<User> findOne(Long id);
+    Optional<User> findOne(Long id);
 
-	Optional<User> findByUsername(String username);
+    Optional<User> findByUsername(String username);
 
-	Optional<User> update(User user);
+    Optional<User> update(User user);
 
-	Optional<Boolean> toggleActiveStatus(Long id);
+    Optional<Boolean> toggleActiveStatus(Long id);
 
-	List<User> findMany();
+    List<User> findMany();
 
-	void checkDuplicateUsername(String username);
+    void checkDuplicateUsername(String username);
+
+    List<String> findUserPermissionsNameOnly(User user);
 }

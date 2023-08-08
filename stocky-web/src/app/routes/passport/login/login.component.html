@@ -1,7 +1,14 @@
 <form (ngSubmit)="submit()" [formGroup]="form" nz-form role="form">
     <nz-tabset [nzAnimated]="false" class="tabs">
         <nz-tab [nzTitle]="'Login'">
-            <nz-alert *ngIf="error" [nzMessage]="error" [nzShowIcon]="true" [nzType]="'error'" class="mb-lg"></nz-alert>
+            <nz-alert *ngIf="error" [nzDescription]="errorListTmpl" [nzMessage]="error" [nzShowIcon]="true" [nzType]="'error'" class="mb-lg">
+                <ng-template #errorListTmpl>
+                    <ng-container *ngIf="errorList">
+                        <span *ngFor="let error of errorList">{{error}}</span>
+                    </ng-container>
+                </ng-template>
+
+            </nz-alert>
             <nz-form-item>
                 <nz-form-control nzErrorTip="Please enter your username">
                     <nz-input-group nzPrefixIcon="user" nzSize="large">
@@ -9,14 +16,9 @@
                     </nz-input-group>
                 </nz-form-control>
             </nz-form-item>
-            <nz-form-item>
-                <nz-form-control nzErrorTip="Please enter your password">
-                    <nz-input-group nzPrefixIcon="lock" nzSize="large">
-                        <input formControlName="password" nz-input placeholder="Enter your password" type="password"
-                        />
-                    </nz-input-group>
-                </nz-form-control>
-            </nz-form-item>
+
+            <app-password-input [form]="form" [props]="{formControlName: 'password'}"></app-password-input>
+            
         </nz-tab>
     </nz-tabset>
 

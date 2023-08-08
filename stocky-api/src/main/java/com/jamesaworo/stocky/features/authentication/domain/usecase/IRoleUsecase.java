@@ -9,15 +9,17 @@ import java.util.Set;
 
 public interface IRoleUsecase {
 
-	Role save(Role role);
+    Role save(Role role);
 
-	List<Role> getAll();
+    List<Role> getAll();
 
-	Optional<Role> getOne(Long id);
+    boolean isNotSystemRole(Role role);
 
-	Set<Permission> getRolePermissions(Long id);
+    Optional<Role> getOne(Long id);
 
-	Optional<Role> update(Role role);
+    Set<Permission> getRolePermissions(Long id);
 
-	Optional<Boolean> updateActiveStatus(Long id);
+    Optional<Role> update(Role role);
+
+    Optional<Boolean> updateActiveStatus(Long id);
 }

@@ -1,13 +1,13 @@
-enum DashboardRoute {
+export enum DashboardRoute {
     Home = '/dashboard'
 }
 
-enum ProductRoute {
+export enum ProductRoute {
     'Categories' = '/products/category-list',
     'Products' = '/products/product-list',
 }
 
-enum SaleRoute {
+export enum SaleRoute {
     Sale = '/sales/sale-pos',
     Order = '/sales/order',
     Refund = '/sales/refund',
@@ -15,7 +15,7 @@ enum SaleRoute {
     RePrint = '/sales/reprint-receipt',
 }
 
-enum StockRoute {
+export enum StockRoute {
     Manage_Stock = '/stock/manage-stock',
     Count_Stock = '/stock/view-stock-count',
     View_Low_Stock = 'stock/view-low-stock',
@@ -25,13 +25,13 @@ enum StockRoute {
     Move_Stock_Items = '/stock/move-stock-items'
 }
 
-enum CompanyPeopleRoute {
+export enum CompanyPeopleRoute {
     Customers = '/company/people/customers',
     Employees = '/company/people/employees',
     Suppliers = '/company/people/suppliers'
 }
 
-enum CompanyRoute {
+export enum CompanyRoute {
     Basic_Setup = '/company/basic-setup',
     Tax_Setup = '/company/tax-setup',
     Payment_Options = '/company/payment-options',
@@ -40,7 +40,7 @@ enum CompanyRoute {
     Role_Setup = '/company/role-setup'
 }
 
-enum ReportRoute {
+export enum ReportRoute {
     Sales = '/reports/sales-report',
     Expense = '/reports/expenses-report',
     Employee = '/reports/employees-report',
@@ -48,7 +48,7 @@ enum ReportRoute {
     Stock = '/reports/stock-report'
 }
 
-enum SettingRoute {
+export enum SettingRoute {
     Dashboard = '/settings/dashboard',
     Expenses = '/settings/expenses',
     Sales = '/settings/sales',
@@ -57,7 +57,7 @@ enum SettingRoute {
     Product = '/settings/product',
 }
 
-enum SubscriptionRoute {
+export enum SubscriptionRoute {
     Plan = '/paywall/plan',
     Payments = '/paywall/payments',
     Settings = '/paywall/settings',
@@ -71,7 +71,7 @@ export class MenuRoute {
     static PRODUCT = ProductRoute;
     static STOCK = StockRoute;
     static COMPANY = CompanyRoute;
-    static COMPANY_PEOPLE = CompanyPeopleRoute;
+    static PEOPLE = CompanyPeopleRoute;
     static REPORT = ReportRoute;
     static SETTING = SettingRoute;
     static SUBSCRIPTION = SubscriptionRoute;

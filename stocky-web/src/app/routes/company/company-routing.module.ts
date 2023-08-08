@@ -15,7 +15,6 @@ const routes: Routes = [
     {path: 'basic-setup', component: CompanyBasicSetupComponent},
     {path: 'tax-setup', component: CompanyTaxSetupComponent},
     {path: 'payment-options', component: CompanyPaymentOptionsComponent},
-
     {
         path: 'people', component: undefined, children: [
             {path: 'customers', component: CompanyPeopleCustomerComponent},
