@@ -26,7 +26,7 @@ public class PermissionSeeder {
 
     public void run() {
         if (this.permissionRepository.count() == 0) {
-            runCompanyAuthenticationSeeder();
+            runAuthenticationSeeder();
             runCompanyPermissionSeeder();
             runPaywallPermissionSeeder();
             runProductPermissionSeeder();
@@ -39,7 +39,7 @@ public class PermissionSeeder {
 
     }
 
-    private void runCompanyAuthenticationSeeder() {
+    private void runAuthenticationSeeder() {
         this.permissionRepository.saveAll(AUTH_PERMISSIONS);
         System.out.println("----- seed authentication permission  -----");
     }
@@ -47,6 +47,11 @@ public class PermissionSeeder {
     private void runCompanyPermissionSeeder() {
         this.permissionRepository.saveAll(COMPANY_PERMISSIONS);
         System.out.println("----- seed company permission  -----");
+    }
+
+    private void runPeoplePermissionSeeder() {
+        this.permissionRepository.saveAll(PEOPLE_PERMISSION);
+        System.out.println("----- seed people permission  -----");
     }
 
     private void runPaywallPermissionSeeder() {

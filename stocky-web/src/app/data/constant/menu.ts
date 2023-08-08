@@ -6,6 +6,7 @@ export const MENU_BAG: Menu[] = [
         text: 'Main',
         group: true,
         children: [
+
             {
                 text: 'Dashboard',
                 link: MenuRoute.DASHBOARD.Home,
@@ -68,9 +69,9 @@ export const MENU_BAG: Menu[] = [
                         text: 'People Setup',
                         link: '/company/people',
                         children: [
-                            {text: 'Customers', link: MenuRoute.COMPANY_PEOPLE.Customers},
-                            {text: 'Employees', link: MenuRoute.COMPANY_PEOPLE.Employees},
-                            {text: 'Suppliers', link: MenuRoute.COMPANY_PEOPLE.Suppliers}
+                            {text: 'Customers', link: MenuRoute.PEOPLE.Customers},
+                            {text: 'Employees', link: MenuRoute.PEOPLE.Employees},
+                            {text: 'Suppliers', link: MenuRoute.PEOPLE.Suppliers}
                         ]
                     },
                     {text: 'Location Setup', link: MenuRoute.COMPANY.Location_Setup},
@@ -116,6 +117,7 @@ export const MENU_BAG: Menu[] = [
                     {text: 'Notification', link: MenuRoute.SUBSCRIPTION.Notification}
                 ]
             }
+
         ]
     }
 ];
