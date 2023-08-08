@@ -17,6 +17,7 @@ import {HintComponent} from './components/hint/hint.component';
 import {IconButtonComponent} from './components/icon-button/icon-button.component';
 import {LoadingCardComponent} from './components/loading-card/loading-card.component';
 import {NothingFoundComponent} from './components/nothing-found/nothing-found.component';
+import {PasswordInputComponent} from './components/password-input/password-input.component';
 import {RangeDatePickerComponent} from './components/range-date-picker/range-date-picker.component';
 import {RecordStatusBadgeComponent} from './components/record-active-status/record-status-badge.component';
 import {ResizableComponent} from './components/resizable/resizable.component';
@@ -68,5 +69,6 @@ export const SHARED_COMPONENTS: Array<Type<void>> = [
     ResizableComponent,
     SimpleButtonComponent,
     NothingFoundComponent,
-    ComingSoonTextComponent
+    ComingSoonTextComponent,
+    PasswordInputComponent
 ];
