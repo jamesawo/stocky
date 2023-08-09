@@ -24,6 +24,7 @@ import {ResizableComponent} from './components/resizable/resizable.component';
 import {SearchModelDropdownComponent} from './components/search-model-dropdown/search-model-dropdown.component';
 import {SearchResetButtonComponent} from './components/search-reset-button/search-reset-button.component';
 import {SearchResultTableComponent} from './components/search-result-table/search-result-table.component';
+import {SettingLockerComponent} from './components/setting-locker/setting-locker.component';
 import {SimpleButtonComponent} from './components/simple-button/simple-button.component';
 import {StatusBadgeComponent} from './components/status-badge/status-badge.component';
 import {SwitchToggleComponent} from './components/switch-toggle/switch-toggle.component';
@@ -70,5 +71,6 @@ export const SHARED_COMPONENTS: Array<Type<void>> = [
     SimpleButtonComponent,
     NothingFoundComponent,
     ComingSoonTextComponent,
-    PasswordInputComponent
+    PasswordInputComponent,
+    SettingLockerComponent
 ];

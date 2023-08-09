@@ -7,6 +7,7 @@ import {DelonFormModule} from '@delon/form';
 import {AlainThemeModule} from '@delon/theme';
 //
 import {DisableAutocompleteDirective} from './directive/disable-autocomplete.directive';
+import {DisableOverlayDirective} from './directive/disable-overlay.directive';
 import {SHARED_COMPONENTS} from './shared-components.module';
 
 import {SHARED_DELON_MODULES} from './shared-delon.module';
@@ -17,7 +18,8 @@ const THIRD_MODULES: Array<Type<void>> = [];
 const COMPONENTS: Array<Type<void>> = [];
 
 const DIRECTIVES: Array<Type<void>> = [
-    DisableAutocompleteDirective
+    DisableAutocompleteDirective,
+    DisableOverlayDirective
 ];
 const ICONS: Array<Type<void>> = [];
 
