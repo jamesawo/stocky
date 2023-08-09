@@ -1,6 +1,7 @@
 export class SettingConstant {
 
     // backup and restore
+    //public static SETTING_BACKUP_MAX_UPLOAD_FILE_SIZE = 'SETTING_BACKUP_MAX_UPLOAD_FILE_SIZE';
     public static SETTING_BACKUP_ENABLE_AUTO_BACK_UP = 'BACKUP_ENABLE_AUTO_BACKUP';
 
     // dashboard
