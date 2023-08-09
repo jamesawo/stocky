@@ -1,9 +1,10 @@
 import {DatePipe, formatCurrency} from '@angular/common';
 import {HttpResponse} from '@angular/common/http';
 import {AbstractControl, FormControl, FormGroup} from '@angular/forms';
+import {NzMessageService} from 'ng-zorro-antd/message';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {first, firstValueFrom, from, map, Observable, switchMap} from 'rxjs';
-import {ModalOrDrawer} from '../../data/payload/common.enum';
+import {FileTemplate, FileType, ModalOrDrawer} from '../../data/payload/common.enum';
 import {TableEditCacheMap} from '../../data/payload/common.types';
 import {ProductPayload, ProductTaxPayload} from '../../routes/products/_data/product.payload';
 
@@ -65,20 +66,48 @@ export function currencyFormatter(value?: number): string {
     return '';
 }
 
-export function handleCreatePdfResourceUrl(blobFile: ArrayBuffer): string {
-    let file = new Blob([blobFile], {type: 'application/pdf'});
+export function handleCreateFileResourceUrl(blobFile: ArrayBuffer | Blob, type: string): string {
+    let file = new Blob([blobFile], {type: type});
     return URL.createObjectURL(file);
 }
 
-export function handleFileDownload(fileUrl: string): void {
+export function handleFileDownload(fileUrl: string, fileName: string): void {
     let anchorElement = document.createElement('a');
     document.body.appendChild(anchorElement);
     anchorElement.setAttribute('style', 'display: none');
     anchorElement.href = fileUrl;
-    anchorElement.download = `report.pdf`;
+    anchorElement.download = fileName;
     anchorElement.click();
     window.URL.revokeObjectURL(fileUrl);
     anchorElement.remove();
+}
+
+export function handleDownloadTemplate(blob: Blob, type: FileType, template: FileTemplate): void {
+    const url = handleCreateFileResourceUrl(blob, getFileMimeType(type));
+    handleFileDownload(url, template);
+}
+
+export function getFileMimeType(type: FileType): string {
+    switch (type) {
+        case FileType.PDF:
+            return 'application/pdf';
+        case FileType.EXCEL:
+            return 'application/vnd.ms-excel';
+        case FileType.CSV:
+            return 'text/csv';
+        case FileType.TXT:
+            return 'text/plain';
+        case FileType.WORD:
+            return 'application/msword';
+        case FileType.DOCX:
+            return 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        case FileType.JPG:
+            return 'image/jpeg';
+        case FileType.PNG:
+            return 'image/png';
+        default:
+            return '';
+    }
 }
 
 export function showSuccessNotification(
@@ -90,36 +119,46 @@ export function showSuccessNotification(
 }
 
 export function showErrorNotification(
-    service: NzNotificationService, content: string = 'Failed, please try again!', title: string = 'There was a problem.'
+    service: NzNotificationService | NzMessageService,
+    shortMessageOrTitle: string = 'Failed, please try again!',
+    longMessage: string = 'There was a problem.',
+    duration?: number
 ): void {
     if (service) {
-        service.error(title, content);
+        if (service instanceof NzMessageService) {
+            service.error(longMessage, {nzDuration: duration ?? 1000});
+        } else {
+            service.error(longMessage, shortMessageOrTitle, {nzDuration: duration ?? 1000});
+        }
     }
 }
 
 export function handleHttpRequestError(
-    erObj: any, opts?: {service?: NzNotificationService; title?: string}, errorMessage?: string, errorList?: string[]
+    erObj: any,
+    opts?: {service?: NzNotificationService | NzMessageService; title?: string, duration?: number},
+    errorMessage?: string,
+    errorList?: string[]
 ): void {
     errorMessage = erObj?.error?.message ?? 'There was a problem.';
     errorList = erObj?.error?.error ?? [];
 
     if (opts && opts.service) {
-        let title = opts.title ?? errorMessage;
-        let message = '';
+        let shortMessage = opts.title ?? errorMessage;
+        let listMessage = '';
 
         if (errorList instanceof Array) {
             errorList?.forEach((value) => {
-                message += `${value} <br>`;
+                listMessage += `${value} <br>`;
             });
         } else {
             errorList = ['ACTION FAILED'];
             if (erObj.error.error && erObj.status) {
-                message += `${erObj.status}: ${erObj.error.path ?? ''} ${erObj.error.error} <br>`;
-                errorList.push(message);
+                listMessage += `${erObj.status}: ${erObj.error.path ?? ''} ${erObj.error.error} <br>`;
+                errorList.push(listMessage);
                 errorList.push(erObj.message ?? '');
             }
         }
-        showErrorNotification(opts.service, message, title);
+        showErrorNotification(opts.service, listMessage, shortMessage, opts.duration);
     }
 }
 
@@ -296,4 +335,41 @@ export function stringToBoolean(str: string): boolean {
         return false;
     }
     throw new Error('Invalid string value. Expected \'true\' or \'false\'.');
+}
+
+export function isFileNameAllowed(fileName: string, allowedFiles: string []) {
+    let value = false;
+    // const allowedFiles = ['.xlsx', '.xls'];
+    const regex = /(?:\.([^.]+))?$/;
+    const extension = regex.exec(fileName);
+
+    if (undefined !== extension && null !== extension) {
+        for (const ext of allowedFiles) {
+            if (ext === extension[0]) {
+                value = true;
+            }
+        }
+    }
+    return value;
+}
+
+export function isFileExtensionAllowed(fileName: string, allowedFiles: FileType[]): boolean {
+    const fileExtension = fileName.split('.').pop()?.toLowerCase(); // Get the lowercase file extension
+
+    if (!fileExtension) {
+        return false; // No file extension found
+    }
+
+    const allowedExtensions = allowedFiles.map(fileType => fileType.toLowerCase()); // Map allowed file types to lowercase
+
+    return allowedExtensions.includes(fileExtension);
+}
+
+export function isFileSizeAllowed(fileSize: number | undefined, maxAllowedFileSize: number): boolean {
+    return fileSize ? fileSize <= maxAllowedFileSize : false;
+}
+
+
+export function toBytes(n: number) {
+    return n * 1024 * 1024; // n MB in bytes
 }
