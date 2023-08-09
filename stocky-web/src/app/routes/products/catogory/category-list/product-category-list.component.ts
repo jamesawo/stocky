@@ -4,10 +4,13 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, of, shareReplay} from 'rxjs';
 import {Crumbs} from 'src/app/shared/components/breadcrumbs/breadcrumbs.component';
 import {PRODUCT_CATEGORY_LIST_CRUMBS} from '../../../../data/constant/crumb.constant';
+import {FileConstant} from '../../../../data/constant/file.constant';
 import {PopOverConstant} from '../../../../data/constant/message.constant';
-import {TableButtonEnum} from '../../../../data/payload/common.enum';
+import {FileType, TableButtonEnum} from '../../../../data/payload/common.enum';
+import {UploadComponentInput} from '../../../../data/payload/common.interface';
 import {TableEditCacheMap} from '../../../../data/payload/common.types';
 import {TableCol} from '../../../../shared/components/table/table.component';
+import {UploadImportService} from '../../../../shared/utils/upload-import.service';
 import {
     handleAppendToObservableListIfResponse,
     handleCancelEditingTableItem,
@@ -53,7 +56,8 @@ export class ProductCategoryListComponent implements OnInit {
     constructor(
         private fb: UntypedFormBuilder,
         private notification: NzNotificationService,
-        private usecase: ProductCategoryUsecase
+        private usecase: ProductCategoryUsecase,
+        private uploadService: UploadImportService
     ) {}
 
     public ngOnInit(): void {
@@ -170,6 +174,25 @@ export class ProductCategoryListComponent implements OnInit {
         const response = await handleUsecaseRequest(this.usecase.toggleActiveStatus(id), this.notification);
         this.editObj[id].loading = false;
         this.notifyChange();
+    };
+
+    public handleExportData = (arg?: FileType) => {
+        this.uploadService.download();
+    };
+
+    public handleDownloadTemplate = () => {};
+
+    public handleUpload = () => {
+        const arg: UploadComponentInput = {
+            maxFileSizeInMB: FileConstant.MAX_UPLOAD_FILE_SIZE_MB,
+            allowedFileTypes: [FileType.EXCEL],
+            url: this.usecase.getProductCategoryUploadURL(),
+            type: 'drag',
+            canUploadMultipleFiles: false,
+            canDownloadTemplate: true,
+            onDownloadTemplate: this.handleDownloadTemplate
+        };
+        this.uploadService.upload(arg, 'Upload Product Category File');
     };
 
     private loadTableData() {

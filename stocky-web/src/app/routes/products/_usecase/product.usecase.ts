@@ -28,18 +28,6 @@ export class ProductUsecase {
         return this.http.post<boolean>(`${this.url}/set-discount`, arg, {observe: 'response'});
     }
 
-    public saveMany(products: ProductPayload[]) {
-        // todo implement method
-    }
-
-    public uploadFile(file: any) {
-        // implement method
-    }
-
-    public updateOne(product: ProductPayload) {
-        // implement method
-    }
-
     public searchProducts(searchPayload: PageSearchPayload<ProductSearchRequestPayload>) {
         return this.http.post<PageResultPayload<ProductPayload>>(`${this.url}/search-request`, searchPayload, {observe: 'response'});
     }
@@ -48,5 +36,7 @@ export class ProductUsecase {
         return this.http.post<PageResultPayload<ProductPayload>>(`${this.url}/search-sales-products`, searchPayload, {observe: 'response'});
     }
 
-
+    public getUploadUrl(): string {
+        return `${this.url}/import-file`;
+    }
 }
