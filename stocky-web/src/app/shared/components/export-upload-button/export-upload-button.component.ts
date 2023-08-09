@@ -1,5 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
+import {FileType} from '../../../data/payload/common.enum';
 import {BreakPoints, ResponsiveService} from '../../utils/responsive.service';
 
 @Component({
@@ -10,9 +11,13 @@ import {BreakPoints, ResponsiveService} from '../../utils/responsive.service';
 export class ExportUploadButtonComponent implements OnInit, OnDestroy {
 
     public displayTest = true;
+    public readonly fileType = FileType;
 
     @Input()
     public props: {} = {};
+
+    @Input()
+    public args?: any;
 
     @Input()
     public disableButtons: boolean = false;
@@ -24,17 +29,20 @@ export class ExportUploadButtonComponent implements OnInit, OnDestroy {
     public disableExport: boolean = false;
 
     @Input()
-    public toolTips: {
-        import: string,
-        export: string
-    } = {import: '', export: ''};
+    public toolTips: {import: string, export: string} = {import: '', export: ''};
 
     private sub = new Subscription();
 
     constructor(private service: ResponsiveService) {
     }
 
-    ngOnInit(): void {
+    @Input()
+    public onDownload: (args?: any) => void = () => {};
+
+    @Input()
+    public onUpload: (args?: any) => void = () => {};
+
+    public ngOnInit(): void {
         this.sub.add(
             this.service.mediaBreakpoint$.subscribe(
                 value => this.onBreakPointChange(value)
@@ -42,7 +50,7 @@ export class ExportUploadButtonComponent implements OnInit, OnDestroy {
         );
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         this.sub.unsubscribe();
     }
 

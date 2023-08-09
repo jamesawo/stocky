@@ -1,14 +1,68 @@
-<nz-upload
-    (nzChange)="handleChange($event)"
-    [nzMultiple]="true"
-    nzAction="#"
-    nzType="drag"
->
-    <p class="ant-upload-drag-icon">
-        <span nz-icon nzType="inbox"></span>
-    </p>
-    <p class="ant-upload-text">Click or drag file to this area to upload</p>
-    <p class="ant-upload-hint">
-        Support for a single or bulk upload.
-    </p>
-</nz-upload>
+<div class="h-50">
+
+    <nz-alert [nzMessage]="messageTmpl" [nzType]="'info'" class="mb3">
+        <ng-template #messageTmpl>
+            <span>Allowed file types: {{ allowedFileTypes | json}}</span>
+
+            <span class="db">Maximum file size: {{ maxFileSizeInMB }} (mb) </span>
+        </ng-template>
+    </nz-alert>
+
+    <ng-container *ngIf="type == 'select'; else dragTmpl">
+        <nz-upload
+            [(nzFileList)]="fileList"
+            [nzBeforeUpload]="beforeUpload"
+            [nzMultiple]="canUploadMultipleFiles"
+            [nzType]="type"
+        >
+            <button nz-button>
+                <span nz-icon nzType="upload"></span>
+                Select File
+            </button>
+        </nz-upload>
+    </ng-container>
+
+    <ng-template #dragTmpl>
+        <nz-upload
+            [(nzFileList)]="fileList"
+            [nzBeforeUpload]="beforeUpload"
+            [nzMultiple]="canUploadMultipleFiles"
+            [nzType]="type"
+        >
+            <p class="ant-upload-drag-icon">
+                <span nz-icon nzType="inbox"></span>
+            </p>
+            <p *ngIf="!fileList.length" class="ant-upload-text">Click or drag file to this area</p>
+            <p *ngIf="fileList.length" class="ant-upload-text"> {{fileList.length}} files added</p>
+
+            <p class="ant-upload-hint">
+                <span>Click upload button to start uploading.</span>
+            </p>
+        </nz-upload>
+    </ng-template>
+
+    <div class="custom-flex custom-flex-row custom-flex-row-reverse-m custom-justify-between">
+        <button
+            (click)="handleUpload()"
+            [disabled]="fileList.length === 0"
+            [nzLoading]="isUploading"
+            [nzType]="'primary'"
+            class="mt3"
+            nz-button
+        >
+            <span *ngIf="isUploading"> Uploading ... %{{uploadProgress}} </span>
+            <span *ngIf="!isUploading">Start uploading</span>
+
+        </button>
+
+        <div class="mt3 custom-mt3 custom-db">
+            <app-hint [content]="'Download a template sample file, fill it and upload the file'"></app-hint>
+            <button (click)="onDownloadTemplate()" *ngIf="canDownloadTemplate" nz-button nzType="link" style="margin-left: -12px;">
+                Download Template
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
