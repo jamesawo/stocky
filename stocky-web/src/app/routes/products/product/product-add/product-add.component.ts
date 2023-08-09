@@ -4,7 +4,10 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {PRODUCT_ADD_CRUMBS} from '../../../../data/constant/crumb.constant';
 import {Message, ProductPopover} from '../../../../data/constant/message.constant';
+import {SettingConstant} from '../../../../data/constant/setting.constant';
+import {SettingModuleEnum} from '../../../../data/payload/common.enum';
 import {handleUsecaseRequest, markFormFieldsAsDirtyAndTouched} from '../../../../shared/utils/util';
+import {SettingUsecase} from '../../../settings/_usecase/setting.usecase';
 import {ProductPayload} from '../../_data/product.payload';
 import {ProductUsecase} from '../../_usecase/product.usecase';
 
@@ -31,6 +34,7 @@ export class ProductAddComponent implements OnInit {
     public crumbs = PRODUCT_ADD_CRUMBS;
     public popover = ProductPopover;
     public form!: FormGroup;
+    public isStockEnabled: boolean = false;
 
     @ViewChild('basicTmpl', {static: true})
     public basicTmpl!: TemplateRef<any>;
@@ -41,7 +45,8 @@ export class ProductAddComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private notification: NzNotificationService,
-        private usecase: ProductUsecase
+        private usecase: ProductUsecase,
+        private settingUsecase: SettingUsecase
     ) {}
 
     public ngOnInit(): void {
@@ -51,6 +56,7 @@ export class ProductAddComponent implements OnInit {
         ];
 
         this.initForm();
+        this.checkIsStockEnabled().then();
     }
 
     public onSaveProduct = async (): Promise<void> => {
@@ -109,5 +115,12 @@ export class ProductAddComponent implements OnInit {
             this.initForm();
         }
         this.response.emit(response);
+    }
+
+    private async checkIsStockEnabled() {
+        this.isStockEnabled = await this.settingUsecase.getByKeyAsBool(
+            SettingConstant.SETTING_STOCK_ENABLE_STOCK,
+            SettingModuleEnum.STOCK,
+            true);
     }
 }

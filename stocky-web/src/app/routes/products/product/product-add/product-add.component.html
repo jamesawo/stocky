@@ -8,7 +8,7 @@
             </form>
         </nz-tab>
     </nz-tabset>
-    
+
 </div>
 
 <ng-template #basicTmpl let-form="form">
@@ -16,6 +16,9 @@
 </ng-template>
 
 <ng-template #priceTmpl let-form="form">
-    <app-product-price-tab [formGroup]="form"></app-product-price-tab>
+    <app-setting-locker [disabled]="isStockEnabled" toolTip="Stock Settings is currently active; product prices will derive from stock">
+        <app-product-price-tab [formGroup]="form"></app-product-price-tab>
+    </app-setting-locker>
+    
 </ng-template>
 
