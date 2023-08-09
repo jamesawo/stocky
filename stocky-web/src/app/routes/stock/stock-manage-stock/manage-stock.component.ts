@@ -1,6 +1,9 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {STOCK_MANAGE_CRUMBS} from '../../../data/constant/crumb.constant';
+import {SettingConstant} from '../../../data/constant/setting.constant';
+import {SettingModuleEnum} from '../../../data/payload/common.enum';
 import {TableCol} from '../../../shared/components/table/table.component';
+import {SettingUsecase} from '../../settings/_usecase/setting.usecase';
 import {StockManageAddComponent} from '../_components/stock-manage/stock-manage-add/stock-manage-add.component';
 
 @Component({
@@ -8,7 +11,7 @@ import {StockManageAddComponent} from '../_components/stock-manage/stock-manage-
     templateUrl: './manage-stock.component.html',
     styles: []
 })
-export class ManageStockComponent {
+export class ManageStockComponent implements OnInit {
 
     @ViewChild('stockManageAddComponent')
     public stockManageAddComponent?: StockManageAddComponent;
@@ -25,7 +28,16 @@ export class ManageStockComponent {
         {title: 'Details'},
         {title: 'Action'}
     ];
+    public isStockEnabled: boolean = false;
+    public disableWarning = 'Stock is disabled in setting';
+    
+    protected readonly Promise = Promise;
 
+    constructor(private settingUsecase: SettingUsecase) {}
+
+    public ngOnInit() {
+        this.checkStockStatus().then();
+    }
 
     public onSearch = async (): Promise<void> => {
     };
@@ -38,5 +50,10 @@ export class ManageStockComponent {
 
     public onCreate = async () => this.stockManageAddComponent?.open();
 
-
+    public async checkStockStatus(): Promise<void> {
+        this.isStockEnabled = await this.settingUsecase.getByKeyAsBool(
+            SettingConstant.SETTING_STOCK_ENABLE_STOCK,
+            SettingModuleEnum.STOCK,
+            true);
+    }
 }
