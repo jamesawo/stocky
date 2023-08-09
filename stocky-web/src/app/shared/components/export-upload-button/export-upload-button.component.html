@@ -1,4 +1,5 @@
 <button
+    (click)="onUpload(args)"
     [disabled]="disableButtons || disableImport"
     [nzSize]="'large'"
     [nzTooltipTitle]="toolTips.import"
@@ -14,18 +15,19 @@
     [disabled]="disableButtons || disableExport"
     [nzDropdownMenu]="menu"
     [nzSize]="'large'"
-    [nzTooltipTitle]="toolTips.export"
-    nz-button nz-dropdown nz-tooltip>
+    [nzTooltipTitle]="toolTips.export" nz-button nz-dropdown
+    nz-tooltip
+>
     <span *ngIf="displayTest"> Export</span>
     <span nz-icon nzType="download"></span>
 </button>
 <nz-dropdown-menu #menu="nzDropdownMenu">
     <ul nz-menu>
-        <li nz-menu-item>
+        <li (click)="onDownload(fileType.PDF)" nz-menu-item>
             <a>PDF</a>
         </li>
-        <li nz-menu-item>
-            <a>Excel</a>
+        <li (click)="onDownload(fileType.EXCEL)" nz-menu-item>
+            <a>EXCEL</a>
         </li>
     </ul>
 </nz-dropdown-menu>

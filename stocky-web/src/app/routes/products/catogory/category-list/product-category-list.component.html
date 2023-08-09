@@ -38,7 +38,10 @@
                             <nz-space nzSize="small">
                                 <app-button *nzSpaceItem [props]="{handler: onOpenModal, title: 'Add', icon: 'plus'}"
                                 ></app-button>
-                                <app-export-upload-button *nzSpaceItem [props]="{}"></app-export-upload-button>
+                                <app-export-upload-button
+                                    *nzSpaceItem
+                                    [onDownload]="handleExportData" [onUpload]="handleUpload"
+                                ></app-export-upload-button>
                             </nz-space>
                         </div>
                     </div>

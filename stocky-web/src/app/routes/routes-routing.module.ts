@@ -6,6 +6,7 @@ import {environment} from '@env/environment';
 // layout
 import {LayoutBasicComponent} from '../layout/basic/basic.component';
 import {LayoutPassportComponent} from '../layout/passport/passport.component';
+import {ComingSoonComponent} from '../shared/components/coming-soon/coming-soon.component';
 // dashboard pages
 import {DashboardComponent} from './dashboard/dashboard.component';
 // single pages
@@ -62,6 +63,15 @@ const routes: Routes = [
                 component: UserLockComponent,
                 data: {title: 'Lock'}
             }
+        ]
+    },
+
+    {
+        path: 'authentication',
+        component: LayoutBasicComponent,
+        canActivate: [startPageGuard, SimpleGuard],
+        children: [
+            {path: 'account', component: ComingSoonComponent, data: {title: 'Account'}}
         ]
     },
 

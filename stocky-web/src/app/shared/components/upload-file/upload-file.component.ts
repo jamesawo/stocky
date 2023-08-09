@@ -1,26 +1,166 @@
-import {Component} from '@angular/core';
+import {HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpHeaders} from '@angular/common/http';
+import {Component, Inject, Input} from '@angular/core';
+import {DA_SERVICE_TOKEN, ITokenService} from '@delon/auth';
 import {NzMessageService} from 'ng-zorro-antd/message';
-import {NzUploadChangeParam} from 'ng-zorro-antd/upload';
+import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {NzUploadFile, NzUploadType} from 'ng-zorro-antd/upload';
+import {throwError} from 'rxjs';
+import {FileType} from '../../../data/payload/common.enum';
+import {UploadComponentInput} from '../../../data/payload/common.interface';
+import {handleHttpRequestError, isFileExtensionAllowed, isFileSizeAllowed, toBytes} from '../../utils/util';
 
 @Component({
     selector: 'app-upload-file',
     templateUrl: './upload-file.component.html',
-    styles: []
+    styles: [
+        `
+          /* Regular desktop layout */
+          .custom-flex {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+          }
+
+          /* Mobile layout */
+          @media (max-width: 767px) {
+            .custom-flex {
+              flex-direction: column-reverse;
+            }
+            
+            .custom-db {
+              display: block;
+            }
+
+            /* Adjust width of elements to full width */
+            .custom-flex > * {
+              width: 100%;
+            }
+          }
+        `
+    ]
 })
-export class UploadFileComponent {
+export class UploadFileComponent implements UploadComponentInput {
 
-    constructor(private msg: NzMessageService) {}
+    public isUploading = false;
+    public fileList: NzUploadFile[] = [];
+    public uploadProgress = 0;
 
-    handleChange({file, fileList}: NzUploadChangeParam): void {
-        const status = file.status;
-        if (status !== 'uploading') {
-            console.log(file, fileList);
+    @Input()
+    public maxFileSizeInMB = 10;
+
+    @Input()
+    public canDownloadTemplate = false;
+
+    @Input()
+    public canUploadMultipleFiles: boolean = false;
+
+    @Input()
+    public url: string = '';
+
+    @Input()
+    public type: NzUploadType = 'drag';
+
+    @Input()
+    public allowedFileTypes: FileType[] = [];
+
+    constructor(
+        private http: HttpClient,
+        private msg: NzMessageService,
+        private notificationService: NzNotificationService,
+        @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService
+    ) {}
+
+    @Input()
+    public onDownloadTemplate: () => void = () => {};
+
+    public beforeUpload = (file: NzUploadFile): boolean => {
+        if (!this.onValidateFile(file)) {
+            return false;
         }
-        if (status === 'done') {
-            this.msg.success(`${file.name} file uploaded successfully.`);
-        } else if (status === 'error') {
-            this.msg.error(`${file.name} file upload failed.`);
+        this.onAppendFileToList(file);
+        return false;
+    };
+
+    public handleUpload(): void {
+        const formData = this.prepareFormData();
+        this.isUploading = true;
+        const headers = new HttpHeaders().set('Authorization', this.tokenService.get()?.token!);
+        this.http.post<any>(this.url, formData, {
+            headers: headers,
+            reportProgress: true,
+            observe: 'events'
+        }).subscribe({
+            next: (res) => this.handleSuccess(res),
+            error: (err) => this.handleError(err)
+        });
+    }
+
+    public handleError(error: HttpErrorResponse) {
+        const defaultErrorMessage: string = 'Uploading failed, please ask for help or try again';
+        handleHttpRequestError(error, {service: this.msg, duration: 5000});
+        this.isUploading = false;
+        this.uploadProgress = 0;
+        this.msg.error(defaultErrorMessage);
+        return throwError(error);
+    }
+
+    private onAppendFileToList(file: NzUploadFile) {
+        if (this.canUploadMultipleFiles) {
+            this.fileList = this.fileList.concat(file);
+        } else {
+            this.fileList = [file];
         }
     }
 
+    private onValidateFile(file: NzUploadFile) {
+        let validated = true;
+
+        if (!isFileExtensionAllowed(file.name, this.allowedFileTypes)) {
+            this.msg.error('File type is not allowed', {nzDuration: 5000, nzPauseOnHover: true});
+            return false;
+        }
+
+        if (!isFileSizeAllowed(file.size, toBytes(this.maxFileSizeInMB))) {
+            this.msg.error('File size is not allowed', {nzDuration: 5000, nzPauseOnHover: true});
+            return false;
+        }
+
+        return validated;
+    }
+
+    private prepareFormData(): FormData {
+        const formData = new FormData();
+        if (this.canUploadMultipleFiles) {
+            this.fileList.forEach((file: any) => formData.append('files[]', file));
+        } else {
+            const file: any = this.fileList[0];
+            formData.append('file', file);
+        }
+        return formData;
+    }
+
+    private handleSuccess(res: HttpEvent<any>) {
+        switch (res.type) {
+            case HttpEventType.Sent:
+                break;
+            case HttpEventType.ResponseHeader:
+                break;
+            case HttpEventType.UploadProgress:
+                this.uploadProgress = Math.round((res.loaded / (res.total ?? 1)) * 100);
+                break;
+            case HttpEventType.Response:
+                if (res.body) {
+                    this.msg.success('File Uploaded Successfully');
+                } else {
+                    this.msg.error('FAILED TO UPLOAD DATA');
+                }
+                // const responseBody = res.body; can emit response
+                setTimeout(() => {
+                    this.uploadProgress = 0;
+                    this.isUploading = false;
+                    this.fileList = [];
+                }, 1000);
+        }
+
+    }
 }

@@ -61,3 +61,30 @@ export enum ReportDataType {
     ARRAY_BUFFER,
     FILE_URL
 }
+
+export enum FileType {
+    PDF = 'pdf',
+    EXCEL = 'xls',
+    CSV = 'csv',
+    TXT = 'txt',
+    WORD = 'doc',
+    DOCX = 'docx',
+    JPG = 'jpg',
+    PNG = 'png',
+}
+
+export enum FileTemplate {
+    PRODUCT_UPLOAD_TEMPLATE_XLS = 'ProductTemplate.xls',
+    TRANSACTION_RECEIPT_PDF = 'Receipt.pdf',
+}
+
+export enum FileExtensions {
+    EXCEL = '.xlsx',
+    CSV = '.csv',
+    TXT = '.txt',
+    PDF = '.pdf',
+    DOC = '.doc',
+    DOCX = '.docx',
+    JPG = '.jpg',
+    PNG = '.png'
+}

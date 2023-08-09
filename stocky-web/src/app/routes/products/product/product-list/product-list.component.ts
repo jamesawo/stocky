@@ -4,13 +4,15 @@ import {Router} from '@angular/router';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {firstValueFrom, Observable, of} from 'rxjs';
 import {PRODUCT_LIST_CRUMBS} from 'src/app/data/constant/crumb.constant';
-import {PageSearchPayload} from 'src/app/data/payload/common.interface';
+import {PageSearchPayload, UploadComponentInput} from 'src/app/data/payload/common.interface';
 import {PagePayload} from 'src/app/data/payload/common.payload';
 import {ProductPayload, ProductSearchRequestPayload, ProductTaxPayload} from 'src/app/routes/products/_data/product.payload';
 import {ProductUsecase} from 'src/app/routes/products/_usecase/product.usecase';
 import {getTaxTitle, handleUsecaseRequest} from 'src/app/shared/utils/util';
-import {ModalOrDrawer} from '../../../../data/payload/common.enum';
+import {FileConstant} from '../../../../data/constant/file.constant';
+import {FileType, ModalOrDrawer} from '../../../../data/payload/common.enum';
 import {TableCol} from '../../../../shared/components/table/table.component';
+import {UploadImportService} from '../../../../shared/utils/upload-import.service';
 import {ProductAddComponent} from '../product-add/product-add.component';
 
 @Component({
@@ -53,7 +55,8 @@ export class ProductListComponent {
     constructor(
         private router: Router,
         private usecase: ProductUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private uploadService: UploadImportService
     ) {}
 
     public onCancelHandler = () => {};
@@ -118,6 +121,25 @@ export class ProductListComponent {
             this.displayResponseBodyOnTable([...list]);
         }
     }
+
+    public handleUpload = () => {
+        const arg: UploadComponentInput = {
+            maxFileSizeInMB: FileConstant.MAX_UPLOAD_FILE_SIZE_MB,
+            allowedFileTypes: [FileType.EXCEL],
+            url: this.usecase.getUploadUrl(),
+            type: 'drag',
+            canUploadMultipleFiles: false,
+            canDownloadTemplate: true,
+            onDownloadTemplate: this.handleDownloadTemplate
+        };
+        this.uploadService.upload(arg, 'Upload Product File');
+    };
+
+    public handleDownloadTemplate = () => {};
+
+    public handleExportData = (arg?: FileType) => {
+        this.uploadService.download();
+    };
 
     public concatProductTax(taxes: ProductTaxPayload[]) {
         if (taxes) {

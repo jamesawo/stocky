@@ -14,3 +14,5 @@ export interface ComponentReportPreviewType {
     // closeAction: (arg?: any) => void;
 
 }
+
+

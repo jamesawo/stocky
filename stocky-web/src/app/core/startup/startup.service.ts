@@ -33,6 +33,27 @@ export class StartupService {
         return this.viaLocal();
     }
 
+    private viaLocal(): Observable<void> {
+
+        const tokenData = this.tokenService.get();
+        if (!tokenData?.token) {
+            this.router.navigateByUrl(this.tokenService.login_url!).then();
+            return of(void 0);
+        }
+
+        const res = this.passportUsecase.getLoginResponse();
+        if (res && res.app && res.user && res.menu) {
+
+            this.settingService.setApp(res.app);
+            this.settingService.setUser(res.user);
+            this.aclService.setAbility(res.user?.access ?? []);
+            this.menuService.add(res.menu);
+            this.titleService.suffix = res.app.name;
+        }
+        return of(void 0);
+
+    }
+
     /*
     private viaHttp(): Observable<void> {
         // const defaultLang = this.i18n.defaultLang;
@@ -68,32 +89,6 @@ export class StartupService {
             })
         );
     }
-
-     */
-
-    private viaLocal(): Observable<void> {
-
-        const tokenData = this.tokenService.get();
-        if (!tokenData?.token) {
-            this.router.navigateByUrl(this.tokenService.login_url!).then();
-            return of(void 0);
-        }
-
-        const res = this.passportUsecase.getLoginResponse();
-        if (res && res.app && res.user && res.menu) {
-
-            this.settingService.setApp(res.app);
-            this.settingService.setUser(res.user);
-            this.aclService.setAbility(res.user?.access ?? []);
-
-            this.menuService.add(res.menu);
-            this.titleService.suffix = res.app.name;
-        }
-        return of(void 0);
-
-    }
-
-    /*
 
     private viaMock(): Observable<void> {
 

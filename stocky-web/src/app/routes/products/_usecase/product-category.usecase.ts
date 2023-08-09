@@ -48,5 +48,8 @@ export class ProductCategoryUsecase {
         return this.http.put<boolean>(`${this.url}/status/${id}`, {}, {observe: 'response'});
     }
 
+    public getProductCategoryUploadURL() {
+        return `${this.url}/import-file`;
+    }
 
 }

@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
-import {handleCreatePdfResourceUrl, handleFileDownload} from '../../../../shared/utils/util';
+import {FileTemplate, FileType} from '../../../../data/payload/common.enum';
+import {getFileMimeType, handleCreateFileResourceUrl, handleFileDownload} from '../../../../shared/utils/util';
 import {ComponentReportPreviewType} from '../../_data/sale.interface';
 
 @Component({
@@ -50,14 +51,14 @@ export class SalesTransactionReceiptViewerComponent implements ComponentReportPr
 
     public downloadAction: (arg?: any) => void = () => {
         if (this.data) {
-            const fileUrl = handleCreatePdfResourceUrl(this.data);
-            handleFileDownload(fileUrl);
+            const fileUrl = handleCreateFileResourceUrl(this.data, getFileMimeType(FileType.PDF));
+            handleFileDownload(fileUrl, FileTemplate.TRANSACTION_RECEIPT_PDF);
         }
     };
 
     public printAction: (arg?: any) => void = () => {
         if (this.data) {
-            const fileURL = handleCreatePdfResourceUrl(this.data);
+            const fileURL = handleCreateFileResourceUrl(this.data, getFileMimeType(FileType.PDF));
             let openWindow: any = window.open(`${fileURL}`, '', 'height=550px, width=550px');
             openWindow.focus();
             openWindow.print();
@@ -83,7 +84,7 @@ export class SalesTransactionReceiptViewerComponent implements ComponentReportPr
 
     public onLoadReportBuffer(buffer: ArrayBuffer) {
         if (buffer) {
-            const fileURL = `${handleCreatePdfResourceUrl(buffer)}#toolbar=0`;
+            const fileURL = `${handleCreateFileResourceUrl(buffer, getFileMimeType(FileType.PDF))}#toolbar=0`;
             this.resourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
             this.isContentLoaded = true;
         }
