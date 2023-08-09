@@ -35,10 +35,11 @@ export class SettingUsecase {
     }
 
     private async getFromApi(key: string, module: SettingModuleEnum): Promise<string> {
+        let value = '';
         const httpCall = this.http.get<SettingPayload>(`${this.url}/find?key=${key}&module=${module}`);
         const result = await firstValueFrom(httpCall);
+        value = result.settingValue ?? '';
 
-        const value = result.settingValue ?? '';
         storeInLocal(key, value);
         return value;
     }

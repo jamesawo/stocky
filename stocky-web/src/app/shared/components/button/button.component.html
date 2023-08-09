@@ -1,9 +1,12 @@
 <button (click)="props.handler(props.args)"
         [class]="btnClass"
+        [disabled]="disabled"
         [nzLoading]="props.isLoading!"
         [nzSize]="props.size!"
+        [nzTooltipTitle]="toolTip"
         [nzType]="props.type!"
         nz-button
+        nz-tooltip
         type="button"
 >
     <ng-container *ngIf="props.title">

@@ -22,6 +22,12 @@ export class ButtonComponent implements OnDestroy, OnInit {
     public showTitle = true;
 
     @Input()
+    public disabled = false;
+
+    @Input()
+    public toolTip = '';
+
+    @Input()
     public props: ButtonProps = {
         handler: () => {},
         title: 'Add',

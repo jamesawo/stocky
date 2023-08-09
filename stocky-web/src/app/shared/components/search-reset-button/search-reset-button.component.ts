@@ -13,6 +13,21 @@ export class SearchResetButtonComponent implements OnInit, OnDestroy {
     public showTitle = true;
 
     @Input()
+    public disableButtons: boolean = false;
+
+    @Input()
+    public disableSearch: boolean = false;
+
+    @Input()
+    public disableReset: boolean = false;
+
+    @Input()
+    public toolTips: {
+        search: string,
+        reset: string
+    } = {search: '', reset: ''};
+
+    @Input()
     public size: NzButtonSize = 'large';
 
     @Input()

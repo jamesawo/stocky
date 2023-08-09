@@ -14,6 +14,21 @@ export class ExportUploadButtonComponent implements OnInit, OnDestroy {
     @Input()
     public props: {} = {};
 
+    @Input()
+    public disableButtons: boolean = false;
+
+    @Input()
+    public disableImport: boolean = false;
+
+    @Input()
+    public disableExport: boolean = false;
+
+    @Input()
+    public toolTips: {
+        import: string,
+        export: string
+    } = {import: '', export: ''};
+
     private sub = new Subscription();
 
     constructor(private service: ResponsiveService) {
