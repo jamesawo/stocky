@@ -8,6 +8,7 @@ import com.jamesaworo.stocky.features.product.data.request.ProductRequest;
 import com.jamesaworo.stocky.features.product.data.request.ProductSearchRequest;
 import com.jamesaworo.stocky.features.stock.data.request.StockPriceRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -87,5 +88,11 @@ public class ProductEndpoint {
         Map<String, String> map = new HashMap<>();
         map.put("status", "success");
         return ResponseEntity.ok(map);
+    }
+
+    @GetMapping("/download-template")
+    @ResponseBody
+    public ResponseEntity<Resource> downloadFile() throws IOException {
+        return this.interactor.downloadTemplate();
     }
 }

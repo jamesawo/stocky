@@ -1,6 +1,7 @@
 package com.jamesaworo.stocky.features.product.data.interactor.implementation;
 
 import com.jamesaworo.stocky.core.annotations.Interactor;
+import com.jamesaworo.stocky.core.constants.enums.Template;
 import com.jamesaworo.stocky.core.mapper.Mapper;
 import com.jamesaworo.stocky.core.params.PageSearchRequest;
 import com.jamesaworo.stocky.core.params.PageSearchResult;
@@ -16,10 +17,15 @@ import com.jamesaworo.stocky.features.product.domain.usecase.IProductUsecase;
 import com.jamesaworo.stocky.features.stock.data.request.StockPriceRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -178,6 +184,15 @@ public class ProductInteractor implements IProductInteractor, Mapper<ProductRequ
                         product.getPrice(), request)).orElse(Boolean.FALSE);
 
         return ok().body(res);
+    }
+
+    @Override
+    public ResponseEntity<Resource> downloadTemplate() throws IOException {
+        Resource resource = this.usecase.downloadTemplate(Template.PRODUCT_UPLOAD);
+        Path path = resource.getFile().toPath();
+        return ok().header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 
     public ProductRequest toRequest(Product model) {

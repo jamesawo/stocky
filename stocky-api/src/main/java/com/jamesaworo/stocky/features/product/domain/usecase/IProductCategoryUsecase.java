@@ -1,24 +1,29 @@
 package com.jamesaworo.stocky.features.product.domain.usecase;
 
+import com.jamesaworo.stocky.core.params.FileHandler;
 import com.jamesaworo.stocky.features.product.domain.entity.ProductCategory;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
  * @author Aworo James
  * @since 5/10/23
  */
-public interface IProductCategoryUsecase {
-	Optional<ProductCategory> findOne(Long id);
+public interface IProductCategoryUsecase extends FileHandler<Map<String, Object>, MultipartFile> {
+    Optional<ProductCategory> findOne(Long id);
 
-	List<ProductCategory> findAll();
+    List<ProductCategory> findAll();
 
-	Optional<ProductCategory> save(ProductCategory category);
+    Optional<ProductCategory> save(ProductCategory category);
 
-	Optional<Boolean> remove(Long id);
+    Optional<Boolean> remove(Long id);
 
-	List<ProductCategory> search(String term);
+    List<ProductCategory> search(String term);
 
-	Boolean toggleStatus(boolean b, Long id);
+    Boolean toggleStatus(boolean b, Long id);
+
+
 }

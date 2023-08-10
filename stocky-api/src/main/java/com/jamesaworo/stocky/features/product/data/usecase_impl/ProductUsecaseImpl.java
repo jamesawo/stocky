@@ -2,6 +2,8 @@ package com.jamesaworo.stocky.features.product.data.usecase_impl;
 
 import com.jamesaworo.stocky.core.annotations.Usecase;
 import com.jamesaworo.stocky.core.constants.Setting;
+import com.jamesaworo.stocky.core.constants.enums.Template;
+import com.jamesaworo.stocky.core.utils.FileUtil;
 import com.jamesaworo.stocky.features.product.data.repository.ProductRepository;
 import com.jamesaworo.stocky.features.product.domain.entity.Product;
 import com.jamesaworo.stocky.features.product.domain.entity.ProductBasic;
@@ -13,11 +15,15 @@ import com.jamesaworo.stocky.features.product.domain.usecase.IProductUsecase;
 import com.jamesaworo.stocky.features.settings.domain.entity.SettingStock;
 import com.jamesaworo.stocky.features.settings.domain.usecase.ISettingUsecase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static com.jamesaworo.stocky.features.product.domain.enums.ProductQuantityUpdateType.DECREMENT;
@@ -97,5 +103,15 @@ public class ProductUsecaseImpl implements IProductUsecase {
                 this.basicUsecase.updateProductQuantity(basic.getId(), quantity, productQuantityUpdateType);
             });
         });
+    }
+
+    @Override
+    public Resource downloadTemplate(Template template) {
+        return FileUtil.findResource(template);
+    }
+
+    @Override
+    public ResponseEntity<Map<String, Object>> uploadTemplate(MultipartFile input) {
+        return null;
     }
 }
