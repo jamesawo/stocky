@@ -57,11 +57,13 @@
                         <nz-space nzSize="small">
                             <app-button *nzSpaceItem [disabled]="!isStockEnabled"
                                         [props]="{title: 'Add', icon: 'plus', handler: onCreate}"></app-button>
+
                             <app-export-upload-button
                                 *nzSpaceItem
-                                [disableButtons]="!isStockEnabled" [props]="{}"
-                                [toolTips]="{import: !isStockEnabled?disableWarning: '', export: !isStockEnabled?disableWarning: ''}"
+                                [disableButtons]="true"
+                                [toolTips]="{import: message.COMING_SOON, export: message.COMING_SOON}"
                             ></app-export-upload-button>
+
                         </nz-space>
                     </div>
                 </div>

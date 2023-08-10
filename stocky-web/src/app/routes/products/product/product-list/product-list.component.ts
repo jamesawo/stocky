@@ -2,15 +2,15 @@ import {HttpResponse} from '@angular/common/http';
 import {Component, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {firstValueFrom, Observable, of} from 'rxjs';
+import {catchError, firstValueFrom, Observable, of} from 'rxjs';
 import {PRODUCT_LIST_CRUMBS} from 'src/app/data/constant/crumb.constant';
 import {PageSearchPayload, UploadComponentInput} from 'src/app/data/payload/common.interface';
 import {PagePayload} from 'src/app/data/payload/common.payload';
 import {ProductPayload, ProductSearchRequestPayload, ProductTaxPayload} from 'src/app/routes/products/_data/product.payload';
 import {ProductUsecase} from 'src/app/routes/products/_usecase/product.usecase';
-import {getTaxTitle, handleUsecaseRequest} from 'src/app/shared/utils/util';
+import {getTaxTitle, handleDownloadTemplate, handleHttpRequestError, handleUsecaseRequest} from 'src/app/shared/utils/util';
 import {FileConstant} from '../../../../data/constant/file.constant';
-import {FileType, ModalOrDrawer} from '../../../../data/payload/common.enum';
+import {FileTemplate, FileType, ModalOrDrawer} from '../../../../data/payload/common.enum';
 import {TableCol} from '../../../../shared/components/table/table.component';
 import {UploadImportService} from '../../../../shared/utils/upload-import.service';
 import {ProductAddComponent} from '../product-add/product-add.component';
@@ -125,7 +125,7 @@ export class ProductListComponent {
     public handleUpload = () => {
         const arg: UploadComponentInput = {
             maxFileSizeInMB: FileConstant.MAX_UPLOAD_FILE_SIZE_MB,
-            allowedFileTypes: [FileType.EXCEL],
+            allowedFileTypes: [FileType.EXCEL, FileType.EXCEL_V2],
             url: this.usecase.getUploadUrl(),
             type: 'drag',
             canUploadMultipleFiles: false,
@@ -135,7 +135,13 @@ export class ProductListComponent {
         this.uploadService.upload(arg, 'Upload Product File');
     };
 
-    public handleDownloadTemplate = () => {};
+    public handleDownloadTemplate = async () => {
+        const templateFile = await firstValueFrom(
+            this.usecase.downloadTemplate().pipe(
+                catchError((err) => handleHttpRequestError(err, {service: this.notification}))
+            ));
+        handleDownloadTemplate(templateFile, FileType.EXCEL_V2, FileTemplate.PRODUCT_UPLOAD_TEMPLATE);
+    };
 
     public handleExportData = (arg?: FileType) => {
         this.uploadService.download();
@@ -151,4 +157,6 @@ export class ProductListComponent {
     private displayResponseBodyOnTable(body: ProductPayload[]) {
         this.tableData = of(body);
     }
+
+
 }

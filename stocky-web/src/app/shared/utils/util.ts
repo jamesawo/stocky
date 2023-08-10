@@ -3,7 +3,7 @@ import {HttpResponse} from '@angular/common/http';
 import {AbstractControl, FormControl, FormGroup} from '@angular/forms';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {first, firstValueFrom, from, map, Observable, switchMap} from 'rxjs';
+import {first, firstValueFrom, from, map, Observable, switchMap, throwError} from 'rxjs';
 import {FileTemplate, FileType, ModalOrDrawer} from '../../data/payload/common.enum';
 import {TableEditCacheMap} from '../../data/payload/common.types';
 import {ProductPayload, ProductTaxPayload} from '../../routes/products/_data/product.payload';
@@ -138,7 +138,7 @@ export function handleHttpRequestError(
     opts?: {service?: NzNotificationService | NzMessageService; title?: string, duration?: number},
     errorMessage?: string,
     errorList?: string[]
-): void {
+) {
     errorMessage = erObj?.error?.message ?? 'There was a problem.';
     errorList = erObj?.error?.error ?? [];
 
@@ -160,6 +160,7 @@ export function handleHttpRequestError(
         }
         showErrorNotification(opts.service, listMessage, shortMessage, opts.duration);
     }
+    return throwError(errorList ?? errorMessage);
 }
 
 export async function handleUsecaseRequest<T>(

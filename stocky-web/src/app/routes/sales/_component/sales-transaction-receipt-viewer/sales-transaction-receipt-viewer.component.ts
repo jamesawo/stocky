@@ -52,7 +52,7 @@ export class SalesTransactionReceiptViewerComponent implements ComponentReportPr
     public downloadAction: (arg?: any) => void = () => {
         if (this.data) {
             const fileUrl = handleCreateFileResourceUrl(this.data, getFileMimeType(FileType.PDF));
-            handleFileDownload(fileUrl, FileTemplate.TRANSACTION_RECEIPT_PDF);
+            handleFileDownload(fileUrl, FileTemplate.TRANSACTION_RECEIPT);
         }
     };
 

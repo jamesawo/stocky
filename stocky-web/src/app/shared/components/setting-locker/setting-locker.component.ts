@@ -11,6 +11,6 @@ export class SettingLockerComponent {
     public disabled: boolean = false;
 
     @Input()
-    public toolTip: string = 'This feature is currently disabled in settings';
+    public toolTip: string = 'This feature is currently not available';
 
 }

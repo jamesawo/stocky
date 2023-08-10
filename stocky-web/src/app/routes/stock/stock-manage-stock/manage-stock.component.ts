@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {STOCK_MANAGE_CRUMBS} from '../../../data/constant/crumb.constant';
+import {Message} from '../../../data/constant/message.constant';
 import {SettingConstant} from '../../../data/constant/setting.constant';
 import {SettingModuleEnum} from '../../../data/payload/common.enum';
 import {TableCol} from '../../../shared/components/table/table.component';
@@ -30,7 +31,8 @@ export class ManageStockComponent implements OnInit {
     ];
     public isStockEnabled: boolean = false;
     public disableWarning = 'Stock is disabled in setting';
-    
+    public readonly message = Message;
+
     protected readonly Promise = Promise;
 
     constructor(private settingUsecase: SettingUsecase) {}

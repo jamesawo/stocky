@@ -1,6 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
+import {Observable} from 'rxjs';
 import {PageResultPayload, PageSearchPayload} from '../../../data/payload/common.interface';
 import {StockPrice} from '../../stock/_data/stock.payload';
 import {ProductDiscountPayload, ProductPayload, ProductSearchRequestPayload} from '../_data/product.payload';
@@ -39,4 +40,11 @@ export class ProductUsecase {
     public getUploadUrl(): string {
         return `${this.url}/import-file`;
     }
+
+    public downloadTemplate(): Observable<Blob> {
+        return this.http.get(`${this.url}/download-template`, {
+            responseType: 'blob'
+        });
+    }
+
 }
