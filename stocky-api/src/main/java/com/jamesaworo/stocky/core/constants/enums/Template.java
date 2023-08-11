@@ -9,7 +9,7 @@ public enum Template {
 
         @Override
         public String filePath() {
-            return "/downloads";
+            return DOWNLOADS;
         }
     },
 
@@ -21,10 +21,12 @@ public enum Template {
 
         @Override
         public String filePath() {
-            return "/downloads";
+            return DOWNLOADS;
         }
     };
 
+
+    private static final String DOWNLOADS = "/downloads/";
 
     public abstract String fileName();
 
