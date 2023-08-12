@@ -1,5 +1,5 @@
 import {HttpResponse} from '@angular/common/http';
-import {Component, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {catchError, firstValueFrom, Observable, of} from 'rxjs';
@@ -8,7 +8,14 @@ import {PageSearchPayload, UploadComponentInput} from 'src/app/data/payload/comm
 import {PagePayload} from 'src/app/data/payload/common.payload';
 import {ProductPayload, ProductSearchRequestPayload, ProductTaxPayload} from 'src/app/routes/products/_data/product.payload';
 import {ProductUsecase} from 'src/app/routes/products/_usecase/product.usecase';
-import {getTaxTitle, handleDownloadTemplate, handleHttpRequestError, handleUsecaseRequest} from 'src/app/shared/utils/util';
+import {
+    getTaxTitle,
+    handleCreateFileResourceUrl,
+    handleDownloadTemplate,
+    handleFileDownload,
+    handleHttpRequestError,
+    handleUsecaseRequest
+} from 'src/app/shared/utils/util';
 import {FileConstant} from '../../../../data/constant/file.constant';
 import {FileTemplate, FileType, ModalOrDrawer} from '../../../../data/payload/common.enum';
 import {TableCol} from '../../../../shared/components/table/table.component';
@@ -56,7 +63,8 @@ export class ProductListComponent {
         private router: Router,
         private usecase: ProductUsecase,
         private notification: NzNotificationService,
-        private uploadService: UploadImportService
+        private uploadService: UploadImportService,
+        private cdr: ChangeDetectorRef
     ) {}
 
     public onCancelHandler = () => {};
@@ -126,13 +134,30 @@ export class ProductListComponent {
         const arg: UploadComponentInput = {
             maxFileSizeInMB: FileConstant.MAX_UPLOAD_FILE_SIZE_MB,
             allowedFileTypes: [FileType.EXCEL, FileType.EXCEL_V2],
-            url: this.usecase.getUploadUrl(),
+            onUploadTemplate: this.handleUploadTemplate,
             type: 'drag',
             canUploadMultipleFiles: false,
             canDownloadTemplate: true,
             onDownloadTemplate: this.handleDownloadTemplate
         };
         this.uploadService.upload(arg, 'Upload Product File');
+    };
+
+    public handleUploadTemplate = async (arg: {formData: FormData, status: boolean}) => {
+        arg.status = true;
+        this.usecase.uploadDataFile(arg.formData).subscribe({
+            next: (res) => {
+                if (res && res.ok && res.body) {
+                    const resourceUrl = handleCreateFileResourceUrl(res.body, 'application/octet-stream');
+                    handleFileDownload(resourceUrl, 'ScrapFile.txt');
+                    arg.status = false;
+                }
+            },
+            error: (err) => {
+                handleHttpRequestError(err, {service: this.notification});
+            }
+        });
+
     };
 
     public handleDownloadTemplate = async () => {

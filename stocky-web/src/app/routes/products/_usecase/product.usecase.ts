@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
 import {Observable} from 'rxjs';
@@ -45,6 +45,11 @@ export class ProductUsecase {
         return this.http.get(`${this.url}/download-template`, {
             responseType: 'blob'
         });
+    }
+
+    public uploadDataFile(form: FormData): Observable<HttpResponse<Blob>> {
+        const headers = new HttpHeaders({'Accept': 'application/octet-stream'});
+        return this.http.post<Blob>(`${this.url}/import-file`, form, {headers, observe: 'response', responseType: 'blob' as 'json'});
     }
 
 }

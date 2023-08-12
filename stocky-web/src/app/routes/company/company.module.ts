@@ -47,7 +47,9 @@ import {CompanyPeopleEmployeesComponent} from './company-people/company-people-e
 import {CompanyPeopleSupplierComponent} from './company-people/company-people-supplier/company-people-supplier.component';
 import {CompanyRoleSetupComponent} from './company-role-setup/company-role-setup.component';
 import {CompanyRoutingModule} from './company-routing.module';
+import {CompanyStatusSetupComponent} from './company-status-setup/company-status-setup.component';
 import {CompanyTaxSetupComponent} from './company-tax-setup/company-tax-setup.component';
+import {CompanyUnitOfMeasureSetupComponent} from './company-unit-of-measure-setup/company-unit-of-measure-setup.component';
 
 export const COMPANY_COMPONENTS: Array<Type<void>> = [
     CompanyUserSearchComponent,
@@ -81,7 +83,9 @@ export const COMPANY_COMPONENTS: Array<Type<void>> = [
     CompanyAdministratorFormComponent,
     CompanyRegionFormComponent,
     CompanyRoleFormComponent,
-    CustomerTagComponent
+    CustomerTagComponent,
+    CompanyUnitOfMeasureSetupComponent,
+    CompanyStatusSetupComponent
 ];
 
 @NgModule({

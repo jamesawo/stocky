@@ -90,3 +90,14 @@ export enum FileExtensions {
     JPG = '.jpg',
     PNG = '.png'
 }
+
+export enum FileMimeType {
+    PDF = 'application/pdf',
+    EXCEL = 'application/vnd.ms-excel',
+    CSV = 'text/csv',
+    TXT = 'text/plain',
+    WORD = 'application/msword',
+    DOCX = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    JPG = 'image/jpeg',
+    PNG = 'image/png',
+}

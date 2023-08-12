@@ -8,7 +8,9 @@ import {CompanyPeopleCustomerComponent} from './company-people/company-people-cu
 import {CompanyPeopleEmployeesComponent} from './company-people/company-people-employees/company-people-employees.component';
 import {CompanyPeopleSupplierComponent} from './company-people/company-people-supplier/company-people-supplier.component';
 import {CompanyRoleSetupComponent} from './company-role-setup/company-role-setup.component';
+import {CompanyStatusSetupComponent} from './company-status-setup/company-status-setup.component';
 import {CompanyTaxSetupComponent} from './company-tax-setup/company-tax-setup.component';
+import {CompanyUnitOfMeasureSetupComponent} from './company-unit-of-measure-setup/company-unit-of-measure-setup.component';
 
 
 const routes: Routes = [
@@ -23,6 +25,8 @@ const routes: Routes = [
         ]
     },
     {path: 'location-setup', component: CompanyLocationSetupComponent},
+    {path: 'unit-of-measure-setup', component: CompanyUnitOfMeasureSetupComponent},
+    {path: 'status-setup', component: CompanyStatusSetupComponent},
     {path: 'expenses-setup', component: CompanyExpensesSetupComponent},
     {path: 'role-setup', component: CompanyRoleSetupComponent}
 
