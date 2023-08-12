@@ -15,6 +15,8 @@ import java.util.Optional;
 public interface IProductCategoryUsecase extends FileHandler<Map<String, Object>, MultipartFile> {
     Optional<ProductCategory> findOne(Long id);
 
+    Optional<ProductCategory> findOne(String name);
+
     List<ProductCategory> findAll();
 
     Optional<ProductCategory> save(ProductCategory category);

@@ -9,7 +9,6 @@ import com.jamesaworo.stocky.features.product.domain.usecase.IProductCategoryUse
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -32,22 +31,24 @@ public class ProductCategoryUsecaseImpl implements IProductCategoryUsecase {
     public static final String DUPLICATE = "CATEGORY WITH SAME TITLE ALREADY EXIST";
     private final ProductCategoryRepository repository;
 
-
+    
     public Optional<ProductCategory> findOne(Long id) {
         return this.repository.findById(id);
     }
 
+    @Override
+    public Optional<ProductCategory> findOne(String name) {
+        return this.repository.findByTitle(name);
+    }
 
     public List<ProductCategory> findAll() {
         return this.repository.findAll();
     }
 
-
     public Optional<ProductCategory> save(ProductCategory category) {
         this.throwIfDuplicateEntry(category);
         return of(this.repository.save(category));
     }
-
 
     public Optional<Boolean> remove(Long id) {
         Optional<ProductCategory> optionalProductCategory = this.findOne(id);
@@ -70,7 +71,7 @@ public class ProductCategoryUsecaseImpl implements IProductCategoryUsecase {
     }
 
     @Override
-    public ResponseEntity<Map<String, Object>> uploadTemplate(MultipartFile input) {
+    public Map<String, Object> uploadTemplate(MultipartFile input) {
         return null;
     }
 

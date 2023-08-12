@@ -16,7 +16,7 @@ import java.util.Optional;
  * @author Aworo James
  * @since 5/10/23
  */
-public interface IProductUsecase extends FileHandler<Map<String, Object>, MultipartFile> {
+public interface IProductUsecase extends FileHandler<Map<String, String>, MultipartFile> {
 
     Optional<Product> findById(Long id);
 

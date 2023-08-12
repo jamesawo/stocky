@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IProductStatusUsecase {
-	List<ProductStatus> findAll();
+    List<ProductStatus> findAll();
 
-	Optional<ProductStatus> save(ProductStatus model);
+    Optional<ProductStatus> save(ProductStatus model);
 
-	Optional<Boolean> remove(Long id);
+    Optional<Boolean> remove(Long id);
 
-	Optional<ProductStatus> findOne(Long id);
+    Optional<ProductStatus> findOne(Long id);
+
+    Optional<ProductStatus> findOne(String name);
 }

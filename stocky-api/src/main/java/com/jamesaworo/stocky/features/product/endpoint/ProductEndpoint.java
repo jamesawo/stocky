@@ -15,9 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
@@ -84,10 +82,7 @@ public class ProductEndpoint {
 
     @PostMapping(value = "/import-file")
     public ResponseEntity<?> uploadBatchService(@RequestParam("file") MultipartFile file) throws IOException {
-        System.out.println(file.getContentType());
-        Map<String, String> map = new HashMap<>();
-        map.put("status", "success");
-        return ResponseEntity.ok(map);
+        return this.interactor.uploadTemplate(file);
     }
 
     @GetMapping("/download-template")
