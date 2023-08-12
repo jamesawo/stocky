@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {Observable, of, shareReplay} from 'rxjs';
+import {catchError, firstValueFrom, Observable, of, shareReplay} from 'rxjs';
 import {Crumbs} from 'src/app/shared/components/breadcrumbs/breadcrumbs.component';
 import {PRODUCT_CATEGORY_LIST_CRUMBS} from '../../../../data/constant/crumb.constant';
 import {FileConstant} from '../../../../data/constant/file.constant';
 import {PopOverConstant} from '../../../../data/constant/message.constant';
-import {FileType, TableButtonEnum} from '../../../../data/payload/common.enum';
+import {FileTemplate, FileType, TableButtonEnum} from '../../../../data/payload/common.enum';
 import {UploadComponentInput} from '../../../../data/payload/common.interface';
 import {TableEditCacheMap} from '../../../../data/payload/common.types';
 import {TableCol} from '../../../../shared/components/table/table.component';
@@ -14,6 +14,8 @@ import {UploadImportService} from '../../../../shared/utils/upload-import.servic
 import {
     handleAppendToObservableListIfResponse,
     handleCancelEditingTableItem,
+    handleDownloadTemplate,
+    handleHttpRequestError,
     handleRemoveFromObservableListIfStatus,
     handleUpdateObservableListIfResponse,
     handleUsecaseRequest,
@@ -180,12 +182,18 @@ export class ProductCategoryListComponent implements OnInit {
         this.uploadService.download();
     };
 
-    public handleDownloadTemplate = () => {};
+    public handleDownloadTemplate = async () => {
+        const templateFile = await firstValueFrom(
+            this.usecase.downloadTemplate().pipe(
+                catchError((err) => handleHttpRequestError(err, {service: this.notification}))
+            ));
+        handleDownloadTemplate(templateFile, FileType.EXCEL_V2, FileTemplate.PRODUCT_CATEGORY_UPLOAD_TEMPLATE);
+    };
 
     public handleUpload = () => {
         const arg: UploadComponentInput = {
             maxFileSizeInMB: FileConstant.MAX_UPLOAD_FILE_SIZE_MB,
-            allowedFileTypes: [FileType.EXCEL],
+            allowedFileTypes: [FileType.EXCEL, FileType.EXCEL_V2],
             url: this.usecase.getProductCategoryUploadURL(),
             type: 'drag',
             canUploadMultipleFiles: false,

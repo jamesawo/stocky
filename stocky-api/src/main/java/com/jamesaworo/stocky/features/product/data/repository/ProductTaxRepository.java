@@ -12,10 +12,12 @@ import java.util.Optional;
 
 @Repository
 public interface ProductTaxRepository extends JpaRepository<ProductTax, Long> {
-	Optional<ProductTax> findByTitleEqualsIgnoreCaseAndPercent(String title, Double percent);
+    Optional<ProductTax> findByTitleEqualsIgnoreCaseAndPercent(String title, Double percent);
 
-	@Transactional
-	@Modifying
-	@Query(value = "update ProductTax c set c.isActiveStatus = :status where c.id = :id")
-	int updateIsActiveStatus(@Param(value = "status") Boolean status, @Param(value = "id") Long id);
+    Optional<ProductTax> findByTitleEqualsIgnoreCase(String name);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update ProductTax c set c.isActiveStatus = :status where c.id = :id")
+    int updateIsActiveStatus(@Param(value = "status") Boolean status, @Param(value = "id") Long id);
 }

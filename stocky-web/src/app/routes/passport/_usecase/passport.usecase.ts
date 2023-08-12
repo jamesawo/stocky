@@ -1,6 +1,5 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {MenuService} from '@delon/theme';
 import {environment} from '@env/environment';
 import {LoginResponse} from '../_data/passport.payload';
 
@@ -14,7 +13,7 @@ export enum LocalStorageKey {
 export class PassportUsecase {
     private url: string = environment.api.baseUrl + '/auth';
 
-    constructor(private http: HttpClient, private menuService: MenuService) {}
+    constructor(private http: HttpClient) {}
 
     public login(username: string, password: string) {
         return this.http.post<LoginResponse>(`${this.url}/login`, {

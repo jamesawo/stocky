@@ -1,4 +1,5 @@
 export class Message {
+    static COMING_SOON = 'This feature is currently updating, check back soon';
     static GENERIC_SUCCESS_MESSAGE = 'Action Successful';
     static CATEGORY_SAVED = 'Category saved!';
     static INVALID_FORM_FIELDS = `Some fields are invalid. <br>Please fix it and try again`;

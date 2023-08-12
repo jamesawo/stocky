@@ -26,64 +26,66 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @RequiredArgsConstructor
 @Slf4j
 public class ProductTaxUsecaseImpl implements IProductTaxUsecase {
-	private static final String DUPLICATE_RECORD = "DUPLICATE RECORD, SIMILAR RECORD EXIST";
-	private final ProductTaxRepository repository;
+    private static final String DUPLICATE_RECORD = "DUPLICATE RECORD, SIMILAR RECORD EXIST";
+    private final ProductTaxRepository repository;
 
 
-	public List<ProductTax> findAll() {
-		return this.repository.findAll();
-	}
+    public List<ProductTax> findAll() {
+        return this.repository.findAll();
+    }
+    
+    public Optional<ProductTax> save(ProductTax model) {
+        this.throwIfDuplicateExist(model);
+        return of(this.repository.save(model));
+    }
 
+    public Optional<Boolean> remove(Long id) {
+        Optional<ProductTax> optional = this.findOne(id);
+        return this.removeIfPresentAndHasNoProduct(optional);
+    }
 
-	public Optional<ProductTax> save(ProductTax model) {
-		this.throwIfDuplicateExist(model);
-		return of(this.repository.save(model));
-	}
+    public Optional<ProductTax> findOne(Long id) {
+        return this.repository.findById(id);
+    }
 
+    @Override
+    public Optional<ProductTax> findOne(String name) {
+        return this.repository.findByTitleEqualsIgnoreCase(name);
+    }
 
-	public Optional<Boolean> remove(Long id) {
-		Optional<ProductTax> optional = this.findOne(id);
-		return this.removeIfPresentAndHasNoProduct(optional);
-	}
+    @Override
+    public Boolean toggleStatus(boolean status, Long id) {
+        int count = this.repository.updateIsActiveStatus(status ? Boolean.TRUE : Boolean.FALSE, id);
+        return count == 1;
+    }
 
+    private void throwIfDuplicateExist(ProductTax model) {
+        if (isEmpty(model.getId())) {
+            Optional<ProductTax> optional = this.repository.findByTitleEqualsIgnoreCaseAndPercent(
+                    model.getTitle(), model.getPercent());
 
-	public Optional<ProductTax> findOne(Long id) {
-		return this.repository.findById(id);
-	}
+            optional.ifPresent(e -> {
+                throw new ResponseStatusException(CONFLICT, DUPLICATE_RECORD);
+            });
+        }
+    }
 
-	@Override
-	public Boolean toggleStatus(boolean status, Long id) {
-		int count = this.repository.updateIsActiveStatus(status ? Boolean.TRUE : Boolean.FALSE, id);
-		return count == 1;
-	}
+    private Optional<Boolean> removeIfPresentAndHasNoProduct(Optional<ProductTax> optional) {
+        return optional.map(this::removeIfNoProducts).orElse(of(Boolean.FALSE));
+    }
 
-	private void throwIfDuplicateExist(ProductTax model) {
-		if (isEmpty(model.getId())) {
-			Optional<ProductTax> optional = this.repository.findByTitleEqualsIgnoreCaseAndPercent(
-					model.getTitle(), model.getPercent());
+    private Optional<Boolean> removeIfNoProducts(ProductTax model) {
+        // todo:: implement soft delete
+        return this.delete(model);
+    }
 
-			optional.ifPresent(e -> {
-				throw new ResponseStatusException(CONFLICT, DUPLICATE_RECORD);
-			});
-		}
-	}
-
-	private Optional<Boolean> removeIfPresentAndHasNoProduct(Optional<ProductTax> optional) {
-		return optional.map(this::removeIfNoProducts).orElse(of(Boolean.FALSE));
-	}
-
-	private Optional<Boolean> removeIfNoProducts(ProductTax model) {
-		// todo:: implement soft delete
-		return this.delete(model);
-	}
-
-	private Optional<Boolean> delete(ProductTax model) {
-		try {
-			this.repository.delete(model);
-			return Optional.of(Boolean.TRUE);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return Optional.of(Boolean.FALSE);
-		}
-	}
+    private Optional<Boolean> delete(ProductTax model) {
+        try {
+            this.repository.delete(model);
+            return Optional.of(Boolean.TRUE);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return Optional.of(Boolean.FALSE);
+        }
+    }
 }

@@ -26,7 +26,7 @@ import {handleHttpRequestError, isFileExtensionAllowed, isFileSizeAllowed, toByt
             .custom-flex {
               flex-direction: column-reverse;
             }
-            
+
             .custom-db {
               display: block;
             }
@@ -63,6 +63,9 @@ export class UploadFileComponent implements UploadComponentInput {
     @Input()
     public allowedFileTypes: FileType[] = [];
 
+    @Input()
+    public onUploadTemplate?: (arg: {formData: FormData, status: boolean}) => void;
+
     constructor(
         private http: HttpClient,
         private msg: NzMessageService,
@@ -83,6 +86,20 @@ export class UploadFileComponent implements UploadComponentInput {
 
     public handleUpload(): void {
         const formData = this.prepareFormData();
+
+        if (this.onUploadTemplate) {
+            this.onUploadTemplate({formData: formData, status: this.isUploading});
+            return;
+        } else if (this.url) {
+            this.onHandleUploadFn(formData);
+            return;
+        }
+
+        this.msg.error('NO UPLOAD HANDLER PROVIDED');
+
+    }
+
+    private onHandleUploadFn = (formData: FormData) => {
         this.isUploading = true;
         const headers = new HttpHeaders().set('Authorization', this.tokenService.get()?.token!);
         this.http.post<any>(this.url, formData, {
@@ -93,16 +110,7 @@ export class UploadFileComponent implements UploadComponentInput {
             next: (res) => this.handleSuccess(res),
             error: (err) => this.handleError(err)
         });
-    }
-
-    public handleError(error: HttpErrorResponse) {
-        const defaultErrorMessage: string = 'Uploading failed, please ask for help or try again';
-        handleHttpRequestError(error, {service: this.msg, duration: 5000});
-        this.isUploading = false;
-        this.uploadProgress = 0;
-        this.msg.error(defaultErrorMessage);
-        return throwError(error);
-    }
+    };
 
     private onAppendFileToList(file: NzUploadFile) {
         if (this.canUploadMultipleFiles) {
@@ -154,7 +162,8 @@ export class UploadFileComponent implements UploadComponentInput {
                 } else {
                     this.msg.error('FAILED TO UPLOAD DATA');
                 }
-                // const responseBody = res.body; can emit response
+                const responseBody = res.body;
+                console.log(responseBody);
                 setTimeout(() => {
                     this.uploadProgress = 0;
                     this.isUploading = false;
@@ -162,5 +171,15 @@ export class UploadFileComponent implements UploadComponentInput {
                 }, 1000);
         }
 
+    }
+
+    private handleError(error: HttpErrorResponse) {
+        console.log(error);
+        const defaultErrorMessage: string = 'Uploading failed, please ask for help or try again';
+        handleHttpRequestError(error, {service: this.msg, duration: 5000});
+        this.isUploading = false;
+        this.uploadProgress = 0;
+        this.msg.error(defaultErrorMessage);
+        return throwError(error);
     }
 }

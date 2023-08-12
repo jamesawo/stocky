@@ -25,62 +25,67 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 @RequiredArgsConstructor
 @Slf4j
 public class ProductStatusUsecaseImpl implements IProductStatusUsecase {
-	private static final String DUPLICATE_RECORD = "DUPLICATE RECORD, SIMILAR RECORD EXIST";
-	private final ProductStatusRepository repository;
+    private static final String DUPLICATE_RECORD = "DUPLICATE RECORD, SIMILAR RECORD EXIST";
+    private final ProductStatusRepository repository;
 
 
-	public List<ProductStatus> findAll() {
-		return this.repository.findAll();
-	}
+    public List<ProductStatus> findAll() {
+        return this.repository.findAll();
+    }
 
 
-	public Optional<ProductStatus> save(ProductStatus model) {
-		this.throwIfDuplicateExist(model);
-		return of(this.repository.save(model));
-	}
+    public Optional<ProductStatus> save(ProductStatus model) {
+        this.throwIfDuplicateExist(model);
+        return of(this.repository.save(model));
+    }
 
 
-	public Optional<Boolean> remove(Long id) {
-		Optional<ProductStatus> optional = this.findOne(id);
-		return this.removeIfPresentAndHasNoProduct(optional);
-	}
+    public Optional<Boolean> remove(Long id) {
+        Optional<ProductStatus> optional = this.findOne(id);
+        return this.removeIfPresentAndHasNoProduct(optional);
+    }
 
 
-	public Optional<ProductStatus> findOne(Long id) {
-		return this.repository.findById(id);
-	}
+    public Optional<ProductStatus> findOne(Long id) {
+        return this.repository.findById(id);
+    }
 
-	private void throwIfDuplicateExist(ProductStatus model) {
-		Optional<ProductStatus> optional = this.repository.findByTitleEqualsIgnoreCase(
-				model.getTitle()
-		);
+    @Override
+    public Optional<ProductStatus> findOne(String name) {
+        return this.repository.findByTitleEqualsIgnoreCase(name);
+    }
 
-		optional.ifPresent(e -> {
-			throw new ResponseStatusException(CONFLICT, DUPLICATE_RECORD);
-		});
-	}
+    private void throwIfDuplicateExist(ProductStatus model) {
+        Optional<ProductStatus> optional = this.repository.findByTitleEqualsIgnoreCase(
+                model.getTitle()
+        );
 
-	private Optional<Boolean> removeIfPresentAndHasNoProduct(Optional<ProductStatus> optional) {
-		return optional.map(this::removeIfNoProducts).orElse(of(Boolean.FALSE));
-	}
+        optional.ifPresent(e -> {
+            throw new ResponseStatusException(CONFLICT, DUPLICATE_RECORD);
+        });
+    }
 
-	private Optional<Boolean> removeIfNoProducts(ProductStatus model) {
-		// todo:: implement soft delete
+    private Optional<Boolean> removeIfPresentAndHasNoProduct(Optional<ProductStatus> optional) {
+        return optional.map(this::removeIfNoProducts).orElse(of(Boolean.FALSE));
+    }
+
+    private Optional<Boolean> removeIfNoProducts(ProductStatus model) {
+        // todo:: implement soft delete
 		/*
 		if (model.getProducts().size() > 0) {
 			return of(Boolean.FALSE);
 		}
 		 */
-		return this.delete(model);
-	}
+        return this.delete(model);
+    }
 
-	private Optional<Boolean> delete(ProductStatus model) {
-		try {
-			this.repository.delete(model);
-			return Optional.of(Boolean.TRUE);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return Optional.of(Boolean.FALSE);
-		}
-	}
+    private Optional<Boolean> delete(ProductStatus model) {
+        try {
+            this.repository.delete(model);
+            return Optional.of(Boolean.TRUE);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return Optional.of(Boolean.FALSE);
+        }
+    }
 }

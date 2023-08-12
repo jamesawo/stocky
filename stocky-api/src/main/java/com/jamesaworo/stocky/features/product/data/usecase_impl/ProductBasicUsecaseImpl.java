@@ -14,6 +14,8 @@ import com.jamesaworo.stocky.features.product.domain.enums.ProductQuantityUpdate
 import com.jamesaworo.stocky.features.product.domain.usecase.IProductBasicUsecase;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 import static com.jamesaworo.stocky.features.product.domain.enums.ProductQuantityUpdateType.DECREMENT;
 import static com.jamesaworo.stocky.features.product.domain.enums.ProductQuantityUpdateType.INCREMENT;
 
@@ -35,5 +37,20 @@ public class ProductBasicUsecaseImpl implements IProductBasicUsecase {
         } else {
             return 0;
         }
+    }
+
+    @Override
+    public Optional<ProductBasic> findByNameAndBrand(String name, String brand) {
+        return this.repository.findByProductNameEqualsIgnoreCaseAndBrandNameEqualsIgnoreCase(name, brand);
+    }
+
+    @Override
+    public Optional<ProductBasic> findByBarcode(String barcode) {
+        return this.repository.findByBarcodeEqualsIgnoreCase(barcode);
+    }
+
+    @Override
+    public Optional<ProductBasic> findBySku(String sku) {
+        return this.repository.findBySkuEqualsIgnoreCase(sku);
     }
 }

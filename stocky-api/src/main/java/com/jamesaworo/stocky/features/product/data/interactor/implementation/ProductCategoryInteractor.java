@@ -1,6 +1,7 @@
 package com.jamesaworo.stocky.features.product.data.interactor.implementation;
 
 import com.jamesaworo.stocky.core.annotations.Interactor;
+import com.jamesaworo.stocky.core.constants.enums.Template;
 import com.jamesaworo.stocky.core.mapper.Mapper;
 import com.jamesaworo.stocky.features.product.data.interactor.contract.IProductCategoryInteractor;
 import com.jamesaworo.stocky.features.product.data.request.ProductCategoryRequest;
@@ -8,10 +9,15 @@ import com.jamesaworo.stocky.features.product.domain.entity.ProductCategory;
 import com.jamesaworo.stocky.features.product.domain.usecase.IProductCategoryUsecase;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,81 +38,89 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @RequiredArgsConstructor
 public class ProductCategoryInteractor implements IProductCategoryInteractor, Mapper<ProductCategoryRequest, ProductCategory> {
 
-	public static final String REQUIRE_CATEGORY_ID = "Product category ID is required";
-	private static final String FAILED_TO_DELETE = "UNABLE TO DELETE, THIS ITEM IS CURRENTLY IN USE";
-	private final IProductCategoryUsecase usecase;
-	private final ModelMapper mapper;
+    public static final String REQUIRE_CATEGORY_ID = "Product category ID is required";
+    private static final String FAILED_TO_DELETE = "UNABLE TO DELETE, THIS ITEM IS CURRENTLY IN USE";
+    private final IProductCategoryUsecase usecase;
+    private final ModelMapper mapper;
 
-	public ResponseEntity<ProductCategoryRequest> find(Long id) {
-		Optional<ProductCategory> optional = this.usecase.findOne(id);
-		return optional.map(category -> ok(toRequest(category))).orElse(notFound().build());
-	}
-
-
-	public ResponseEntity<List<ProductCategoryRequest>> findMany() {
-		List<ProductCategory> all = this.usecase.findAll();
-		List<ProductCategoryRequest> collect = all.stream().map(this::toRequest).collect(Collectors.toList());
-		return ok().body(collect);
-	}
+    public ResponseEntity<ProductCategoryRequest> find(Long id) {
+        Optional<ProductCategory> optional = this.usecase.findOne(id);
+        return optional.map(category -> ok(toRequest(category))).orElse(notFound().build());
+    }
 
 
-	public ResponseEntity<Optional<ProductCategoryRequest>> save(ProductCategoryRequest request) {
-		var model = toModel(request);
-		Optional<ProductCategory> category = this.usecase.save(model);
-		return ok().body(category.map(this::toRequest));
-	}
-
-	public ResponseEntity<Optional<ProductCategoryRequest>> update(ProductCategoryRequest request) {
-		this.throwIfRequestNotValid(request);
-		return this.save(request);
-	}
-
-	public ResponseEntity<Optional<Boolean>> remove(Long id) {
-		Optional<Boolean> optional = this.usecase.remove(id);
-
-		return ok().body(optional.map(value -> {
-			if (!value) {
-				throw new ResponseStatusException(BAD_REQUEST, FAILED_TO_DELETE);
-			}
-			return value;
-		}));
-	}
-
-	public ResponseEntity<List<ProductCategoryRequest>> search(String term) {
-		if (term.isEmpty()) {
-			return ok().body(new ArrayList<>());
-		}
-
-		List<ProductCategory> categories = this.usecase.search(term);
-		List<ProductCategoryRequest> requests = categories.stream().map(this::toRequest).collect(Collectors.toList());
-		return new ResponseEntity<>(requests, OK);
-	}
-
-	@Override
-	public ResponseEntity<Optional<Boolean>> toggleActiveStatus(Long id) {
-		Optional<ProductCategory> optional = this.usecase.findOne(id);
-		return ok().body(optional.map(value -> this.usecase.toggleStatus(!value.getIsActiveStatus(), value.getId())));
-	}
-
-	private void throwIfRequestNotValid(ProductCategoryRequest request) {
-		if (isEmpty(request.getId())) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, REQUIRED_ID);
-		}
-
-		if (!this.find(request.getId()).getStatusCode().is2xxSuccessful()) {
-			throw new ResponseStatusException(NOT_FOUND, RECORD_NOT_FOUND);
-		}
-	}
+    public ResponseEntity<List<ProductCategoryRequest>> findMany() {
+        List<ProductCategory> all = this.usecase.findAll();
+        List<ProductCategoryRequest> collect = all.stream().map(this::toRequest).collect(Collectors.toList());
+        return ok().body(collect);
+    }
 
 
-	public ProductCategoryRequest toRequest(ProductCategory model) {
-		return mapper.map(model, ProductCategoryRequest.class);
-	}
+    public ResponseEntity<Optional<ProductCategoryRequest>> save(ProductCategoryRequest request) {
+        var model = toModel(request);
+        Optional<ProductCategory> category = this.usecase.save(model);
+        return ok().body(category.map(this::toRequest));
+    }
+
+    public ResponseEntity<Optional<ProductCategoryRequest>> update(ProductCategoryRequest request) {
+        this.throwIfRequestNotValid(request);
+        return this.save(request);
+    }
+
+    public ResponseEntity<Optional<Boolean>> remove(Long id) {
+        Optional<Boolean> optional = this.usecase.remove(id);
+
+        return ok().body(optional.map(value -> {
+            if (!value) {
+                throw new ResponseStatusException(BAD_REQUEST, FAILED_TO_DELETE);
+            }
+            return value;
+        }));
+    }
+
+    public ResponseEntity<List<ProductCategoryRequest>> search(String term) {
+        if (term.isEmpty()) {
+            return ok().body(new ArrayList<>());
+        }
+
+        List<ProductCategory> categories = this.usecase.search(term);
+        List<ProductCategoryRequest> requests = categories.stream().map(this::toRequest).collect(Collectors.toList());
+        return new ResponseEntity<>(requests, OK);
+    }
+
+    @Override
+    public ResponseEntity<Optional<Boolean>> toggleActiveStatus(Long id) {
+        Optional<ProductCategory> optional = this.usecase.findOne(id);
+        return ok().body(optional.map(value -> this.usecase.toggleStatus(!value.getIsActiveStatus(), value.getId())));
+    }
+
+    @Override
+    public ResponseEntity<Resource> downloadTemplate() throws IOException {
+        Resource resource = this.usecase.downloadTemplate(Template.PRODUCT_CATEGORY_UPLOAD);
+        Path path = resource.getFile().toPath();
+        return ok().header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
+    }
+
+    private void throwIfRequestNotValid(ProductCategoryRequest request) {
+        if (isEmpty(request.getId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, REQUIRED_ID);
+        }
+
+        if (!this.find(request.getId()).getStatusCode().is2xxSuccessful()) {
+            throw new ResponseStatusException(NOT_FOUND, RECORD_NOT_FOUND);
+        }
+    }
+
+    public ProductCategoryRequest toRequest(ProductCategory model) {
+        return mapper.map(model, ProductCategoryRequest.class);
+    }
 
 
-	public ProductCategory toModel(ProductCategoryRequest request) {
-		return mapper.map(request, ProductCategory.class);
-	}
+    public ProductCategory toModel(ProductCategoryRequest request) {
+        return mapper.map(request, ProductCategory.class);
+    }
 
 
 }

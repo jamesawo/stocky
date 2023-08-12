@@ -6,13 +6,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IProductTaxUsecase {
-	List<ProductTax> findAll();
+    List<ProductTax> findAll();
 
-	Optional<ProductTax> save(ProductTax model);
+    Optional<ProductTax> save(ProductTax model);
 
-	Optional<Boolean> remove(Long id);
+    Optional<Boolean> remove(Long id);
 
-	Optional<ProductTax> findOne(Long id);
+    Optional<ProductTax> findOne(Long id);
 
-	Boolean toggleStatus(boolean status, Long id);
+    Optional<ProductTax> findOne(String name);
+
+    Boolean toggleStatus(boolean status, Long id);
 }

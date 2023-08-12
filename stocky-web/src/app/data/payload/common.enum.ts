@@ -65,6 +65,7 @@ export enum ReportDataType {
 export enum FileType {
     PDF = 'pdf',
     EXCEL = 'xls',
+    EXCEL_V2 = 'xlsx',
     CSV = 'csv',
     TXT = 'txt',
     WORD = 'doc',
@@ -74,8 +75,9 @@ export enum FileType {
 }
 
 export enum FileTemplate {
-    PRODUCT_UPLOAD_TEMPLATE_XLS = 'ProductTemplate.xls',
-    TRANSACTION_RECEIPT_PDF = 'Receipt.pdf',
+    PRODUCT_UPLOAD_TEMPLATE = 'ProductTemplate.xlsx',
+    PRODUCT_CATEGORY_UPLOAD_TEMPLATE = 'ProductCategoryTemplate.xlsx',
+    TRANSACTION_RECEIPT = 'Receipt.pdf',
 }
 
 export enum FileExtensions {
@@ -87,4 +89,15 @@ export enum FileExtensions {
     DOCX = '.docx',
     JPG = '.jpg',
     PNG = '.png'
+}
+
+export enum FileMimeType {
+    PDF = 'application/pdf',
+    EXCEL = 'application/vnd.ms-excel',
+    CSV = 'text/csv',
+    TXT = 'text/plain',
+    WORD = 'application/msword',
+    DOCX = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    JPG = 'image/jpeg',
+    PNG = 'image/png',
 }

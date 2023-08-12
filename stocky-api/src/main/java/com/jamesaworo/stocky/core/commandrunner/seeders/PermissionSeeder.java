@@ -28,6 +28,7 @@ public class PermissionSeeder {
         if (this.permissionRepository.count() == 0) {
             runAuthenticationSeeder();
             runCompanyPermissionSeeder();
+            runPeoplePermissionSeeder();
             runPaywallPermissionSeeder();
             runProductPermissionSeeder();
             runReportPermissionSeeder();

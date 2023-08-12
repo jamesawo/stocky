@@ -21,6 +21,8 @@ public enum AppModuleEnum {
                     new AppModuleRoute("Basic", COMPANY_BASIC_ACCESS_PAGE_COMPANY_BASIC, "/company/basic-setup"),
                     new AppModuleRoute("Tax", COMPANY_TAX_ACCESS_PAGE_TAX_SETUP, "/company/tax-setup"),
                     new AppModuleRoute("Payment Options", COMPANY_PAYMENT_OPTION_ACCESS_PAGE_PAYMENT_OPTION, "/company/payment-options"),
+                    new AppModuleRoute("Measurement Setup", COMPANY_UNIT_OF_MEASURE_ACCESS_PAGE, "/company/unit-of-measure-setup"),
+                    new AppModuleRoute("Status Setup", COMPANY_PRODUCT_STATUS_ACCESS_PAGE, "/company/status-setup"),
                     new AppModuleRoute("Location", COMPANY_LOCATION_ACCESS_PAGE_LOCATION, "/company/location-setup"),
                     new AppModuleRoute("Expenses", COMPANY_EXPENSES_ACCESS_PAGE_EXPENSES, "/company/expenses-setup"),
                     new AppModuleRoute("Roles", COMPANY_ROLE_ACCESS_PAGE_ROLE, "/company/role-setup")

@@ -31,8 +31,10 @@ export interface UploadComponentInput {
     canUploadMultipleFiles: boolean;
     canDownloadTemplate: boolean;
     onDownloadTemplate: () => void;
-    url: string;
+    onUploadTemplate?: (arg: {formData: FormData, status: boolean}) => void;
+    url?: string;
     type: NzUploadType;
     allowedFileTypes: FileType[];
     maxFileSizeInMB: number;
+
 }

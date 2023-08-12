@@ -45,8 +45,15 @@ public class PermissionSeeds {
             new Permission(COMPANY_ROLE_ACCESS_ACTION_ROLE_ADD, COMPANY),
             new Permission(COMPANY_ROLE_ACCESS_ACTION_ROLE_UPDATE, COMPANY),
             new Permission(COMPANY_ROLE_ACCESS_ACTION_ROLE_LIST, COMPANY),
-            new Permission(COMPANY_ROLE_ACCESS_ROLE_SEARCH, COMPANY)
-            
+            new Permission(COMPANY_UNIT_OF_MEASURE_ACCESS_PAGE, COMPANY),
+            new Permission(COMPANY_UNIT_OF_MEASURE_ACCESS_ACTION_ADD, COMPANY),
+            new Permission(COMPANY_UNIT_OF_MEASURE_ACCESS_ACTION_UPDATE, COMPANY),
+            new Permission(COMPANY_UNIT_OF_MEASURE_ACCESS_ACTION_LIST, COMPANY),
+            new Permission(COMPANY_PRODUCT_STATUS_ACCESS_PAGE, COMPANY),
+            new Permission(COMPANY_PRODUCT_STATUS_ACCESS_ACTION_ADD, COMPANY),
+            new Permission(COMPANY_PRODUCT_STATUS_ACCESS_ACTION_UPDATE, COMPANY),
+            new Permission(COMPANY_PRODUCT_STATUS_ACCESS_ACTION_LIST, COMPANY)
+
     );
 
     public static final List<Permission> PEOPLE_PERMISSION = List.of(

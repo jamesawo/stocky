@@ -2,7 +2,7 @@
 
     <nz-alert [nzMessage]="messageTmpl" [nzType]="'info'" class="mb3">
         <ng-template #messageTmpl>
-            <span>Allowed file types: {{ allowedFileTypes | json}}</span>
+            <span>Allowed file types: [ {{ allowedFileTypes.join(', ') }} ]</span>
 
             <span class="db">Maximum file size: {{ maxFileSizeInMB }} (mb) </span>
         </ng-template>
@@ -55,9 +55,9 @@
 
         </button>
 
-        <div class="mt3 custom-mt3 custom-db">
+        <div *ngIf="canDownloadTemplate" class="mt3 custom-mt3 custom-db">
             <app-hint [content]="'Download a template sample file, fill it and upload the file'"></app-hint>
-            <button (click)="onDownloadTemplate()" *ngIf="canDownloadTemplate" nz-button nzType="link" style="margin-left: -12px;">
+            <button (click)="onDownloadTemplate()" nz-button nzType="link" style="margin-left: -12px;">
                 Download Template
             </button>
         </div>

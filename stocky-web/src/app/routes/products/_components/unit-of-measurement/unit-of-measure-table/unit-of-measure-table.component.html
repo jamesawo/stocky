@@ -1,0 +1,40 @@
+<div class="wd-100p m-t-1em">
+    <app-table
+        [colHeadings]="cols"
+        [dataList]="data"
+        [props]="{tableSize: 'small', showPagination: true}"
+        [rowTemplates]="[titleTmpl, unitTmpl, actionTmpl]"
+    ></app-table>
+</div>
+
+
+<ng-template #titleTmpl let-item="item">
+
+    <app-table-item-editable
+        (valueChange)="onCacheValueChange($event, item, 'title')"
+        [props]="{fieldName: 'title', initialValue: item.title, isEditMode: canEditItem(item)}"
+        [value]="editMap[item.id] && editMap[item.id].data.title"
+    ></app-table-item-editable>
+</ng-template>
+
+<ng-template #unitTmpl let-item="item">
+    <app-table-item-editable
+        (valueChange)="onCacheValueChange($event, item, 'unit')"
+        [props]="{fieldName: 'unit', initialValue: item.unit, isEditMode: canEditItem(item)}"
+        [value]="editMap[item.id] && editMap[item.id].data.unit"
+    ></app-table-item-editable>
+</ng-template>
+
+<ng-template #actionTmpl let-item="item">
+    <app-update-delete-action
+        [buttons]="[TableButtonEnum.EDIT, TableButtonEnum.TOGGLE_STATUS]"
+        [item]="item"
+        [props]="{
+            saveEditHandler: onSaveEdit,
+            cancelEditHandler: onCancelEdit,
+            toggleEditHandler: onToggleEdit,
+            cancelDeleteHandler: onCancelDelete,
+            confirmDeleteHandler: onConfirmDelete,
+            editMap: editMap}"
+    ></app-update-delete-action>
+</ng-template>

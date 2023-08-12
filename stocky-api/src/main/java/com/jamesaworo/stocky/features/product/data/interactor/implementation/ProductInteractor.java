@@ -1,6 +1,7 @@
 package com.jamesaworo.stocky.features.product.data.interactor.implementation;
 
 import com.jamesaworo.stocky.core.annotations.Interactor;
+import com.jamesaworo.stocky.core.constants.enums.Template;
 import com.jamesaworo.stocky.core.mapper.Mapper;
 import com.jamesaworo.stocky.core.params.PageSearchRequest;
 import com.jamesaworo.stocky.core.params.PageSearchResult;
@@ -16,18 +17,33 @@ import com.jamesaworo.stocky.features.product.domain.usecase.IProductUsecase;
 import com.jamesaworo.stocky.features.stock.data.request.StockPriceRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import static com.jamesaworo.stocky.core.constants.ReportConstant.UNEXPECTED_FILE_TYPE;
+import static com.jamesaworo.stocky.core.constants.enums.FileType.EXCEL;
 import static com.jamesaworo.stocky.core.params.PageParam.toPageSearchResult;
+import static com.jamesaworo.stocky.core.utils.FileUtil.isFileType;
+import static com.jamesaworo.stocky.core.utils.FileUtil.writeProductScrapContentToFile;
 import static com.jamesaworo.stocky.features.product.data.request.specification.ProductSearchSpecification.productSpecification;
 import static com.jamesaworo.stocky.features.product.data.request.specification.ProductSearchSpecification.salesProductSpecification;
+import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.ResponseEntity.ok;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
@@ -178,6 +194,34 @@ public class ProductInteractor implements IProductInteractor, Mapper<ProductRequ
                         product.getPrice(), request)).orElse(Boolean.FALSE);
 
         return ok().body(res);
+    }
+
+    @Override
+    public ResponseEntity<?> uploadTemplate(MultipartFile file) {
+        if (!isFileType(file, EXCEL)) {
+            throw new ResponseStatusException(BAD_REQUEST, format(UNEXPECTED_FILE_TYPE, EXCEL.extension()));
+        }
+
+        Map<String, String> map = this.usecase.uploadTemplate(file);
+
+        byte[] content = writeProductScrapContentToFile(map);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=scrap_file.txt");
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(content.length)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(content);
+
+    }
+
+    @Override
+    public ResponseEntity<Resource> downloadTemplate() throws IOException {
+        Resource resource = this.usecase.downloadTemplate(Template.PRODUCT_UPLOAD);
+        Path path = resource.getFile().toPath();
+        return ok().header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 
     public ProductRequest toRequest(Product model) {

@@ -51,5 +51,11 @@ export class ProductCategoryUsecase {
     public getProductCategoryUploadURL() {
         return `${this.url}/import-file`;
     }
+    
+    public downloadTemplate(): Observable<Blob> {
+        return this.http.get(`${this.url}/download-template`, {
+            responseType: 'blob'
+        });
+    }
 
 }
