@@ -40,8 +40,17 @@ public class ProductBasicUsecaseImpl implements IProductBasicUsecase {
     }
 
     @Override
-    public Boolean isNameAndBrandExist(String name, String brand) {
-        Optional<ProductBasic> optional = this.repository.findByProductNameEqualsIgnoreCaseAndBrandNameEqualsIgnoreCase(name, brand);
-        return optional.isPresent();
+    public Optional<ProductBasic> findByNameAndBrand(String name, String brand) {
+        return this.repository.findByProductNameEqualsIgnoreCaseAndBrandNameEqualsIgnoreCase(name, brand);
+    }
+
+    @Override
+    public Optional<ProductBasic> findByBarcode(String barcode) {
+        return this.repository.findByBarcodeEqualsIgnoreCase(barcode);
+    }
+
+    @Override
+    public Optional<ProductBasic> findBySku(String sku) {
+        return this.repository.findBySkuEqualsIgnoreCase(sku);
     }
 }

@@ -25,4 +25,8 @@ public interface ProductBasicRepository extends JpaRepository<ProductBasic, Long
 
     Optional<ProductBasic> findByProductNameEqualsIgnoreCaseAndBrandNameEqualsIgnoreCase(String productName, String brandName);
 
+    Optional<ProductBasic> findByBarcodeEqualsIgnoreCase(String barcode);
+
+    Optional<ProductBasic> findBySkuEqualsIgnoreCase(String sku);
+
 }
