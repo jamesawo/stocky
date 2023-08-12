@@ -23,7 +23,7 @@ import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static com.jamesaworo.stocky.core.utils.ExportUtil.getFileFromClassPathAsInputStream;
@@ -81,8 +81,13 @@ public class FileUtil {
         throw new RuntimeException("No Sheet was found at position in workbook");
     }
 
+    public static Integer getNumberOfRowsWithoutHeader(Sheet sheet) {
+        if (sheet == null) return 0;
+        return sheet.getPhysicalNumberOfRows() - 1;
+    }
+
     public static Map<String, String> validateWorkbook(Workbook workbook, Template template, Integer position) {
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new LinkedHashMap<>();
 
         if (workbook == null) {
             map.put("Invalid Workbook", "Workbook is not provided");
@@ -169,9 +174,42 @@ public class FileUtil {
         PrintWriter printWriter = new PrintWriter(writer);
 
         for (Map.Entry<String, String> entry : logMap.entrySet()) {
-            printWriter.println(entry.getKey() + " " + entry.getValue());
+            writeLine(printWriter, entry);
         }
+
         return writer.toString().getBytes();
+    }
+
+    public static byte[] writeProductScrapContentToFile(Map<String, String> logMap) {
+        StringWriter writer = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(writer);
+
+        int totalEntries = logMap.size();
+        int count = 0;
+
+        // Write the last 3 entries first
+        for (Map.Entry<String, String> entry : logMap.entrySet()) {
+            if (count >= totalEntries - 4) {
+                writeLine(printWriter, entry);
+            }
+            count++;
+        }
+
+        count = 0; // Reset count for writing the remaining entries
+
+        // Write the remaining entries
+        for (Map.Entry<String, String> entry : logMap.entrySet()) {
+            if (count < totalEntries - 4) {
+                writeLine(printWriter, entry);
+            }
+            count++;
+        }
+
+        return writer.toString().getBytes();
+    }
+
+    private static void writeLine(PrintWriter printWriter, Map.Entry<String, String> entry) {
+        printWriter.println(entry.getKey() + " " + entry.getValue());
     }
 
     public static int cellDoubleValueToInt(double cellValue) {
