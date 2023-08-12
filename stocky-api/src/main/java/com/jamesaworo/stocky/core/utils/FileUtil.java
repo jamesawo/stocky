@@ -25,8 +25,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
+import static com.jamesaworo.stocky.core.constants.ReportConstant.*;
 import static com.jamesaworo.stocky.core.utils.ExportUtil.getFileFromClassPathAsInputStream;
+import static java.lang.String.format;
+import static java.util.Optional.empty;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 @Component
@@ -81,7 +85,7 @@ public class FileUtil {
         throw new RuntimeException("No Sheet was found at position in workbook");
     }
 
-    public static Integer getNumberOfRowsWithoutHeader(Sheet sheet) {
+    public static Integer numberOfRowsWithoutHeader(Sheet sheet) {
         if (sheet == null) return 0;
         return sheet.getPhysicalNumberOfRows() - 1;
     }
@@ -156,7 +160,7 @@ public class FileUtil {
         return "";
     }
 
-    public static String[] cellValueToStringArray(String value) {
+    public static String[] cellStringArrayValue(String value) {
         if (!isEmpty(value) && value.contains(",")) {
             String[] split = value.split(",");
             for (int i = 0; i < split.length; i++) {
@@ -165,7 +169,21 @@ public class FileUtil {
             }
             return split;
         }
-        return new String[0];
+        return new String[]{};
+    }
+
+    public static String rowCellStringValue(Row row, int cellPosition) {
+        if (row != null) {
+            return row.getCell(cellPosition).getStringCellValue();
+        }
+        return EMPTY;
+    }
+
+    public static double rowCellNumericValue(Row row, int cellPosition) {
+        if (row != null) {
+            return row.getCell(cellPosition).getNumericCellValue();
+        }
+        return 0;
     }
 
     public static byte[] writeLogContentToFile(Map<String, String> logMap) {
@@ -180,41 +198,102 @@ public class FileUtil {
         return writer.toString().getBytes();
     }
 
+    private static void writeLogStats(PrintWriter printWriter, Map<String, String> logMap) {
+        printWriter.println(DASHES + SPACE + DASHES);
+        printWriter.println("Total number of records in worksheet: " + logMap.get(TOTAL_COUNT));
+        printWriter.println("Total number of successful uploads: " + logMap.get(SUCCESS_COUNT));
+        printWriter.println("Total number of failed uploads: " + logMap.get(FAILED_COUNT));
+        printWriter.println("Summary of uploaded percentage: " + logMap.get(STATS_COUNT));
+        printWriter.println("");
+    }
+
+    private static void removeLogStats(Map<String, String> logMap) {
+        logMap.remove(TOTAL_COUNT);
+        logMap.remove(SUCCESS_COUNT);
+        logMap.remove(FAILED_COUNT);
+        logMap.remove(STATS_COUNT);
+    }
+
+
     public static byte[] writeProductScrapContentToFile(Map<String, String> logMap) {
         StringWriter writer = new StringWriter();
         PrintWriter printWriter = new PrintWriter(writer);
 
-        int totalEntries = logMap.size();
-        int count = 0;
+        writeLogStats(printWriter, logMap);
+        removeLogStats(logMap);
+        String lastKey = "";
 
-        // Write the last 3 entries first
         for (Map.Entry<String, String> entry : logMap.entrySet()) {
-            if (count >= totalEntries - 4) {
-                writeLine(printWriter, entry);
+            String[] split = entry.getKey().split("/");
+            String currentKey = split[0].trim();
+
+            if (!currentKey.equals(lastKey)) {
+                printWriter.println(DASHES + SPACE + DASHES);
             }
-            count++;
+            lastKey = currentKey;
+            writeLine(printWriter, entry);
         }
-
-        count = 0; // Reset count for writing the remaining entries
-
-        // Write the remaining entries
-        for (Map.Entry<String, String> entry : logMap.entrySet()) {
-            if (count < totalEntries - 4) {
-                writeLine(printWriter, entry);
-            }
-            count++;
-        }
-
         return writer.toString().getBytes();
+
     }
 
     private static void writeLine(PrintWriter printWriter, Map.Entry<String, String> entry) {
-        printWriter.println(entry.getKey() + " " + entry.getValue());
+        printWriter.println(entry.getKey() + SPACE + entry.getValue());
     }
 
     public static int cellDoubleValueToInt(double cellValue) {
         String[] split = String.valueOf(cellValue).split("\\.");
         return Integer.parseInt(split[0]);
     }
+
+    public static <T> Optional<T> putInScrapLog(
+            Map<String, String> scrapMap,
+            Row row,
+            int position,
+            String rowNumber,
+            String message
+    ) {
+        String cellAddress = cellAddress(row, position);
+        String key = format(SCRAP_ERROR, rowNumber, cellAddress);
+        scrapMap.put(key, "[ " + message + " ]");
+        return empty();
+    }
+
+    public static void putDashesInScrapLog(Map<String, String> scrapMap) {
+        scrapMap.put(DASHES, DASHES);
+    }
+
+
+    public static String rowNumber(int rowIndex, boolean skipHeader) {
+        if (skipHeader) {
+            return rowIndex + 1 + SPACE;
+        }
+        return rowIndex + SPACE;
+    }
+
+    public static String rowNumber(int rowIndex) {
+        int number = rowIndex + 1;
+        return number + SPACE;
+    }
+
+    public static String uploadStatistics(Integer totalRowsCount, Integer successUploadCount, Integer failedUploadCount) {
+       /*
+       String successPercent = (totalRowsCount * successUploadCount / 100) + SPACE;
+        String failedPercent = (totalRowsCount * failedUploadCount / 100) + SPACE;
+
+        return format("%s percent successfully uploaded, %s percent failed to upload", successPercent, failedPercent);
+        */
+
+        if (totalRowsCount <= 0) {
+            return "No data available.";
+        }
+
+        double successRate = (double) successUploadCount / totalRowsCount * 100;
+        double failedRate = (double) failedUploadCount / totalRowsCount * 100;
+
+        return format("Success Rate: %.2f%%, Failed Rate: %.2f%%", successRate, failedRate);
+
+    }
+
 
 }
