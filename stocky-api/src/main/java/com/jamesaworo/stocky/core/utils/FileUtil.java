@@ -8,7 +8,9 @@
 package com.jamesaworo.stocky.core.utils;
 
 import com.jamesaworo.stocky.core.constants.enums.FileType;
+import com.jamesaworo.stocky.core.constants.enums.StringOrStringArray;
 import com.jamesaworo.stocky.core.constants.enums.Template;
+import com.jamesaworo.stocky.core.params.BiParam;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.core.io.Resource;
@@ -23,11 +25,14 @@ import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import static com.jamesaworo.stocky.core.constants.ReportConstant.*;
+import static com.jamesaworo.stocky.core.constants.enums.StringOrStringArray.STRING;
+import static com.jamesaworo.stocky.core.constants.enums.StringOrStringArray.STRING_ARRAY;
 import static com.jamesaworo.stocky.core.utils.ExportUtil.getFileFromClassPathAsInputStream;
 import static java.lang.String.format;
 import static java.util.Optional.empty;
@@ -172,6 +177,24 @@ public class FileUtil {
         return new String[]{};
     }
 
+    public static BiParam<StringOrStringArray, BiParam<String, String[]>> splitCellValueSeperatedByComma(String value) {
+
+        BiParam<String, String[]> stringOrStringArrayParam = new BiParam<>(EMPTY, new String[]{});
+        BiParam<StringOrStringArray, BiParam<String, String[]>> resultBiParam = new BiParam<>(STRING, stringOrStringArrayParam);
+
+        // is array
+        if (!isEmpty(value) && value.contains(",")) {
+            String[] split = value.split(",");
+            stringOrStringArrayParam.setRight(Arrays.stream(split).map(String::trim).toArray(String[]::new));
+            resultBiParam.setLeft(STRING_ARRAY);
+        } else {
+            stringOrStringArrayParam.setLeft(value);
+            resultBiParam.setLeft(STRING);
+        }
+
+        return resultBiParam;
+    }
+
     public static String rowCellStringValue(Row row, int cellPosition) {
         if (row != null) {
             return row.getCell(cellPosition).getStringCellValue();
@@ -184,18 +207,6 @@ public class FileUtil {
             return row.getCell(cellPosition).getNumericCellValue();
         }
         return 0;
-    }
-
-    public static byte[] writeLogContentToFile(Map<String, String> logMap) {
-        // Create a string to store the log content
-        StringWriter writer = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(writer);
-
-        for (Map.Entry<String, String> entry : logMap.entrySet()) {
-            writeLine(printWriter, entry);
-        }
-
-        return writer.toString().getBytes();
     }
 
     private static void writeLogStats(PrintWriter printWriter, Map<String, String> logMap) {
@@ -214,7 +225,6 @@ public class FileUtil {
         logMap.remove(STATS_COUNT);
     }
 
-
     public static byte[] writeProductScrapContentToFile(Map<String, String> logMap) {
         StringWriter writer = new StringWriter();
         PrintWriter printWriter = new PrintWriter(writer);
@@ -224,9 +234,7 @@ public class FileUtil {
         String lastKey = "";
 
         for (Map.Entry<String, String> entry : logMap.entrySet()) {
-            String[] split = entry.getKey().split("/");
-            String currentKey = split[0].trim();
-
+            String currentKey = entry.getKey().split("/")[0].trim();
             if (!currentKey.equals(lastKey)) {
                 printWriter.println(DASHES + SPACE + DASHES);
             }
@@ -234,7 +242,6 @@ public class FileUtil {
             writeLine(printWriter, entry);
         }
         return writer.toString().getBytes();
-
     }
 
     private static void writeLine(PrintWriter printWriter, Map.Entry<String, String> entry) {
@@ -259,11 +266,6 @@ public class FileUtil {
         return empty();
     }
 
-    public static void putDashesInScrapLog(Map<String, String> scrapMap) {
-        scrapMap.put(DASHES, DASHES);
-    }
-
-
     public static String rowNumber(int rowIndex, boolean skipHeader) {
         if (skipHeader) {
             return rowIndex + 1 + SPACE;
@@ -277,23 +279,11 @@ public class FileUtil {
     }
 
     public static String uploadStatistics(Integer totalRowsCount, Integer successUploadCount, Integer failedUploadCount) {
-       /*
-       String successPercent = (totalRowsCount * successUploadCount / 100) + SPACE;
-        String failedPercent = (totalRowsCount * failedUploadCount / 100) + SPACE;
-
-        return format("%s percent successfully uploaded, %s percent failed to upload", successPercent, failedPercent);
-        */
-
-        if (totalRowsCount <= 0) {
-            return "No data available.";
-        }
+        if (totalRowsCount <= 0) return "No data available.";
 
         double successRate = (double) successUploadCount / totalRowsCount * 100;
         double failedRate = (double) failedUploadCount / totalRowsCount * 100;
-
         return format("Success Rate: %.2f%%, Failed Rate: %.2f%%", successRate, failedRate);
-
     }
-
 
 }

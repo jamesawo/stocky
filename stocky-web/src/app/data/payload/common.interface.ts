@@ -1,6 +1,7 @@
 import {UrlTree} from '@angular/router';
 import {NzUploadType} from 'ng-zorro-antd/upload';
 import {Observable} from 'rxjs';
+import {UploadFnProps} from '../../shared/components/upload-file/upload-file.component';
 import {FileType} from './common.enum';
 import {PagePayload} from './common.payload';
 
@@ -31,10 +32,9 @@ export interface UploadComponentInput {
     canUploadMultipleFiles: boolean;
     canDownloadTemplate: boolean;
     onDownloadTemplate: () => void;
-    onUploadTemplate?: (arg: {formData: FormData, status: boolean}) => void;
+    onUploadTemplate?: (arg: UploadFnProps) => void;
     url?: string;
     type: NzUploadType;
     allowedFileTypes: FileType[];
     maxFileSizeInMB: number;
-
 }

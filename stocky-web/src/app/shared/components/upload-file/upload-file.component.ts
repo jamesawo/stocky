@@ -9,6 +9,8 @@ import {FileType} from '../../../data/payload/common.enum';
 import {UploadComponentInput} from '../../../data/payload/common.interface';
 import {handleHttpRequestError, isFileExtensionAllowed, isFileSizeAllowed, toBytes} from '../../utils/util';
 
+export type UploadFnProps = {formData: FormData, status?: boolean};
+
 @Component({
     selector: 'app-upload-file',
     templateUrl: './upload-file.component.html',
@@ -64,7 +66,7 @@ export class UploadFileComponent implements UploadComponentInput {
     public allowedFileTypes: FileType[] = [];
 
     @Input()
-    public onUploadTemplate?: (arg: {formData: FormData, status: boolean}) => void;
+    public onUploadTemplate?: (arg: UploadFnProps) => void;
 
     constructor(
         private http: HttpClient,
@@ -88,7 +90,7 @@ export class UploadFileComponent implements UploadComponentInput {
         const formData = this.prepareFormData();
 
         if (this.onUploadTemplate) {
-            this.onUploadTemplate({formData: formData, status: this.isUploading});
+            this.onUploadTemplate({formData: formData});
             return;
         } else if (this.url) {
             this.onHandleUploadFn(formData);
@@ -96,9 +98,8 @@ export class UploadFileComponent implements UploadComponentInput {
         }
 
         this.msg.error('NO UPLOAD HANDLER PROVIDED');
-
     }
-
+    
     private onHandleUploadFn = (formData: FormData) => {
         this.isUploading = true;
         const headers = new HttpHeaders().set('Authorization', this.tokenService.get()?.token!);

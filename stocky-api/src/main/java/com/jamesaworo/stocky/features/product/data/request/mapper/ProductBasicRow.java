@@ -7,6 +7,7 @@
 
 package com.jamesaworo.stocky.features.product.data.request.mapper;
 
+import com.jamesaworo.stocky.core.constants.enums.StringOrStringArray;
 import com.jamesaworo.stocky.core.params.BiParam;
 import com.jamesaworo.stocky.features.product.domain.entity.*;
 import com.jamesaworo.stocky.features.product.domain.usecase.*;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.jamesaworo.stocky.core.constants.ReportConstant.*;
+import static com.jamesaworo.stocky.core.constants.enums.StringOrStringArray.STRING;
 import static com.jamesaworo.stocky.core.utils.FileUtil.*;
 import static java.lang.String.format;
 import static java.util.Optional.empty;
@@ -75,8 +77,7 @@ public class ProductBasicRow {
         if (!isEmpty(productName) && !isEmpty(brandName)) {
             Optional<?> optionalNameAndBrand = this.basicUsecase.findByNameAndBrand(productName, brandName);
             if (optionalNameAndBrand.isPresent()) {
-                putInScrapLog(map, row, 4, rowNumber(rowIndex), format(GENERIC_EXISTS, PRD, "Name", productName));
-                putInScrapLog(map, row, 7, rowNumber(rowIndex), format(GENERIC_EXISTS, PRD, "BrandName", brandName));
+                putInScrapLog(map, row, 4, rowNumber(rowIndex), format(GENERIC_EXISTS, PRD, "Name & BrandName", "Name: " + productName + ", BrandeName: " + brandName));
                 param.setLeft(false);
             }
         }
@@ -148,23 +149,20 @@ public class ProductBasicRow {
             putInScrapLog(map, row, 3, rowNumber(rowIndex), CELL_EMPTY);
             param.setLeft(false);
         } else {
-            String[] taxesArr = cellStringArrayValue(taxes);
-            if (taxesArr.length < 1) {
-                putInScrapLog(map, row, 3, rowNumber(rowIndex), taxes + DONT_EXIST);
-                param.setLeft(false);
+            BiParam<StringOrStringArray, BiParam<String, String[]>> stringOrStringArrayBiParam = splitCellValueSeperatedByComma(taxes);
+            List<ProductTax> taxList = new ArrayList<>();
+            if (stringOrStringArrayBiParam.getLeft().equals(STRING)) {
+                addTaxIfPresent(taxList, stringOrStringArrayBiParam.getRight().getLeft(), map, rowIndex, param);
             } else {
-                List<ProductTax> productTaxes = new ArrayList<>();
-                for (String taxName : taxesArr) {
-                    Optional<ProductTax> optionalTax = taxUsecase.findOne(taxName.trim().toLowerCase());
-                    if (optionalTax.isPresent()) {
-                        productTaxes.add(optionalTax.get());
-                    } else {
-                        putInScrapLog(map, row, 3, rowNumber(rowIndex), taxName + DONT_EXIST);
-                        param.setLeft(false);
-                    }
+                for (String taxName : stringOrStringArrayBiParam.getRight().getRight()) {
+                    addTaxIfPresent(taxList, taxName.trim(), map, rowIndex, param);
                 }
-                basic.setTaxes(productTaxes);
             }
+
+            if (taxList.size() > 0) {
+                basic.setTaxes(taxList);
+            }
+
         }
 
         // product name
@@ -233,6 +231,22 @@ public class ProductBasicRow {
         this.productStatusUsecase = context.getBean(IProductStatusUsecase.class);
         this.productCategoryUsecase = context.getBean(IProductCategoryUsecase.class);
         this.unitOfMeasureUsecase = context.getBean(IProductUnitOfMeasureUsecase.class);
+    }
+
+    private void addTaxIfPresent(
+            List<ProductTax> taxes,
+            String taxName,
+            Map<String, String> map,
+            int rowIndex,
+            BiParam<Boolean, Optional<ProductBasic>> param
+    ) {
+        Optional<ProductTax> optionalTax = taxUsecase.findOne(taxName);
+        if (optionalTax.isPresent()) {
+            taxes.add(optionalTax.get());
+        } else {
+            putInScrapLog(map, row, 3, rowNumber(rowIndex), taxName + DONT_EXIST);
+            param.setLeft(false);
+        }
     }
 
 }
