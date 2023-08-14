@@ -100,4 +100,5 @@ export enum FileMimeType {
     DOCX = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     JPG = 'image/jpeg',
     PNG = 'image/png',
+    OCT = 'application/octet-stream'
 }

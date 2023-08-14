@@ -18,7 +18,7 @@ export class UploadImportService {
 
     public upload(arg: UploadComponentInput, title?: string) {
         return this.drawerService
-            .create<UploadFileComponent, UploadComponentInput, void>({
+            .create<UploadFileComponent, UploadComponentInput, UploadFileComponent>({
                 nzTitle: title ?? 'Upload Files',
                 nzFooter: ' ',
                 nzExtra: ' ',

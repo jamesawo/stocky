@@ -4,6 +4,7 @@ import com.jamesaworo.stocky.core.annotations.Usecase;
 import com.jamesaworo.stocky.core.constants.Setting;
 import com.jamesaworo.stocky.core.constants.enums.Template;
 import com.jamesaworo.stocky.core.params.BiParam;
+import com.jamesaworo.stocky.core.params.FileHandlerStatus;
 import com.jamesaworo.stocky.core.utils.FileUtil;
 import com.jamesaworo.stocky.features.product.data.repository.ProductRepository;
 import com.jamesaworo.stocky.features.product.data.request.mapper.ProductBasicRow;
@@ -125,7 +126,7 @@ public class ProductUsecaseImpl implements IProductUsecase {
 
     @Override
     public Map<String, String> uploadTemplate(MultipartFile file) {
-        //FileHandlerStatus status = new FileHandlerStatus();
+        FileHandlerStatus status = new FileHandlerStatus();
 
         try (Workbook workbook = openWorkbook(file.getInputStream())) {
 
