@@ -9,6 +9,7 @@ package com.jamesaworo.stocky.core.constants;
 
 public class ReportConstant {
     public static final String EMPTY = "";
+    public static final String WALK_IN = "WalkIn Customer";
     public static final String SPACE = " ";
     public static final String DASHES = "---";
     public static final String NOT_AVAILABLE = "N/A";

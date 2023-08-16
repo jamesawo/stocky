@@ -11,9 +11,6 @@ import com.jamesaworo.stocky.features.sale.domain.entity.SaleTransaction;
 import com.jamesaworo.stocky.features.sale.domain.entity.SaleTransactionItem;
 import lombok.Data;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static com.jamesaworo.stocky.core.constants.ReportConstant.EMPTY;
 import static com.jamesaworo.stocky.core.utils.Util.formatDate;
 import static com.jamesaworo.stocky.core.utils.Util.formatTime;
@@ -35,11 +32,7 @@ public class SaleTransactionDailyReportData {
     private String paymentMethod;
 
 
-    public static List<SaleTransactionDailyReportData> mapFromTransactionList(List<SaleTransaction> data) {
-        return data.stream().map(SaleTransactionDailyReportData::mapFromTransaction).collect(Collectors.toList());
-    }
-
-    private static SaleTransactionDailyReportData mapFromTransaction(SaleTransaction transaction) {
+    public static SaleTransactionDailyReportData mapFromTransaction(SaleTransaction transaction) {
         SaleTransactionDailyReportData reportData = new SaleTransactionDailyReportData();
         reportData.setDate(formatDate(transaction.getDate()).toUpperCase());
         reportData.setTime(formatTime(transaction.getTime()).toUpperCase());
