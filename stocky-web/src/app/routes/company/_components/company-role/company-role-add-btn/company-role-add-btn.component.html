@@ -46,12 +46,15 @@
     <app-company-role-form
         #roleFormComponent
         (formActionEmitter)="onHandleFormEmit($event)"
-        [popup]="popup"></app-company-role-form>
+        [popup]="popup"
+        [role]="role"
+    ></app-company-role-form>
 </ng-template>
 
 <ng-template #contentFooterBtnTmpl>
     <app-footer-button
         [action]="{submitAction: onCreate, cancelAction: toggle }"
+        [isSaving]="isSaving"
         [props]="{cancelArgs: ModalOrDrawer.ANY}"
     ></app-footer-button>
 </ng-template>

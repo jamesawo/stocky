@@ -9,6 +9,10 @@ import {ModalOrDrawer} from '../../../data/payload/common.enum';
 export class FooterButtonComponent {
 
     @Input()
+    public isSaving: boolean = false;
+
+
+    @Input()
     public props?: {
         cancelArgs?: any;
     };

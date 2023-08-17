@@ -63,6 +63,7 @@
                 [nzHeader]="group.module"
             >
                 <ul [nzDataSource]="group.permissions" nz-list nzBordered nzSize="small">
+
                     <nz-list-header>
                         <div class="flex justify-between mr2">
                             <span>
@@ -74,16 +75,22 @@
                             </span>
                         </div>
                     </nz-list-header>
+
                     <li *ngFor="let item of group.permissions" nz-list-item nzNoFlex>
                         <ul nz-list-item-actions>
                             <nz-list-item-action>
-                                <input (change)="handlePermissionSelection($event, item)" [checked]="item.checked"
-                                       type="checkbox"/>
+                                <input
+                                    (change)="handlePermissionSelection($event, item)"
+                                    [checked]="item.checked"
+                                    type="checkbox"
+                                />
                             </nz-list-item-action>
                         </ul>
                         {{ item.name.replaceAll('_', ' ') }}
                     </li>
+
                     <nz-list-footer></nz-list-footer>
+
                 </ul>
 
             </nz-collapse-panel>

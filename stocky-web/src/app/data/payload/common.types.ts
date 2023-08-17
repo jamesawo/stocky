@@ -45,7 +45,6 @@ export type TableActionProps<T> = {
     saveEditHandler: (item: T) => Promise<void>;
     cancelEditHandler: (item: T) => Promise<void>;
     toggleEditHandler: (item: T) => void;
-
     editMap?: TableEditCacheMap<T>;
     cancelDeleteHandler?: () => void;
     confirmDeleteHandler?: (id: number) => Promise<void>;

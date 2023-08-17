@@ -1,4 +1,8 @@
-<page-header></page-header>
+<page-header [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <app-breadcrumbs [crumbs]="crumbs"></app-breadcrumbs>
+    </ng-template>
+</page-header>
 
 <nz-card>
 

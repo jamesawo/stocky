@@ -50,6 +50,7 @@ import {CompanyRoutingModule} from './company-routing.module';
 import {CompanyStatusSetupComponent} from './company-status-setup/company-status-setup.component';
 import {CompanyTaxSetupComponent} from './company-tax-setup/company-tax-setup.component';
 import {CompanyUnitOfMeasureSetupComponent} from './company-unit-of-measure-setup/company-unit-of-measure-setup.component';
+import { CompanyRoleTableComponent } from './company-role-setup/components/company-role-table/company-role-table.component';
 
 export const COMPANY_COMPONENTS: Array<Type<void>> = [
     CompanyUserSearchComponent,
@@ -90,7 +91,7 @@ export const COMPANY_COMPONENTS: Array<Type<void>> = [
 
 @NgModule({
     imports: [CompanyRoutingModule, SharedModule, ProductsModule],
-    declarations: [...COMPANY_COMPONENTS],
+    declarations: [...COMPANY_COMPONENTS, CompanyRoleTableComponent],
     exports: [...COMPANY_COMPONENTS]
 })
 export class CompanyModule {

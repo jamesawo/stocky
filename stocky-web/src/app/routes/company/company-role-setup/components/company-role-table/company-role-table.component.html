@@ -1,0 +1,40 @@
+<app-table
+    [colHeadings]="tableCols"
+    [dataList]="list"
+    [props]="{tableLayout: 'auto'}"
+    [rowTemplates]="[titleTmpl, descTmpl, dateTmpl, permTmpl, isActiveStatusTmpl, actionTmpl]"
+></app-table>
+
+<ng-template #titleTmpl let-item="item">
+    <label>{{item.name }}</label>
+</ng-template>
+
+<ng-template #descTmpl let-item="item">
+    <label>{{item.description}}</label>
+</ng-template>
+
+<ng-template #permTmpl let-item="item">
+    <label>{{item.permissions.length}}</label>
+</ng-template>
+
+<ng-template #dateTmpl let-item="item">
+    <label>{{item.createdAt | date}}</label>
+</ng-template>
+
+<ng-template #isActiveStatusTmpl let-item="item">
+    <app-record-status-badge [status]="item.isActiveStatus"></app-record-status-badge>
+</ng-template>
+
+<ng-template #actionTmpl let-item="item">
+    <app-update-delete-action
+        [buttons]="[TableButtonEnum.EDIT, TableButtonEnum.TOGGLE_STATUS]"
+        [item]="item"
+        [props]="{
+            saveEditHandler: emptyAction,
+            cancelEditHandler: emptyAction,
+            toggleEditHandler: onToggleEdit,
+            confirmToggleStatusHandler: onToggleRoleStatus
+        }"
+    ></app-update-delete-action>
+</ng-template>
+

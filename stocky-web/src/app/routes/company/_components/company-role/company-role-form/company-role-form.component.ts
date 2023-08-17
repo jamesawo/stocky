@@ -72,14 +72,21 @@ export class CompanyRoleFormComponent implements OnInit {
     public onSave = async () => {
         if (this.form.invalid) {
             this.util.markFormFieldsAsDirtyAndTouched(this.form);
-            return;
+            return false;
         }
         const form = this.form.value;
         form.permissions = [...this.selectedPermissions];
         const res = await this.util.handleUsecaseRequest(this.usecase.save(form), this.notification);
         this.onResetForm(res);
-
+        return res.ok;
     };
+
+    public addOrRemoveAllGroupPermissions(group: PermissionGroupByModulePayload, event: any): void {
+        const checked: boolean = event.target.checked;
+        if (checked) {
+            
+        }
+    }
 
 
     /**
@@ -117,7 +124,6 @@ export class CompanyRoleFormComponent implements OnInit {
         return false;
     }
 
-
     /**
      * Checks if there is at least one permission present in both the group's permissions
      * and the Role's permissions.
@@ -140,10 +146,7 @@ export class CompanyRoleFormComponent implements OnInit {
             }
         }
         return booleanFlag;
-
-
     }
-
 
     /**
      * Adds permissions from the role to the selectedPermissions and returns it.
@@ -159,7 +162,6 @@ export class CompanyRoleFormComponent implements OnInit {
         }
         return null;
     }
-
 
     /**
      * Updates the selected permissions based on the checked status of a permission.
@@ -180,7 +182,6 @@ export class CompanyRoleFormComponent implements OnInit {
         this.updateFormControl();
     }
 
-
     /**
      * Updates the form control associated with the selected permissions based on the current state of selected permissions.
      * If there are selected permissions, their values are set in the form control.
@@ -193,7 +194,6 @@ export class CompanyRoleFormComponent implements OnInit {
             this.form.get('permissions')?.setValue(null);
         }
     }
-
 
     /**
      * Resets the form and performs additional actions based on the response.
