@@ -121,7 +121,7 @@ public enum AppModuleEnum {
             return "credit-card";
         }
     },
-    PAYWALL {
+    SUBSCRIPTION {
         public List<AppModuleRoute> pageRoute() {
             return List.of(
                     new AppModuleRoute("Plan", PAYWALL_ACCESS_PAGE_PAYWALL_PLAN, "/paywall/plan"),

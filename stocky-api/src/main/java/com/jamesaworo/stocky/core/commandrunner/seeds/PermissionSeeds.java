@@ -78,11 +78,11 @@ public class PermissionSeeds {
 
 
     public static final List<Permission> PAYWALL_PERMISSIONS = List.of(
-            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_PLAN, PAYWALL),
-            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_PAYMENTS, PAYWALL),
-            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_SETTINGS, PAYWALL),
-            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_BILLING, PAYWALL),
-            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_NOTIFICATION, PAYWALL)
+            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_PLAN, SUBSCRIPTION),
+            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_PAYMENTS, SUBSCRIPTION),
+            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_SETTINGS, SUBSCRIPTION),
+            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_BILLING, SUBSCRIPTION),
+            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_NOTIFICATION, SUBSCRIPTION)
     );
     public static final List<Permission> PRODUCT_PERMISSIONS = List.of(
             new Permission(PRODUCT_ACCESS_PAGE_PRODUCT, PRODUCT),
