@@ -2,7 +2,7 @@ import {registerLocaleData} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {default as ngLang} from '@angular/common/locales/en';
-import {APP_INITIALIZER, LOCALE_ID, NgModule, Type} from '@angular/core';
+import {APP_INITIALIZER, ErrorHandler, LOCALE_ID, NgModule, Type} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {IconDefinition} from '@ant-design/icons-angular';
@@ -26,6 +26,8 @@ import {GlobalConfigModule} from './global-config.module';
 import {LayoutModule} from './layout/layout.module';
 import {RoutesModule} from './routes/routes.module';
 import {STWidgetModule} from './shared/st-widget/st-widget.module';
+import {RollbarErrorHandler} from './shared/utils/rollbar-error-handler.service';
+import {rollbarFactory, RollbarService} from './shared/utils/rollbar.service';
 
 const LANG = {
     abbr: 'en',
@@ -51,7 +53,9 @@ const FORM_MODULES = [JsonSchemaModule];
 let INTERCEPTOR_PROVIDES: any[] = [
     // {provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true},
     // {provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true},
+    {provide: ErrorHandler, useClass: RollbarErrorHandler},
+    {provide: RollbarService, useFactory: rollbarFactory}
 ];
 
 const GLOBAL_THIRD_MODULES: Array<Type<void>> = [];

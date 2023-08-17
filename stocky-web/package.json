@@ -40,6 +40,7 @@
     "@delon/util": "^15.2.0",
     "ng-alain": "^15.2.0",
     "ng-zorro-antd": "^15.1.0",
+    "rollbar": "^2.26.2",
     "rxjs": "~7.8.0",
     "screenfull": "^6.0.2",
     "tachyons": "^4.12.0",

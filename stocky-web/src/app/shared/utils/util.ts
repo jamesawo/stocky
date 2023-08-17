@@ -3,10 +3,12 @@ import {HttpResponse} from '@angular/common/http';
 import {AbstractControl, FormControl, FormGroup} from '@angular/forms';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
+
 import {first, firstValueFrom, from, map, Observable, switchMap, throwError} from 'rxjs';
 import {FileMimeType, FileTemplate, FileType, ModalOrDrawer} from '../../data/payload/common.enum';
 import {TableEditCacheMap} from '../../data/payload/common.types';
 import {ProductPayload, ProductTaxPayload} from '../../routes/products/_data/product.payload';
+
 
 export function isFormInvalid(form: FormGroup): boolean {
     if (form && form.controls) {
@@ -369,7 +371,6 @@ export function isFileExtensionAllowed(fileName: string, allowedFiles: FileType[
 export function isFileSizeAllowed(fileSize: number | undefined, maxAllowedFileSize: number): boolean {
     return fileSize ? fileSize <= maxAllowedFileSize : false;
 }
-
 
 export function toBytes(n: number) {
     return n * 1024 * 1024; // n MB in bytes
