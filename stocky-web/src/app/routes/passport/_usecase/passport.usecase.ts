@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
-import {LoginResponse} from '../_data/passport.payload';
+import {AppDetail, LoginResponse, LoginUser} from '../_data/passport.payload';
 
 export enum LocalStorageKey {
     USER = 'pu_user'
@@ -29,10 +29,28 @@ export class PassportUsecase {
         }
     }
 
+    public getAppDetail(): AppDetail | undefined {
+        let item = localStorage.getItem(LocalStorageKey.USER);
+        if (item) {
+            const res = JSON.parse(item);
+            return res.app;
+        }
+        return undefined;
+    }
+
     public getLoginResponse(): LoginResponse | undefined {
         let item = localStorage.getItem(LocalStorageKey.USER);
         if (item) {
             return JSON.parse(item);
+        }
+        return undefined;
+    }
+
+    public getLoggedInUser(): LoginUser | undefined {
+        let item = localStorage.getItem(LocalStorageKey.USER);
+        if (item) {
+            const res = JSON.parse(item);
+            return res.user;
         }
         return undefined;
     }
