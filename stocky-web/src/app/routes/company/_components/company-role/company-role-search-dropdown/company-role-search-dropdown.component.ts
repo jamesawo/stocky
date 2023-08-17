@@ -3,7 +3,7 @@ import {FormControl} from '@angular/forms';
 import {NzSelectModeType} from 'ng-zorro-antd/select/select.types';
 import {map, Observable} from 'rxjs';
 import {FormProps, SearchProps} from '../../../../../data/payload/common.types';
-import {getNzFormControlValidStatus} from '../../../../../shared/utils/util';
+import {UtilService} from '../../../../../shared/utils/util.service';
 import {RolePayload} from '../../../_data/company.payload';
 import {RoleUsecase} from '../../../_usecase/role.usecase';
 
@@ -36,9 +36,9 @@ export class CompanyRoleSearchDropdownComponent {
     public valueChange: EventEmitter<RolePayload[]> = new EventEmitter<RolePayload[]>();
 
     public selectedControl: FormControl = new FormControl();
-    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
+    protected readonly getNzFormControlValidStatus = this.util.getNzFormControlValidStatus;
 
-    constructor(private usecase: RoleUsecase) {}
+    constructor(private usecase: RoleUsecase, private util: UtilService) {}
 
     public ngOnInit(): void {
         this.onLoadData();

@@ -4,7 +4,7 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, of, shareReplay} from 'rxjs';
 import {ModalOrDrawer, TableButtonEnum} from '../../../data/payload/common.enum';
 import {TableCol} from '../../../shared/components/table/table.component';
-import {handleUsecaseRequest, toggleModalOrDrawer} from '../../../shared/utils/util';
+import {UtilService} from '../../../shared/utils/util.service';
 import {CompanyRoleFormComponent} from '../_components/company-role/company-role-form/company-role-form.component';
 import {RolePayload} from '../_data/company.payload';
 import {RoleUsecase} from '../_usecase/role.usecase';
@@ -35,15 +35,18 @@ export class CompanyRoleSetupComponent implements OnInit {
     protected readonly ModalOrDrawer = ModalOrDrawer;
     protected readonly TableButtonEnum = TableButtonEnum;
 
-    constructor(private usecase: RoleUsecase,
-                private notification: NzNotificationService) {}
+    constructor(
+        private usecase: RoleUsecase,
+        private notification: NzNotificationService,
+        private util: UtilService
+    ) {}
 
     public ngOnInit() {
         this.usecase.trigger$.subscribe(value => this.loadData());
     }
-    
+
     public onToggleRoleStatus = async (id: number) => {
-        const response = await handleUsecaseRequest(this.usecase.toggleStatus(id), this.notification);
+        const response = await this.util.handleUsecaseRequest(this.usecase.toggleStatus(id), this.notification);
         if (response.ok) this.usecase.setTrigger(true);
 
     };
@@ -68,7 +71,7 @@ export class CompanyRoleSetupComponent implements OnInit {
     };
 
     public onToggleDrawerOrModal(type = ModalOrDrawer.DRAWER) {
-        const {showDrawer} = toggleModalOrDrawer(type, this.showDrawer, false);
+        const {showDrawer} = this.util.toggleModalOrDrawer(type, this.showDrawer, false);
         this.showDrawer = showDrawer;
     }
 

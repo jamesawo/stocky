@@ -1,4 +1,4 @@
-import {calculateSellingPrice} from '../../../shared/utils/util';
+import {UtilService} from '../../../shared/utils/util.service';
 import {SupplierPayload} from '../../company/_data/company.payload';
 import {ProductPayload} from '../../products/_data/product.payload';
 import {StockStatus} from './stock.enum';
@@ -64,7 +64,7 @@ export class StockPrice {
         let markUpPercent = this.markupPercent ?? 0;
 
         const expensesCostPrice = Number(costPrice) + Number(this.expensesAmount);
-        this.sellingPrice = calculateSellingPrice(expensesCostPrice, markUpPercent);
+        this.sellingPrice = UtilService.calculateSellingPrice(expensesCostPrice, markUpPercent);
     };
 }
 

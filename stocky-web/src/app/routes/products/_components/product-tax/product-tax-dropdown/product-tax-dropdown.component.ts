@@ -3,7 +3,7 @@ import {FormControl} from '@angular/forms';
 
 import {firstValueFrom} from 'rxjs';
 import {FormProps} from '../../../../../data/payload/common.types';
-import {getTaxTitle} from '../../../../../shared/utils/util';
+import {UtilService} from '../../../../../shared/utils/util.service';
 import {ProductTaxPayload} from '../../../_data/product.payload';
 import {ProductTaxUsecase} from '../../../_usecase/product-tax.usecase';
 
@@ -33,10 +33,10 @@ export class ProductTaxDropdownComponent implements OnInit {
 
     public selectedControl: FormControl = new FormControl();
 
-    constructor(private usecase: ProductTaxUsecase) {}
+    constructor(private usecase: ProductTaxUsecase, private util: UtilService) {}
 
     public title(tax: ProductTaxPayload) {
-        return getTaxTitle(tax);
+        return this.util.getTaxTitle(tax);
     }
 
     public ngOnInit(): void {

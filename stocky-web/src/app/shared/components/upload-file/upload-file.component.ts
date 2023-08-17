@@ -7,7 +7,7 @@ import {NzUploadFile, NzUploadType} from 'ng-zorro-antd/upload';
 import {throwError} from 'rxjs';
 import {FileType} from '../../../data/payload/common.enum';
 import {UploadComponentInput} from '../../../data/payload/common.interface';
-import {handleHttpRequestError, isFileExtensionAllowed, isFileSizeAllowed, toBytes} from '../../utils/util';
+import {UtilService} from '../../utils/util.service';
 
 export type UploadFnProps = {formData: FormData, status?: boolean};
 
@@ -72,7 +72,8 @@ export class UploadFileComponent implements UploadComponentInput {
         private http: HttpClient,
         private msg: NzMessageService,
         private notificationService: NzNotificationService,
-        @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService
+        @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+        private util: UtilService
     ) {}
 
     @Input()
@@ -99,7 +100,7 @@ export class UploadFileComponent implements UploadComponentInput {
 
         this.msg.error('NO UPLOAD HANDLER PROVIDED');
     }
-    
+
     private onHandleUploadFn = (formData: FormData) => {
         this.isUploading = true;
         const headers = new HttpHeaders().set('Authorization', this.tokenService.get()?.token!);
@@ -124,12 +125,12 @@ export class UploadFileComponent implements UploadComponentInput {
     private onValidateFile(file: NzUploadFile) {
         let validated = true;
 
-        if (!isFileExtensionAllowed(file.name, this.allowedFileTypes)) {
+        if (!this.util.isFileExtensionAllowed(file.name, this.allowedFileTypes)) {
             this.msg.error('File type is not allowed', {nzDuration: 5000, nzPauseOnHover: true});
             return false;
         }
 
-        if (!isFileSizeAllowed(file.size, toBytes(this.maxFileSizeInMB))) {
+        if (!this.util.isFileSizeAllowed(file.size, this.util.toBytes(this.maxFileSizeInMB))) {
             this.msg.error('File size is not allowed', {nzDuration: 5000, nzPauseOnHover: true});
             return false;
         }
@@ -175,9 +176,8 @@ export class UploadFileComponent implements UploadComponentInput {
     }
 
     private handleError(error: HttpErrorResponse) {
-        console.log(error);
         const defaultErrorMessage: string = 'Uploading failed, please ask for help or try again';
-        handleHttpRequestError(error, {service: this.msg, duration: 5000});
+        this.util.handleHttpRequestError(error, {service: this.msg, duration: 5000});
         this.isUploading = false;
         this.uploadProgress = 0;
         this.msg.error(defaultErrorMessage);

@@ -7,7 +7,7 @@ import {PageSearchPayload} from '../../../../data/payload/common.interface';
 import {PagePayload} from '../../../../data/payload/common.payload';
 import {SearchModelDropdownComponent} from '../../../../shared/components/search-model-dropdown/search-model-dropdown.component';
 import {TableCol} from '../../../../shared/components/table/table.component';
-import {handleUsecaseRequest} from '../../../../shared/utils/util';
+import {UtilService} from '../../../../shared/utils/util.service';
 import {SupplierPayload, SupplierSearchPayload} from '../../_data/company.payload';
 import {PeopleSupplierUsecase} from '../../_usecase/people-supplier.usecase';
 
@@ -46,7 +46,8 @@ export class CompanyPeopleSupplierComponent {
 
     constructor(
         private usecase: PeopleSupplierUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private util: UtilService
     ) {}
 
     public onSearch = async (): Promise<void> => {
@@ -57,7 +58,7 @@ export class CompanyPeopleSupplierComponent {
             searchRequest: this.searchPayload,
             page: this.pageRequest
         };
-        const response = await handleUsecaseRequest(this.usecase.search(searchPayload), this.notification);
+        const response = await this.util.handleUsecaseRequest(this.usecase.search(searchPayload), this.notification);
 
         if (response.ok) {
             this.resetTableData();

@@ -5,7 +5,7 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {CommonAddProps, CommonInputProps, PopupViewProps} from 'src/app/data/payload/common.types';
 import {ModalOrDrawer} from '../../../../../../data/payload/common.enum';
 import {ResponsiveService} from '../../../../../../shared/utils/responsive.service';
-import {handleUsecaseRequest, markFormFieldsAsDirtyAndTouched, toggleModalOrDrawer} from '../../../../../../shared/utils/util';
+import {UtilService} from '../../../../../../shared/utils/util.service';
 import {CustomerPayload} from '../../../../_data/company.payload';
 import {PeopleCustomerUsecase} from '../../../../_usecase/people-customer.usecase';
 
@@ -42,7 +42,8 @@ export class CompanyPeopleCustomerAddBtnComponent implements OnInit {
         private fb: FormBuilder,
         private usecase: PeopleCustomerUsecase,
         private notification: NzNotificationService,
-        private responsiveService: ResponsiveService
+        private responsiveService: ResponsiveService,
+        private util: UtilService
     ) {}
 
     public get formBuild() {
@@ -72,7 +73,7 @@ export class CompanyPeopleCustomerAddBtnComponent implements OnInit {
     }
 
     public toggle = (type = this.popup.display) => {
-        const {showDrawer, showModal} = toggleModalOrDrawer(type, this.showDrawer, this.showModal);
+        const {showDrawer, showModal} = this.util.toggleModalOrDrawer(type, this.showDrawer, this.showModal);
         this.showDrawer = showDrawer;
         this.showModal = showModal;
     };
@@ -80,12 +81,12 @@ export class CompanyPeopleCustomerAddBtnComponent implements OnInit {
     public onCreate = async () => {
 
         if (this.form.invalid) {
-            markFormFieldsAsDirtyAndTouched(this.form);
+            this.util.markFormFieldsAsDirtyAndTouched(this.form);
             return;
         }
 
         const customer = <CustomerPayload>this.form.value;
-        const response = await handleUsecaseRequest(this.usecase.save(customer), this.notification);
+        const response = await this.util.handleUsecaseRequest(this.usecase.save(customer), this.notification);
         this.onAfterSubmission(response);
     };
 

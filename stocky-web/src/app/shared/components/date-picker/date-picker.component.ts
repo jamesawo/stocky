@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {format, parse} from 'date-fns';
 import {NzDateMode} from 'ng-zorro-antd/date-picker';
 import {FormProps} from '../../../data/payload/common.types';
-import {getNzFormControlValidStatus} from '../../utils/util';
+import {UtilService} from '../../utils/util.service';
 
 @Component({
     selector: 'app-date-picker',
@@ -27,13 +27,13 @@ export class DatePickerComponent implements OnInit {
 
     @Input() public formProps?: FormProps;
 
-    constructor() {
+    constructor(private util: UtilService) {
     }
 
     public get status() {
         if (this.formProps && this.formProps.formGroup && this.formProps.controlName) {
             const {formGroup, controlName} = this.formProps;
-            return getNzFormControlValidStatus(controlName, formGroup);
+            return this.util.getNzFormControlValidStatus(controlName, formGroup);
         }
 
         return this.hasError ? 'error' : 'success';

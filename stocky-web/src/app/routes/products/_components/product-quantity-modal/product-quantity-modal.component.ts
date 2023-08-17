@@ -1,8 +1,7 @@
 import {HttpResponse} from '@angular/common/http';
 import {Component, Input, OnInit} from '@angular/core';
-import {NzMessageService} from 'ng-zorro-antd/message';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {handleUsecaseRequest} from '../../../../shared/utils/util';
+import {UtilService} from '../../../../shared/utils/util.service';
 import {ProductPayload} from '../../_data/product.payload';
 import {ProductUsecase} from '../../_usecase/product.usecase';
 
@@ -25,7 +24,7 @@ export class ProductQuantityModalComponent implements OnInit {
     constructor(
         private notification: NzNotificationService,
         private productUsecase: ProductUsecase,
-        private msg: NzMessageService
+        private util: UtilService
     ) {}
 
     public get quantityModalTitle() {
@@ -43,7 +42,7 @@ export class ProductQuantityModalComponent implements OnInit {
     public handleQuantityUpdate = async () => {
         if (this.product && this.product.id && this.productQuantity) {
             this.isLoading = true;
-            const res = await handleUsecaseRequest(
+            const res = await this.util.handleUsecaseRequest(
                 this.productUsecase.updateQuantity(this.product, this.productQuantity),
                 this.notification
             );

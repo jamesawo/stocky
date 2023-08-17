@@ -6,7 +6,7 @@ import {ModalOrDrawer, TableButtonEnum} from '../../../../data/payload/common.en
 import {PageSearchPayload} from '../../../../data/payload/common.interface';
 import {PagePayload} from '../../../../data/payload/common.payload';
 import {TableCol} from '../../../../shared/components/table/table.component';
-import {handleUsecaseRequest} from '../../../../shared/utils/util';
+import {UtilService} from '../../../../shared/utils/util.service';
 import {EmployeePayload, EmployeeSearchPayload} from '../../_data/company.payload';
 import {PeopleEmployeeUsecase} from '../../_usecase/people-employee.usecase';
 
@@ -41,7 +41,8 @@ export class CompanyPeopleEmployeesComponent {
 
     constructor(
         private usecase: PeopleEmployeeUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private util: UtilService
     ) {}
 
     public onSearch = async (): Promise<void> => {
@@ -53,7 +54,7 @@ export class CompanyPeopleEmployeesComponent {
             searchRequest: this.searchPayload,
             page: this.pageRequest
         };
-        const response = await handleUsecaseRequest(this.usecase.search(searchPayload), this.notification);
+        const response = await this.util.handleUsecaseRequest(this.usecase.search(searchPayload), this.notification);
 
         if (response.ok) {
             this.tableData = of(response.body?.result!);

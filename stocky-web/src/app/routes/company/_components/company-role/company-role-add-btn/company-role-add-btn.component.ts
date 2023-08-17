@@ -2,7 +2,7 @@ import {HttpResponse} from '@angular/common/http';
 import {Component, Input, ViewChild} from '@angular/core';
 import {ModalOrDrawer} from '../../../../../data/payload/common.enum';
 import {CommonInputProps, PopupViewProps} from '../../../../../data/payload/common.types';
-import {toggleModalOrDrawer} from '../../../../../shared/utils/util';
+import {UtilService} from '../../../../../shared/utils/util.service';
 import {RolePayload} from '../../../_data/company.payload';
 import {CompanyRoleFormComponent} from '../company-role-form/company-role-form.component';
 
@@ -35,13 +35,15 @@ export class CompanyRoleAddBtnComponent {
 
     protected readonly ModalOrDrawer = ModalOrDrawer;
 
+    constructor(private util: UtilService) {}
+
     get isDrawer() {
         return this.popup.display == ModalOrDrawer.DRAWER;
     }
 
 
     public toggle = (type = this.popup.display) => {
-        const {showDrawer, showModal} = toggleModalOrDrawer(type, this.showDrawer, this.showModal);
+        const {showDrawer, showModal} = this.util.toggleModalOrDrawer(type, this.showDrawer, this.showModal);
         this.showDrawer = showDrawer;
         this.showModal = showModal;
     };

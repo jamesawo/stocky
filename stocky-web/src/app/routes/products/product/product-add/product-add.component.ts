@@ -6,7 +6,7 @@ import {PRODUCT_ADD_CRUMBS} from '../../../../data/constant/crumb.constant';
 import {Message, ProductPopover} from '../../../../data/constant/message.constant';
 import {SettingConstant} from '../../../../data/constant/setting.constant';
 import {SettingModuleEnum} from '../../../../data/payload/common.enum';
-import {handleUsecaseRequest, markFormFieldsAsDirtyAndTouched} from '../../../../shared/utils/util';
+import {UtilService} from '../../../../shared/utils/util.service';
 import {SettingUsecase} from '../../../settings/_usecase/setting.usecase';
 import {ProductPayload} from '../../_data/product.payload';
 import {ProductUsecase} from '../../_usecase/product.usecase';
@@ -46,7 +46,8 @@ export class ProductAddComponent implements OnInit {
         private fb: FormBuilder,
         private notification: NzNotificationService,
         private usecase: ProductUsecase,
-        private settingUsecase: SettingUsecase
+        private settingUsecase: SettingUsecase,
+        private util: UtilService
     ) {}
 
     public ngOnInit(): void {
@@ -61,7 +62,7 @@ export class ProductAddComponent implements OnInit {
 
     public onSaveProduct = async (): Promise<void> => {
         if (this.form.invalid) {
-            markFormFieldsAsDirtyAndTouched(this.form);
+            this.util.markFormFieldsAsDirtyAndTouched(this.form);
             this.notification.create(
                 'warning', Message.VALIDATION_ERROR,
                 Message.INVALID_FORM_FIELDS, {nzPlacement: 'top'}
@@ -71,7 +72,7 @@ export class ProductAddComponent implements OnInit {
 
         this.isLoading = true;
         const product = this.form.value as ProductPayload;
-        const response = await handleUsecaseRequest(this.usecase.create(product), this.notification);
+        const response = await this.util.handleUsecaseRequest(this.usecase.create(product), this.notification);
         this.resetForm(response);
 
     };

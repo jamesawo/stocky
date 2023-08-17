@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CustomerTagEnum} from '../../../../../../data/payload/common.enum';
 import {CommonPayload} from '../../../../../../data/payload/common.payload';
 import {FormProps} from '../../../../../../data/payload/common.types';
-import {getNzFormControlValidStatus} from '../../../../../../shared/utils/util';
+import {UtilService} from '../../../../../../shared/utils/util.service';
 
 @Component({
     selector: 'app-customer-tag',
@@ -24,7 +24,9 @@ export class CustomerTagComponent {
 
     @Output()
     public selectChange = new EventEmitter<CustomerTagEnum>();
-    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
+    protected readonly getNzFormControlValidStatus = this.util.getNzFormControlValidStatus;
+
+    constructor(private util: UtilService) {}
 
     private get listOfCustomerTags(): CommonPayload[] {
         return Object.keys(CustomerTagEnum).map((value, index) => {

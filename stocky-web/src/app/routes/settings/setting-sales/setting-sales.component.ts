@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable} from 'rxjs';
 import {Crumbs} from '../../../shared/components/breadcrumbs/breadcrumbs.component';
-import {handleUsecaseRequest} from '../../../shared/utils/util';
+import {UtilService} from '../../../shared/utils/util.service';
 import {SettingPayload} from '../_data/setting.payload';
 import {SaleSettingUsecase} from '../_usecase/sale-setting.usecase';
 
@@ -21,7 +21,8 @@ export class SettingSalesComponent implements OnInit {
 
     constructor(
         private service: SaleSettingUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private util: UtilService
     ) {}
 
     public ngOnInit(): void {
@@ -29,6 +30,6 @@ export class SettingSalesComponent implements OnInit {
     }
 
     public submitForm = async (settings: SettingPayload[]) => {
-        await handleUsecaseRequest(this.service.updateSettings(settings), this.notification);
+        await this.util.handleUsecaseRequest(this.service.updateSettings(settings), this.notification);
     };
 }

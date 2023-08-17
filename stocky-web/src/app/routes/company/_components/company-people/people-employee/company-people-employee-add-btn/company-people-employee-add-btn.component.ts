@@ -5,12 +5,7 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {CommonAddProps, PopupViewProps} from 'src/app/data/payload/common.types';
 import {ModalOrDrawer, NokRelationship} from '../../../../../../data/payload/common.enum';
 import {CommonPayload} from '../../../../../../data/payload/common.payload';
-import {
-    getNzFormControlValidStatus,
-    handleUsecaseRequest,
-    markFormFieldsAsDirtyAndTouched,
-    toggleModalOrDrawer
-} from '../../../../../../shared/utils/util';
+import {UtilService} from '../../../../../../shared/utils/util.service';
 import {EmployeePayload} from '../../../../_data/company.payload';
 import {PeopleEmployeeUsecase} from '../../../../_usecase/people-employee.usecase';
 
@@ -33,12 +28,13 @@ export class CompanyPeopleEmployeeAddBtnComponent {
     @Input()
     public popup: PopupViewProps = {display: ModalOrDrawer.DRAWER};
     protected readonly ModalOrDrawer = ModalOrDrawer;
-    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
+    protected readonly getNzFormControlValidStatus = this.util.getNzFormControlValidStatus;
 
     constructor(
         private fb: FormBuilder,
         private usecase: PeopleEmployeeUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private util: UtilService
     ) {}
 
     public get formBuild() {
@@ -77,20 +73,20 @@ export class CompanyPeopleEmployeeAddBtnComponent {
     }
 
     public toggle = (type = this.popup.display) => {
-        const {showDrawer, showModal} = toggleModalOrDrawer(type, this.showDrawer, this.showModal);
+        const {showDrawer, showModal} = this.util.toggleModalOrDrawer(type, this.showDrawer, this.showModal);
         this.showDrawer = showDrawer;
         this.showModal = showModal;
     };
 
     public onCreate = async () => {
         if (this.form.invalid) {
-            markFormFieldsAsDirtyAndTouched(this.form);
+            this.util.markFormFieldsAsDirtyAndTouched(this.form);
             return;
         }
 
         this.isLoading = true;
         const submission = this.form.value;
-        const response = await handleUsecaseRequest(this.usecase.save(submission), this.notification);
+        const response = await this.util.handleUsecaseRequest(this.usecase.save(submission), this.notification);
         this.onHandleSaveResponse(response);
     };
 

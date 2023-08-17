@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {getNzFormControlValidStatus, handleUsecaseRequest, isFormInvalid} from '../../../../shared/utils/util';
+import {UtilService} from '../../../../shared/utils/util.service';
 import {LocationTypeEnum} from '../../_data/company.enum';
 import {LocationPayload, LocationTypePayload} from '../../_data/company.payload';
 import {LocationUsecase} from '../../_usecase/location.usecase';
@@ -24,12 +24,13 @@ export class CompanyLocationFormComponent implements OnInit {
     public form!: FormGroup;
     public isSaving = false;
     public types = locationTypes;
-    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
+    protected readonly getNzFormControlValidStatus = this.util.getNzFormControlValidStatus;
 
     constructor(
         private fb: FormBuilder,
         private usecase: LocationUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private util: UtilService
     ) {}
 
     public ngOnInit() {
@@ -37,12 +38,12 @@ export class CompanyLocationFormComponent implements OnInit {
     }
 
     public async onCreate(): Promise<void> {
-        const isInvalid = isFormInvalid(this.form);
+        const isInvalid = this.util.isFormInvalid(this.form);
         if (isInvalid) {
             return;
         }
         const option = this.form.value;
-        await handleUsecaseRequest(this.usecase.save(option), this.notification);
+        await this.util.handleUsecaseRequest(this.usecase.save(option), this.notification);
         this.onResetPayload();
     }
 

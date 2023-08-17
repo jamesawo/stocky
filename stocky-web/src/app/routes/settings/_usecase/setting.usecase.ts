@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
 import {firstValueFrom} from 'rxjs';
 import {SettingModuleEnum} from '../../../data/payload/common.enum';
-import {getFromLocal, storeInLocal, stringToBoolean} from '../../../shared/utils/util';
+import {UtilService} from '../../../shared/utils/util.service';
 import {SettingPayload} from '../_data/setting.payload';
 
 @Injectable({providedIn: 'root'})
@@ -11,7 +11,7 @@ export class SettingUsecase {
 
     private url = environment.api.baseUrl + '/setting';
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private util: UtilService) {}
 
     public updateValue(payload: SettingPayload) {
         return this.http.put<boolean>(`${this.url}/update`, payload);
@@ -26,7 +26,7 @@ export class SettingUsecase {
 
     public async getByKeyAsBool(key: string, module: SettingModuleEnum, ignoreCache = false): Promise<boolean> {
         let value = await this.getByKey(key, module, ignoreCache);
-        return stringToBoolean(value);
+        return this.util.stringToBoolean(value);
     }
 
     private async getFromLocalOrApi(key: string, module: SettingModuleEnum): Promise<string> {
@@ -40,11 +40,11 @@ export class SettingUsecase {
         const result = await firstValueFrom(httpCall);
         value = result.settingValue ?? '';
 
-        storeInLocal(key, value);
+        this.util.storeInLocal(key, value);
         return value;
     }
 
     private getFromLocal(key: string) {
-        return Promise.resolve(getFromLocal(key));
+        return Promise.resolve(this.util.getFromLocal(key));
     }
 }

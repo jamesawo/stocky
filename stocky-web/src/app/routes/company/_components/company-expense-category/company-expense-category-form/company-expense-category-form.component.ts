@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup, UntypedFormBuilder, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {checkFormControlCharacterLimit, handleUsecaseRequest, isFormInvalid} from '../../../../../shared/utils/util';
+import {UtilService} from 'src/app/shared/utils/util.service';
 import {ExpenseCategoryUsecase} from '../../../_usecase/company-expenses/expense-category.usecase';
 
 @Component({
@@ -17,7 +17,8 @@ export class CompanyExpenseCategoryFormComponent implements OnInit {
     constructor(
         private fb: UntypedFormBuilder,
         private usecase: ExpenseCategoryUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private util: UtilService
     ) {}
 
     public ngOnInit() {
@@ -25,18 +26,18 @@ export class CompanyExpenseCategoryFormComponent implements OnInit {
     }
 
     public async onCreate(): Promise<void> {
-        const isInvalid = isFormInvalid(this.form);
+        const isInvalid = this.util.isFormInvalid(this.form);
         if (isInvalid) {
             return;
         }
         const option = this.form.value;
-        await handleUsecaseRequest(this.usecase.save(option), this.notification);
+        await this.util.handleUsecaseRequest(this.usecase.save(option), this.notification);
         this.onResetPayload();
     }
 
     public checkCharacterLimit(value: any) {
         const formControl = this.form.get('description');
-        checkFormControlCharacterLimit(formControl!);
+        this.util.checkFormControlCharacterLimit(formControl!);
     }
 
     private initForm() {

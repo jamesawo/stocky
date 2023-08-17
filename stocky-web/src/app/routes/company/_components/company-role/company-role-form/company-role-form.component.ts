@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {ModalOrDrawer} from '../../../../../data/payload/common.enum';
 import {PopupViewProps} from '../../../../../data/payload/common.types';
-import {getNzFormControlValidStatus, handleUsecaseRequest, markFormFieldsAsDirtyAndTouched} from '../../../../../shared/utils/util';
+import {UtilService} from '../../../../../shared/utils/util.service';
 import {PermissionGroupByModulePayload, PermissionPayload, RolePayload} from '../../../_data/company.payload';
 import {RoleUsecase} from '../../../_usecase/role.usecase';
 
@@ -26,13 +26,14 @@ export class CompanyRoleFormComponent implements OnInit {
     public form: FormGroup = this.buildRoleForm;
     public permissions = this.usecase.permissions;
 
-    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
+    protected readonly getNzFormControlValidStatus = this.util.getNzFormControlValidStatus;
     private selectedPermissions: Set<PermissionPayload> = new Set();
 
     constructor(
         private usecase: RoleUsecase,
         private notification: NzNotificationService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private util: UtilService
     ) {}
 
     /**
@@ -70,12 +71,12 @@ export class CompanyRoleFormComponent implements OnInit {
      */
     public onSave = async () => {
         if (this.form.invalid) {
-            markFormFieldsAsDirtyAndTouched(this.form);
+            this.util.markFormFieldsAsDirtyAndTouched(this.form);
             return;
         }
         const form = this.form.value;
         form.permissions = [...this.selectedPermissions];
-        const res = await handleUsecaseRequest(this.usecase.save(form), this.notification);
+        const res = await this.util.handleUsecaseRequest(this.usecase.save(form), this.notification);
         this.onResetForm(res);
 
     };

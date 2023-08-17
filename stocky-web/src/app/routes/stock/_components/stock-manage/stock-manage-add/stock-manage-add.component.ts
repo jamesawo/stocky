@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {NzDrawerSize} from 'ng-zorro-antd/drawer';
 import {ModalOrDrawer} from '../../../../../data/payload/common.enum';
-import {toggleModalOrDrawer} from '../../../../../shared/utils/util';
+import {UtilService} from '../../../../../shared/utils/util.service';
 import {StockFormComponent} from '../stock-form/stock-form.component';
 
 @Component({
@@ -20,10 +20,11 @@ export class StockManageAddComponent {
     public isLoading = false;
     protected readonly ModalOrDrawer = ModalOrDrawer;
 
+    constructor(private util: UtilService) {}
+
     public async handleFormSave() {
         if (this.stockFormComponent) {
             const response = await this.stockFormComponent.onSaveStockForm();
-            console.log(response);
             if (response) {
                 this.toggleDisplay();
             }
@@ -32,7 +33,7 @@ export class StockManageAddComponent {
     }
 
     public toggleDisplay = (type: ModalOrDrawer = ModalOrDrawer.DRAWER) => {
-        const {showModal, showDrawer} = toggleModalOrDrawer(type, this.showDrawer, this.showModal);
+        const {showModal, showDrawer} = this.util.toggleModalOrDrawer(type, this.showDrawer, this.showModal);
         this.showDrawer = showDrawer;
     };
 

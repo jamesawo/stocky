@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {firstValueFrom} from 'rxjs';
-import {getNzFormControlValidStatus, handleUsecaseRequest, markFormFieldsAsDirtyAndTouched} from 'src/app/shared/utils/util';
 import {CompanyDetail} from '../../../../../data/constant/company-detail.constant';
+import {UtilService} from '../../../../../shared/utils/util.service';
 import {CompanySetupPayload} from '../../../_data/company-setup.payload';
 import {BasicSetupUsecase} from '../../../_usecase/company-setup/basic-setup.usecase';
 
@@ -17,12 +17,13 @@ export class CompanyBasicFormComponent implements OnInit {
     public form: FormGroup = this.buildForm;
     public isLoading = false;
     public detailsMap?: any;
-    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
+    protected readonly getNzFormControlValidStatus = this.util.getNzFormControlValidStatus;
 
     constructor(
         private fb: FormBuilder,
         private usecase: BasicSetupUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private util: UtilService
     ) {}
 
     /**
@@ -79,13 +80,13 @@ export class CompanyBasicFormComponent implements OnInit {
      */
     public async onSaveBasicFormDetails() {
         if (this.form.invalid) {
-            markFormFieldsAsDirtyAndTouched(this.form!);
+            this.util.markFormFieldsAsDirtyAndTouched(this.form!);
             return;
         }
 
         this.isLoading = true;
         const detailsList = this.getValuesAsListFromCompanyBasicDetailsForm(this.form!);
-        await handleUsecaseRequest(this.usecase.updateMany(detailsList), this.notification);
+        await this.util.handleUsecaseRequest(this.usecase.updateMany(detailsList), this.notification);
         this.isLoading = false;
     }
 

@@ -2,7 +2,7 @@ import {HttpResponse} from '@angular/common/http';
 import {Component, Input, OnInit} from '@angular/core';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {handleUsecaseRequest} from '../../../../shared/utils/util';
+import {UtilService} from '../../../../shared/utils/util.service';
 import {ProductDiscountPayload, ProductPayload} from '../../_data/product.payload';
 import {ProductUsecase} from '../../_usecase/product.usecase';
 
@@ -27,7 +27,8 @@ export class ProductDiscountModalComponent implements OnInit {
     constructor(
         private productUsecase: ProductUsecase,
         private notification: NzNotificationService,
-        private msg: NzMessageService
+        private msg: NzMessageService,
+        private util: UtilService
     ) {}
 
     public ngOnInit() {
@@ -47,7 +48,7 @@ export class ProductDiscountModalComponent implements OnInit {
             end: this.endDate
         };
 
-        const res = await handleUsecaseRequest(this.productUsecase.updateDiscount(payload), this.notification);
+        const res = await this.util.handleUsecaseRequest(this.productUsecase.updateDiscount(payload), this.notification);
         this.onAfterRequest(res);
     };
 
