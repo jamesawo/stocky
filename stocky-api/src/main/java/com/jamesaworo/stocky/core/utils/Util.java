@@ -60,5 +60,8 @@ public class Util {
         return String.format("%,.2f", isNotEmpty(amount) ? amount : 0.0);
     }
 
+    public static Boolean isProduction(String activeProfile) {
+        return !isEmpty(activeProfile) && activeProfile.contains("prod");
+    }
 
 }
