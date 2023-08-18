@@ -55,10 +55,10 @@
 
 <ng-template #permDrawerTmpl>
 
-    <ng-container *ngIf="permissions | async as list; else emptyTmpl">
+    <ng-container *ngIf="permissions | async as permissionsGroupByModule; else emptyTmpl">
         <nz-collapse>
             <nz-collapse-panel
-                *ngFor="let group of list; let i = index "
+                *ngFor="let group of permissionsGroupByModule; let i = index "
                 [nzActive]="doesRoleHaveAnyPermissionInGroup(group)"
                 [nzHeader]="group.module"
             >
@@ -83,7 +83,7 @@
                             <nz-list-item-action>
                                 <input
                                     (change)="handlePermissionSelection($event, item)"
-                                    [checked]="item.checked == true"
+                                    [checked]="selectedPermissions.has(item.id!)"
                                     type="checkbox"
                                 />
                             </nz-list-item-action>

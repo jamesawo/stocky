@@ -21,7 +21,7 @@ export class RoleUsecase {
         if (payload.id) {
             return this.update(payload);
         }
-        
+
         return this.http.post<RolePayload>(`${this.url}/create`, payload, {observe: 'response'});
     }
 
