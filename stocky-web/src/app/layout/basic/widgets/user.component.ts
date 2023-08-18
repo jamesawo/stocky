@@ -1,8 +1,7 @@
-import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
-import {Router} from '@angular/router';
-import {DA_SERVICE_TOKEN, ITokenService} from '@delon/auth';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {SettingsService, User} from '@delon/theme';
 import {MenuRoute} from '../../../data/constant/menu.payload';
+import {PassportUsecase} from '../../../routes/passport/_usecase/passport.usecase';
 
 @Component({
     selector: 'header-user',
@@ -45,14 +44,20 @@ import {MenuRoute} from '../../../data/constant/menu.payload';
 export class HeaderUserComponent {
     route = MenuRoute;
 
-    constructor(private settings: SettingsService, private router: Router, @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) {}
+    constructor(
+        private settings: SettingsService,
+        private passportUsecase: PassportUsecase
+    ) {}
 
     get user(): User {
         return this.settings.user;
     }
 
     logout(): void {
+        /*private router: Router,
+        @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService;
         this.tokenService.clear();
-        this.router.navigateByUrl(this.tokenService.login_url!).then();
+        this.router.navigateByUrl(this.tokenService.login_url!).then();*/
+        this.passportUsecase.logout();
     }
 }
