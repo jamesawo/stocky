@@ -7,12 +7,14 @@
 
 package com.jamesaworo.stocky.configuration.security;
 
-import com.jamesaworo.stocky.core.exceptions.TokenValidationException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -23,40 +25,42 @@ import java.io.IOException;
 
 import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
 
+@Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String TOKEN_HEADER = "Authorization";
-    private final JwtAuthenticationTokenUtil jwtTokenUtil;
-    private final UserDetailsService userDetailsService;
 
+    @Autowired
+    private JwtAuthenticationTokenUtil jwtTokenUtil;
 
-    public JwtAuthenticationFilter(JwtAuthenticationTokenUtil jwtTokenUtil, UserDetailsService userDetailsService) {
-        this.jwtTokenUtil = jwtTokenUtil;
-        this.userDetailsService = userDetailsService;
-    }
+    @Autowired
+    private UserDetailsService userDetailsService;
 
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-        String token = extractTokenFromRequest(request);
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
 
-        if (token != null) {
-            try {
-                if (jwtTokenUtil.validateToken(token)) {
-                    String username = jwtTokenUtil.getUsernameFromToken(token);
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-            } catch (Exception e) {
-                // response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
-                throw new TokenValidationException(e.getMessage());
+        try {
+            String token = extractTokenFromRequest(request);
+            if (token != null && jwtTokenUtil.validateToken(token)) {
+                String username = jwtTokenUtil.getUsernameFromToken(token);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+            filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            request.setAttribute("exception", e.getMessage());
+            response.sendError(HttpStatus.UNAUTHORIZED.value());
         }
-        filterChain.doFilter(request, response);
+
     }
+
 
     private String extractTokenFromRequest(HttpServletRequest request) {
         String token = request.getHeader(TOKEN_HEADER);
