@@ -27,6 +27,7 @@ import {LayoutModule} from './layout/layout.module';
 import {RoutesModule} from './routes/routes.module';
 import {HttpErrorInterceptor} from './shared/interceptors/error-interceptor.service';
 import {STWidgetModule} from './shared/st-widget/st-widget.module';
+import {AmplitudeService} from './shared/utils/amplitude.service';
 import {RollbarErrorHandler} from './shared/utils/rollbar-error-handler.service';
 import {rollbarFactory, RollbarService} from './shared/utils/rollbar.service';
 
@@ -52,8 +53,6 @@ const LANG_PROVIDES = [
 const FORM_MODULES = [JsonSchemaModule];
 
 let INTERCEPTOR_PROVIDES: any[] = [
-    // {provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true},
-    // {provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true},
     {provide: ErrorHandler, useClass: RollbarErrorHandler},
     {provide: RollbarService, useFactory: rollbarFactory},
@@ -73,7 +72,8 @@ const APPINIT_PROVIDES = [
         useFactory: StartupServiceFactory,
         deps: [StartupService],
         multi: true
-    }
+    },
+    AmplitudeService
 ];
 
 const icons: IconDefinition[] = [

@@ -5,6 +5,7 @@ import {environment} from '@env/environment';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {VERSION as VERSION_ZORRO} from 'ng-zorro-antd/version';
 import * as Rollbar from 'rollbar';
+import {AmplitudeService} from './shared/utils/amplitude.service';
 
 import {RollbarService} from './shared/utils/rollbar.service';
 
@@ -20,7 +21,8 @@ export class AppComponent implements OnInit {
         private router: Router,
         private titleSrv: TitleService,
         private modalSrv: NzModalService,
-        @Inject(RollbarService) private rollbar: Rollbar
+        @Inject(RollbarService) private rollbar: Rollbar,
+        private amplitude: AmplitudeService
     ) {
         renderer.setAttribute(el.nativeElement, 'ng-alain-version', VERSION_ALAIN.full);
         renderer.setAttribute(el.nativeElement, 'ng-zorro-version', VERSION_ZORRO.full);

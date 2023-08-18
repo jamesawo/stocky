@@ -21,6 +21,7 @@
   },
   "private": true,
   "dependencies": {
+    "@amplitude/analytics-browser": "^2.2.0",
     "@angular/animations": "^15.1.0",
     "@angular/common": "^15.1.0",
     "@angular/compiler": "^15.1.0",
