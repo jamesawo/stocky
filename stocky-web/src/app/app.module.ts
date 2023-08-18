@@ -25,6 +25,7 @@ import {CoreModule} from './core/core.module';
 import {GlobalConfigModule} from './global-config.module';
 import {LayoutModule} from './layout/layout.module';
 import {RoutesModule} from './routes/routes.module';
+import {HttpErrorInterceptor} from './shared/interceptors/error-interceptor.service';
 import {STWidgetModule} from './shared/st-widget/st-widget.module';
 import {RollbarErrorHandler} from './shared/utils/rollbar-error-handler.service';
 import {rollbarFactory, RollbarService} from './shared/utils/rollbar.service';
@@ -55,7 +56,8 @@ let INTERCEPTOR_PROVIDES: any[] = [
     // {provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true},
     {provide: ErrorHandler, useClass: RollbarErrorHandler},
-    {provide: RollbarService, useFactory: rollbarFactory}
+    {provide: RollbarService, useFactory: rollbarFactory},
+    {provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true}
 ];
 
 const GLOBAL_THIRD_MODULES: Array<Type<void>> = [];
