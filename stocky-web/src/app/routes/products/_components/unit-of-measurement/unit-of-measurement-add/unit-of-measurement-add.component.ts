@@ -3,7 +3,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {UnitOfMeasureUsecase} from 'src/app/routes/products/_usecase/unit-of-measure.usecase';
-import {handleUsecaseRequest, isFormInvalid} from 'src/app/shared/utils/util';
+import {UtilService} from '../../../../../shared/utils/util.service';
 
 @Component({
     selector: 'app-unit-of-measurement-add',
@@ -28,7 +28,8 @@ export class UnitOfMeasurementAddComponent implements OnInit {
     constructor(
         private fb: UntypedFormBuilder,
         private usecase: UnitOfMeasureUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private util: UtilService
     ) {}
 
     public showModal = () => (this.isVisible = true);
@@ -41,14 +42,14 @@ export class UnitOfMeasurementAddComponent implements OnInit {
     }
 
     public async onCreate(): Promise<void> {
-        const isInvalid = isFormInvalid(this.form);
+        const isInvalid = this.util.isFormInvalid(this.form);
         if (isInvalid) {
             this.notification.info('INVALID FIELDS', 'SOME FIELDS ARE INVALID, CHECK AND RETRY.');
             return;
         }
         this.isSaving = true;
         const formValue = this.form.value;
-        let response = await handleUsecaseRequest(this.usecase.save(formValue), this.notification);
+        let response = await this.util.handleUsecaseRequest(this.usecase.save(formValue), this.notification);
         this.onAfterCreate(response);
     }
 

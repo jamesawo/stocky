@@ -2,7 +2,7 @@ import {Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChild
 import {FormBuilder, Validators} from '@angular/forms';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {Observable, of} from 'rxjs';
-import {getNzFormControlValidStatus, markFormFieldsAsDirtyAndTouched} from '../../../../../shared/utils/util';
+import {UtilService} from '../../../../../shared/utils/util.service';
 import {StockExpenses} from '../../../_data/stock.payload';
 
 @Component({
@@ -22,12 +22,13 @@ export class StockItemExtraExpensesComponent {
 
     public form = this.buildForm;
     public tableList?: Observable<any> = of([]);
-    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
+    protected readonly getNzFormControlValidStatus = this.util.getNzFormControlValidStatus;
 
     constructor(
         private fb: FormBuilder,
         private msg: NzMessageService,
-        private renderer: Renderer2
+        private renderer: Renderer2,
+        private util: UtilService
     ) {}
 
     public get totalAmount() {
@@ -43,7 +44,7 @@ export class StockItemExtraExpensesComponent {
 
     public onHandleAddItem = () => {
         if (this.form.invalid) {
-            markFormFieldsAsDirtyAndTouched(this.form);
+            this.util.markFormFieldsAsDirtyAndTouched(this.form);
             return;
         }
         const newItem = <StockExpenses>this.form.value;

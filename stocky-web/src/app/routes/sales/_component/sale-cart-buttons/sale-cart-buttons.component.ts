@@ -7,7 +7,7 @@ import {Message} from '../../../../data/constant/message.constant';
 import {PermissionConstant} from '../../../../data/constant/permission.constant';
 import {SettingConstant} from '../../../../data/constant/setting.constant';
 import {SettingModuleEnum} from '../../../../data/payload/common.enum';
-import {handleUsecaseRequest} from '../../../../shared/utils/util';
+import {UtilService} from '../../../../shared/utils/util.service';
 import {SettingUsecase} from '../../../settings/_usecase/setting.usecase';
 import {SaleCart} from '../../_data/sale-cart.payload';
 import {SaleTransaction} from '../../_data/sale-transaction.payload';
@@ -38,7 +38,8 @@ export class SaleCartButtonsComponent implements OnInit, OnDestroy {
         private settingUsecase: SettingUsecase,
         private notification: NzNotificationService,
         private transactionUsecase: SaleTransactionUsecase,
-        private receiptUsecase: SaleTransactionReportUsecase
+        private receiptUsecase: SaleTransactionReportUsecase,
+        private util: UtilService
     ) {}
 
     public emptyAction = () => {};
@@ -70,7 +71,7 @@ export class SaleCartButtonsComponent implements OnInit, OnDestroy {
             return;
         }
         const transaction = this.cart!.toTransaction();
-        const res = await handleUsecaseRequest(this.transactionUsecase.save(transaction), this.notification);
+        const res = await this.util.handleUsecaseRequest(this.transactionUsecase.save(transaction), this.notification);
         await this.handlePreviewReceipt(res);
     };
 

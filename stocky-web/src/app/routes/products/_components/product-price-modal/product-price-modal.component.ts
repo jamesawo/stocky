@@ -2,7 +2,7 @@ import {HttpResponse} from '@angular/common/http';
 import {Component, Input} from '@angular/core';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {handleUsecaseRequest} from '../../../../shared/utils/util';
+import {UtilService} from '../../../../shared/utils/util.service';
 import {StockPrice} from '../../../stock/_data/stock.payload';
 import {ProductPayload} from '../../_data/product.payload';
 import {ProductUsecase} from '../../_usecase/product.usecase';
@@ -27,7 +27,8 @@ export class ProductPriceModalComponent {
     constructor(
         private productUsecase: ProductUsecase,
         private notification: NzNotificationService,
-        private msg: NzMessageService
+        private msg: NzMessageService,
+        private util: UtilService
     ) {}
 
     public get priceModalTitle() {
@@ -45,7 +46,7 @@ export class ProductPriceModalComponent {
     public async handlePriceUpdate() {
         if (this.product && this.product.id) {
             this.isLoading = true;
-            const res = await handleUsecaseRequest(
+            const res = await this.util.handleUsecaseRequest(
                 this.productUsecase.updatePrice(this.product, this.price),
                 this.notification
             );

@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {firstValueFrom, shareReplay} from 'rxjs';
 import {CommonPayload} from '../../../../../data/payload/common.payload';
 import {FormProps} from '../../../../../data/payload/common.types';
-import {getNzFormControlValidStatus} from '../../../../../shared/utils/util';
+import {UtilService} from '../../../../../shared/utils/util.service';
 import {ProductStatusPayload} from '../../../_data/product.payload';
 import {ProductStatusUsecase} from '../../../_usecase/product-status.usecase';
 
@@ -23,9 +23,9 @@ export class ProductStatusDropdownComponent implements OnInit {
 
     public isLoading = false;
     public statusList?: ProductStatusPayload[];
-    protected readonly getFormControlValidityStatus = getNzFormControlValidStatus;
+    protected readonly getFormControlValidityStatus = this.util.getNzFormControlValidStatus;
 
-    constructor(private usecase: ProductStatusUsecase) {}
+    constructor(private usecase: ProductStatusUsecase, private util: UtilService) {}
 
     public ngOnInit(): void {
         this.usecase.trigger$.subscribe((change) => this.onLoadData());

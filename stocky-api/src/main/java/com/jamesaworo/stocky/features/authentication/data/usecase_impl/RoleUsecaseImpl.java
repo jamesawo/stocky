@@ -28,7 +28,7 @@ public class RoleUsecaseImpl implements IRoleUsecase {
 
     @Override
     public Role save(Role role) {
-        role.setPermissions(new HashSet<>(this.getPermissionsFromRole(role)));
+        role.setPermissions(new HashSet<>(this.getFullPermissionObjectsFromRole(role)));
         return this.repository.save(role);
     }
 
@@ -47,6 +47,10 @@ public class RoleUsecaseImpl implements IRoleUsecase {
         return this.repository.findById(id);
     }
 
+    public boolean isRoleExist(Long id) {
+        return this.getOne(id).isPresent();
+    }
+
     @Override
     public Set<Permission> getRolePermissions(Long id) {
         Optional<Role> optional = this.getOne(id);
@@ -54,10 +58,18 @@ public class RoleUsecaseImpl implements IRoleUsecase {
     }
 
     @Override
-    public Optional<Role> update(Role role) {
-        Optional<Role> optional = this.getOne(role.getId());
-        return optional.map(this::save);
+    public Optional<Role> update(Role roleToUpdate) {
+        Optional<Role> optionalRole = this.getOne(roleToUpdate.getId());
+        return optionalRole.map(role -> mapRoleBeforeUpdate(roleToUpdate, role));
     }
+
+    private Role mapRoleBeforeUpdate(Role roleToUpdate, Role existingRole) {
+        existingRole.setName(roleToUpdate.getName());
+        existingRole.setDescription(roleToUpdate.getDescription());
+        existingRole.setPermissions(roleToUpdate.getPermissions());
+        return this.save(existingRole);
+    }
+
 
     @Override
     public Optional<Boolean> updateActiveStatus(Long id) {
@@ -65,9 +77,9 @@ public class RoleUsecaseImpl implements IRoleUsecase {
         return optional.map(role -> this.updateRoleActiveStatus(role.getId(), !role.getIsActiveStatus()));
     }
 
-    private Collection<Permission> getPermissionsFromRole(Role role) {
+    private Collection<Permission> getFullPermissionObjectsFromRole(Role role) {
         LongStream streamOfPermissionIds = role.getPermissions().stream().mapToLong(Permission::getId);
-        return usecase.getPermissions(streamOfPermissionIds);
+        return usecase.getPermissionsByIds(streamOfPermissionIds);
     }
 
     private Boolean updateRoleActiveStatus(Long id, Boolean status) {

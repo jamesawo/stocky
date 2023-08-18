@@ -2,7 +2,7 @@ import {HttpResponse} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {handleUsecaseRequest, isFormInvalid} from '../../../../../shared/utils/util';
+import {UtilService} from '../../../../../shared/utils/util.service';
 import {ProductStatusUsecase} from '../../../_usecase/product-status.usecase';
 
 @Component({
@@ -18,7 +18,8 @@ export class ProductStatusAddComponent implements OnInit {
     constructor(
         private fb: UntypedFormBuilder,
         private usecase: ProductStatusUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private util: UtilService
     ) {}
 
     public showModal = () => (this.isVisible = true);
@@ -31,14 +32,14 @@ export class ProductStatusAddComponent implements OnInit {
     }
 
     public async onCreate(): Promise<void> {
-        const isInvalid = isFormInvalid(this.form);
+        const isInvalid = this.util.isFormInvalid(this.form);
         if (isInvalid) {
             this.notification.error('INVALID FIELDS', 'SOME FIELDS ARE INVALID, CHECK AND RETRY.');
             return;
         }
         this.isSaving = true;
         const formValue = this.form.value;
-        let response = await handleUsecaseRequest(this.usecase.save(formValue), this.notification);
+        let response = await this.util.handleUsecaseRequest(this.usecase.save(formValue), this.notification);
         this.onAfterCreate(response);
     }
 

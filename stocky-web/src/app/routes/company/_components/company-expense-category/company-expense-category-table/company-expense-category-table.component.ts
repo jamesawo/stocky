@@ -5,12 +5,7 @@ import {CommonPayload} from '../../../../../data/payload/common.payload';
 import {TableEditCacheMap} from '../../../../../data/payload/common.types';
 import {TextTruncateProps} from '../../../../../shared/components/table-item-editable/table-item-editable.component';
 import {TableCol} from '../../../../../shared/components/table/table.component';
-import {
-    handleCancelEditingTableItem,
-    handleRemoveFromObservableListIfStatus,
-    handleUpdateObservableListIfResponse,
-    handleUsecaseRequest
-} from '../../../../../shared/utils/util';
+import {UtilService} from '../../../../../shared/utils/util.service';
 import {ExpenseCategoryUsecase} from '../../../_usecase/company-expenses/expense-category.usecase';
 
 @Component({
@@ -36,7 +31,8 @@ export class CompanyExpenseCategoryTableComponent {
 
     constructor(
         private usecase: ExpenseCategoryUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private util: UtilService
     ) {}
 
     public ngOnInit() {
@@ -50,8 +46,8 @@ export class CompanyExpenseCategoryTableComponent {
 
     public onConfirmDelete = async (id: number) => {
         this.editMap[id] = {edit: false, data: {}, updating: false, loading: true};
-        const response = await handleUsecaseRequest(this.usecase.remove(id), this.notification);
-        this.data = handleRemoveFromObservableListIfStatus(this.data!, {key: 'id', value: id}, response);
+        const response = await this.util.handleUsecaseRequest(this.usecase.remove(id), this.notification);
+        this.data = this.util.handleRemoveFromObservableListIfStatus(this.data!, {key: 'id', value: id}, response);
         this.editMap[id].loading = false;
         this.notifyChange();
     };
@@ -59,8 +55,8 @@ export class CompanyExpenseCategoryTableComponent {
     public onSaveEdit = async (category: CommonPayload) => {
         this.editMap[category.id!].updating = true;
         const data = this.editMap[category.id!].data;
-        const response = await handleUsecaseRequest(this.usecase.save(data), this.notification);
-        this.data = handleUpdateObservableListIfResponse(this.data!, response);
+        const response = await this.util.handleUsecaseRequest(this.usecase.save(data), this.notification);
+        this.data = this.util.handleUpdateObservableListIfResponse(this.data!, response);
         this.editMap[category.id!].edit = false;
         this.notifyChange();
     };
@@ -69,7 +65,7 @@ export class CompanyExpenseCategoryTableComponent {
 
     public onCancelEdit = async (item: CommonPayload) => {
         if (item) {
-            this.editMap = await handleCancelEditingTableItem(item as any, this.data!, this.editMap);
+            this.editMap = await this.util.handleCancelEditingTableItem(item as any, this.data!, this.editMap);
         }
     };
 

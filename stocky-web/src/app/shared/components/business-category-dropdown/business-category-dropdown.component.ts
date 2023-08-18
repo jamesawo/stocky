@@ -4,7 +4,7 @@ import {Observable, of, shareReplay} from 'rxjs';
 import {CommonPayload} from '../../../data/payload/common.payload';
 import {FormProps} from '../../../data/payload/common.types';
 import {BasicSetupUsecase} from '../../../routes/company/_usecase/company-setup/basic-setup.usecase';
-import {getNzFormControlValidStatus} from '../../utils/util';
+import {UtilService} from '../../utils/util.service';
 
 
 @Component({
@@ -22,9 +22,9 @@ export class BusinessCategoryDropdownComponent implements OnInit {
     public valueChange = new EventEmitter<CommonPayload | NzSelectOptionInterface>();
 
     public businessCategories: Observable<CommonPayload[]> = of([]);
-    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
+    protected readonly getNzFormControlValidStatus = this.util.getNzFormControlValidStatus;
 
-    constructor(private usecase: BasicSetupUsecase) {}
+    constructor(private usecase: BasicSetupUsecase, private util: UtilService) {}
 
     public ngOnInit() {
         this.businessCategories = this.usecase.getBusinessCategories().pipe(shareReplay());

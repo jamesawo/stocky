@@ -5,7 +5,7 @@ import {CUSTOMER_SETUP} from 'src/app/data/constant/crumb.constant';
 import {TableCol} from 'src/app/shared/components/table/table.component';
 import {PageSearchPayload} from '../../../../data/payload/common.interface';
 import {PagePayload} from '../../../../data/payload/common.payload';
-import {handleUsecaseRequest} from '../../../../shared/utils/util';
+import {UtilService} from '../../../../shared/utils/util.service';
 import {CustomerSearchPayload} from '../../_data/company.payload';
 import {PeopleCustomerUsecase} from '../../_usecase/people-customer.usecase';
 
@@ -40,7 +40,8 @@ export class CompanyPeopleCustomerComponent {
 
     constructor(
         private usecase: PeopleCustomerUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private util: UtilService
     ) {}
 
 
@@ -53,7 +54,7 @@ export class CompanyPeopleCustomerComponent {
             page: this.pageRequest
         };
         const observable = this.usecase.search(searchPayload);
-        const response = await handleUsecaseRequest(observable, this.notification);
+        const response = await this.util.handleUsecaseRequest(observable, this.notification);
 
         if (response.ok) {
             this.tableData = of(response.body?.result);

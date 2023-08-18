@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {ProductPopover} from '../../../../data/constant/message.constant';
-import {calculateSellingPrice, getFormGroupFromParent} from '../../../../shared/utils/util';
+import {UtilService} from '../../../../shared/utils/util.service';
 
 @Component({
     selector: 'app-product-price-tab',
@@ -13,10 +13,12 @@ export class ProductPriceTabComponent {
 
     @Input()
     public formGroup?: FormGroup;
-    protected readonly getSubFormGroup = getFormGroupFromParent;
+    protected readonly getSubFormGroup = this.util.getFormGroupFromParent;
+
+    constructor(private util: UtilService) {}
 
     public getForm(): FormGroup<any> {
-        return getFormGroupFromParent(this.formGroup!, 'price');
+        return this.util.getFormGroupFromParent(this.formGroup!, 'price');
     }
 
     public calculateSellingPrice() {
@@ -24,7 +26,7 @@ export class ProductPriceTabComponent {
             const form = this.getForm();
             const costPrice = form.get('costPrice')?.value;
             const markupPercent = form.get('markup')?.value;
-            form.get('sellingPrice')?.setValue(calculateSellingPrice(costPrice, markupPercent));
+            form.get('sellingPrice')?.setValue(UtilService.calculateSellingPrice(costPrice, markupPercent));
         }
     }
 }

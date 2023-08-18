@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {FileTemplate, FileType} from '../../../../data/payload/common.enum';
-import {getFileMimeType, handleCreateFileResourceUrl, handleFileDownload} from '../../../../shared/utils/util';
+import {UtilService} from '../../../../shared/utils/util.service';
 import {ComponentReportPreviewType} from '../../_data/sale.interface';
 
 @Component({
@@ -47,18 +47,18 @@ export class SalesTransactionReceiptViewerComponent implements ComponentReportPr
     public isContentLoaded = false;
     public resourceUrl?: SafeResourceUrl;
 
-    constructor(private sanitizer: DomSanitizer) {}
+    constructor(private sanitizer: DomSanitizer, private util: UtilService) {}
 
     public downloadAction: (arg?: any) => void = () => {
         if (this.data) {
-            const fileUrl = handleCreateFileResourceUrl(this.data, getFileMimeType(FileType.PDF));
-            handleFileDownload(fileUrl, FileTemplate.TRANSACTION_RECEIPT);
+            const fileUrl = this.util.handleCreateFileResourceUrl(this.data, this.util.getFileMimeType(FileType.PDF));
+            this.util.handleFileDownload(fileUrl, FileTemplate.TRANSACTION_RECEIPT);
         }
     };
 
     public printAction: (arg?: any) => void = () => {
         if (this.data) {
-            const fileURL = handleCreateFileResourceUrl(this.data, getFileMimeType(FileType.PDF));
+            const fileURL = this.util.handleCreateFileResourceUrl(this.data, this.util.getFileMimeType(FileType.PDF));
             let openWindow: any = window.open(`${fileURL}`, '', 'height=550px, width=550px');
             openWindow.focus();
             openWindow.print();
@@ -84,7 +84,7 @@ export class SalesTransactionReceiptViewerComponent implements ComponentReportPr
 
     public onLoadReportBuffer(buffer: ArrayBuffer) {
         if (buffer) {
-            const fileURL = `${handleCreateFileResourceUrl(buffer, getFileMimeType(FileType.PDF))}#toolbar=0`;
+            const fileURL = `${this.util.handleCreateFileResourceUrl(buffer, this.util.getFileMimeType(FileType.PDF))}#toolbar=0`;
             this.resourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
             this.isContentLoaded = true;
         }

@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {firstValueFrom} from 'rxjs';
 import {CompanyDetail} from '../../../../../data/constant/company-detail.constant';
-import {getNzFormControlValidStatus, handleUsecaseRequest, markFormFieldsAsDirtyAndTouched} from '../../../../../shared/utils/util';
+import {UtilService} from '../../../../../shared/utils/util.service';
 import {CompanySetupPayload} from '../../../_data/company-setup.payload';
 import {AdministratorProfileSetupUsecase} from '../../../_usecase/company-setup/administrator-profile-setup.usecase';
 
@@ -17,12 +17,13 @@ export class CompanyAdministratorFormComponent {
     public form: FormGroup = this.buildForm;
     public isLoading = false;
     public adminDetailsMap?: any;
-    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
+    protected readonly getNzFormControlValidStatus = this.util.getNzFormControlValidStatus;
 
     constructor(
         private fb: FormBuilder,
         private usecase: AdministratorProfileSetupUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private util: UtilService
     ) {}
 
     /**
@@ -66,13 +67,13 @@ export class CompanyAdministratorFormComponent {
      */
     public async onSaveFormDetails() {
         if (this.form.invalid) {
-            markFormFieldsAsDirtyAndTouched(this.form!);
+            this.util.markFormFieldsAsDirtyAndTouched(this.form!);
             return;
         }
 
         this.isLoading = true;
         const detailsList = this.getAListOfFormControlKeyAndValueInFormGroup(this.form!);
-        await handleUsecaseRequest(this.usecase.updateMany(detailsList), this.notification);
+        await this.util.handleUsecaseRequest(this.usecase.updateMany(detailsList), this.notification);
         this.isLoading = false;
     }
 

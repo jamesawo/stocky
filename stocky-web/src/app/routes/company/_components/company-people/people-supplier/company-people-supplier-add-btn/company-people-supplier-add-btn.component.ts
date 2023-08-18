@@ -5,12 +5,7 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {CommonAddProps, PopupViewProps} from 'src/app/data/payload/common.types';
 import {ProductRoutes} from '../../../../../../data/constant/routes.constant';
 import {ModalOrDrawer, TableButtonEnum} from '../../../../../../data/payload/common.enum';
-import {
-    getNzFormControlValidStatus,
-    handleUsecaseRequest,
-    markFormFieldsAsDirtyAndTouched,
-    toggleModalOrDrawer
-} from '../../../../../../shared/utils/util';
+import {UtilService} from '../../../../../../shared/utils/util.service';
 import {SupplierPayload} from '../../../../_data/company.payload';
 import {PeopleSupplierUsecase} from '../../../../_usecase/people-supplier.usecase';
 
@@ -36,13 +31,14 @@ export class CompanyPeopleSupplierAddBtnComponent {
     public popup: PopupViewProps = {display: ModalOrDrawer.DRAWER};
     protected readonly TableButtonEnum = TableButtonEnum;
     protected readonly ModalOrDrawer = ModalOrDrawer;
-    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
+    protected readonly getNzFormControlValidStatus = this.util.getNzFormControlValidStatus;
     protected readonly PRODUCT_ROUTES = ProductRoutes;
 
     constructor(
         private fb: FormBuilder,
         private usecase: PeopleSupplierUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private util: UtilService
     ) {}
 
     private get buildForm() {
@@ -59,20 +55,20 @@ export class CompanyPeopleSupplierAddBtnComponent {
     }
 
     public toggle = (type = this.popup.display) => {
-        const {showDrawer, showModal} = toggleModalOrDrawer(type, this.showDrawer, this.showModal);
+        const {showDrawer, showModal} = this.util.toggleModalOrDrawer(type, this.showDrawer, this.showModal);
         this.showDrawer = showDrawer;
         this.showModal = showModal;
     };
 
     public onCreate = async () => {
         if (this.form.invalid) {
-            markFormFieldsAsDirtyAndTouched(this.form);
+            this.util.markFormFieldsAsDirtyAndTouched(this.form);
             return;
         }
 
         this.isLoading = true;
         const formSubmission = <SupplierPayload>this.form.value;
-        const response = await handleUsecaseRequest(this.usecase.save(formSubmission), this.notification);
+        const response = await this.util.handleUsecaseRequest(this.usecase.save(formSubmission), this.notification);
         this.onAfterSave(response);
     };
 

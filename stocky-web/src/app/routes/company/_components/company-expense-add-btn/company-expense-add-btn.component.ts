@@ -4,12 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {ModalOrDrawer} from '../../../../data/payload/common.enum';
 import {CommonAddProps, PopupViewProps} from '../../../../data/payload/common.types';
-import {
-    getNzFormControlValidStatus,
-    handleUsecaseRequest,
-    isFormControlInvalid,
-    markFormFieldsAsDirtyAndTouched
-} from '../../../../shared/utils/util';
+import {UtilService} from '../../../../shared/utils/util.service';
 import {ExpensesPayload} from '../../_data/company.payload';
 import {ExpensesUsecase} from '../../_usecase/company-expenses/expenses.usecase';
 
@@ -30,13 +25,14 @@ export class CompanyExpenseAddBtnComponent {
     @Input()
     public popup: PopupViewProps = {display: ModalOrDrawer.DRAWER};
 
-    protected readonly isFormControlInvalid = isFormControlInvalid;
+    protected readonly isFormControlInvalid = this.util.isFormControlInvalid;
     protected readonly ModalOrDrawer = ModalOrDrawer;
 
     constructor(
         private fb: FormBuilder,
         private usecase: ExpensesUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private util: UtilService
     ) {}
 
     public get formBuild() {
@@ -74,18 +70,18 @@ export class CompanyExpenseAddBtnComponent {
 
     public onCreate = async () => {
         if (this.categoryForm.invalid) {
-            markFormFieldsAsDirtyAndTouched(this.categoryForm);
+            this.util.markFormFieldsAsDirtyAndTouched(this.categoryForm);
             this.notification.warning('Validation error', 'Please check the fields, some are incorrect');
             return;
         }
         const payload = this.categoryForm.value;
 
-        const response = await handleUsecaseRequest(this.usecase.save(payload), this.notification);
+        const response = await this.util.handleUsecaseRequest(this.usecase.save(payload), this.notification);
         this.clearForm(response);
     };
 
     public status(name: string) {
-        return getNzFormControlValidStatus(name, this.categoryForm);
+        return this.util.getNzFormControlValidStatus(name, this.categoryForm);
     }
 
     private clearForm(response: HttpResponse<ExpensesPayload>): void {

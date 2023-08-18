@@ -9,10 +9,9 @@ import java.util.stream.LongStream;
 
 public interface IPermissionUsecase {
 
-	List<Permission> getAll();
+    List<Permission> getAll();
 
-	Optional<Permission> getById(Long id);
+    Optional<Permission> getById(Long id);
 
-
-	Collection<Permission> getPermissions(LongStream list);
+    Collection<Permission> getPermissionsByIds(LongStream list);
 }

@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {firstValueFrom} from 'rxjs';
 import {CompanyDetail} from '../../../../../data/constant/company-detail.constant';
-import {getNzFormControlValidStatus, handleUsecaseRequest, markFormFieldsAsDirtyAndTouched, storeInLocal} from '../../../../../shared/utils/util';
+import {UtilService} from '../../../../../shared/utils/util.service';
 import {CompanySetupPayload} from '../../../_data/company-setup.payload';
 import {RegionLocaleUsecase} from '../../../_usecase/company-setup/region-locale.usecase';
 
@@ -17,12 +17,13 @@ export class CompanyRegionFormComponent {
     public form: FormGroup = this.buildForm;
     public isLoading = false;
     public adminDetailsMap?: any;
-    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
+    protected readonly getNzFormControlValidStatus = this.util.getNzFormControlValidStatus;
 
     constructor(
         private fb: FormBuilder,
         private usecase: RegionLocaleUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private util: UtilService
     ) {}
 
     /**
@@ -37,9 +38,7 @@ export class CompanyRegionFormComponent {
             regionLanguage: [this.getValueFromCompanyRegionDetailsMap(CompanyDetail.COMPANY_LOCALE_LANGUAGE), [Validators.required]],
             regionCurrency: [this.getValueFromCompanyRegionDetailsMap(CompanyDetail.COMPANY_LOCALE_CURRENCY), [Validators.required]],
             regionTimeZone: [this.getValueFromCompanyRegionDetailsMap(CompanyDetail.COMPANY_LOCALE_TIME_ZONE), [Validators.required]]
-
         });
-
     }
 
 
@@ -66,13 +65,13 @@ export class CompanyRegionFormComponent {
      */
     public async onSaveFormDetails() {
         if (this.form.invalid) {
-            markFormFieldsAsDirtyAndTouched(this.form!);
+            this.util.markFormFieldsAsDirtyAndTouched(this.form!);
             return;
         }
 
         this.isLoading = true;
         const detailsList = this.getAListOfFormControlKeyAndValueInFormGroup(this.form!);
-        await handleUsecaseRequest(this.usecase.updateMany(detailsList), this.notification);
+        await this.util.handleUsecaseRequest(this.usecase.updateMany(detailsList), this.notification);
         this.isLoading = false;
         this.storeInLocalStorage(detailsList);
     }
@@ -109,7 +108,7 @@ export class CompanyRegionFormComponent {
     }
 
     private storeInLocalStorage(detailsList: CompanySetupPayload[]) {
-        detailsList.forEach(value => storeInLocal(value.setupKey!, value.setupValue));
+        detailsList.forEach(value => this.util.storeInLocal(value.setupKey!, value.setupValue));
     }
 
 }

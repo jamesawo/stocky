@@ -78,11 +78,11 @@ public class PermissionSeeds {
 
 
     public static final List<Permission> PAYWALL_PERMISSIONS = List.of(
-            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_PLAN, PAYWALL),
-            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_PAYMENTS, PAYWALL),
-            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_SETTINGS, PAYWALL),
-            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_BILLING, PAYWALL),
-            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_NOTIFICATION, PAYWALL)
+            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_PLAN, SUBSCRIPTION),
+            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_PAYMENTS, SUBSCRIPTION),
+            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_SETTINGS, SUBSCRIPTION),
+            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_BILLING, SUBSCRIPTION),
+            new Permission(PAYWALL_ACCESS_PAGE_PAYWALL_NOTIFICATION, SUBSCRIPTION)
     );
     public static final List<Permission> PRODUCT_PERMISSIONS = List.of(
             new Permission(PRODUCT_ACCESS_PAGE_PRODUCT, PRODUCT),
@@ -111,7 +111,6 @@ public class PermissionSeeds {
             new Permission(SALE_ACCESS_PAGE_SALE_REFUND, SALE),
             new Permission(SALE_ACCESS_PAGE_SALE_DISCOUNT, SALE),
             new Permission(SALE_ACCESS_PAGE_SALE_SHIFT_PER_DAY, SALE)
-            //new Permission(SALE_ACCESS_PAGE_SALE_EXCHANGE, SALE)
     );
     public static final List<Permission> SETTING_PERMISSIONS = List.of(
             new Permission(SETTING_ACCESS_PAGE_SETTING_DASHBOARD, SETTING),

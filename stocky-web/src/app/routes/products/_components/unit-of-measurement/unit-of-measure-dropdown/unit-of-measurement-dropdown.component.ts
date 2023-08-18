@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {firstValueFrom, shareReplay} from 'rxjs';
 import {FormProps} from '../../../../../data/payload/common.types';
-import {getNzFormControlValidStatus} from '../../../../../shared/utils/util';
+import {UtilService} from '../../../../../shared/utils/util.service';
 import {ProductUnitOfMeasurePayload} from '../../../_data/product-unit-of-measure.payload';
 import {UnitOfMeasureUsecase} from '../../../_usecase/unit-of-measure.usecase';
 
@@ -24,9 +24,9 @@ export class UnitOfMeasurementDropdownComponent implements OnInit {
     public valueChange: EventEmitter<ProductUnitOfMeasurePayload> =
         new EventEmitter<ProductUnitOfMeasurePayload>();
 
-    protected readonly getFormControlValidityStatus = getNzFormControlValidStatus;
+    protected readonly getFormControlValidityStatus = this.util.getNzFormControlValidStatus;
 
-    constructor(private usecase: UnitOfMeasureUsecase) {}
+    constructor(private usecase: UnitOfMeasureUsecase, private util: UtilService) {}
 
     public ngOnInit(): void {
         this.usecase.trigger$.subscribe((change) => this.onLoadData());

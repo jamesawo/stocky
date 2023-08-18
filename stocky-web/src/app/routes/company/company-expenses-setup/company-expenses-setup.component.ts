@@ -6,7 +6,7 @@ import {ModalOrDrawer, TableButtonEnum} from '../../../data/payload/common.enum'
 import {PageSearchPayload} from '../../../data/payload/common.interface';
 import {PagePayload} from '../../../data/payload/common.payload';
 import {TableCol} from '../../../shared/components/table/table.component';
-import {handleUsecaseRequest} from '../../../shared/utils/util';
+import {UtilService} from '../../../shared/utils/util.service';
 import {ExpensesPayload, ExpensesSearchPayload} from '../_data/company.payload';
 import {ExpensesUsecase} from '../_usecase/company-expenses/expenses.usecase';
 
@@ -49,7 +49,11 @@ export class CompanyExpensesSetupComponent {
     protected readonly ModalOrDrawer = ModalOrDrawer;
     protected readonly TableButtonEnum = TableButtonEnum;
 
-    constructor(private usecase: ExpensesUsecase, private notification: NzNotificationService) {}
+    constructor(
+        private usecase: ExpensesUsecase,
+        private notification: NzNotificationService,
+        private util: UtilService
+    ) {}
 
     public onSearch = async (): Promise<void> => {
         this.isLoading = true;
@@ -60,7 +64,7 @@ export class CompanyExpensesSetupComponent {
             page: this.pageRequest
         };
 
-        const response = await handleUsecaseRequest(
+        const response = await this.util.handleUsecaseRequest(
             this.usecase.search(searchPayload),
             this.notification
         );

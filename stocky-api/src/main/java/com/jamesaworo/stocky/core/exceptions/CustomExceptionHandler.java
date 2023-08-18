@@ -40,7 +40,7 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 public class CustomExceptionHandler extends RuntimeException {
     public static final String ERROR_OCCURRED = "An error occurred";
     public static final String ERROR_VALIDATION = "We are afraid, you missed something:";
-    public static final String INTERNAL_ERROR_OCCURRED = "Please try again later something went wrong, it's not your fault.";
+    public static final String INTERNAL_ERROR_OCCURRED = "Please try again later, something went wrong and it's not your fault.";
     public static final String ERROR_DUPLICATE = "Oops, there is duplicate";
     public static final String ERROR_BAD_CREDENTIALS = "Invalid credentials";
     public static final String CONNECTION_EXCEPTION = "Connection to third party failed.";

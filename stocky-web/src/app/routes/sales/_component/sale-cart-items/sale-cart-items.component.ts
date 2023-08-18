@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {ResponsiveService} from '../../../../shared/utils/responsive.service';
-import {getProductFullName} from '../../../../shared/utils/util';
+import {UtilService} from '../../../../shared/utils/util.service';
 import {ProductPayload} from '../../../products/_data/product.payload';
 import {SaleCartItem} from '../../_data/sale-cart-item.payload';
 import {SaleCart} from '../../_data/sale-cart.payload';
@@ -23,7 +23,8 @@ export class SaleCartItemsComponent implements OnInit, OnDestroy {
 
     constructor(
         private cartUsecase: SaleCartUsecase,
-        private responsive: ResponsiveService
+        private responsive: ResponsiveService,
+        private util: UtilService
     ) {}
 
 
@@ -57,7 +58,7 @@ export class SaleCartItemsComponent implements OnInit, OnDestroy {
     }
 
     public concatProductName(product: ProductPayload) {
-        return getProductFullName(product);
+        return this.util.getProductFullName(product);
     }
 
     public increment(arg: {cart: SaleCart, item: SaleCartItem,}) {

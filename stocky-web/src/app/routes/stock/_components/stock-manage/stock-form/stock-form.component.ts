@@ -8,13 +8,7 @@ import {ModalOrDrawer} from 'src/app/data/payload/common.enum';
 import {ProductRoutes, SupplierRoutes} from '../../../../../data/constant/routes.constant';
 import {DatePickerComponent} from '../../../../../shared/components/date-picker/date-picker.component';
 import {SearchModelDropdownComponent} from '../../../../../shared/components/search-model-dropdown/search-model-dropdown.component';
-import {
-    getDateString,
-    getNzFormControlValidStatus,
-    handleUsecaseRequest,
-    isFormControlInvalid,
-    markFormFieldsAsDirtyAndTouched
-} from '../../../../../shared/utils/util';
+import {UtilService} from '../../../../../shared/utils/util.service';
 import {Stock, StockExpenses, StockItem, StockPrice, StockSettlement} from '../../../_data/stock.payload';
 import {ManageStockUsecase} from '../../../_usecase/manage-stock.usecase';
 
@@ -47,21 +41,22 @@ export class StockFormComponent {
     public isGroupExpenseOpen = true;
 
     protected readonly ModalOrDrawer = ModalOrDrawer;
-    protected readonly isFormControlInvalid = isFormControlInvalid;
+    protected readonly isFormControlInvalid = this.util.isFormControlInvalid;
     protected readonly SupplierRoutes = SupplierRoutes;
     protected readonly ProductRoutes = ProductRoutes;
-    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
+    protected readonly getNzFormControlValidStatus = this.util.getNzFormControlValidStatus;
 
     constructor(
         private fb: FormBuilder,
         private usecase: ManageStockUsecase,
         private notification: NzNotificationService,
-        private msg: NzMessageService
+        private msg: NzMessageService,
+        private util: UtilService
     ) {
     }
 
     public get currentDate() {
-        return getDateString();
+        return this.util.getDateString();
     }
 
     /**
@@ -86,7 +81,7 @@ export class StockFormComponent {
      */
     public onSaveStockForm = async () => {
         this.updateStockItemsList();
-        let response = await handleUsecaseRequest(this.usecase.save(this.stock), this.notification);
+        let response = await this.util.handleUsecaseRequest(this.usecase.save(this.stock), this.notification);
         this.onAfterFormSubmit(response);
         return response.ok;
     };
@@ -106,7 +101,7 @@ export class StockFormComponent {
     public handleAddStockItemToList = () => {
         // check if form is valid
         if (this.form.invalid) {
-            markFormFieldsAsDirtyAndTouched(this.form);
+            this.util.markFormFieldsAsDirtyAndTouched(this.form);
             return;
         }
 
@@ -184,7 +179,7 @@ export class StockFormComponent {
      * @param name
      */
     public status(name: string) {
-        return getNzFormControlValidStatus(name, this.form);
+        return this.util.getNzFormControlValidStatus(name, this.form);
     }
 
     /**

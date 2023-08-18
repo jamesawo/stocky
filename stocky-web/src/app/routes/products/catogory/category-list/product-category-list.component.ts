@@ -11,16 +11,7 @@ import {UploadComponentInput} from '../../../../data/payload/common.interface';
 import {TableEditCacheMap} from '../../../../data/payload/common.types';
 import {TableCol} from '../../../../shared/components/table/table.component';
 import {UploadImportService} from '../../../../shared/utils/upload-import.service';
-import {
-    handleAppendToObservableListIfResponse,
-    handleCancelEditingTableItem,
-    handleDownloadTemplate,
-    handleHttpRequestError,
-    handleRemoveFromObservableListIfStatus,
-    handleUpdateObservableListIfResponse,
-    handleUsecaseRequest,
-    isFormInvalid
-} from '../../../../shared/utils/util';
+import {UtilService} from '../../../../shared/utils/util.service';
 import {ProductCategoryPayload} from '../../_data/product.payload';
 import {ProductCategoryUsecase} from '../../_usecase/product-category.usecase';
 
@@ -59,7 +50,8 @@ export class ProductCategoryListComponent implements OnInit {
         private fb: UntypedFormBuilder,
         private notification: NzNotificationService,
         private usecase: ProductCategoryUsecase,
-        private uploadService: UploadImportService
+        private uploadService: UploadImportService,
+        private util: UtilService
     ) {}
 
     public ngOnInit(): void {
@@ -90,7 +82,7 @@ export class ProductCategoryListComponent implements OnInit {
         }
 
         this.isLoadingSearch = true;
-        const res = await handleUsecaseRequest(this.usecase.search(this.searchTerm), this.notification);
+        const res = await this.util.handleUsecaseRequest(this.usecase.search(this.searchTerm), this.notification);
         if (res.ok) {
             this.categories = of(res.body!);
         }
@@ -108,20 +100,20 @@ export class ProductCategoryListComponent implements OnInit {
     };
 
     public onCreate = async () => {
-        const isInvalid = isFormInvalid(this.categoryForm);
+        const isInvalid = this.util.isFormInvalid(this.categoryForm);
         if (isInvalid) {
             return;
         }
         this.isLoading = true;
         const category = this.categoryForm.value;
-        let response = await handleUsecaseRequest(this.usecase.save(category), this.notification);
-        this.categories = handleAppendToObservableListIfResponse(this.categories!, response);
+        let response = await this.util.handleUsecaseRequest(this.usecase.save(category), this.notification);
+        this.categories = this.util.handleAppendToObservableListIfResponse(this.categories!, response);
         this.onResetPayload();
     };
 
     public onCancelEdit = async (item: ProductCategoryPayload) => {
         if (item) {
-            this.editObj = await handleCancelEditingTableItem(item as any, this.categories!, this.editObj);
+            this.editObj = await this.util.handleCancelEditingTableItem(item as any, this.categories!, this.editObj);
         }
     };
 
@@ -132,15 +124,15 @@ export class ProductCategoryListComponent implements OnInit {
     public onSaveEdit = async (item: ProductCategoryPayload) => {
         this.editObj[item.id!].updating = true;
         const data = this.editObj[item.id!].data;
-        const response = await handleUsecaseRequest(this.usecase.update(data), this.notification);
-        this.categories = handleUpdateObservableListIfResponse(this.categories!, response);
+        const response = await this.util.handleUsecaseRequest(this.usecase.update(data), this.notification);
+        this.categories = this.util.handleUpdateObservableListIfResponse(this.categories!, response);
         this.editObj[item.id!].edit = false;
     };
 
     public onConfirmDelete = async (id: number) => {
         this.editObj[id] = {edit: false, data: {}, updating: false, loading: true};
-        const response = await handleUsecaseRequest(this.usecase.delete(id), this.notification);
-        this.categories = handleRemoveFromObservableListIfStatus(
+        const response = await this.util.handleUsecaseRequest(this.usecase.delete(id), this.notification);
+        this.categories = this.util.handleRemoveFromObservableListIfStatus(
             this.categories!,
             {key: 'id', value: id},
             response
@@ -173,7 +165,7 @@ export class ProductCategoryListComponent implements OnInit {
 
     public onConfirmToggleStatus = async (id: number) => {
         this.editObj[id] = {edit: false, data: {}, updating: false, loading: true};
-        const response = await handleUsecaseRequest(this.usecase.toggleActiveStatus(id), this.notification);
+        const response = await this.util.handleUsecaseRequest(this.usecase.toggleActiveStatus(id), this.notification);
         this.editObj[id].loading = false;
         this.notifyChange();
     };
@@ -185,9 +177,9 @@ export class ProductCategoryListComponent implements OnInit {
     public handleDownloadTemplate = async () => {
         const templateFile = await firstValueFrom(
             this.usecase.downloadTemplate().pipe(
-                catchError((err) => handleHttpRequestError(err, {service: this.notification}))
+                catchError((err) => this.util.handleHttpRequestError(err, {service: this.notification}))
             ));
-        handleDownloadTemplate(templateFile, FileType.EXCEL_V2, FileTemplate.PRODUCT_CATEGORY_UPLOAD_TEMPLATE);
+        this.util.handleDownloadTemplate(templateFile, FileType.EXCEL_V2, FileTemplate.PRODUCT_CATEGORY_UPLOAD_TEMPLATE);
     };
 
     public handleUpload = () => {

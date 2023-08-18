@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup, UntypedFormBuilder, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {handleUsecaseRequest, markFormFieldsAsDirtyAndTouched} from '../../../../shared/utils/util';
+import {UtilService} from '../../../../shared/utils/util.service';
 import {PaymentOptionUsecase} from '../../_usecase/payment-option.usecase';
 
 @Component({
@@ -17,7 +17,8 @@ export class CompanyPaymentOptionFormComponent implements OnInit {
     constructor(
         private fb: UntypedFormBuilder,
         private usecase: PaymentOptionUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private util: UtilService
     ) {}
 
     public ngOnInit() {
@@ -26,11 +27,11 @@ export class CompanyPaymentOptionFormComponent implements OnInit {
 
     public async onCreate(): Promise<void> {
         if (this.form.invalid) {
-            markFormFieldsAsDirtyAndTouched(this.form);
+            this.util.markFormFieldsAsDirtyAndTouched(this.form);
             return;
         }
         const option = this.form.value;
-        await handleUsecaseRequest(this.usecase.save(option), this.notification);
+        await this.util.handleUsecaseRequest(this.usecase.save(option), this.notification);
         this.onResetPayload();
     }
 

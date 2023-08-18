@@ -28,6 +28,10 @@ export class PermissionPayload {
     module?: AppModuleEnum;
     description: string = '';
     checked?: boolean;
+
+    constructor(id?: number) {
+        this.id = id;
+    }
 }
 
 export class PermissionGroupByModulePayload {

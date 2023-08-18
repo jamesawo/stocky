@@ -1,6 +1,6 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, fromEvent, Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import {Injectable, OnDestroy} from '@angular/core';
+import {BehaviorSubject, fromEvent, Subject} from 'rxjs';
+import {debounceTime, takeUntil} from 'rxjs/operators';
 
 export enum BreakPoints {
     'XS' = 'xs',
@@ -11,11 +11,11 @@ export enum BreakPoints {
     'XXL' = 'xxl',
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class ResponsiveService implements OnDestroy {
-    private _unsubscriber$: Subject<any> = new Subject();
     public screenWidth$: BehaviorSubject<number> = new BehaviorSubject(0);
     public mediaBreakpoint$: BehaviorSubject<string> = new BehaviorSubject('');
+    private _unsubscribe$: Subject<any> = new Subject();
 
     constructor() {
         this.init();
@@ -26,7 +26,7 @@ export class ResponsiveService implements OnDestroy {
         this._setMediaBreakpoint(window.innerWidth);
         fromEvent(window, 'resize').pipe(
             debounceTime(500),
-            takeUntil(this._unsubscriber$),
+            takeUntil(this._unsubscribe$)
         ).subscribe((evt: any) => {
             this._setScreenWidth(evt.target.innerWidth);
             this._setMediaBreakpoint(evt.target.innerWidth);
@@ -34,8 +34,8 @@ export class ResponsiveService implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this._unsubscriber$.next('');
-        this._unsubscriber$.complete();
+        this._unsubscribe$.next('');
+        this._unsubscribe$.complete();
     }
 
     private _setScreenWidth(width: number): void {

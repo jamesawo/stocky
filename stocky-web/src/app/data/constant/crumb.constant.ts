@@ -76,3 +76,24 @@ export const SUPPLIER_SETUP: Crumbs[] = [
     {link: '/dashboard', title: 'People'},
     {link: '/company/people/supplier', title: 'Manage Supplier'}
 ];
+
+export const COMPANY_LOCATION_SETUP_CRUMB: Crumbs[] = [
+    {link: '/dashboard', title: 'Company'},
+    {link: '/company/location-setup', title: 'Location Setup'}
+];
+
+export const COMPANY_PAYMENT_OPTION_SETUP_CRUMB: Crumbs[] = [
+    {link: '/dashboard', title: 'Company'},
+    {link: '/company/payment-options', title: 'Payment Options'}
+];
+
+export const COMPANY_BASIC_PROFILE_CRUMB: Crumbs[] = [
+    {link: '/dashboard', title: 'Company'},
+    {link: '/company/basic-setup', title: 'Company Profile'}
+];
+
+
+export const COMPANY_ROLE_SETUP_CRUMB: Crumbs[] = [
+    {link: '/dashboard', title: 'Company'},
+    {link: '/company/role-setup', title: 'Role Setup'}
+];

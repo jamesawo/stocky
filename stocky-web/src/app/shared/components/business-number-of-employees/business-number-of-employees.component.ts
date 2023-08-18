@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NzSelectOptionInterface} from 'ng-zorro-antd/select';
 import {CommonPayload} from '../../../data/payload/common.payload';
 import {FormProps} from '../../../data/payload/common.types';
-import {getNzFormControlValidStatus} from '../../utils/util';
+import {UtilService} from '../../utils/util.service';
 
 const numberOfEmployees: CommonPayload[] = [
     {id: 1, title: '0 - 5'},
@@ -26,8 +26,10 @@ export class BusinessNumberOfEmployeesComponent {
     public valueChange = new EventEmitter<CommonPayload | NzSelectOptionInterface>();
 
     public list = numberOfEmployees;
-    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
-    
+    protected readonly getNzFormControlValidStatus = this.util.getNzFormControlValidStatus;
+
+    constructor(private util: UtilService) {}
+
 
     public onModelChange(selected: CommonPayload | NzSelectOptionInterface) {
         if (selected) {

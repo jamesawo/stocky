@@ -6,14 +6,7 @@ import {Observable, shareReplay} from 'rxjs';
 import {TableButtonEnum} from '../../../../../data/payload/common.enum';
 import {CommonAddProps, TableEditCacheMap} from '../../../../../data/payload/common.types';
 import {TableCol} from '../../../../../shared/components/table/table.component';
-import {
-    handleAppendToObservableListIfResponse,
-    handleCancelEditingTableItem,
-    handleRemoveFromObservableListIfStatus,
-    handleUpdateObservableListIfResponse,
-    handleUsecaseRequest,
-    isFormInvalid
-} from '../../../../../shared/utils/util';
+import {UtilService} from '../../../../../shared/utils/util.service';
 import {ProductTaxPayload} from '../../../_data/product.payload';
 import {ProductTaxUsecase} from '../../../_usecase/product-tax.usecase';
 
@@ -50,7 +43,8 @@ export class ProductTaxAddComponent implements OnInit {
     constructor(
         private fb: UntypedFormBuilder,
         private usecase: ProductTaxUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private util: UtilService
     ) {}
 
     public showModal = () => (this.isVisible = true);
@@ -71,28 +65,28 @@ export class ProductTaxAddComponent implements OnInit {
 
     public onConfirmToggleStatus = async (id: number) => {
         this.editMap[id] = {edit: false, data: {}, updating: false, loading: true};
-        await handleUsecaseRequest(this.usecase.toggleStatus(id), this.notification);
+        await this.util.handleUsecaseRequest(this.usecase.toggleStatus(id), this.notification);
         this.editMap[id].loading = false;
         this.notifyChange();
     };
 
     public async onCreate(): Promise<void> {
-        const isInvalid = isFormInvalid(this.form);
+        const isInvalid = this.util.isFormInvalid(this.form);
         if (isInvalid) {
             this.notification.info('INVALID FIELDS', 'SOME FIELDS ARE INVALID, CHECK AND RETRY.');
             return;
         }
         this.isSaving = true;
         const formValue = this.form.value;
-        let response = await handleUsecaseRequest(this.usecase.save(formValue), this.notification);
-        this.data = handleAppendToObservableListIfResponse(this.data!, response);
+        let response = await this.util.handleUsecaseRequest(this.usecase.save(formValue), this.notification);
+        this.data = this.util.handleAppendToObservableListIfResponse(this.data!, response);
         this.onAfterCreate(response);
     }
 
     public onConfirmDelete = async (id: number) => {
         this.editMap[id] = {edit: false, data: {}, updating: false, loading: true};
-        const response = await handleUsecaseRequest(this.usecase.delete(id), this.notification);
-        this.data = handleRemoveFromObservableListIfStatus(this.data!, {key: 'id', value: id}, response);
+        const response = await this.util.handleUsecaseRequest(this.usecase.delete(id), this.notification);
+        this.data = this.util.handleRemoveFromObservableListIfStatus(this.data!, {key: 'id', value: id}, response);
         this.editMap[id].loading = false;
         this.notifyChange();
     };
@@ -100,8 +94,8 @@ export class ProductTaxAddComponent implements OnInit {
     public onSaveEdit = async (item: ProductTaxPayload) => {
         this.editMap[item.id!].updating = true;
         const data = this.editMap[item.id!].data;
-        const response = await handleUsecaseRequest(this.usecase.update(data), this.notification);
-        this.data = handleUpdateObservableListIfResponse(this.data!, response);
+        const response = await this.util.handleUsecaseRequest(this.usecase.update(data), this.notification);
+        this.data = this.util.handleUpdateObservableListIfResponse(this.data!, response);
         this.editMap[item.id!].edit = false;
         this.notifyChange();
     };
@@ -110,7 +104,7 @@ export class ProductTaxAddComponent implements OnInit {
 
     public onCancelEdit = async (item: ProductTaxPayload) => {
         if (item) {
-            this.editMap = await handleCancelEditingTableItem(item as any, this.data!, this.editMap);
+            this.editMap = await this.util.handleCancelEditingTableItem(item as any, this.data!, this.editMap);
         }
     };
 

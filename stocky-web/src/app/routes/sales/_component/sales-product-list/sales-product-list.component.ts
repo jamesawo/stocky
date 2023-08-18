@@ -3,7 +3,7 @@ import {NzMessageService} from 'ng-zorro-antd/message';
 import {Subscription} from 'rxjs';
 import {PageResultPayload} from '../../../../data/payload/common.interface';
 import {PagePayload} from '../../../../data/payload/common.payload';
-import {getProductFullName, getProductName} from '../../../../shared/utils/util';
+import {UtilService} from '../../../../shared/utils/util.service';
 import {ProductPayload} from '../../../products/_data/product.payload';
 import {SaleCartNotifyType} from '../../_data/sale-cart.enum';
 import {SaleCart} from '../../_data/sale-cart.payload';
@@ -29,7 +29,8 @@ export class SalesProductListComponent implements OnInit, OnDestroy {
     constructor(
         private saleProductUsecase: SaleProductsUsecase,
         private saleCartUsecase: SaleCartUsecase,
-        private msg: NzMessageService
+        private msg: NzMessageService,
+        private util: UtilService
     ) {}
 
     public ngOnInit(): void {
@@ -64,7 +65,7 @@ export class SalesProductListComponent implements OnInit, OnDestroy {
     }
 
     public concatProductName(product: ProductPayload) {
-        return getProductFullName(product);
+        return this.util.getProductFullName(product);
     }
 
     private updateProductList(response: PageResultPayload<ProductPayload> | null) {
@@ -76,9 +77,9 @@ export class SalesProductListComponent implements OnInit, OnDestroy {
 
     private notify(isAdded: boolean, product: ProductPayload) {
         if (isAdded) {
-            this.msg.info(getProductName(product) + ' Added to cart!');
+            this.msg.info(this.util.getProductName(product) + ' Added to cart!');
         } else {
-            this.msg.error(getProductName(product) + ' Already in cart!');
+            this.msg.error(this.util.getProductName(product) + ' Already in cart!');
         }
     }
 

@@ -1,4 +1,5 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {COMPANY_BASIC_PROFILE_CRUMB, EXPENSES_SETUP} from '../../../data/constant/crumb.constant';
 
 export type PanelData = {
     active: boolean,
@@ -14,11 +15,12 @@ export type PanelData = {
 })
 export class CompanyBasicSetupComponent implements OnInit {
     public panels: PanelData[] = [];
+    public crumbs = COMPANY_BASIC_PROFILE_CRUMB;
 
     @ViewChild('basicTmpl', {static: true}) public basicTmpl!: TemplateRef<any>;
     @ViewChild('administratorTmpl', {static: true}) public administratorTmpl!: TemplateRef<any>;
     @ViewChild('regionTmpl', {static: true}) public regionTmpl!: TemplateRef<any>;
-
+    protected readonly EXPENSES_SETUP = EXPENSES_SETUP;
 
     public ngOnInit(): void {
         this.panels = [
@@ -43,6 +45,4 @@ export class CompanyBasicSetupComponent implements OnInit {
         ];
 
     }
-
-
 }

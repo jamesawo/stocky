@@ -5,7 +5,7 @@ import {TableButtonEnum} from '../../../../data/payload/common.enum';
 import {CommonPayload} from '../../../../data/payload/common.payload';
 import {TableEditCacheMap} from '../../../../data/payload/common.types';
 import {TableCol} from '../../../../shared/components/table/table.component';
-import {handleCancelEditingTableItem, handleUpdateObservableListIfResponse, handleUsecaseRequest} from '../../../../shared/utils/util';
+import {UtilService} from '../../../../shared/utils/util.service';
 import {PaymentOptionUsecase} from '../../_usecase/payment-option.usecase';
 
 @Component({
@@ -27,7 +27,8 @@ export class CompanyPaymentOptionTableComponent implements OnInit {
 
     constructor(
         private usecase: PaymentOptionUsecase,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private util: UtilService
     ) {}
 
     public ngOnInit() {
@@ -41,7 +42,7 @@ export class CompanyPaymentOptionTableComponent implements OnInit {
 
     public onConfirmToggleStatus = async (id: number) => {
         this.editMap[id] = {edit: false, data: {}, updating: false, loading: true};
-        await handleUsecaseRequest(this.usecase.toggleStatus(id), this.notification);
+        await this.util.handleUsecaseRequest(this.usecase.toggleStatus(id), this.notification);
         this.editMap[id].loading = false;
         this.notifyChange();
     };
@@ -49,8 +50,8 @@ export class CompanyPaymentOptionTableComponent implements OnInit {
     public onSaveEdit = async (item: CommonPayload) => {
         this.editMap[item.id!].updating = true;
         const data = this.editMap[item.id!].data;
-        const response = await handleUsecaseRequest(this.usecase.save(data), this.notification);
-        this.data = handleUpdateObservableListIfResponse(this.data!, response);
+        const response = await this.util.handleUsecaseRequest(this.usecase.save(data), this.notification);
+        this.data = this.util.handleUpdateObservableListIfResponse(this.data!, response);
         this.editMap[item.id!].edit = false;
         this.notifyChange();
     };
@@ -59,7 +60,7 @@ export class CompanyPaymentOptionTableComponent implements OnInit {
 
     public onCancelEdit = async (item: CommonPayload) => {
         if (item) {
-            this.editMap = await handleCancelEditingTableItem(item as any, this.data!, this.editMap);
+            this.editMap = await this.util.handleCancelEditingTableItem(item as any, this.data!, this.editMap);
         }
     };
 

@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {ProductPopover} from '../../../../data/constant/message.constant';
-import {getFormGroupFromParent, getNzFormControlValidStatus} from '../../../../shared/utils/util';
+import {UtilService} from '../../../../shared/utils/util.service';
 
 @Component({
     selector: 'app-product-basic-tab',
@@ -20,12 +20,16 @@ export class ProductBasicTabComponent {
     @Input()
     public formGroup?: FormGroup;
 
+    constructor(private util: UtilService) {
+    }
+
+
     public valid(name: string) {
-        return getNzFormControlValidStatus(name, this.getForm());
+        return this.util.getNzFormControlValidStatus(name, this.getForm());
     }
 
     public getForm() {
-        return getFormGroupFromParent(this.formGroup!, 'basic');
+        return this.util.getFormGroupFromParent(this.formGroup!, 'basic');
     }
 
 

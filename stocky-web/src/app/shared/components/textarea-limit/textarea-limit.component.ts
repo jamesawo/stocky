@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {checkFormControlCharacterLimit, getNzFormControlValidStatus} from '../../utils/util';
+import {UtilService} from '../../utils/util.service';
 
 export type TextAreaLimitProps = {
     showLabel?: boolean;
@@ -32,13 +32,15 @@ export class TextareaLimitComponent implements AfterViewInit {
     @Output()
     public valueChange = new EventEmitter<string>();
     @ViewChildren('textAreaElement') textareaElements?: QueryList<ElementRef<HTMLTextAreaElement>>;
-    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
+    protected readonly getNzFormControlValidStatus = this.util.getNzFormControlValidStatus;
+
+    constructor(private util: UtilService) {}
 
     public checkCharacterLimit(value: any) {
         if (this.props && this.props.formGroup && this.props.fromControlName) {
             const controlName = this.props.fromControlName;
             const formControl = this.props.formGroup.get(controlName);
-            checkFormControlCharacterLimit(formControl!, this.limit);
+            this.util.checkFormControlCharacterLimit(formControl!, this.limit);
         }
     }
 

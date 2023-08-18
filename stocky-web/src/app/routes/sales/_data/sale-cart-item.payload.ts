@@ -1,4 +1,4 @@
-import {calculatePercentage} from '../../../shared/utils/util';
+import {UtilService} from '../../../shared/utils/util.service';
 import {ProductPayload} from '../../products/_data/product.payload';
 
 export class SaleCartItem {
@@ -59,7 +59,7 @@ export class SaleCartItem {
         for (let tax of taxes) {
             const percent = tax.percent ?? 0;
             const price = this.product?.price?.sellingPrice ?? 0;
-            taxSum += calculatePercentage(percent, price);
+            taxSum += UtilService.calculatePercentage(percent, price);
         }
         this.tax = taxSum * this.quantity;
         this.updateSubTotal();
@@ -71,8 +71,8 @@ export class SaleCartItem {
             const sellingPrice = price?.sellingPrice ?? 0;
             const percent = price?.discount ?? 0;
 
-            const percentage = calculatePercentage(percent, sellingPrice);
-            this.discount = calculatePercentage(percent, sellingPrice) * this.quantity;
+            const percentage = UtilService.calculatePercentage(percent, sellingPrice);
+            this.discount = UtilService.calculatePercentage(percent, sellingPrice) * this.quantity;
             this.updateSubTotal();
         }
     };

@@ -17,7 +17,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.jamesaworo.stocky.core.constants.Table.AUTH_USER;
 import static com.jamesaworo.stocky.core.constants.Table.AUTH_USER_ROLE;
@@ -69,7 +68,15 @@ public class User extends BaseModel {
 
     public Collection<? extends GrantedAuthority> getGrantedAuthorities() {
         Set<String> permissions = getPermissionsTitleAsSet();
-        return permissions.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        Collection<SimpleGrantedAuthority> authorities = new HashSet<>();
+
+        permissions.forEach(permissionName -> {
+            if (!isEmpty(permissionName)) {
+                authorities.add(new SimpleGrantedAuthority(permissionName));
+            }
+        });
+
+        return authorities;
     }
 
     public Set<String> getPermissionsTitleAsSet() {

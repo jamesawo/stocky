@@ -22,23 +22,23 @@ import java.util.stream.LongStream;
 @Usecase
 @RequiredArgsConstructor
 public class PermissionUsecaseImpl implements IPermissionUsecase {
-	private final PermissionRepository repository;
+    private final PermissionRepository repository;
 
-	@Override
-	public List<Permission> getAll() {
-		return this.repository.findAll();
-	}
+    @Override
+    public List<Permission> getAll() {
+        return this.repository.findAll();
+    }
 
-	@Override
-	public Optional<Permission> getById(Long id) {
-		return this.repository.findById(id);
-	}
+    @Override
+    public Optional<Permission> getById(Long id) {
+        return this.repository.findById(id);
+    }
 
-	@Override
-	public Collection<Permission> getPermissions(LongStream list) {
-		List<Permission> permissions = new ArrayList<>();
-		list.forEach(id -> this.getById(id).ifPresent(permissions::add));
-		return permissions;
-	}
+    @Override
+    public Collection<Permission> getPermissionsByIds(LongStream list) {
+        List<Permission> permissions = new ArrayList<>();
+        list.forEach(id -> this.getById(id).ifPresent(permissions::add));
+        return permissions;
+    }
 
 }

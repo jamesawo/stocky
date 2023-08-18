@@ -1,4 +1,9 @@
-<page-header></page-header>
+<page-header [breadcrumb]="breadcrumb" title="Company Profile">
+    <ng-template #breadcrumb>
+        <app-breadcrumbs [crumbs]="crumbs"></app-breadcrumbs>
+    </ng-template>
+
+</page-header>
 
 <div [nzGutter]="[16, 24]" nz-row>
     <div nz-col nzSpan="24">

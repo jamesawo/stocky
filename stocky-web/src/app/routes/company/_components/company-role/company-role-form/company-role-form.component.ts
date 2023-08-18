@@ -1,10 +1,10 @@
 import {HttpResponse} from '@angular/common/http';
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {ModalOrDrawer} from '../../../../../data/payload/common.enum';
 import {PopupViewProps} from '../../../../../data/payload/common.types';
-import {getNzFormControlValidStatus, handleUsecaseRequest, markFormFieldsAsDirtyAndTouched} from '../../../../../shared/utils/util';
+import {UtilService} from '../../../../../shared/utils/util.service';
 import {PermissionGroupByModulePayload, PermissionPayload, RolePayload} from '../../../_data/company.payload';
 import {RoleUsecase} from '../../../_usecase/role.usecase';
 
@@ -13,7 +13,7 @@ import {RoleUsecase} from '../../../_usecase/role.usecase';
     templateUrl: './company-role-form.component.html',
     styles: []
 })
-export class CompanyRoleFormComponent implements OnInit {
+export class CompanyRoleFormComponent implements OnInit, OnChanges {
     @Input()
     public role?: RolePayload;
 
@@ -25,14 +25,15 @@ export class CompanyRoleFormComponent implements OnInit {
 
     public form: FormGroup = this.buildRoleForm;
     public permissions = this.usecase.permissions;
+    public selectedPermissions: Set<number> = new Set();
 
-    protected readonly getNzFormControlValidStatus = getNzFormControlValidStatus;
-    private selectedPermissions: Set<PermissionPayload> = new Set();
+    protected readonly getNzFormControlValidStatus = this.util.getNzFormControlValidStatus;
 
     constructor(
         private usecase: RoleUsecase,
         private notification: NzNotificationService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private util: UtilService
     ) {}
 
     /**
@@ -57,9 +58,12 @@ export class CompanyRoleFormComponent implements OnInit {
         return this.popup.display === ModalOrDrawer.DRAWER;
     }
 
-    ngOnInit() {
+    public ngOnInit() {
+        this.resetFormAndSelectedPermission();
         this.form = this.buildRoleForm;
     }
+
+    public ngOnChanges(changes: SimpleChanges) {}
 
     /**
      * Handler function for the save action.
@@ -70,27 +74,34 @@ export class CompanyRoleFormComponent implements OnInit {
      */
     public onSave = async () => {
         if (this.form.invalid) {
-            markFormFieldsAsDirtyAndTouched(this.form);
-            return;
+            this.util.markFormFieldsAsDirtyAndTouched(this.form);
+            return false;
         }
         const form = this.form.value;
-        form.permissions = [...this.selectedPermissions];
-        const res = await handleUsecaseRequest(this.usecase.save(form), this.notification);
-        this.onResetForm(res);
+        if (this.role && this.role.id) {
+            form.id = this.role.id;
+        }
 
+        form.permissions = [...this.selectedPermissions].map(id => new PermissionPayload(id));
+        const res = await this.util.handleUsecaseRequest(this.usecase.save(form), this.notification);
+        this.onResetForm(res);
+        return res.ok;
     };
 
-
-    /**
-     * Adds or removes group permissions from the selected permissions based on the checked status of the checkbox value.
-     * @param group - The permission group object.
-     * @param event - The event object triggered by the permission checkbox.
+    /** Adds or remove all group permission base on the checkbox checked status from the form.
+     * <p>
+     *  if the checkbox is checked all the permissions in that group will be added to the selected permission.
+     *  if the checkbox is unchecked all the permission will be removed.
+     *
+     * @param group
+     * @param event
      */
-    public addOrRemoveGroupPermissionsFromSelectedPermissions(group: PermissionGroupByModulePayload, event: any): void {
+    public addOrRemoveAllGroupPermissions(group: PermissionGroupByModulePayload, event: any): void {
         const checked: boolean = event.target.checked;
         if (group && group.permissions) {
-            group.permissions.forEach(permission => this.handlePermissionSelection(event, permission));
+            group.permissions.forEach(perm => this.updateSelectedPermission(checked, perm));
         }
+        this.updateFormControl();
     }
 
     /**
@@ -100,8 +111,7 @@ export class CompanyRoleFormComponent implements OnInit {
      */
     public handlePermissionSelection(event: any, permission: PermissionPayload): void {
         const checked: boolean = event.target.checked;
-        permission.checked = checked;
-        this.updateSelectedPermissions(checked, permission);
+        this.updateSelectedPermission(checked, permission);
     }
 
     /**
@@ -111,11 +121,10 @@ export class CompanyRoleFormComponent implements OnInit {
      */
     public areAllGroupPermissionsChecked(group: PermissionGroupByModulePayload): boolean {
         if (group && group.permissions) {
-            return group.permissions.every(permission => permission.checked === true);
+            return group.permissions.every(perm => this.selectedPermissions.has(perm.id!));
         }
         return false;
     }
-
 
     /**
      * Checks if there is at least one permission present in both the group's permissions
@@ -131,7 +140,6 @@ export class CompanyRoleFormComponent implements OnInit {
             for (let groupPermission of permissionsInGroup) {
                 for (let rolePermission of this.role.permissions) {
                     if (groupPermission.id == rolePermission.id) {
-                        groupPermission.checked = true;
                         booleanFlag = true;
                         break;
                     }
@@ -139,26 +147,17 @@ export class CompanyRoleFormComponent implements OnInit {
             }
         }
         return booleanFlag;
-
-
     }
-
 
     /**
-     * Adds permissions from the role to the selectedPermissions and returns it.
-     * @param role - The role containing permissions to add.
-     * @returns The Set of selected permissions after adding the role's permissions, or null if role permissions is undefined.
+     * Reset, clears the form and selected permissions
+     *
+     * @private
      */
-    private setSelectedPermissionsFromRole(role?: RolePayload): Set<PermissionPayload> | null {
-        if (role && role.permissions) {
-            role.permissions.forEach(value => {
-                this.selectedPermissions.add(value);
-            });
-            return this.selectedPermissions;
-        }
-        return null;
+    private resetFormAndSelectedPermission() {
+        this.form = this.fb.group({});
+        this.selectedPermissions = new Set();
     }
-
 
     /**
      * Updates the selected permissions based on the checked status of a permission.
@@ -169,21 +168,34 @@ export class CompanyRoleFormComponent implements OnInit {
      * @param permission - The permission payload object.
      * @returns void
      */
-    private updateSelectedPermissions(checked: boolean, permission: PermissionPayload): void {
+    private updateSelectedPermission(checked: boolean, permission: PermissionPayload): void {
         if (checked) {
-            this.selectedPermissions.add(permission);
+            this.selectedPermissions.add(permission.id!);
         } else {
-            this.selectedPermissions.delete(permission);
+            this.selectedPermissions.delete(permission.id!);
         }
-
         this.updateFormControl();
     }
 
+    /**
+     * Adds permissions from the role to the selectedPermissions and returns it.
+     * @param role - The role containing permissions to add.
+     * @returns The Set of selected permissions after adding the role's permissions, or null if role permissions is undefined.
+     */
+    private setSelectedPermissionsFromRole(role?: RolePayload): Set<number> | null {
+        if (role && role.permissions) {
+            role.permissions.forEach(permission => {
+                if (permission && permission.id) this.selectedPermissions.add(permission.id);
+            });
+            return this.selectedPermissions;
+        }
+        return null;
+    }
 
     /**
      * Updates the form control associated with the selected permissions based on the current state of selected permissions.
      * If there are selected permissions, their values are set in the form control.
-     * If there are no selected permissions, the form control is set to null.
+     * If there are no selected permissions, the form control is set to null and the form control validation will kick in when user tries to submit.
      */
     private updateFormControl() {
         if (this.selectedPermissions.size > 0) {
@@ -193,10 +205,9 @@ export class CompanyRoleFormComponent implements OnInit {
         }
     }
 
-
     /**
      * Resets the form and performs additional actions based on the response.
-     * If the response is successful (status code 200-299), the form is reset, a new role form is built,
+     * If the response is successful (status code 200-299), the form is resetFormAndSelectedPermission, a new role form is built,
      * and the usecase trigger is set to true to indicate a change.
      * The response is emitted via the formActionEmitter event.
      * @param res - The HTTP response containing the role payload.
@@ -209,4 +220,5 @@ export class CompanyRoleFormComponent implements OnInit {
         }
         this.formActionEmitter.emit(res);
     }
+
 }
