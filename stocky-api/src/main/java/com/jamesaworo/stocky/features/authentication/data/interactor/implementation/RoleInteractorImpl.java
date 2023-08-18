@@ -64,7 +64,8 @@ public class RoleInteractorImpl implements IRoleInteractor, Mapper<RoleRequest, 
 
     @Override
     public ResponseEntity<Optional<RoleRequest>> update(RoleRequest request) {
-        Optional<Role> optional = this.usecase.update(toModel(request));
+        Role model = toModel(request);
+        Optional<Role> optional = this.usecase.update(model);
         return ok().body(optional.map(this::toRequest));
     }
 

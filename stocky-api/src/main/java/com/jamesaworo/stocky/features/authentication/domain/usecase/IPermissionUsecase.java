@@ -13,5 +13,5 @@ public interface IPermissionUsecase {
 
     Optional<Permission> getById(Long id);
 
-    Collection<Permission> getPermissions(LongStream list);
+    Collection<Permission> getPermissionsByIds(LongStream list);
 }

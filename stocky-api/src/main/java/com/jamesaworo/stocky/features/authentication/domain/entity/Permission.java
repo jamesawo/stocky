@@ -25,21 +25,25 @@ import static com.jamesaworo.stocky.core.constants.Table.AUTH_PERMISSION;
 @ToString
 @EntityListeners(AuditingEntityListener.class)
 public class Permission {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(nullable = false, unique = true)
-	private String name;
+    @Column(nullable = false, unique = true)
+    private String name;
 
-	@Column
-	private AppModuleEnum module;
-	
-	public Permission(String name, AppModuleEnum module) {
-		this.name = name;
-		this.module = module;
-	}
+    @Column
+    private AppModuleEnum module;
 
-	public Permission() {
-	}
+    public Permission(String name, AppModuleEnum module) {
+        this.name = name;
+        this.module = module;
+    }
+
+    public Permission() {
+    }
+
+    public Permission(Long id) {
+        this.id = id;
+    }
 }
