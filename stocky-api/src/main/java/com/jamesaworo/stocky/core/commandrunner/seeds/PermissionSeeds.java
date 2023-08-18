@@ -111,7 +111,6 @@ public class PermissionSeeds {
             new Permission(SALE_ACCESS_PAGE_SALE_REFUND, SALE),
             new Permission(SALE_ACCESS_PAGE_SALE_DISCOUNT, SALE),
             new Permission(SALE_ACCESS_PAGE_SALE_SHIFT_PER_DAY, SALE)
-            //new Permission(SALE_ACCESS_PAGE_SALE_EXCHANGE, SALE)
     );
     public static final List<Permission> SETTING_PERMISSIONS = List.of(
             new Permission(SETTING_ACCESS_PAGE_SETTING_DASHBOARD, SETTING),
