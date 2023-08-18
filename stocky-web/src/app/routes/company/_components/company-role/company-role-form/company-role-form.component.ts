@@ -1,5 +1,5 @@
 import {HttpResponse} from '@angular/common/http';
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {ModalOrDrawer} from '../../../../../data/payload/common.enum';
@@ -13,7 +13,7 @@ import {RoleUsecase} from '../../../_usecase/role.usecase';
     templateUrl: './company-role-form.component.html',
     styles: []
 })
-export class CompanyRoleFormComponent implements OnInit {
+export class CompanyRoleFormComponent implements OnInit, OnChanges {
     @Input()
     public role?: RolePayload;
 
@@ -59,8 +59,11 @@ export class CompanyRoleFormComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.reset();
         this.form = this.buildRoleForm;
     }
+
+    ngOnChanges(changes: SimpleChanges) {}
 
     /**
      * Handler function for the save action.
@@ -75,31 +78,48 @@ export class CompanyRoleFormComponent implements OnInit {
             return false;
         }
         const form = this.form.value;
+        if (this.role && this.role.id) {
+            form.id = this.role.id;
+        }
+
         form.permissions = [...this.selectedPermissions];
+        console.log(form.permissions);
         const res = await this.util.handleUsecaseRequest(this.usecase.save(form), this.notification);
         this.onResetForm(res);
         return res.ok;
     };
 
+    /** Adds or remove all group permission base on the checkbox checked status from the form.
+     * <p>
+     *  if the checkbox is checked all the permissions in that group will be added to the selected permission.
+     *  if the checkbox is unchecked all the permission will be removed.
+     *
+     * @param group
+     * @param event
+     */
     public addOrRemoveAllGroupPermissions(group: PermissionGroupByModulePayload, event: any): void {
         const checked: boolean = event.target.checked;
-        if (checked) {
-            
+        if (group && group.permissions) {
+            for (let perm of group.permissions) {
+                perm.checked = checked;
+                checked ? this.selectedPermissions.add(perm) : this.selectedPermissions.delete(perm);
+            }
         }
+        this.updateFormControl();
     }
-
 
     /**
      * Adds or removes group permissions from the selected permissions based on the checked status of the checkbox value.
      * @param group - The permission group object.
      * @param event - The event object triggered by the permission checkbox.
      */
-    public addOrRemoveGroupPermissionsFromSelectedPermissions(group: PermissionGroupByModulePayload, event: any): void {
-        const checked: boolean = event.target.checked;
-        if (group && group.permissions) {
-            group.permissions.forEach(permission => this.handlePermissionSelection(event, permission));
-        }
-    }
+
+    /*    public addOrRemoveGroupPermissionsFromSelectedPermissions(group: PermissionGroupByModulePayload, event: any): void {
+            const checked: boolean = event.target.checked;
+            if (group && group.permissions) {
+                group.permissions.forEach(permission => this.handlePermissionSelection(event, permission));
+            }
+        }*/
 
     /**
      * Handles the selection of a permission and updates the selected permissions accordingly.
@@ -119,7 +139,7 @@ export class CompanyRoleFormComponent implements OnInit {
      */
     public areAllGroupPermissionsChecked(group: PermissionGroupByModulePayload): boolean {
         if (group && group.permissions) {
-            return group.permissions.every(permission => permission.checked === true);
+            return group.permissions.every(perm => perm.checked);
         }
         return false;
     }
@@ -149,18 +169,13 @@ export class CompanyRoleFormComponent implements OnInit {
     }
 
     /**
-     * Adds permissions from the role to the selectedPermissions and returns it.
-     * @param role - The role containing permissions to add.
-     * @returns The Set of selected permissions after adding the role's permissions, or null if role permissions is undefined.
+     * Reset, clears the form and selected permissions
+     *
+     * @private
      */
-    private setSelectedPermissionsFromRole(role?: RolePayload): Set<PermissionPayload> | null {
-        if (role && role.permissions) {
-            role.permissions.forEach(value => {
-                this.selectedPermissions.add(value);
-            });
-            return this.selectedPermissions;
-        }
-        return null;
+    private reset() {
+        this.form = this.fb.group({});
+        this.selectedPermissions = new Set();
     }
 
     /**
@@ -178,14 +193,29 @@ export class CompanyRoleFormComponent implements OnInit {
         } else {
             this.selectedPermissions.delete(permission);
         }
-
         this.updateFormControl();
     }
 
     /**
+     * Adds permissions from the role to the selectedPermissions and returns it.
+     * @param role - The role containing permissions to add.
+     * @returns The Set of selected permissions after adding the role's permissions, or null if role permissions is undefined.
+     */
+    private setSelectedPermissionsFromRole(role?: RolePayload): Set<PermissionPayload> | null {
+        if (role && role.permissions) {
+            role.permissions.forEach(value => {
+                this.selectedPermissions.add(value);
+            });
+            return this.selectedPermissions;
+        }
+        return null;
+    }
+
+
+    /**
      * Updates the form control associated with the selected permissions based on the current state of selected permissions.
      * If there are selected permissions, their values are set in the form control.
-     * If there are no selected permissions, the form control is set to null.
+     * If there are no selected permissions, the form control is set to null and the form control validation will kick in when user tries to submit.
      */
     private updateFormControl() {
         if (this.selectedPermissions.size > 0) {
@@ -210,4 +240,5 @@ export class CompanyRoleFormComponent implements OnInit {
         }
         this.formActionEmitter.emit(res);
     }
+
 }

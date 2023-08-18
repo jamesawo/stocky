@@ -43,13 +43,13 @@ export class CompanyRoleTableComponent implements OnInit {
         if (response.ok) {
             this.usecase.setTrigger(true);
         }
-
     };
 
     public emptyAction = async (item: RolePayload) => {};
 
     public onToggleEdit = (item: RolePayload) => {
         if (item) {
+            this.roleEmitter.emit(item);
         }
     };
 

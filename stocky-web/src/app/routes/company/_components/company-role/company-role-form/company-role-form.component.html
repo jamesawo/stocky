@@ -70,8 +70,10 @@
                                 GRANT ALL ACCESS
                             </span>
                             <span>
-                                <input (change)="addOrRemoveGroupPermissionsFromSelectedPermissions(group, $event)"
-                                       [checked]="areAllGroupPermissionsChecked(group)" type="checkbox"/>
+                                <input
+                                    (change)="addOrRemoveAllGroupPermissions(group, $event)"
+                                    [checked]="areAllGroupPermissionsChecked(group)"
+                                    type="checkbox"/>
                             </span>
                         </div>
                     </nz-list-header>
@@ -81,7 +83,7 @@
                             <nz-list-item-action>
                                 <input
                                     (change)="handlePermissionSelection($event, item)"
-                                    [checked]="item.checked"
+                                    [checked]="item.checked == true"
                                     type="checkbox"
                                 />
                             </nz-list-item-action>
@@ -90,9 +92,7 @@
                     </li>
 
                     <nz-list-footer></nz-list-footer>
-
                 </ul>
-
             </nz-collapse-panel>
         </nz-collapse>
     </ng-container>
