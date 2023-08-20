@@ -5,7 +5,9 @@
             <nz-form-item>
                 <nz-form-label nzFor="language" nzRequired>Language</nz-form-label>
                 <nz-form-control [nzValidateStatus]="getNzFormControlValidStatus('regionLanguage', form)" nzErrorTip="">
-                    <input formControlName="regionLanguage" id="language" name="regionLocaleLanguage" nz-input/>
+                    <nz-select formControlName="regionLanguage" id="language" nzPlaceHolder="Please select...">
+                        <nz-option nzLabel="en" nzValue="en"></nz-option>
+                    </nz-select>
                 </nz-form-control>
             </nz-form-item>
         </div>
@@ -14,7 +16,9 @@
             <nz-form-item>
                 <nz-form-label nzFor="currency" nzRequired>Currency</nz-form-label>
                 <nz-form-control [nzValidateStatus]="getNzFormControlValidStatus('regionCurrency', form)" nzErrorTip="">
-                    <input formControlName="regionCurrency" id="currency" name="regionLocalCurrency" nz-input/>
+                    <nz-select formControlName="regionCurrency" id="currency" nzPlaceHolder="Please select...">
+                        <nz-option nzLabel="NGN (₦)" nzValue="₦"></nz-option>
+                    </nz-select>
                 </nz-form-control>
             </nz-form-item>
         </div>
@@ -23,7 +27,9 @@
             <nz-form-item>
                 <nz-form-label nzFor="timeZone" nzRequired>TimeZone</nz-form-label>
                 <nz-form-control [nzValidateStatus]="getNzFormControlValidStatus('regionTimeZone', form)" nzErrorTip="">
-                    <input formControlName="regionTimeZone" id="timeZone" name="regionTimeZone" nz-input/>
+                    <nz-select formControlName="regionTimeZone" id="timeZone" nzPlaceHolder="Please select...">
+                        <nz-option nzLabel="WAT" nzValue="wat"></nz-option>
+                    </nz-select>
                 </nz-form-control>
             </nz-form-item>
         </div>
