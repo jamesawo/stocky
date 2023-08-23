@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {FormGroup} from '@angular/forms';
 import {format, parse} from 'date-fns';
 import {NzDateMode} from 'ng-zorro-antd/date-picker';
 import {FormProps} from '../../../data/payload/common.types';
@@ -9,7 +10,7 @@ import {UtilService} from '../../utils/util.service';
     templateUrl: './date-picker.component.html',
     styles: []
 })
-export class DatePickerComponent implements OnInit {
+export class DatePickerComponent implements OnInit, OnChanges {
     public selectedDate: Date | undefined;
     public dateFormat: string = 'yyyy-MM-dd';
 
@@ -39,12 +40,15 @@ export class DatePickerComponent implements OnInit {
         return this.hasError ? 'error' : 'success';
     }
 
-
     public ngOnInit(): void {
-
         if (this.select && this.select.length > 1) {
             this.setDefaultDate(this.select);
+        } else if (this.formProps && this.formProps.formGroup && this.formProps.controlName) {
+            this.setDateFromTheFormGroup(this.formProps.controlName, this.formProps.formGroup);
         }
+    }
+
+    public ngOnChanges(changes: SimpleChanges) {
     }
 
     public setDefaultDate(value: string): void {
@@ -60,12 +64,16 @@ export class DatePickerComponent implements OnInit {
         } else {
             this.selectChange.emit(undefined);
         }
-
     }
 
     public onClear() {
         this.selectedDate = undefined;
         this.select = '';
+    }
+
+    private setDateFromTheFormGroup(controlName: string, formGroup: FormGroup) {
+        let controlValue = formGroup.controls[controlName].value;
+        this.setDefaultDate(controlValue);
     }
 
     private setFormControl(dateValue: string): void {

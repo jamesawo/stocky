@@ -20,9 +20,8 @@ export class PeopleEmployeeUsecase {
         return this.http.post<EmployeePayload>(`${this.url}/create`, payload, {observe: 'response'});
     }
 
-
     public update(payload: EmployeePayload) {
-        return this.http.put<EmployeePayload>(`${this.url}/update`, payload, {observe: 'response'});
+        return this.http.post<boolean>(`${this.url}/update`, payload, {observe: 'response'});
     }
 
     public search(searchPayload: PageSearchPayload<CustomerSearchPayload>) {

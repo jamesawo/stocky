@@ -38,7 +38,6 @@
 </ng-template>
 
 <ng-template #contentFormTmpl>
-
     <form (submit)="onCreate()"
           [formGroup]="form"
           autocomplete="off"
@@ -49,8 +48,10 @@
 
             <nz-collapse nzAccordion>
 
-                <nz-collapse-panel [ngStyle]="{border:  getNzFormControlValidStatus('personalDetail', form)=='error'? '0.7px solid red': ''}"
-                                   nzHeader="Personal Basic Details">
+                <nz-collapse-panel
+                    [ngStyle]="{border:  getNzFormControlValidStatus('personalDetail', form)=='error'? '0.7px solid red': ''}"
+                    nzHeader="Personal Basic Details"
+                >
                     <div formGroupName="personalDetail">
 
                         <nz-form-item>
@@ -112,10 +113,13 @@
 
                         <nz-form-item>
                             <nz-form-label>Date of birth</nz-form-label>
-                            <nz-form-control [nzValidateStatus]="getNzFormControlValidStatus('employeeDateOfBirth', getFormGroup('personalDetail'))"
-                                             nzErrorTip="">
+                            <nz-form-control
+                                [nzValidateStatus]="getNzFormControlValidStatus('employeeDateOfBirth', getFormGroup('personalDetail'))"
+                                nzErrorTip=""
+                            >
                                 <app-date-picker
-                                    [formProps]="{controlName: 'employeeDateOfBirth', formGroup: getFormGroup('personalDetail')}"></app-date-picker>
+                                    [formProps]="{controlName: 'employeeDateOfBirth', formGroup: getFormGroup('personalDetail')}"
+                                ></app-date-picker>
                             </nz-form-control>
                         </nz-form-item>
 
@@ -192,10 +196,18 @@
                     </div>
                 </nz-collapse-panel>
 
-
-                <nz-collapse-panel [ngStyle]="{border:  getNzFormControlValidStatus('personalDetail', form)=='error'? '0.7px solid red': ''}"
-                                   nzHeader="Account Details">
-
+                <nz-collapse-panel
+                    [ngStyle]="{border:  getNzFormControlValidStatus('personalDetail', form)=='error'? '0.7px solid red': ''}"
+                    [nz-tooltip]="isUpdating? toolTmpl : ''"
+                    [nzDisabled]="isUpdating"
+                    nzHeader="Account Details"
+                >
+                    <ng-template #toolTmpl>
+                        <span> Please click
+                            <strong (click)="routeToAuthentication()" class="light-green pointer">here</strong>
+                              to update employee account details.
+                        </span>
+                    </ng-template>
                     <div formGroupName="accountDetail">
 
                         <nz-form-item>
@@ -252,7 +264,6 @@
                                 [props]="{formControlName: 'password', size: 'default'}"></app-password-input>
                         </nz-form-item>
                     </div>
-
 
                 </nz-collapse-panel>
 
