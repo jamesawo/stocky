@@ -11,6 +11,7 @@ import com.jamesaworo.stocky.core.annotations.Interactor;
 import com.jamesaworo.stocky.core.mapper.Mapper;
 import com.jamesaworo.stocky.core.params.PageSearchRequest;
 import com.jamesaworo.stocky.core.params.PageSearchResult;
+import com.jamesaworo.stocky.core.utils.Util;
 import com.jamesaworo.stocky.features.authentication.data.request.RoleRequest;
 import com.jamesaworo.stocky.features.authentication.data.request.UserRequest;
 import com.jamesaworo.stocky.features.authentication.domain.entity.Role;
@@ -106,7 +107,8 @@ public class CompanyEmployeeInteractorImpl implements ICompanyEmployeeInteractor
 
     @Override
     public ResponseEntity<Optional<Boolean>> update(CompanyEmployeeRequest customer) {
-        Optional<Boolean> optionalBoolean = this.usecase.update(toModel(customer));
+        CompanyEmployee employee = toModel(customer);
+        Optional<Boolean> optionalBoolean = this.usecase.update(employee);
         return ok().body(optionalBoolean);
     }
 
@@ -136,7 +138,9 @@ public class CompanyEmployeeInteractorImpl implements ICompanyEmployeeInteractor
     }
 
     private CompanyEmployeePersonalDetail toPersonalDetailModel(CompanyEmployeePersonalDetailRequest request) {
-        return this.modelMapper.map(request, CompanyEmployeePersonalDetail.class);
+        CompanyEmployeePersonalDetail detail = this.modelMapper.map(request, CompanyEmployeePersonalDetail.class);
+        detail.setEmployeeDateOfBirth(Util.parseToLocalDate(request.getEmployeeDateOfBirth()));
+        return detail;
     }
 
     private CompanyEmployeeNokDetail toNokDetailModel(CompanyEmployeeNokDetailRequest request) {
