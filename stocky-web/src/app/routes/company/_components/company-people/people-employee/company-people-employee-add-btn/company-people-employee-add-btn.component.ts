@@ -74,6 +74,10 @@ export class CompanyPeopleEmployeeAddBtnComponent implements OnInit, OnChanges {
         });
     }
 
+    public get drawerWidth() {
+        return this.util.calculateDrawerWidth();
+    }
+
     private get relationshipFromEnum(): CommonPayload[] {
         return Object.keys(NokRelationship).map((value, index) => {
             return {title: value, id: index++};
