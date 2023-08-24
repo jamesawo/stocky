@@ -14,8 +14,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.util.ObjectUtils;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,7 +26,7 @@ public class CompanyEmployeePersonalDetailRequest {
     private String employeeEmail;
     private String employeePhone;
     private String employeeAddress;
-    private LocalDate employeeDateOfBirth;
+    private String employeeDateOfBirth;
 
     public String getFullName() {
         String firstName = ObjectUtils.isEmpty(this.employeeFirstName) ? "" : this.employeeFirstName;

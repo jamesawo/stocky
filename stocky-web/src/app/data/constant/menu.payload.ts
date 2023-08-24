@@ -2,6 +2,10 @@ export enum DashboardRoute {
     Home = '/dashboard'
 }
 
+export enum AuthRoute {
+    Account = '/authentication/account'
+}
+
 export enum ProductRoute {
     'Categories' = '/products/category-list',
     'Products' = '/products/product-list',
@@ -66,6 +70,7 @@ export enum SubscriptionRoute {
 }
 
 export class MenuRoute {
+    static AUTHENTICATION = AuthRoute;
     static DASHBOARD = DashboardRoute;
     static SALE = SaleRoute;
     static PRODUCT = ProductRoute;

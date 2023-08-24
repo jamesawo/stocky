@@ -27,31 +27,28 @@ import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 @RequiredArgsConstructor
 public class CompanyEmployeeEndpoint {
 
-	private final ICompanyEmployeeInteractor interactor;
+    private final ICompanyEmployeeInteractor interactor;
 
 
-	@PostMapping(value = "/search")
-	public ResponseEntity<PageSearchResult<List<CompanyEmployeeRequest>>> search(
-			@RequestBody PageSearchRequest<CompanyEmployeeSearchRequest> request
-	) {
-		return this.interactor.search(request);
-	}
+    @PostMapping(value = "/search")
+    public ResponseEntity<PageSearchResult<List<CompanyEmployeeRequest>>> search(
+            @RequestBody PageSearchRequest<CompanyEmployeeSearchRequest> request
+    ) {
+        return this.interactor.search(request);
+    }
 
+    @PostMapping(value = "/create")
+    public ResponseEntity<CompanyEmployeeRequest> save(@RequestBody CompanyEmployeeRequest request) {
+        return this.interactor.save(request);
+    }
 
-	@PostMapping(value = "/create")
-	public ResponseEntity<CompanyEmployeeRequest> save(@RequestBody CompanyEmployeeRequest request) {
-		return this.interactor.save(request);
-	}
+    @PostMapping(value = "/update")
+    public ResponseEntity<Optional<Boolean>> update(@RequestBody CompanyEmployeeRequest request) {
+        return this.interactor.update(request);
+    }
 
-
-	@PutMapping(value = "/update")
-	public ResponseEntity<Optional<Boolean>> update(CompanyEmployeeRequest request) {
-		return this.interactor.update(request);
-	}
-
-
-	@PutMapping(value = "/status/{id}")
-	public ResponseEntity<Optional<Boolean>> toggleActiveStatus(@PathVariable(value = "id") Long id) {
-		return this.interactor.toggleActiveStatus(id);
-	}
+    @PutMapping(value = "/status/{id}")
+    public ResponseEntity<Optional<Boolean>> toggleActiveStatus(@PathVariable(value = "id") Long id) {
+        return this.interactor.toggleActiveStatus(id);
+    }
 }

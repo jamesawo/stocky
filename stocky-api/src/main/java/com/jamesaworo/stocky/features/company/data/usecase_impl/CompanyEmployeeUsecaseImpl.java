@@ -10,23 +10,28 @@ package com.jamesaworo.stocky.features.company.data.usecase_impl;
 import com.jamesaworo.stocky.core.annotations.Usecase;
 import com.jamesaworo.stocky.features.company.data.repository.CompanyEmployeeRepository;
 import com.jamesaworo.stocky.features.company.domain.entity.CompanyEmployee;
+import com.jamesaworo.stocky.features.company.domain.usecase.ICompanyEmployeeNokDetailUsecase;
+import com.jamesaworo.stocky.features.company.domain.usecase.ICompanyEmployeePersonalDetailUsecase;
 import com.jamesaworo.stocky.features.company.domain.usecase.ICompanyEmployeeUsecase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
-
-import static java.util.Optional.of;
 
 @Usecase
 @RequiredArgsConstructor
 @Slf4j
 public class CompanyEmployeeUsecaseImpl implements ICompanyEmployeeUsecase {
     private final CompanyEmployeeRepository repository;
+    private final ICompanyEmployeePersonalDetailUsecase personalDetailUsecase;
+    private final ICompanyEmployeeNokDetailUsecase nokDetailUsecase;
+
 
     @Override
     public Optional<CompanyEmployee> findOne(Long id) {
@@ -53,15 +58,29 @@ public class CompanyEmployeeUsecaseImpl implements ICompanyEmployeeUsecase {
         try {
             Optional<CompanyEmployee> optionalCustomer = this.findOne(customer.getId());
             return optionalCustomer.map(value -> {
+                this.setEmployeeRecordBeforeUpdate(value, customer);
                 this.save(customer);
                 return Boolean.TRUE;
             });
-
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return of(Boolean.FALSE);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
+
+    private void setEmployeeRecordBeforeUpdate(CompanyEmployee existingEmployee, CompanyEmployee updatingEmployee) {
+        updatingEmployee.setId(existingEmployee.getId());
+        updatingEmployee.getAccountDetail().setId(existingEmployee.getAccountDetail().getId());
+
+        updatingEmployee.getPersonalDetail().setId(existingEmployee.getPersonalDetail().getId());
+        this.personalDetailUsecase.save(updatingEmployee.getPersonalDetail());
+
+        updatingEmployee.getNokDetail().setId(existingEmployee.getNokDetail().getId());
+        this.nokDetailUsecase.save(updatingEmployee.getNokDetail());
+
+        updatingEmployee.setIsActiveStatus(existingEmployee.getIsActiveStatus());
+    }
+
 
     @Override
     public Optional<Boolean> toggleActiveStatus(Long id) {

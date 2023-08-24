@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {Observable, of} from 'rxjs';
 import {EMPLOYEE_SETUP} from '../../../../data/constant/crumb.constant';
@@ -7,6 +7,9 @@ import {PageSearchPayload} from '../../../../data/payload/common.interface';
 import {PagePayload} from '../../../../data/payload/common.payload';
 import {TableCol} from '../../../../shared/components/table/table.component';
 import {UtilService} from '../../../../shared/utils/util.service';
+import {
+    CompanyPeopleEmployeeAddBtnComponent
+} from '../../_components/company-people/people-employee/company-people-employee-add-btn/company-people-employee-add-btn.component';
 import {EmployeePayload, EmployeeSearchPayload} from '../../_data/company.payload';
 import {PeopleEmployeeUsecase} from '../../_usecase/people-employee.usecase';
 
@@ -17,12 +20,16 @@ import {PeopleEmployeeUsecase} from '../../_usecase/people-employee.usecase';
 })
 export class CompanyPeopleEmployeesComponent {
 
+    @ViewChild('employeeAddBtnComponent')
+    public employeeAddBtnComponent?: CompanyPeopleEmployeeAddBtnComponent;
+
     public tableData?: Observable<EmployeePayload[]>;
     public isOpenHeader = true;
     public isLoading = false;
     public isLoadingTable = false;
     public pageRequest = new PagePayload();
     public searchPayload = new EmployeeSearchPayload();
+    public employee?: EmployeePayload;
 
     public crumbs = EMPLOYEE_SETUP;
 
@@ -46,7 +53,6 @@ export class CompanyPeopleEmployeesComponent {
     ) {}
 
     public onSearch = async (): Promise<void> => {
-
         this.isLoading = true;
         this.isLoadingTable = true;
 
@@ -81,4 +87,13 @@ export class CompanyPeopleEmployeesComponent {
     }
 
     public emptyAction = async (item: any) => {};
+
+    public handleEdit = async (record: EmployeePayload): Promise<void> => {
+        if (record && this.employeeAddBtnComponent) {
+            this.employee = record;
+            this.employeeAddBtnComponent.employee = record;
+            this.employeeAddBtnComponent.isUpdating = true;
+            this.employeeAddBtnComponent.toggle();
+        }
+    };
 }
