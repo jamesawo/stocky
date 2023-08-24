@@ -193,7 +193,7 @@ export class UtilService {
 
     public async handleUsecaseRequest<T>(
         arg: Observable<T>,
-        notificationService: NzNotificationService,
+        notificationService: NzMessageService | NzNotificationService,
         message?: {success: string; error: string}
     ): Promise<T> {
         try {

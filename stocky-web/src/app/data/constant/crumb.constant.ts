@@ -97,3 +97,9 @@ export const COMPANY_ROLE_SETUP_CRUMB: Crumbs[] = [
     {link: '/dashboard', title: 'Company'},
     {link: '/company/role-setup', title: 'Role Setup'}
 ];
+
+
+export const ACCOUNT_CRUMB: Crumbs[] = [
+    {link: '/dashboard', title: 'Dashboard'},
+    {link: '/authentication/account', title: 'Manage Account'}
+];
