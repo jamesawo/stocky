@@ -1,10 +1,10 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Observable} from 'rxjs';
 import {TableButtonEnum} from 'src/app/data/payload/common.enum';
 import {PagePayload} from '../../../../../data/payload/common.payload';
 import {TableCol} from '../../../../../shared/components/table/table.component';
-import {UtilService} from '../../../../../shared/utils/util.service';
 import {EmployeePayload} from '../../../../company/_data/company.payload';
+import {AccountPayload} from '../../../_data/account.payload';
 
 @Component({
     selector: 'app-account-table-list',
@@ -13,16 +13,21 @@ import {EmployeePayload} from '../../../../company/_data/company.payload';
 })
 export class AccountTableListComponent {
 
+    @Output()
+    public pageRequestChange = new EventEmitter<PagePayload>();
+
     @Input()
     public pageRequest = new PagePayload();
 
-    public tableData?: Observable<EmployeePayload[]>;
-    public isLoading = false;
+    @Input()
+    public tableData?: Observable<AccountPayload[]>;
+
+    @Input()
     public isLoadingTable = false;
 
     public tableCols: TableCol[] = [
-        {title: 'Full Name'},
-        {title: 'Email/Username'},
+        {title: 'Name'},
+        {title: 'Username'},
         {title: 'Phone'},
         {title: 'Role'},
         {title: 'Status'},
@@ -31,12 +36,9 @@ export class AccountTableListComponent {
 
     protected readonly TableButtonEnum = TableButtonEnum;
 
-    constructor(
-        private util: UtilService
-    ) {}
+    constructor() {}
 
     public onCancel = (): void => {};
-
 
     public onPageSizeChange(value: number) {
         this.pageRequest.pageSize = value;
@@ -55,6 +57,7 @@ export class AccountTableListComponent {
     };
 
     public async onSearch() {
+        this.pageRequestChange.emit(this.pageRequest);
     }
 
 }

@@ -58,10 +58,12 @@
                                 </div>
 
                                 <nz-select
+                                    #roleSelectDropdown
                                     [(ngModel)]="searchPayload.role"
+                                    [nzAllowClear]="true"
                                     [nzDisabled]="isFetchingRoles"
-                                    [nzLoading]="isFetchingRoles"
-                                    name="role" nzPlaceHolder="Select role .."
+                                    [nzLoading]="isFetchingRoles" name="role"
+                                    nzPlaceHolder="Select role .."
                                 >
                                     <ng-container *ngIf="roles$ | async as roles">
                                         <ng-container *ngFor="let role of roles">
@@ -83,7 +85,7 @@
                             [props]="{
                                         onSearchAction: handleSearch,
                                         isLoadingSearchResult: false,
-                                        onResetAction: noAction,
+                                        onResetAction: handleReset,
                                         onCancelAction: noAction
                                         }"
                         ></app-search-reset-button>
@@ -106,5 +108,12 @@
 </page-header>
 
 <nz-card>
-    <nz-empty></nz-empty>
+    <ng-container>
+        <app-account-table-list
+            (pageRequestChange)="handlePageChange($event)"
+            [isLoadingTable]="loadingData"
+            [pageRequest]="pageRequest"
+            [tableData]="tableData"
+        ></app-account-table-list>
+    </ng-container>
 </nz-card>

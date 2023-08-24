@@ -11,6 +11,7 @@ import {FileMimeType, FileTemplate, FileType, ModalOrDrawer} from '../../data/pa
 import {TableEditCacheMap} from '../../data/payload/common.types';
 import {PassportUsecase} from '../../routes/passport/_usecase/passport.usecase';
 import {ProductPayload, ProductTaxPayload} from '../../routes/products/_data/product.payload';
+import {ResponsiveService} from './responsive.service';
 import {RollbarService} from './rollbar.service';
 
 
@@ -21,9 +22,11 @@ export class UtilService {
 
     constructor(
         @Inject(RollbarService) private rollbar: Rollbar,
-        private passport: PassportUsecase
+        private passport: PassportUsecase,
+        private responsive: ResponsiveService
     ) {
     }
+
 
     public static calculatePercentage(percent: number, price: number) {
         return Math.round(Number(price) * Number((percent) / 100));
@@ -32,6 +35,15 @@ export class UtilService {
     public static calculateSellingPrice(costPrice: number = 0, markupPercent: number = 0) {
         const markupAmount = UtilService.calculatePercentage(markupPercent, costPrice);
         return Number(costPrice) + Number(markupAmount);
+    }
+
+    public calculateDrawerWidth(): number {
+        let screenWidth = this.responsive.screenWidth$.value;
+        if (screenWidth && screenWidth < 700) {
+            return 300;
+        } else {
+            return 720;
+        }
     }
 
     public isFormInvalid(form: FormGroup): boolean {
