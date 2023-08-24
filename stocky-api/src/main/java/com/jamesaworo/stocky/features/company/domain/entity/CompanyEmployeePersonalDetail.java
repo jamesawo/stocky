@@ -25,15 +25,19 @@ import static com.jamesaworo.stocky.core.constants.Table.COMPANY_EMPLOYEE_PERSON
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompanyEmployeePersonalDetail extends BaseModel {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	@NotNull(message = "First name is required")
-	@Column(nullable = false)
-	private String employeeFirstName;
-	private String employeeLastName;
-	private String employeeEmail;
-	private String employeePhone;
-	private String employeeAddress;
-	private LocalDate employeeDateOfBirth;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @NotNull(message = "First name is required")
+    @Column(nullable = false)
+    private String employeeFirstName;
+    private String employeeLastName;
+    private String employeeEmail;
+    private String employeePhone;
+    private String employeeAddress;
+    private LocalDate employeeDateOfBirth;
+
+    public String getEmployeeFullName() {
+        return String.format("%s %s", this.employeeFirstName, this.employeeLastName);
+    }
 }
