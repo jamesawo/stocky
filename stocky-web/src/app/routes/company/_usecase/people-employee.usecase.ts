@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {PageResultPayload, PageSearchPayload} from '../../../data/payload/common.interface';
-import {CustomerSearchPayload, EmployeePayload} from '../_data/company.payload';
+import {EmployeePayload, EmployeeSearchPayload} from '../_data/company.payload';
 
 @Injectable({providedIn: 'root'})
 export class PeopleEmployeeUsecase {
@@ -24,7 +24,7 @@ export class PeopleEmployeeUsecase {
         return this.http.post<boolean>(`${this.url}/update`, payload, {observe: 'response'});
     }
 
-    public search(searchPayload: PageSearchPayload<CustomerSearchPayload>) {
+    public search(searchPayload: PageSearchPayload<EmployeeSearchPayload>) {
         return this.http.post<PageResultPayload<EmployeePayload>>(`${this.url}/search`, searchPayload, {observe: 'response'});
     }
 

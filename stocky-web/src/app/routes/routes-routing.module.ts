@@ -6,9 +6,9 @@ import {environment} from '@env/environment';
 // layout
 import {LayoutBasicComponent} from '../layout/basic/basic.component';
 import {LayoutPassportComponent} from '../layout/passport/passport.component';
-import {ComingSoonComponent} from '../shared/components/coming-soon/coming-soon.component';
 // dashboard pages
 import {DashboardComponent} from './dashboard/dashboard.component';
+import {AccountComponent} from './passport/account/account.component';
 // single pages
 import {CallbackComponent} from './passport/callback.component';
 import {UserLockComponent} from './passport/lock/lock.component';
@@ -71,7 +71,7 @@ const routes: Routes = [
         component: LayoutBasicComponent,
         canActivate: [startPageGuard, SimpleGuard],
         children: [
-            {path: 'account', component: ComingSoonComponent, data: {title: 'Account'}}
+            {path: 'account', component: AccountComponent, data: {title: 'Account'}}
         ]
     },
 

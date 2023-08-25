@@ -51,7 +51,6 @@ public class ProductSearchSpecification {
         };
     }
 
-
     public static Specification<Product> productSpecification(final String searchTerm) {
         return (root, criteriaQuery, criteriaBuilder) -> {
             mainRoot = root;

@@ -174,6 +174,11 @@ export class EmployeeSearchPayload {
     createdAt?: string;
     registeredBy?: string;
     isActiveStatus?: boolean;
+    role?: RolePayload;
+
+    hasAtLeastOneAccountProps = () => {
+        return !!this.employeeFullName || !!this.employeePhoneNumber || !!this.employeeEmail || !!this.role;
+    };
 }
 
 export class CustomerPayload {

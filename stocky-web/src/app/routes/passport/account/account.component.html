@@ -1,0 +1,119 @@
+<page-header [breadcrumb]="breadCrumbs" [content]="content" title="Manage Account">
+    <ng-template #breadCrumbs>
+        <app-breadcrumbs [crumbs]="crumbs"></app-breadcrumbs>
+    </ng-template>
+
+    <ng-template #content>
+
+        <form autocomplete="off" class="ph-main" nz-form nzLayout="vertical">
+
+            <app-page-alert #pageAlertComponent></app-page-alert>
+
+            <div [nzGutter]="[8, 8]" nz-row>
+                <div nz-col nzSpan="24">
+                    <div nz-row nzGutter="10">
+                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
+                            <nz-form-item>
+                                <div class="flex flex-row">
+                                    <app-hint content="Enter the full name to search"></app-hint>
+                                    <nz-form-label>Enter name</nz-form-label>
+                                </div>
+
+                                <input [(ngModel)]="searchPayload.employeeFullName" name="searchTerm" nz-input
+                                       placeholder="Enter search parameter here"
+                                       type="text"/>
+                            </nz-form-item>
+                        </div>
+
+                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
+                            <nz-form-item>
+                                <div class="flex flex-row">
+                                    <app-hint content="Search with phone number"></app-hint>
+                                    <nz-form-label>Enter Phone number</nz-form-label>
+                                </div>
+
+                                <input [(ngModel)]="searchPayload.employeePhoneNumber" name="searchTerm" nz-input
+                                       placeholder="Enter search parameter here"
+                                       type="text"/>
+                            </nz-form-item>
+                        </div>
+
+                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
+                            <nz-form-item>
+                                <div class="flex flex-row">
+                                    <app-hint content="Search with email address or username"></app-hint>
+                                    <nz-form-label>Enter Email</nz-form-label>
+                                </div>
+
+                                <input [(ngModel)]="searchPayload.employeeEmail" name="searchTerm" nz-input
+                                       placeholder="Enter search parameter here"
+                                       type="text"/>
+                            </nz-form-item>
+                        </div>
+
+                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
+                            <nz-form-item>
+                                <div class="flex flex-row">
+                                    <nz-form-label>Search by role</nz-form-label>
+                                </div>
+
+                                <nz-select
+                                    #roleSelectDropdown
+                                    [(ngModel)]="searchPayload.role"
+                                    [nzAllowClear]="true"
+                                    [nzDisabled]="isFetchingRoles"
+                                    [nzLoading]="isFetchingRoles" name="role"
+                                    nzPlaceHolder="Select role .."
+                                >
+                                    <ng-container *ngIf="roles$ | async as roles">
+                                        <ng-container *ngFor="let role of roles">
+                                            <nz-option [nzValue]="role" nzLabel="{{role.name}}"></nz-option>
+                                        </ng-container>
+                                    </ng-container>
+                                </nz-select>
+
+                            </nz-form-item>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col nzSpan="24">
+                <div nz-row nzJustify="space-between">
+                    <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" nz-col>
+                        <app-search-reset-button
+                            [props]="{
+                                        onSearchAction: handleSearch,
+                                        isLoadingSearchResult: false,
+                                        onResetAction: handleReset,
+                                        onCancelAction: noAction
+                                        }"
+                        ></app-search-reset-button>
+                    </div>
+                </div>
+            </div>
+            <ng-template #alertContent>
+                <p>
+                    Search for an account by providing any one of the following;
+                </p>
+                <ul>
+                    <li>Name</li>
+                    <li>Phone number</li>
+                    <li>Email or Username</li>
+                    <li>Select one role</li>
+                </ul>
+            </ng-template>
+        </form>
+    </ng-template>
+</page-header>
+
+<nz-card>
+    <ng-container>
+        <app-account-table-list
+            (pageRequestChange)="handlePageChange($event)"
+            [isLoadingTable]="loadingData"
+            [pageRequest]="pageRequest"
+            [tableData]="tableData"
+        ></app-account-table-list>
+    </ng-container>
+</nz-card>

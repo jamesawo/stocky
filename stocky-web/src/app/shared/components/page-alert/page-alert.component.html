@@ -1,0 +1,7 @@
+<ng-container *ngIf="showAlert">
+    <nz-alert
+        [nzCloseable]="closeable"
+        [nzMessage]="message ?? 'No message provided'"
+        [nzType]="type" class="mb4"
+    ></nz-alert>
+</ng-container>

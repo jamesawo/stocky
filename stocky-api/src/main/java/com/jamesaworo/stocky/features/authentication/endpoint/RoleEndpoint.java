@@ -23,40 +23,39 @@ import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 @RequestMapping(value = API_PREFIX + "/auth/role")
 @RequiredArgsConstructor
 public class RoleEndpoint {
-	private final IRoleInteractor interactor;
+    private final IRoleInteractor interactor;
+
+    @PostMapping(value = "/create")
+    public ResponseEntity<RoleRequest> create(@RequestBody RoleRequest role) {
+        return this.interactor.create(role);
+    }
+
+    @GetMapping(value = "/all")
+    public ResponseEntity<List<RoleRequest>> getAll() {
+        return this.interactor.getAll();
+    }
 
 
-	@PostMapping(value = "/create")
-	public ResponseEntity<RoleRequest> create(@RequestBody RoleRequest role) {
-		return this.interactor.create(role);
-	}
-
-	@GetMapping(value = "/all")
-	public ResponseEntity<List<RoleRequest>> getAll() {
-		return this.interactor.getAll();
-	}
+    @GetMapping(value = "/find/{id}")
+    public ResponseEntity<Optional<RoleRequest>> getOne(@PathVariable Long id) {
+        return this.interactor.getOne(id);
+    }
 
 
-	@GetMapping(value = "/find/{id}")
-	public ResponseEntity<Optional<RoleRequest>> getOne(@PathVariable Long id) {
-		return this.interactor.getOne(id);
-	}
+    @GetMapping(value = "/find-role-permission/{id}")
+    public ResponseEntity<List<PermissionRequest>> getRolePermissions(@PathVariable Long id) {
+        return this.interactor.getRolePermissions(id);
+    }
 
 
-	@GetMapping(value = "/find-role-permission/{id}")
-	public ResponseEntity<List<PermissionRequest>> getRolePermissions(@PathVariable Long id) {
-		return this.interactor.getRolePermissions(id);
-	}
+    @PutMapping(value = "/update")
+    public ResponseEntity<Optional<RoleRequest>> update(@RequestBody RoleRequest request) {
+        return this.interactor.update(request);
+    }
 
 
-	@PutMapping(value = "/update")
-	public ResponseEntity<Optional<RoleRequest>> update(@RequestBody RoleRequest request) {
-		return this.interactor.update(request);
-	}
-	
-
-	@PutMapping(value = "/status/{id}")
-	public ResponseEntity<Optional<Boolean>> updateActiveStatus(@PathVariable Long id) {
-		return this.interactor.updateActiveStatus(id);
-	}
+    @PutMapping(value = "/status/{id}")
+    public ResponseEntity<Optional<Boolean>> updateActiveStatus(@PathVariable Long id) {
+        return this.interactor.updateActiveStatus(id);
+    }
 }
