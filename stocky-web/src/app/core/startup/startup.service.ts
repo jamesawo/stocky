@@ -10,7 +10,7 @@ import {Observable, of} from 'rxjs';
 
 import {ICONS} from '../../../style-icons';
 import {ICONS_AUTO} from '../../../style-icons-auto';
-import {PassportUsecase} from '../../routes/passport/_usecase/passport.usecase';
+import {PassportUsecase} from '../../routes/passport/authentication/_usecase/passport.usecase';
 
 @Injectable()
 export class StartupService {
