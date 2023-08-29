@@ -3,6 +3,7 @@ package com.jamesaworo.stocky.features.authentication.data.interactor.implementa
 import com.jamesaworo.stocky.core.annotations.Interactor;
 import com.jamesaworo.stocky.core.params.PageSearchRequest;
 import com.jamesaworo.stocky.core.params.PageSearchResult;
+import com.jamesaworo.stocky.core.utils.Util;
 import com.jamesaworo.stocky.features.authentication.data.interactor.contract.IAccountInteractor;
 import com.jamesaworo.stocky.features.authentication.data.request.AccountRequest;
 import com.jamesaworo.stocky.features.authentication.data.request.RoleRequest;
@@ -45,6 +46,7 @@ public class AccountInteractorImpl implements IAccountInteractor {
         request.setRoles(user.getRoles().stream().map(RoleRequest::toPartialRequest).collect(Collectors.toList()));
         request.setPhone(employee.getPersonalDetail().getEmployeePhone());
         request.setIsActiveStatus(user.getIsActiveStatus());
+        request.setExpiryDate(Util.formatDate(user.getExpirationDate()));
         return request;
     }
 

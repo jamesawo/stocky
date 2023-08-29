@@ -29,4 +29,5 @@ public class AccountRequest {
     private String password;
     private Collection<RoleRequest> roles;
     private Boolean isActiveStatus;
+    private String expiryDate;
 }

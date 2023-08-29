@@ -14,10 +14,7 @@ import com.jamesaworo.stocky.features.authentication.data.request.AccountRequest
 import com.jamesaworo.stocky.features.company.data.request.CompanyEmployeeSearchRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,6 +30,12 @@ public class AccountEndpoint {
     @PostMapping(value = "/search")
     public ResponseEntity<PageSearchResult<List<AccountRequest>>> create(@RequestBody PageSearchRequest<CompanyEmployeeSearchRequest> request) {
         return this.interactor.search(request);
+    }
+
+    @PutMapping(value = "/disable")
+    public ResponseEntity<Boolean> disableUserAccount(@RequestParam Long id) {
+        System.out.println("disable user with id: " + id);
+        return null;
     }
 
 }
