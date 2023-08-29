@@ -1,4 +1,4 @@
-import {RolePayload} from '../../company/_data/company.payload';
+import {RolePayload} from '../../../company/_data/company.payload';
 
 export class AccountSearchPayload {
     searchTerm?: string;

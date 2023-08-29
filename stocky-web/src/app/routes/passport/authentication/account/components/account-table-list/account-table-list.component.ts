@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Observable} from 'rxjs';
 import {TableButtonEnum} from 'src/app/data/payload/common.enum';
-import {PagePayload} from '../../../../../data/payload/common.payload';
-import {TableCol} from '../../../../../shared/components/table/table.component';
-import {EmployeePayload} from '../../../../company/_data/company.payload';
+import {PagePayload} from '../../../../../../data/payload/common.payload';
+import {TableCol} from '../../../../../../shared/components/table/table.component';
+import {EmployeePayload} from '../../../../../company/_data/company.payload';
 import {AccountPayload} from '../../../_data/account.payload';
 
 @Component({

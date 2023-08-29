@@ -1,8 +1,8 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
-import {PageResultPayload, PageSearchPayload} from '../../../data/payload/common.interface';
-import {EmployeeSearchPayload} from '../../company/_data/company.payload';
+import {PageResultPayload, PageSearchPayload} from '../../../../data/payload/common.interface';
+import {EmployeeSearchPayload} from '../../../company/_data/company.payload';
 import {AccountPayload} from '../_data/account.payload';
 
 
@@ -17,5 +17,4 @@ export class AccountUsecase {
     public search(payload: PageSearchPayload<EmployeeSearchPayload>) {
         return this.http.post<PageResultPayload<AccountPayload>>(`${this.url}/search`, payload, {observe: 'response'});
     }
-
 }

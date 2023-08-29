@@ -1,0 +1,21 @@
+<app-icon-button
+    [nzDropdownMenu]="menu"
+    icon="edit"
+    nz-dropdown
+    nzPlacement="topLeft"
+    nzTrigger="click"
+></app-icon-button>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu>
+        <li (click)="toggleModalVisibility(ModalType.UPDATE_EXPIRY)" nz-menu-item>Update Expiry Date</li>
+        <li (click)="toggleModalVisibility(ModalType.UPDATE_ROLE)" nz-menu-item>Update Role</li>
+        <li (click)="toggleModalVisibility(ModalType.UPDATE_PASSWORD)" nz-menu-item>Reset Password</li>
+        <li (click)="toggleModalVisibility(ModalType.UPDATE_STATUS)" nz-menu-item>Toggle Status</li>
+    </ul>
+</nz-dropdown-menu>
+
+<app-account-update-expiry-date></app-account-update-expiry-date>
+<app-account-update-role></app-account-update-role>
+<app-account-update-password></app-account-update-password>
+<app-account-update-status></app-account-update-status>

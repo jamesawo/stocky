@@ -6,8 +6,8 @@ import {StartupService} from '@core';
 import {ReuseTabService} from '@delon/abc/reuse-tab';
 import {DA_SERVICE_TOKEN, ITokenService, SocialService} from '@delon/auth';
 import {_HttpClient, SettingsService} from '@delon/theme';
-import {LoginResponse} from '../_data/passport.payload';
-import {PassportUsecase} from '../_usecase/passport.usecase';
+import {LoginResponse} from '../authentication/_data/passport.payload';
+import {PassportUsecase} from '../authentication/_usecase/passport.usecase';
 
 // changeDetection: ChangeDetectionStrategy.OnPush
 @Component({
