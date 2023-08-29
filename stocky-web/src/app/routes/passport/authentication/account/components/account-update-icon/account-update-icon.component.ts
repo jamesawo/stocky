@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {AccountPayload} from '../../../_data/account.payload';
 
 enum ModalType {
     UPDATE_EXPIRY,
@@ -13,6 +14,9 @@ enum ModalType {
     styles: []
 })
 export class AccountUpdateIconComponent {
+
+    @Input()
+    public account?: AccountPayload;
 
     public activeModal?: ModalType;
     protected readonly ModalType = ModalType;

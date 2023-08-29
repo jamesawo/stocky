@@ -26,13 +26,13 @@ export class AccountTableListComponent {
     public isLoadingTable = false;
 
     public tableCols: TableCol[] = [
+        {title: ''},
         {title: 'Name'},
         {title: 'Username'},
         {title: 'Phone'},
         {title: 'Role'},
         {title: 'Status'},
-        {title: 'Exp. Date'},
-        {title: 'Action'}
+        {title: 'Exp. Date'}
     ];
 
     protected readonly TableButtonEnum = TableButtonEnum;

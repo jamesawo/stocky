@@ -1,1 +1,44 @@
-<p>account-update-role works!</p>
+<nz-modal
+    [(nzVisible)]="visibility"
+    nzCentered
+    nzTitle="Update Role"
+>
+    <ng-container *nzModalContent>
+
+        <ng-container>
+            <nz-row [nzGutter]="16">
+
+                <nz-col [nzSpan]="10">
+                    <nz-form-item>
+                        <nz-form-label>Current Value</nz-form-label>
+
+                    </nz-form-item>
+                </nz-col>
+
+                <nz-col [nzSpan]="4">
+                    <nz-form-item>
+                        <nz-form-label>Current Expiry Date</nz-form-label>
+                        <app-date-picker></app-date-picker>
+                    </nz-form-item>
+                </nz-col>
+
+            </nz-row>
+        </ng-container>
+
+    </ng-container>
+
+    <div *nzModalFooter>
+        <button (click)="visibility = false" nz-button nzType="default">Cancel</button>
+        <button
+            (nzOnCancel)="emptyAction()"
+            (nzOnConfirm)="handleUpdate()"
+            [nzLoading]="isLoading"
+            nz-button
+            nz-popconfirm
+            nzPopconfirmPlacement="top"
+            nzPopconfirmTitle="Are you sure?"
+            nzType="primary"
+        >Submit
+        </button>
+    </div>
+</nz-modal>

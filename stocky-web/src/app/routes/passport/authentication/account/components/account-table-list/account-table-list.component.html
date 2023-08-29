@@ -6,8 +6,7 @@
     [colHeadings]="tableCols"
     [dataList]="tableData"
     [props]="{showPagination: true, isLoading: isLoadingTable, tableLayout: 'auto', tableSize: 'default'}"
-    [rowTemplates]="[ fullNameTmpl, emailTmpl, phoneTmpl, roleTmpl, statusTmpl,expDateTmpl, actionTmpl
-        ]"
+    [rowTemplates]="[ actionTmpl, fullNameTmpl, emailTmpl, phoneTmpl, roleTmpl, statusTmpl,expDateTmpl]"
 ></app-table>
 
 <ng-template #fullNameTmpl let-item="item">
@@ -49,18 +48,6 @@
 
 <ng-template #actionTmpl let-item="item">
     <div class="fl">
-        <app-icon-button
-            [icon]="'like'"
-            nz-tooltip
-            nzTooltipTitle="Toggle account status"></app-icon-button>
-
-        <app-icon-button
-            [action]="emptyAction"
-            [args]="item"
-            [icon]="'lock'"
-            nz-tooltip
-            nzTooltipTitle="Reset Account Password"
-        ></app-icon-button>
-
+        <app-account-update-icon [account]="item"></app-account-update-icon>
     </div>
 </ng-template>
