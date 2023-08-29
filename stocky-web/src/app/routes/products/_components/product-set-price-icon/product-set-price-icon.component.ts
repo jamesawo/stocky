@@ -41,7 +41,6 @@ export class ProductSetPriceIconComponent {
         if (type == ModalType.PRICE) {
             this.isPriceModalVisible = !this.isPriceModalVisible;
         } else if (type == ModalType.QUANTITY) {
-            //this.productQuantity = this.product?.basic.quantity ?? 0;
             this.isQtyModalVisible = !this.isQtyModalVisible;
         } else if (type == ModalType.DISCOUNT) {
             this.isDiscountModalVisible = !this.isDiscountModalVisible;
