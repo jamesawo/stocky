@@ -6,7 +6,7 @@
     [colHeadings]="tableCols"
     [dataList]="tableData"
     [props]="{showPagination: true, isLoading: isLoadingTable, tableLayout: 'auto', tableSize: 'default'}"
-    [rowTemplates]="[ fullNameTmpl, emailTmpl, phoneTmpl, roleTmpl, statusTmpl, actionTmpl
+    [rowTemplates]="[ fullNameTmpl, emailTmpl, phoneTmpl, roleTmpl, statusTmpl,expDateTmpl, actionTmpl
         ]"
 ></app-table>
 
@@ -43,15 +43,24 @@
     <app-record-status-badge [status]="item.isActiveStatus"></app-record-status-badge>
 </ng-template>
 
+<ng-template #expDateTmpl let-item="item">
+    <app-table-item content="{{item.expiryDate | date}}"></app-table-item>
+</ng-template>
+
 <ng-template #actionTmpl let-item="item">
-    <app-update-delete-action
-        [buttons]="[TableButtonEnum.EDIT, TableButtonEnum.TOGGLE_STATUS]"
-        [item]="item"
-        [props]="{
-            saveEditHandler: emptyAction,
-            cancelEditHandler: emptyAction,
-            toggleEditHandler: handleEdit,
-            confirmToggleStatusHandler: emptyAction,
-        }"
-    ></app-update-delete-action>
+    <div class="fl">
+        <app-icon-button
+            [icon]="'like'"
+            nz-tooltip
+            nzTooltipTitle="Toggle account status"></app-icon-button>
+
+        <app-icon-button
+            [action]="emptyAction"
+            [args]="item"
+            [icon]="'lock'"
+            nz-tooltip
+            nzTooltipTitle="Reset Account Password"
+        ></app-icon-button>
+
+    </div>
 </ng-template>

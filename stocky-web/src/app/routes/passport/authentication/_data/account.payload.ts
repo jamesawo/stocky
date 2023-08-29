@@ -14,5 +14,5 @@ export class AccountPayload {
     name?: string;
     username?: string;
     password?: string;
-    
+    expiryDate?: string;
 }

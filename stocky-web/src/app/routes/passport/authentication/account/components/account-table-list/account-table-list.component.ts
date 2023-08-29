@@ -31,6 +31,7 @@ export class AccountTableListComponent {
         {title: 'Phone'},
         {title: 'Role'},
         {title: 'Status'},
+        {title: 'Exp. Date'},
         {title: 'Action'}
     ];
 
