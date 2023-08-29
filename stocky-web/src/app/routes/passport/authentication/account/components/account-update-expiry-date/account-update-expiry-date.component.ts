@@ -1,5 +1,8 @@
 import {Component, Input} from '@angular/core';
+import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {UtilService} from '../../../../../../shared/utils/util.service';
 import {AccountPayload} from '../../../_data/account.payload';
+import {AccountUsecase} from '../../../_usecase/account.usecase';
 
 @Component({
     selector: 'app-account-update-expiry-date',
@@ -9,13 +12,27 @@ import {AccountPayload} from '../../../_data/account.payload';
 export class AccountUpdateExpiryDateComponent {
     @Input()
     public account?: AccountPayload;
-    
+
     @Input()
     public visibility: boolean = false;
 
     public isLoading: boolean = false;
+    public expiryDate: string = '';
 
-    public handleUpdate = () => {};
+    constructor(
+        private accountUsecase: AccountUsecase,
+        private util: UtilService,
+        private notification: NzNotificationService
+    ) {}
 
-    public emptyAction = () => {};
+    public handleUpdate = async () => {
+        if (this.account?.expiryDate && this.account?.userId && this.expiryDate) {
+            const request$ = this.accountUsecase.updateExpiryDate(this.account.userId, this.expiryDate);
+            await this.util.handleUsecaseRequest(request$, this.notification);
+        }
+    };
+
+    public handleClose = () => {
+        this.visibility = false;
+    };
 }

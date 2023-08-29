@@ -68,10 +68,6 @@ export class ProductPriceModalComponent {
         if (res.ok && res.body) {
             this.product = res.body;
             this.visibility = false;
-            // this.msg.success('Successful');
-
-            // this.productChange.emit(res.body);
-            // this.toggleModalVisibility(ModalType.OFF);
         }
     }
 

@@ -11,6 +11,8 @@ export class AccountSearchPayload {
 }
 
 export class AccountPayload {
+    userId?: number;
+    employeeId?: number;
     name?: string;
     username?: string;
     password?: string;

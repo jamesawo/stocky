@@ -27,6 +27,7 @@ export class IconButtonComponent {
 
     @Input()
     public tooltipTitle = '';
+    
     @Input()
     public text: string = '';
 

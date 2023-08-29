@@ -17,4 +17,8 @@ export class AccountUsecase {
     public search(payload: PageSearchPayload<EmployeeSearchPayload>) {
         return this.http.post<PageResultPayload<AccountPayload>>(`${this.url}/search`, payload, {observe: 'response'});
     }
+
+    public updateExpiryDate(userId: number, newDate: string) {
+        return this.http.put(`${this.url}/update-expiry-date`, {expiryDate: newDate}, {observe: 'response'});
+    }
 }
