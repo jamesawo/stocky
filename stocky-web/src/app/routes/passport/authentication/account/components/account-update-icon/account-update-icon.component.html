@@ -4,6 +4,8 @@
     nz-dropdown
     nzPlacement="topLeft"
     nzTrigger="click"
+    text=""
+    type="default"
 ></app-icon-button>
 
 <nz-dropdown-menu #menu="nzDropdownMenu">
@@ -11,11 +13,25 @@
         <li (click)="toggleModalVisibility(ModalType.UPDATE_EXPIRY)" nz-menu-item>Update Expiry Date</li>
         <li (click)="toggleModalVisibility(ModalType.UPDATE_ROLE)" nz-menu-item>Update Role</li>
         <li (click)="toggleModalVisibility(ModalType.UPDATE_PASSWORD)" nz-menu-item>Reset Password</li>
-        <li (click)="toggleModalVisibility(ModalType.UPDATE_STATUS)" nz-menu-item>Toggle Status</li>
     </ul>
 </nz-dropdown-menu>
 
-<app-account-update-expiry-date [account]="account" [visibility]="activeModal == ModalType.UPDATE_EXPIRY"></app-account-update-expiry-date>
-<app-account-update-role [account]="account" [visibility]="activeModal == ModalType.UPDATE_ROLE"></app-account-update-role>
-<app-account-update-password [account]="account" [visibility]="activeModal == ModalType.UPDATE_PASSWORD"></app-account-update-password>
-<app-account-update-status [account]="account" [visibility]="activeModal == ModalType.UPDATE_STATUS"></app-account-update-status>
+<app-account-update-expiry-date
+    (close)="resetActiveModal()"
+    [account]="account"
+    [visibility]="activeModal === ModalType.UPDATE_EXPIRY"
+></app-account-update-expiry-date>
+
+<app-account-update-role
+    (close)="resetActiveModal()"
+    [account]="account"
+    [visibility]="activeModal === ModalType.UPDATE_ROLE"
+></app-account-update-role>
+
+<app-account-update-password
+    (close)="resetActiveModal()"
+    [account]="account"
+    [visibility]="activeModal === ModalType.UPDATE_PASSWORD"
+></app-account-update-password>
+
+

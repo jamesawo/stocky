@@ -25,17 +25,7 @@
 </ng-template>
 
 <ng-template #roleTmpl let-item="item">
-    <app-table-item [content]="roleTitleTmpl"></app-table-item>
-    <ng-template #roleTitleTmpl>
-        <span>
-            [
-                <span *ngFor="let role of item.roles; let i = index;">
-                    {{ role.name }}
-                    <span *ngIf="item.roles.length > 1 && i +1 !== item.roles.length">{{','}}</span>
-                </span>
-            ]
-        </span>
-    </ng-template>
+    <app-user-roles [roles]="item.roles"></app-user-roles>
 </ng-template>
 
 <ng-template #statusTmpl let-item="item">
@@ -48,6 +38,18 @@
 
 <ng-template #actionTmpl let-item="item">
     <div class="fl">
-        <app-account-update-icon [account]="item"></app-account-update-icon>
+        <app-account-update-icon [account]="item">
+        </app-account-update-icon>
+        
+        <app-update-delete-action
+            [buttons]="[TableButtonEnum.TOGGLE_STATUS]"
+            [item]="item"
+            [props]="{
+            saveEditHandler: emptyAction,
+            cancelEditHandler: emptyAction,
+            toggleEditHandler: emptyAction,
+            confirmToggleStatusHandler: handleStatusUpdate
+            }"
+        ></app-update-delete-action>
     </div>
 </ng-template>

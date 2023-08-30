@@ -9,9 +9,9 @@
             <nz-row [nzGutter]="16">
 
                 <nz-col [nzSpan]="24">
-                    <nz-form-item>
+                    <nz-form-item class="items-center">
                         <nz-form-label>Current Expiry Date</nz-form-label>
-                        <span>{{account?.expiryDate | date}}</span>
+                        <span class="b">{{account?.expiryDate | date}}</span>
                     </nz-form-item>
                 </nz-col>
 
@@ -28,9 +28,9 @@
     </ng-container>
 
     <div *nzModalFooter>
-        <button (click)="visibility = false" nz-button nzType="default">Cancel</button>
+        <button (click)="handleClose()" nz-button nzType="default">Cancel</button>
         <button
-            (nzOnCancel)="handleClose()"
+            (nzOnCancel)="emptyAction()"
             (nzOnConfirm)="handleUpdate()"
             [nzLoading]="isLoading"
             nz-button

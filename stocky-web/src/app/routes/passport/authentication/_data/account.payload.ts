@@ -17,4 +17,6 @@ export class AccountPayload {
     username?: string;
     password?: string;
     expiryDate?: string;
+    roles?: RolePayload[];
+    isActiveStatus?: boolean;
 }

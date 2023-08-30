@@ -1,5 +1,6 @@
 import {NgModule, Type} from '@angular/core';
 import {SharedModule} from '@shared';
+import {CompanyModule} from '../../company/company.module';
 import {AccountComponent} from './account/account.component';
 import {AccountTableListComponent} from './account/components/account-table-list/account-table-list.component';
 import {AccountUpdateExpiryDateComponent} from './account/components/account-update-expiry-date/account-update-expiry-date.component';
@@ -21,9 +22,9 @@ const COMPONENTS: Array<Type<void>> = [
 ];
 
 @NgModule({
-    imports: [AuthenticationRoutingModule, SharedModule],
+    imports: [AuthenticationRoutingModule, SharedModule, CompanyModule],
     declarations: COMPONENTS,
-    exports: []
+    exports: [CompanyModule]
 })
 export class AuthenticationModule {
 }

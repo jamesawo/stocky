@@ -1,4 +1,5 @@
 <nz-modal
+    (nzOnCancel)="handleClose()"
     [(nzVisible)]="visibility"
     nzCentered
     nzTitle="Update Role"
@@ -8,27 +9,30 @@
         <ng-container>
             <nz-row [nzGutter]="16">
 
-                <nz-col [nzSpan]="10">
-                    <nz-form-item>
-                        <nz-form-label>Current Value</nz-form-label>
-
+                <nz-col [nzSpan]="24">
+                    <nz-form-item class="items-center">
+                        <nz-form-label>Current Role</nz-form-label>
+                        <app-user-roles [roles]="account?.roles ?? []"></app-user-roles>
                     </nz-form-item>
                 </nz-col>
 
-                <nz-col [nzSpan]="4">
+                <nz-col [nzSpan]="24">
                     <nz-form-item>
-                        <nz-form-label>Current Expiry Date</nz-form-label>
-                        <app-date-picker></app-date-picker>
+                        <nz-form-label>Select Roles</nz-form-label>
+                        <app-company-role-search-dropdown
+                            [(value)]="roles" [props]="{}"
+                            class="w-100"
+                            mode="multiple"
+                        ></app-company-role-search-dropdown>
                     </nz-form-item>
                 </nz-col>
-
             </nz-row>
         </ng-container>
 
     </ng-container>
 
     <div *nzModalFooter>
-        <button (click)="visibility = false" nz-button nzType="default">Cancel</button>
+        <button (click)="handleClose()" nz-button nzType="default">Cancel</button>
         <button
             (nzOnCancel)="emptyAction()"
             (nzOnConfirm)="handleUpdate()"

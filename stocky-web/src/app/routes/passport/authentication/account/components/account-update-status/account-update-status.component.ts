@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {AccountPayload} from '../../../_data/account.payload';
 
 @Component({
@@ -7,6 +7,9 @@ import {AccountPayload} from '../../../_data/account.payload';
     styles: []
 })
 export class AccountUpdateStatusComponent {
+
+    @Output()
+    public close = new EventEmitter<boolean>();
 
     @Input()
     public account?: AccountPayload;
@@ -17,6 +20,10 @@ export class AccountUpdateStatusComponent {
     public isLoading: boolean = false;
 
     public handleUpdate = () => {};
+
+    public handleClose = () => {
+        this.close.emit(true);
+    };
 
     public emptyAction = () => {};
 }

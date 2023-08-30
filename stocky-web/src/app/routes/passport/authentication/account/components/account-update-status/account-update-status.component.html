@@ -1,4 +1,5 @@
 <nz-modal
+    (nzOnCancel)="handleClose()"
     [(nzVisible)]="visibility"
     nzCentered
     nzTitle="Update Active Status "
@@ -28,7 +29,7 @@
     </ng-container>
 
     <div *nzModalFooter>
-        <button (click)="visibility = false" nz-button nzType="default">Cancel</button>
+        <button (click)="handleClose()" nz-button nzType="default">Cancel</button>
         <button
             (nzOnCancel)="emptyAction()"
             (nzOnConfirm)="handleUpdate()"

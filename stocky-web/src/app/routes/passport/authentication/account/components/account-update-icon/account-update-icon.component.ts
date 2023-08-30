@@ -24,4 +24,9 @@ export class AccountUpdateIconComponent {
     public toggleModalVisibility(type: ModalType) {
         this.activeModal = type;
     }
+
+    public resetActiveModal() {
+        this.activeModal = undefined;
+    }
+
 }
