@@ -39,6 +39,7 @@ public class AccountInteractorImpl implements IAccountInteractor {
         User user = employee.getAccountDetail();
 
         AccountRequest request = new AccountRequest();
+        request.setId(user.getId());
         request.setEmployeeId(employee.getId());
         request.setUserId(user.getId());
         request.setName(employee.getPersonalDetail().getEmployeeFullName());

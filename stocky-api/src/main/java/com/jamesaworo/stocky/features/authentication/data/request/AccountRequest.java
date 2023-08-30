@@ -21,6 +21,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AccountRequest {
+    private Long id;
     private Long employeeId;
     private Long userId;
     private String name;
