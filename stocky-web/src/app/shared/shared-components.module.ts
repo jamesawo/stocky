@@ -36,6 +36,7 @@ import {TableComponent} from './components/table/table.component';
 import {TextareaLimitComponent} from './components/textarea-limit/textarea-limit.component';
 import {UpdateDeleteActionComponent} from './components/update-delete-action/update-delete-action.component';
 import {UploadFileComponent} from './components/upload-file/upload-file.component';
+import {UserRolesComponent} from './components/user-roles/user-roles.component';
 
 export const SHARED_COMPONENTS: Array<Type<void>> = [
     DatePickerComponent,
@@ -74,5 +75,6 @@ export const SHARED_COMPONENTS: Array<Type<void>> = [
     ComingSoonTextComponent,
     PasswordInputComponent,
     SettingLockerComponent,
-    PageAlertComponent
+    PageAlertComponent,
+    UserRolesComponent
 ];

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {NzSizeDSType} from 'ng-zorro-antd/core/types';
 
@@ -8,6 +8,12 @@ import {NzSizeDSType} from 'ng-zorro-antd/core/types';
     styles: []
 })
 export class PasswordInputComponent implements OnInit {
+
+    @Input()
+    public value = '';
+
+    @Output()
+    public valueChange = new EventEmitter<string>();
 
     @Input()
     public form: FormGroup = new FormGroup<any>({});
@@ -20,6 +26,11 @@ export class PasswordInputComponent implements OnInit {
     public passwordType = 'password';
 
     constructor() {
+    }
+
+    public get hasFormControl(): boolean {
+        const controls = this.form.controls;
+        return Object.keys(controls).length > 0;
     }
 
     ngOnInit(): void {
@@ -45,5 +56,9 @@ export class PasswordInputComponent implements OnInit {
         return 'Please provide ' + this.props?.formControlName ?? 'password';
     }
 
+    public onValueChange(event: any) {
+        const text = event.target.value;
+        this.valueChange.emit(text);
+    }
 
 }
