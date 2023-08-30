@@ -1,0 +1,45 @@
+<nz-modal
+    (nzOnCancel)="handleClose()"
+    [(nzVisible)]="visibility"
+    nzCentered
+    nzTitle="Update Active Status "
+>
+    <ng-container *nzModalContent>
+
+        <ng-container>
+            <nz-row [nzGutter]="16">
+
+                <nz-col [nzSpan]="10">
+                    <nz-form-item>
+                        <nz-form-label>Current Expiry Date</nz-form-label>
+                        <app-date-picker></app-date-picker>
+                    </nz-form-item>
+                </nz-col>
+
+                <nz-col [nzSpan]="4">
+                    <nz-form-item>
+                        <nz-form-label>Current Expiry Date</nz-form-label>
+                        <app-date-picker></app-date-picker>
+                    </nz-form-item>
+                </nz-col>
+
+            </nz-row>
+        </ng-container>
+
+    </ng-container>
+
+    <div *nzModalFooter>
+        <button (click)="handleClose()" nz-button nzType="default">Cancel</button>
+        <button
+            (nzOnCancel)="emptyAction()"
+            (nzOnConfirm)="handleUpdate()"
+            [nzLoading]="isLoading"
+            nz-button
+            nz-popconfirm
+            nzPopconfirmPlacement="top"
+            nzPopconfirmTitle="Are you sure?"
+            nzType="primary"
+        >Submit
+        </button>
+    </div>
+</nz-modal>

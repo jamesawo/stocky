@@ -1,6 +1,6 @@
 import {ErrorHandler, Inject, Injectable} from '@angular/core';
 import Rollbar from 'rollbar';
-import {PassportUsecase} from '../../routes/passport/_usecase/passport.usecase';
+import {PassportUsecase} from '../../routes/passport/authentication/_usecase/passport.usecase';
 import {RollbarService} from './rollbar.service';
 
 @Injectable({

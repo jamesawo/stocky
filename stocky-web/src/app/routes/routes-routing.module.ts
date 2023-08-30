@@ -8,7 +8,6 @@ import {LayoutBasicComponent} from '../layout/basic/basic.component';
 import {LayoutPassportComponent} from '../layout/passport/passport.component';
 // dashboard pages
 import {DashboardComponent} from './dashboard/dashboard.component';
-import {AccountComponent} from './passport/account/account.component';
 // single pages
 import {CallbackComponent} from './passport/callback.component';
 import {UserLockComponent} from './passport/lock/lock.component';
@@ -70,9 +69,10 @@ const routes: Routes = [
         path: 'authentication',
         component: LayoutBasicComponent,
         canActivate: [startPageGuard, SimpleGuard],
-        children: [
-            {path: 'account', component: AccountComponent, data: {title: 'Account'}}
-        ]
+        loadChildren: () =>
+            import('src/app/routes/passport/authentication/authentication.module').then(
+                (m) => m.AuthenticationModule
+            )
     },
 
     {

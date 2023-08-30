@@ -46,6 +46,10 @@ export class RolePayload {
     permissions: PermissionPayload[] = [];
     createdAt?: string;
     isActiveStatus?: boolean;
+
+    constructor(id?: number) {
+        this.id = id;
+    }
 }
 
 export class UserBasicDetailsPayload {

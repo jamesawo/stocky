@@ -1,4 +1,4 @@
-import {RolePayload} from '../../company/_data/company.payload';
+import {RolePayload} from '../../../company/_data/company.payload';
 
 export class AccountSearchPayload {
     searchTerm?: string;
@@ -11,8 +11,12 @@ export class AccountSearchPayload {
 }
 
 export class AccountPayload {
+    userId?: number;
+    employeeId?: number;
     name?: string;
     username?: string;
     password?: string;
-    
+    expiryDate?: string;
+    roles?: RolePayload[];
+    isActiveStatus?: boolean;
 }

@@ -9,7 +9,7 @@ import Rollbar from 'rollbar';
 import {first, firstValueFrom, from, map, Observable, switchMap, throwError} from 'rxjs';
 import {FileMimeType, FileTemplate, FileType, ModalOrDrawer} from '../../data/payload/common.enum';
 import {TableEditCacheMap} from '../../data/payload/common.types';
-import {PassportUsecase} from '../../routes/passport/_usecase/passport.usecase';
+import {PassportUsecase} from '../../routes/passport/authentication/_usecase/passport.usecase';
 import {ProductPayload, ProductTaxPayload} from '../../routes/products/_data/product.payload';
 import {ResponsiveService} from './responsive.service';
 import {RollbarService} from './rollbar.service';

@@ -3,8 +3,6 @@ import {SharedModule} from '@shared';
 import {CompanyModule} from './company/company.module';
 // dashboard pages
 import {DashboardComponent} from './dashboard/dashboard.component';
-import {AccountComponent} from './passport/account/account.component';
-import {AccountTableListComponent} from './passport/account/components/account-table-list/account-table-list.component';
 // single pages
 import {CallbackComponent} from './passport/callback.component';
 import {UserLockComponent} from './passport/lock/lock.component';
@@ -22,9 +20,7 @@ const COMPONENTS: Array<Type<void>> = [
     UserRegisterResultComponent,
     // single pages
     CallbackComponent,
-    UserLockComponent,
-    AccountComponent,
-    AccountTableListComponent
+    UserLockComponent
 ];
 
 @NgModule({

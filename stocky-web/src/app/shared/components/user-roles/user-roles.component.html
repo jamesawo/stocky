@@ -1,0 +1,11 @@
+<app-table-item [content]="roleTitleTmpl"></app-table-item>
+<ng-template #roleTitleTmpl>
+        <span>
+            [
+                <span *ngFor="let role of roles; let i = index;">
+                    {{ role.name }}
+                    <span *ngIf="roles!.length > 1 && i +1 !== roles!.length">{{','}}</span>
+                </span>
+            ]
+        </span>
+</ng-template>

@@ -6,8 +6,7 @@
     [colHeadings]="tableCols"
     [dataList]="tableData"
     [props]="{showPagination: true, isLoading: isLoadingTable, tableLayout: 'auto', tableSize: 'default'}"
-    [rowTemplates]="[ fullNameTmpl, emailTmpl, phoneTmpl, roleTmpl, statusTmpl, actionTmpl
-        ]"
+    [rowTemplates]="[ actionTmpl, fullNameTmpl, emailTmpl, phoneTmpl, roleTmpl, statusTmpl,expDateTmpl]"
 ></app-table>
 
 <ng-template #fullNameTmpl let-item="item">
@@ -26,32 +25,31 @@
 </ng-template>
 
 <ng-template #roleTmpl let-item="item">
-    <app-table-item [content]="roleTitleTmpl"></app-table-item>
-    <ng-template #roleTitleTmpl>
-        <span>
-            [
-                <span *ngFor="let role of item.roles; let i = index;">
-                    {{ role.name }}
-                    <span *ngIf="item.roles.length > 1 && i +1 !== item.roles.length">{{','}}</span>
-                </span>
-            ]
-        </span>
-    </ng-template>
+    <app-user-roles [roles]="item.roles"></app-user-roles>
 </ng-template>
 
 <ng-template #statusTmpl let-item="item">
     <app-record-status-badge [status]="item.isActiveStatus"></app-record-status-badge>
 </ng-template>
 
+<ng-template #expDateTmpl let-item="item">
+    <app-table-item content="{{item.expiryDate | date}}"></app-table-item>
+</ng-template>
+
 <ng-template #actionTmpl let-item="item">
-    <app-update-delete-action
-        [buttons]="[TableButtonEnum.EDIT, TableButtonEnum.TOGGLE_STATUS]"
-        [item]="item"
-        [props]="{
+    <div class="fl">
+        <app-account-update-icon [account]="item">
+        </app-account-update-icon>
+        
+        <app-update-delete-action
+            [buttons]="[TableButtonEnum.TOGGLE_STATUS]"
+            [item]="item"
+            [props]="{
             saveEditHandler: emptyAction,
             cancelEditHandler: emptyAction,
-            toggleEditHandler: handleEdit,
-            confirmToggleStatusHandler: emptyAction,
-        }"
-    ></app-update-delete-action>
+            toggleEditHandler: emptyAction,
+            confirmToggleStatusHandler: handleStatusUpdate
+            }"
+        ></app-update-delete-action>
+    </div>
 </ng-template>
