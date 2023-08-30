@@ -149,17 +149,7 @@
 </ng-template>
 
 <ng-template #roleTmpl let-item="item">
-    <app-table-item [content]="roleTitleTmpl"></app-table-item>
-    <ng-template #roleTitleTmpl>
-        <span>
-            [
-                <span *ngFor="let role of item.accountDetail.roles; let i = index;">
-                    {{ role.name }}
-                    <span *ngIf="item.accountDetail.roles.length > 1 && i +1 !== item.accountDetail.roles.length">,</span>
-                </span>
-            ]
-        </span>
-    </ng-template>
+    <app-user-roles [roles]="item.accountDetail.roles"></app-user-roles>
 </ng-template>
 
 <ng-template #statusTmpl let-item="item">

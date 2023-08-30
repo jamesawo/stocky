@@ -3,7 +3,6 @@
         [nzValidateStatus]="getNzFormControlValidStatus(form?.controlName!, form?.formGroup!)"
         nzErrorTip=""
     >
-
         <nz-select (ngModelChange)="onValueChange($event)"
                    [class]="class"
                    [formControl]="selectedControl" [nzLoading]="isLoading" [nzMode]="mode"
