@@ -10,4 +10,12 @@ import java.util.List;
 
 public interface IAccountInteractor {
     ResponseEntity<PageSearchResult<List<AccountRequest>>> search(PageSearchRequest<CompanyEmployeeSearchRequest> request);
+
+    ResponseEntity<Boolean> updateExpiryDate(Long userId, AccountRequest expiryDate);
+
+    ResponseEntity<Boolean> updateRoles(Long userId, AccountRequest request);
+
+    ResponseEntity<Boolean> updatePassword(Long userId, AccountRequest request);
+
+    ResponseEntity<Boolean> toggleStatus(Long userId);
 }

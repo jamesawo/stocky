@@ -2,6 +2,8 @@ package com.jamesaworo.stocky.features.authentication.domain.usecase;
 
 import com.jamesaworo.stocky.features.authentication.domain.entity.User;
 
+import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,4 +24,10 @@ public interface IUserUsecase {
     void checkDuplicateUsername(String username);
 
     List<String> findUserPermissionsNameOnly(User user);
+
+    Boolean updateExpiryDate(Long userId, LocalDate date);
+
+    Boolean updateRoles(Long userId, Collection<Long> rolesId);
+
+    Boolean updatePassword(Long userId, String password);
 }

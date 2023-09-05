@@ -19,9 +19,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import static com.jamesaworo.stocky.core.constants.Setting.DEFAULT_SYS_ROLE;
-import static com.jamesaworo.stocky.core.constants.Setting.DEFAULT_SYS_USER;
 import static com.jamesaworo.stocky.core.utils.Util.isProduction;
-import static org.springframework.util.ObjectUtils.isEmpty;
 
 @Component
 @RequiredArgsConstructor
@@ -45,18 +43,22 @@ public class UserSeeder {
 
 
     private void seedUser() {
-        String username = !isEmpty(this.systemUsername) ? this.systemUsername : DEFAULT_SYS_USER;
-        LocalDate date = isProduction(this.profiles) ? LocalDate.MAX : LocalDate.now().plusMonths(12);
+        if (this.systemUsername != null) {
+            String username = this.systemUsername;
+            LocalDate date = isProduction(this.profiles) ? LocalDate.MAX : LocalDate.now().plusMonths(12);
 
-        if (this.userRepository.findByUsernameEqualsIgnoreCase(username).isEmpty()) {
-            User user = new User();
-            user.setUsername(username);
-            user.setPassword(encoder.encode(systemPassword));
-            user.setName(username.toUpperCase());
-            user.setExpirationDate(date);
-            this.roleRepository.findByNameEqualsIgnoreCase(DEFAULT_SYS_ROLE).ifPresent(role -> user.setRoles(Set.of(role)));
-            this.userRepository.save(user);
-            System.out.println("----- seed user -----");
+            if (this.userRepository.findByUsernameEqualsIgnoreCase(username).isEmpty()) {
+                User user = new User();
+                user.setUsername(username);
+                user.setPassword(encoder.encode(systemPassword));
+                user.setName(username.toUpperCase());
+                user.setExpirationDate(date);
+                this.roleRepository.findByNameEqualsIgnoreCase(DEFAULT_SYS_ROLE).ifPresent(role -> user.setRoles(Set.of(role)));
+                this.userRepository.save(user);
+                System.out.println("----- seed user -----");
+            }
+        } else {
+            System.out.println("no username provided in environment properties");
         }
 
     }

@@ -32,10 +32,24 @@ public class AccountEndpoint {
         return this.interactor.search(request);
     }
 
-    @PutMapping(value = "/disable")
-    public ResponseEntity<Boolean> disableUserAccount(@RequestParam Long id) {
-        System.out.println("disable user with id: " + id);
-        return null;
+    @PutMapping(value = "/update-expiry-date/{userId}")
+    public ResponseEntity<Boolean> updateExpiryDate(@PathVariable Long userId, @RequestBody AccountRequest request) {
+        return interactor.updateExpiryDate(userId, request);
+    }
+
+    @PutMapping(value = "/update-role/{userId}")
+    public ResponseEntity<Boolean> updateRole(@PathVariable Long userId, @RequestBody AccountRequest request) {
+        return interactor.updateRoles(userId, request);
+    }
+
+    @PutMapping(value = "/update-password/{userId}")
+    public ResponseEntity<Boolean> updatePassword(@PathVariable Long userId, @RequestBody AccountRequest request) {
+        return interactor.updatePassword(userId, request);
+    }
+
+    @PutMapping(value = "/toggle-status/{userId}")
+    public ResponseEntity<Boolean> toggleStatus(@PathVariable Long userId) {
+        return interactor.toggleStatus(userId);
     }
 
 }

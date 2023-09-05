@@ -164,9 +164,9 @@ export class UtilService {
     ): void {
         if (service) {
             if (service instanceof NzMessageService) {
-                service.error(longMessage, {nzDuration: duration ?? 1000});
+                service.error(longMessage, {nzDuration: duration ?? 10000});
             } else {
-                service.error(longMessage, shortMessageOrTitle, {nzDuration: duration ?? 1000});
+                service.error(longMessage, shortMessageOrTitle, {nzDuration: duration ?? 10000});
             }
         }
     }
