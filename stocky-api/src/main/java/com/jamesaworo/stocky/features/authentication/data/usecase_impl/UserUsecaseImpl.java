@@ -9,13 +9,16 @@ package com.jamesaworo.stocky.features.authentication.data.usecase_impl;
 
 import com.jamesaworo.stocky.core.annotations.Usecase;
 import com.jamesaworo.stocky.features.authentication.data.repository.UserRepository;
+import com.jamesaworo.stocky.features.authentication.domain.entity.Role;
 import com.jamesaworo.stocky.features.authentication.domain.entity.User;
 import com.jamesaworo.stocky.features.authentication.domain.usecase.IUserUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.util.ObjectUtils.isEmpty;
@@ -81,6 +84,37 @@ public class UserUsecaseImpl implements IUserUsecase {
             );
         }
         return new ArrayList<>(permissions);
+    }
+
+    @Override
+    public Boolean updateExpiryDate(Long userId, LocalDate date) {
+        int result = this.repository.updateExpiryDate(date, userId);
+        return result == 1;
+    }
+
+    @Override
+    public Boolean updateRoles(Long userId, Collection<Long> rolesId) {
+        Optional<User> optionalUser = this.findOne(userId);
+        if (optionalUser.isPresent() && !isEmpty(rolesId)) {
+            User user = optionalUser.get();
+            List<Role> roles = rolesId.stream().map(Role::new).collect(Collectors.toList());
+            user.setRoles(new HashSet<>(roles));
+            this.repository.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean updatePassword(Long userId, String password) {
+        Optional<User> optionalUser = this.findOne(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setPassword(this.passwordEncoder.encode(password));
+            this.repository.save(user);
+            return true;
+        }
+        return false;
     }
 
     private Boolean updateActiveStatus(User user) {
