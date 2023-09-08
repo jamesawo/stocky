@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
-public class LoginEndpointTest {
+class LoginEndpointTest {
     public static final String ROUTE = API_PREFIX + "/auth";
 
     @Mock
