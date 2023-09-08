@@ -9,17 +9,16 @@ package com.jamesaworo.stocky.features.authentication.data.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.jamesaworo.stocky.features.authentication.domain.entity.Role;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
+
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RoleRequest {
     private Long id;

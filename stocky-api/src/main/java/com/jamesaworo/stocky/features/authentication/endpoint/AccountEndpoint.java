@@ -28,7 +28,8 @@ public class AccountEndpoint {
     private final IAccountInteractor interactor;
 
     @PostMapping(value = "/search")
-    public ResponseEntity<PageSearchResult<List<AccountRequest>>> create(@RequestBody PageSearchRequest<CompanyEmployeeSearchRequest> request) {
+    public ResponseEntity<PageSearchResult<List<AccountRequest>>> searchForUsersAccountInPages(
+            @RequestBody PageSearchRequest<CompanyEmployeeSearchRequest> request) {
         return this.interactor.search(request);
     }
 

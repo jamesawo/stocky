@@ -23,11 +23,11 @@ import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 @RequestMapping(value = API_PREFIX + "/auth/permission")
 @RequiredArgsConstructor
 public class PermissionsEndpoint {
-	private final IPermissionInteractor interactor;
+    private final IPermissionInteractor interactor;
 
-	@GetMapping(value = "/all")
-	ResponseEntity<List<PermissionGroupRequest>> getAllPermissionsGroupedByModule() {
-		return interactor.getAllGroupedByModule();
-	}
+    @GetMapping(value = "/all")
+    ResponseEntity<List<PermissionGroupRequest>> getAllPermissionsGroupedByModule() {
+        return interactor.getAllGroupedByModule();
+    }
 
 }
