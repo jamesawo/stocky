@@ -197,6 +197,7 @@
                 </nz-collapse-panel>
 
                 <nz-collapse-panel
+                    [hidden]="isUpdating"
                     [ngStyle]="{border:  getNzFormControlValidStatus('personalDetail', form)=='error'? '0.7px solid red': ''}"
                     [nz-tooltip]="isUpdating? toolTmpl : ''"
                     [nzDisabled]="isUpdating"
