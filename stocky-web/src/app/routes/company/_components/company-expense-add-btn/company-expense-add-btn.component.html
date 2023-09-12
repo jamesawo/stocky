@@ -11,7 +11,8 @@
         nzTitle="Add Expenses"
     >
         <div *nzDrawerContent>
-            <ng-container [ngTemplateOutletContext]="{form: categoryForm}" [ngTemplateOutlet]="contentFormTmpl"></ng-container>
+            <ng-container [ngTemplateOutletContext]="{form: categoryForm}"
+                          [ngTemplateOutlet]="contentFormTmpl"></ng-container>
         </div>
     </nz-drawer>
 </ng-container>
@@ -25,7 +26,8 @@
         nzTitle="Add New Expenses"
     >
         <div *nzModalContent [nzLg]="{ span: 24, offset: 0 }" [nzXs]="{ span: 24, offset: 0 }" nz-col>
-            <ng-container [ngTemplateOutletContext]="{form: categoryForm}" [ngTemplateOutlet]="contentFormTmpl"></ng-container>
+            <ng-container [ngTemplateOutletContext]="{form: categoryForm}"
+                          [ngTemplateOutlet]="contentFormTmpl"></ng-container>
         </div>
         <div *nzModalFooter>
             <ng-container [ngTemplateOutlet]="contentFooterBtnTmpl"></ng-container>
@@ -57,7 +59,8 @@
                                 [formProps]="{formGroup: categoryForm, controlName: 'category'}"
                             ></app-company-expense-category-dropdown>
                         </div>
-                        <div nz-col nz-tooltip nzFlex="30px" nzTooltipPlacement="top" nzTooltipTitle="Update expenses categories">
+                        <div nz-col nz-tooltip nzFlex="30px" nzTooltipPlacement="top"
+                             nzTooltipTitle="Update expenses categories">
                             <app-company-expense-category-add-btn></app-company-expense-category-add-btn>
                         </div>
                     </div>
@@ -70,6 +73,7 @@
                     [nzSpan]="24"
                     [nzValidateStatus]="status('amount')"
                     nzErrorTip=""
+                    class="w-100"
                 >
                     <nz-input-number
                         [formControlName]="'amount'"

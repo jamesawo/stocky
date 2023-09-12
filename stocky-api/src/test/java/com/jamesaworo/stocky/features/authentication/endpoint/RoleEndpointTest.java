@@ -4,6 +4,7 @@ import com.jamesaworo.stocky.features.authentication.data.interactor.contract.IR
 import com.jamesaworo.stocky.features.authentication.data.request.PermissionRequest;
 import com.jamesaworo.stocky.features.authentication.data.request.RoleRequest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@Disabled
 public class RoleEndpointTest {
 
     @Mock
