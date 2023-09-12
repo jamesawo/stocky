@@ -1,26 +1,34 @@
 # Stocky
-Stocky is a fullstack web application built with Java, Spring Boot, and Angular that helps busy store owners manage all of their stores in one place.
-This app is designed to be both robust and user-friendly, with a sleek and modern interface.
+
+Stocky is a fullstack web application built with Java, Spring Boot, and Angular that helps busy store owners manage all
+of their stores in one place. This app is designed to be both performant and user-friendly.
+
+## Screenshot
 
 ## Features
+
 - User authentication and authorization system
-- CRUD functionality for stores, products, and orders
-- Analytics dashboard for sales data and store performance metrics
-- Interactive data visualization with charts and graphs
-- Search and filter functionality for easy store and product management
+- Stock and inventory management
+- Company, customers and employee management
+- Product and product category management
+- Reports and analytics
+- Settings and application configuration
+- Search and filter functionality for easy product discovery
 
 ## Technologies
+
 Stocky is built using the following technologies and tools:
 
-- Java
-- Spring Boot
-- Angular
-- Typescript
-- Postgres
-- Maven
-- Tailwind CSS
+![Java](https://img.shields.io/badge/Java-8-orange)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.5.4-brightgreen)
+![Angular](https://img.shields.io/badge/Angular-12-red)
+![Typescript](https://img.shields.io/badge/Typescript-4.3.5-blue)
+![Postgres](https://img.shields.io/badge/Postgres-13.3-blue)
+![Maven](https://img.shields.io/badge/Maven-3.8.2-blue)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-2.2.19-brightgreen)
 
 ## Installation
+
 To run Stocky locally, follow these steps:
 
 1. Clone the repository:
@@ -32,10 +40,21 @@ To run Stocky locally, follow these steps:
 5. Stocky should now be running at `http://localhost:8080`
 
 ## Usage
-Once you have Stocky up and running, you can start managing your stores, products, and orders. Use the navigation menu to access different parts of the app, and click on the various buttons and links to perform different actions.
+
+After successful installation, follow the steps below:
+
+- Set up company profile
+    - Goto Company and update company information, administrator information, language and currency.
+    - save to apply changes.
+- Add product categories
+    - Add all your product categories
+    - Add or upload product using an Excel sheet.
+- Start selling.
 
 ## License
+
 Stocky is released under the MIT License.
 
 ## Author
+
 [Aworo James: james.aworo@outlook.com](james.aworo@outlook.com)
