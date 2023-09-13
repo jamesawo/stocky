@@ -5,56 +5,54 @@ of their stores in one place. This app is designed to be both performant and use
 
 ## Screenshot
 
-Copy code
-
-# Screenshots
+See a Live Demo Here: [stocky.jamesaworo.com](https://stocky.jamesaworo.com)
 
 - Login screen
 
 <div  align="center">
- <img src="screens/01-login.png" width="45%">
+ <img src="screens/01-login.png" width="50%">
 </div>
 
 - Setup Company
 
 <div  align="center">
- <img src="screens/02-company-profile.png" width="45%">
+ <img src="screens/02-company-profile.png" width="50%">
 </div>
 
 - Manage products
 
 <div  align="center">
- <img src="screens/03-manage-product.png" width="45%">
+ <img src="screens/03-manage-product.png" width="50%">
 </div>
 
 - Add products
 
 <div  align="center">
- <img src="screens/04-add-product.png" width="45%">
+ <img src="screens/04-add-product.png" width="50%">
 </div>
 
 - Sales Point
 
 <div  align="center">
- <img src="screens/05-sales-point.png" width="45%">
+ <img src="screens/05-sales-point.png" width="50%">
 </div>
 
 - Sales Point (Dark Mode)
 
 <div  align="center">
- <img src="screens/06-sales-point-dark.png" width="45%">
+ <img src="screens/06-sales-point-dark.png" width="50%">
 </div>
 
 - Stock Settings (Dark Mode)
 
 <div  align="center">
- <img src="screens/07-stock-settings-dark.png" width="45%">
+ <img src="screens/07-stock-settings-dark.png" width="50%">
 </div>
 
 - Add expenses
 
 <div  align="center">
- <img src="screens/08-add-expenses-dark.png" width="45%">
+ <img src="screens/08-add-expenses-dark.png" width="50%">
 </div>
 
 ## Features
@@ -103,10 +101,11 @@ After successful installation, follow the steps below:
     - Add or upload product using an Excel sheet.
 - Start selling.
 
+## Author
+
+[Aworo James: james.aworo@outlook.com](james.aworo@outlook.com)
+
 ## License
 
 Stocky is released under the MIT License.
 
-## Author
-
-[Aworo James: james.aworo@outlook.com](james.aworo@outlook.com)
