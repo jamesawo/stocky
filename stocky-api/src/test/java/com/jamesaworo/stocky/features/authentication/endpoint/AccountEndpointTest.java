@@ -48,8 +48,6 @@ class AccountEndpointTest {
         objectMapper = new ObjectMapper();
     }
 
-
-    // search users
     @Test
     @DisplayName("Given a valid search request, when searching for users' accounts in pages, then should return ResponseEntity with success")
     public void search_ForValidRequest_ReturnsResponseEntityWithSuccess() {
@@ -131,7 +129,6 @@ class AccountEndpointTest {
         // Given
         Long userId = 123L;
         AccountRequest request = new AccountRequest();
-
         // When
         when(interactor.updateRoles(userId, request)).thenReturn(ResponseEntity.ok(true));
         ResponseEntity<Boolean> response = underTest.updateRole(userId, request);
