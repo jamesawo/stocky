@@ -58,8 +58,7 @@ class LoginEndpointTest {
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(expectedResult);
-
-
+        
         verify(interactor).login(request);
     }
 
