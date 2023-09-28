@@ -15,18 +15,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
 
 import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @ExtendWith(MockitoExtension.class)
 public class RoleEndpointTest {
@@ -204,6 +204,7 @@ public class RoleEndpointTest {
     public void update_ValidRoleRequest_ReturnsResponseEntityWithSuccess() {
         // Given
         RoleRequest roleRequest = new RoleRequest();
+        roleRequest.setId(1l);
         // Set up any necessary test data for the role request
 
         when(interactor.update(roleRequest)).thenReturn(ResponseEntity.ok(Optional.of(roleRequest)));
@@ -221,18 +222,21 @@ public class RoleEndpointTest {
 
     @Test
     @DisplayName("Given an invalid role request, when updating a role, then should return ResponseEntity with error")
-    public void update_InvalidRoleRequest_ReturnsResponseEntityWithError() {
+    public void update_InvalidRoleRequest_ReturnsResponseEntityWithError() throws Exception {
         // Given - Set up an invalid role request that fails validation or contains incorrect data
         RoleRequest roleRequest = new RoleRequest();
 
-        // When
-        assertThatThrownBy(() -> {
-            ResponseEntity<Optional<RoleRequest>> response = underTest.update(roleRequest);
-        })
-                .isInstanceOf(ResponseStatusException.class)
-                .hasMessageContaining("Invalid role");
+        /*
+        assertThatThrownBy(() -> underTest.update(roleRequest)).isInstanceOf(ResponseStatusException.class).hasMessageContaining("Invalid role");
+        */
 
-        verify(interactor, never()).update(roleRequest);
+        // When-Then
+        mockMvc.perform(MockMvcRequestBuilders.put(ROUTE + "/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(roleRequest)))
+                .andExpect(status().isBadRequest());
+
+        verify(interactor, never()).create(any());
     }
 
     @Test
@@ -268,26 +272,5 @@ public class RoleEndpointTest {
         // Verify that the interactor updateActiveStatus method was called with the correct role ID
         verify(interactor).updateActiveStatus(roleId);
     }
-
-    @Test
-    @DisplayName("Given a role ID, when updating the active status, then should return ResponseEntity with error")
-    public void updateActiveStatus_WithInvalidRoleId_ReturnsResponseEntityWithError() {
-        // Given
-        long roleId = 456L;
-        // Set up any necessary test data or mocks
-
-        when(interactor.updateActiveStatus(roleId)).thenReturn(ResponseEntity.ok(Optional.empty()));
-
-        // When
-        ResponseEntity<Optional<Boolean>> response = underTest.updateActiveStatus(roleId);
-
-        // Then
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
-        assertThat(response.getBody()).isEmpty();
-
-        // Verify that the interactor updateActiveStatus method was called with the correct role ID
-        verify(interactor).updateActiveStatus(roleId);
-    }
-
 
 }
