@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class RoleEndpoint {
     private final IRoleInteractor interactor;
 
     @PostMapping(value = "/create")
-    public ResponseEntity<RoleRequest> create(@RequestBody RoleRequest role) {
+    public ResponseEntity<RoleRequest> create(@RequestBody @Valid RoleRequest role) {
         return this.interactor.create(role);
     }
 

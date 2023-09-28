@@ -1,5 +1,6 @@
 package com.jamesaworo.stocky.features.authentication.endpoint;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jamesaworo.stocky.features.authentication.data.interactor.contract.IRoleInteractor;
 import com.jamesaworo.stocky.features.authentication.data.request.PermissionRequest;
 import com.jamesaworo.stocky.features.authentication.data.request.RoleRequest;
@@ -11,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -18,12 +20,16 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.List;
 import java.util.Optional;
 
+import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 public class RoleEndpointTest {
 
+    private static final String ROUTE = API_PREFIX + "/auth/role";
     @Mock
     private IRoleInteractor interactor;
 
@@ -31,10 +37,12 @@ public class RoleEndpointTest {
     private RoleEndpoint underTest;
 
     private MockMvc mockMvc;
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(underTest).build();
+        objectMapper = new ObjectMapper();
     }
 
     // create method
@@ -58,20 +66,17 @@ public class RoleEndpointTest {
 
     @Test
     @DisplayName("Given an invalid role request, when creating a role, then should return ResponseEntity with error")
-    public void create_InvalidRoleRequest_ReturnsResponseEntityWithError() {
-        // Given
+    public void create_InvalidRoleRequest_ReturnsResponseEntityWithError() throws Exception {
+        // Given - Set up an invalid role request that fails validation or contains incorrect data
         RoleRequest roleRequest = new RoleRequest();
-        // Set up an invalid role request that fails validation or contains incorrect data
 
-        // When
-        ResponseEntity<RoleRequest> response = underTest.create(roleRequest);
+        // When-Then
+        mockMvc.perform(post(ROUTE + "/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(roleRequest)))
+                .andExpect(status().isBadRequest());
 
-        // Then
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-        // Add more assertions to validate the error response, such as error message or error code
-
-        // Verify that the interactor's create method was not called
-        verify(interactor, never()).create(roleRequest);
+        verify(interactor, never()).create(any());
     }
 
     // getAll method
