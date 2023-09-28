@@ -16,12 +16,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
 
 import static com.jamesaworo.stocky.core.constants.Global.API_PREFIX;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -60,7 +62,7 @@ public class RoleEndpointTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(roleRequest);
 
-        // Verify that the interactor's create method was called with the correct role request
+        // Verify that the interactor create method was called with the correct role request
         verify(interactor).create(roleRequest);
     }
 
@@ -89,7 +91,6 @@ public class RoleEndpointTest {
                 new RoleRequest()
         );
         // Set up the expected result from the interactor
-
         when(interactor.getAll()).thenReturn(ResponseEntity.ok(expectedRoles));
 
         // When
@@ -99,7 +100,7 @@ public class RoleEndpointTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(expectedRoles);
 
-        // Verify that the interactor's getAll method was called
+        // Verify that the interactor getAll method was called
         verify(interactor).getAll();
     }
 
@@ -115,7 +116,7 @@ public class RoleEndpointTest {
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
 
-        // Verify that the interactor's getAll method was called
+        // Verify that the interactor getAll method was called
         verify(interactor).getAll();
     }
 
@@ -137,7 +138,7 @@ public class RoleEndpointTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(Optional.of(expectedRole));
 
-        // Verify that the interactor's getOne method was called with the correct role ID
+        // Verify that the interactor getOne method was called with the correct role ID
         verify(interactor).getOne(roleId);
     }
 
@@ -154,7 +155,7 @@ public class RoleEndpointTest {
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 
-        // Verify that the interactor's getOne method was called with the correct role ID
+        // Verify that the interactor getOne method was called with the correct role ID
         verify(interactor).getOne(roleId);
     }
 
@@ -176,7 +177,7 @@ public class RoleEndpointTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(expectedPermissions);
 
-        // Verify that the interactor's getRolePermissions method was called with the correct role ID
+        // Verify that the interactor getRolePermissions method was called with the correct role ID
         verify(interactor).getRolePermissions(roleId);
     }
 
@@ -193,7 +194,7 @@ public class RoleEndpointTest {
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 
-        // Verify that the interactor's getRolePermissions method was called with the correct role ID
+        // Verify that the interactor getRolePermissions method was called with the correct role ID
         verify(interactor).getRolePermissions(roleId);
     }
 
@@ -214,29 +215,26 @@ public class RoleEndpointTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(Optional.of(roleRequest));
 
-        // Verify that the interactor's update method was called with the correct role request
+        // Verify that the interactor update method was called with the correct role request
         verify(interactor).update(roleRequest);
     }
 
     @Test
     @DisplayName("Given an invalid role request, when updating a role, then should return ResponseEntity with error")
     public void update_InvalidRoleRequest_ReturnsResponseEntityWithError() {
-        // Given
+        // Given - Set up an invalid role request that fails validation or contains incorrect data
         RoleRequest roleRequest = new RoleRequest();
-        // Set up an invalid role request that fails validation or contains incorrect data
 
         // When
-        ResponseEntity<Optional<RoleRequest>> response = underTest.update(roleRequest);
+        assertThatThrownBy(() -> {
+            ResponseEntity<Optional<RoleRequest>> response = underTest.update(roleRequest);
+        })
+                .isInstanceOf(ResponseStatusException.class)
+                .hasMessageContaining("Invalid role");
 
-        // Then
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-        // Add more assertions to validate the error response, such as error message or error code
-
-        // Verify that the interactor's update method was not called
         verify(interactor, never()).update(roleRequest);
     }
 
-    // updateActiveStatus method
     @Test
     @DisplayName("Given a valid role ID, when updating active status, then should return ResponseEntity with success")
     public void updateActiveStatus_ValidRoleId_ReturnsResponseEntityWithSuccess() {
@@ -267,7 +265,7 @@ public class RoleEndpointTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isPresent().contains(true);
 
-        // Verify that the interactor's updateActiveStatus method was called with the correct role ID
+        // Verify that the interactor updateActiveStatus method was called with the correct role ID
         verify(interactor).updateActiveStatus(roleId);
     }
 
@@ -287,7 +285,7 @@ public class RoleEndpointTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
         assertThat(response.getBody()).isEmpty();
 
-        // Verify that the interactor's updateActiveStatus method was called with the correct role ID
+        // Verify that the interactor updateActiveStatus method was called with the correct role ID
         verify(interactor).updateActiveStatus(roleId);
     }
 
