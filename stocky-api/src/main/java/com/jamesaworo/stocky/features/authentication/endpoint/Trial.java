@@ -17,28 +17,37 @@ import org.springframework.stereotype.Component;
 public class Trial implements CommandLineRunner {
     @Value("${spring.datasource.username}")
     private String dataSourceUsername;
-
     @Value("${spring.datasource.password}")
     private String dataSourcePassword;
-
     @Value("${spring.datasource.url}")
     private String dataSourceUrl;
+    @Value("${server.port}")
+    private String serverPort;
+    @Value("${spring.jpa.hibernate.ddl-auto}")
+    private String ddlAuto;
+    @Value("${jwt.expiration}")
+    private String jwtExpiration;
+    @Value("${jwt.issuer}")
+    private String jwtIssuer;
+    @Value("${stocky.system.password}")
+    private String systemP;
+    @Value("${stocky.system.username}")
+    private String systemU;
 
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public void run(String... strings) throws Exception {
-        logger.info("Foo from System.getenv(): {}", System.getenv("spring.datasource.username"));
-        logger.info("Foo from System.getenv(): {}", System.getenv("server.port"));
-        logger.info("Foo from System.getenv(): {}", System.getenv("spring.jpa.hibernate.ddl-auto"));
-        logger.info("Foo from System.getenv(): {}", System.getenv("jwt.expiration"));
-        logger.info("Foo from System.getenv(): {}", System.getenv("jwt.issuer"));
-        logger.info("Foo from System.getenv(): {}", System.getenv("stocky.system.password"));
-        logger.info("Foo from System.getenv(): {}", System.getenv("stocky.system.username"));
-        logger.info("Username {}", dataSourceUsername);
-        logger.info("Password {}", dataSourcePassword);
-        logger.info("Foo from @Value: {}", dataSourceUrl);
+        logger.info("dataSourceUsername {}", dataSourceUsername);
+        logger.info("dataSourcePassword {}", dataSourcePassword);
+        logger.info("dataSourceUrl: {}", dataSourceUrl);
+        logger.info("serverPort: {}", serverPort);
+        logger.info("ddlAuto: {}", ddlAuto);
+        logger.info("jwtExpiration: {}", jwtExpiration);
+        logger.info("jwtIssuer: {}", jwtIssuer);
+        logger.info("systemP: {}", systemP);
+        logger.info("systemU: {}", systemU);
     }
 
 }
