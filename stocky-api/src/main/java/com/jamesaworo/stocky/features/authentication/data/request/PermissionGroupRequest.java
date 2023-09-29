@@ -17,15 +17,14 @@ import java.util.List;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PermissionGroupRequest {
+    private AppModuleEnum module;
+    private List<PermissionRequest> permissions;
 
-	private AppModuleEnum module;
-	private List<PermissionRequest> permissions;
-
-	public PermissionGroupRequest(
-			AppModuleEnum module, List<PermissionRequest> permissions
-	) {
-		this.module = module;
-		this.permissions = permissions;
-	}
+    public PermissionGroupRequest(
+            AppModuleEnum module, List<PermissionRequest> permissions
+    ) {
+        this.module = module;
+        this.permissions = permissions;
+    }
 }
 

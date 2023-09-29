@@ -26,29 +26,6 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Menu {
-    /*
-    [key: string]: NzSafeAny;
-    text?: string;
-    i18n?: string;
-    group?: boolean;
-    link?: string;
-    externalLink?: string;
-    target?: '_blank' | '_self' | '_parent' | '_top';
-    icon?: string | MenuIcon | null;
-    badge?: number;
-    badgeDot?: boolean;
-    badgeStatus?: 'success' | 'processing' | 'default' | 'error' | 'warning';
-    disabled?: boolean;
-    hide?: boolean;
-    hideInBreadcrumb?: boolean;
-    acl?: ACLCanType;
-    shortcut?: boolean;
-    shortcutRoot?: boolean;
-    reuse?: boolean;
-    open?: boolean;
-    key?: string;
-    children?: Menu[];
-    */
     private String key;
     private String text;
     private boolean group;

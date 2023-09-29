@@ -29,5 +29,4 @@ public class UserRequest {
     private Collection<RoleRequest> roles;
     private Boolean isActiveStatus;
     private String name;
-
 }
