@@ -75,9 +75,9 @@
                     nzErrorTip=""
                 >
                     <nz-input-number
-                        class="w-100"
                         [formControlName]="'amount'"
-                        [nzMin]="1" [nzStep]="1"
+                        [nzMin]="1"
+                        [nzStep]="1" class="w-100"
                         nzPlaceHolder="Enter amount"></nz-input-number>
                 </nz-form-control>
 
@@ -85,9 +85,9 @@
 
             <nz-form-item>
                 <nz-form-label>Date</nz-form-label>
-                <app-date-picker
-                    [formProps]="{formGroup: categoryForm, controlName: 'recordDate'}"
-                    [hasError]="isFormControlInvalid('recordDate', categoryForm)"
+                <app-date-picker (selectChange)="onDateSelected($event)"
+                                 [hasError]="isFormControlInvalid('recordDate', categoryForm)"
+                                 [select]="defaultDate"
                 ></app-date-picker>
             </nz-form-item>
 

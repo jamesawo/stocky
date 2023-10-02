@@ -24,7 +24,7 @@ export class CompanyExpenseAddBtnComponent {
 
     @Input()
     public popup: PopupViewProps = {display: ModalOrDrawer.DRAWER};
-
+    public defaultDate: string = '';
     protected readonly isFormControlInvalid = this.util.isFormControlInvalid;
     protected readonly ModalOrDrawer = ModalOrDrawer;
 
@@ -33,7 +33,9 @@ export class CompanyExpenseAddBtnComponent {
         private usecase: ExpensesUsecase,
         private notification: NzNotificationService,
         private util: UtilService
-    ) {}
+    ) {
+        this.defaultDate = this.util.getDateString();
+    }
 
     public get formBuild() {
         return this.fb.group({
@@ -82,6 +84,12 @@ export class CompanyExpenseAddBtnComponent {
 
     public status(name: string) {
         return this.util.getNzFormControlValidStatus(name, this.categoryForm);
+    }
+
+    public onDateSelected(date: string) {
+        if (date) {
+            this.categoryForm.get('recordDate')?.setValue(date);
+        }
     }
 
     private clearForm(response: HttpResponse<ExpensesPayload>): void {
