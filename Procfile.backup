@@ -1,0 +1,1 @@
+web: java -Dserver.port=$PORT -Dspring.profiles.active=$SPRING_PROFILES_ACTIVE -Dspring.datasource.url=$H2_URL -Dspring.datasource.username=$H2_US -Dspring.datasource.password=$H2_PW -Djwt.secret=$JWT_SECRET -Djwt.expiration=$JWT_EXP_DURATION -Djwt.issuer=$JWT_ISSUER -Dstocky.system.password=$STK_SYSTEM_PW -Dstocky.system.username=$STK_SYSTEM_US -jar stocky-api/target/*.jar
