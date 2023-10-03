@@ -118,7 +118,7 @@
                                 nzErrorTip=""
                             >
                                 <app-date-picker
-                                    [formProps]="{controlName: 'employeeDateOfBirth', formGroup: getFormGroup('personalDetail')}"
+                                    (selectChange)="onDateOfBirthChange($event)" [select]="dateOfBirth"
                                 ></app-date-picker>
                             </nz-form-control>
                         </nz-form-item>
@@ -242,7 +242,7 @@
                                 [nzValidateStatus]="getNzFormControlValidStatus('expirationDate', getFormGroup('accountDetail'))"
                                 nzErrorTip="">
                                 <app-date-picker
-                                    [formProps]="{controlName: 'expirationDate', formGroup: getFormGroup('accountDetail')}"
+                                    (selectChange)="onAccountExpirationDateChange($event)" [select]="expiryDate"
                                 ></app-date-picker>
                             </nz-form-control>
                         </nz-form-item>
@@ -276,7 +276,7 @@
 </ng-template>
 
 <ng-template #contentFooterBtnTmpl>
-    <div class="fr">
+    <div class="fl">
         <button (click)="toggle(ModalOrDrawer.ANY)" nz-button nzType="default">Cancel</button>
         <button (click)="onCreate()" [nzLoading]="isLoading" nz-button nzType="primary">Submit</button>
     </div>

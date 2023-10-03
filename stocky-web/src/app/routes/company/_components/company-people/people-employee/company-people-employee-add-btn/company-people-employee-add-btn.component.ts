@@ -2,6 +2,7 @@ import {HttpResponse} from '@angular/common/http';
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import {NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {CommonAddProps, PopupViewProps} from 'src/app/data/payload/common.types';
@@ -32,6 +33,9 @@ export class CompanyPeopleEmployeeAddBtnComponent implements OnInit, OnChanges {
     public form: FormGroup = this.fb.group({});
     public relationshipsWithNok: CommonPayload[] = this.relationshipFromEnum;
     public isUpdating = false;
+    public expiryDate = '';
+    public dateOfBirth = '';
+    public nzDrawerWidth = 350;
 
     protected readonly ModalOrDrawer = ModalOrDrawer;
     protected readonly getNzFormControlValidStatus = this.util.getNzFormControlValidStatus;
@@ -42,8 +46,11 @@ export class CompanyPeopleEmployeeAddBtnComponent implements OnInit, OnChanges {
         private notification: NzNotificationService,
         private util: UtilService,
         private router: Router,
-        private modal: NzModalService
-    ) {}
+        private modal: NzModalService,
+        private nzDrawerService: NzDrawerService
+    ) {
+        this.nzDrawerWidth = this.util.calculateDrawerWidth();
+    }
 
     public get formBuild() {
         return this.fb.group({
@@ -111,7 +118,6 @@ export class CompanyPeopleEmployeeAddBtnComponent implements OnInit, OnChanges {
         this.isLoading = true;
         const submission = this.form.value;
         await this.saveOrUpdateRecord(submission);
-
     };
 
     public getFormGroup(group: string): FormGroup {
@@ -124,6 +130,20 @@ export class CompanyPeopleEmployeeAddBtnComponent implements OnInit, OnChanges {
             nzOnOk: () => {this.router.navigateByUrl(MenuRoute.AUTHENTICATION.Account).then();},
             nzOnCancel: () => {this.modal.closeAll();}
         }, 'warning');
+    }
+
+    public onAccountExpirationDateChange(date: string): void {
+        if (date) {
+            this.expiryDate = date;
+            this.getFormGroup('accountDetail').controls['expirationDate'].setValue(date);
+        }
+    }
+
+    public onDateOfBirthChange(date: string): void {
+        if (date) {
+            this.dateOfBirth = date;
+            this.getFormGroup('personalDetail').controls['employeeDateOfBirth'].setValue(date);
+        }
     }
 
     private onHandleSaveResponse<T>(response: HttpResponse<T>) {
