@@ -76,6 +76,7 @@ export class CompanyExpenseAddBtnComponent {
             this.notification.warning('Validation error', 'Please check the fields, some are incorrect');
             return;
         }
+        this.isLoading = true;
         const payload = this.categoryForm.value;
 
         const response = await this.util.handleUsecaseRequest(this.usecase.save(payload), this.notification);
@@ -93,6 +94,7 @@ export class CompanyExpenseAddBtnComponent {
     }
 
     private clearForm(response: HttpResponse<ExpensesPayload>): void {
+        this.isLoading = false;
         if (response && response.ok) {
             this.categoryForm.reset();
             this.categoryForm = this.formBuild;
