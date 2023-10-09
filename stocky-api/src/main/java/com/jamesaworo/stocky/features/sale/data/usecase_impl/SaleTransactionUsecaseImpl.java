@@ -8,12 +8,11 @@
 package com.jamesaworo.stocky.features.sale.data.usecase_impl;
 
 import com.jamesaworo.stocky.core.annotations.Usecase;
+import com.jamesaworo.stocky.core.constants.Setting;
 import com.jamesaworo.stocky.core.mapper.Mapper;
 import com.jamesaworo.stocky.core.utils.Util;
-import com.jamesaworo.stocky.features.authentication.domain.usecase.IUserUsecase;
 import com.jamesaworo.stocky.features.company.domain.entity.CompanyCustomer;
 import com.jamesaworo.stocky.features.company.domain.usecase.ICompanyCustomerUsecase;
-import com.jamesaworo.stocky.features.company.domain.usecase.ICompanyEmployeeUsecase;
 import com.jamesaworo.stocky.features.product.domain.usecase.IProductUsecase;
 import com.jamesaworo.stocky.features.sale.data.repository.SaleTransactionRepository;
 import com.jamesaworo.stocky.features.sale.data.request.SaleTransactionRequest;
@@ -23,6 +22,7 @@ import com.jamesaworo.stocky.features.sale.domain.usecase.SaleTransactionAmountU
 import com.jamesaworo.stocky.features.sale.domain.usecase.SaleTransactionInstallmentUsecase;
 import com.jamesaworo.stocky.features.sale.domain.usecase.SaleTransactionItemUsecase;
 import com.jamesaworo.stocky.features.sale.domain.usecase.SaleTransactionUsecase;
+import com.jamesaworo.stocky.features.settings.data.usecases_impl.SettingStockUsecase;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -49,9 +49,10 @@ public class SaleTransactionUsecaseImpl implements SaleTransactionUsecase, Mappe
     private final SaleTransactionInstallmentUsecase installmentUsecase;
     private final SaleTransactionItemUsecase itemUsecase;
     private final ICompanyCustomerUsecase customerUsecase;
-    private final ICompanyEmployeeUsecase employeeUsecase;
-    private final IUserUsecase userUsecase;
     private final IProductUsecase productUsecase;
+    private final SettingStockUsecase stockSetting;
+    //private final ICompanyEmployeeUsecase employeeUsecase;
+    //private final IUserUsecase userUsecase;
 
 
     /**
@@ -187,6 +188,11 @@ public class SaleTransactionUsecaseImpl implements SaleTransactionUsecase, Mappe
      * @param items The saved list of sale transaction item
      */
     private void deductProductQuantityAfterSales(List<SaleTransactionItem> items) {
+        boolean allowStock = this.stockSetting.getAsBool(Setting.SETTING_STOCK_ENABLE_STOCK);
+        if (!allowStock) {
+            return;
+        }
+
         for (SaleTransactionItem item : items) {
             Optional<SaleTransactionItem> optionalItem = this.itemUsecase.find(item.getId());
             optionalItem.ifPresent(savedItem -> {
