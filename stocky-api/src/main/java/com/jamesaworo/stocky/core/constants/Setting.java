@@ -10,6 +10,8 @@ public class Setting {
 
     public static final String DEFAULT_SYS_ROLE = "system_rol";
 
+    public static final String TRUE = "true";
+
     // backup and restore
     public static final String SETTING_BACKUP_ENABLE_AUTO_BACK_UP = "BACKUP_ENABLE_AUTO_BACKUP";
 
