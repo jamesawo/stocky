@@ -51,8 +51,6 @@ public class SaleTransactionUsecaseImpl implements SaleTransactionUsecase, Mappe
     private final ICompanyCustomerUsecase customerUsecase;
     private final IProductUsecase productUsecase;
     private final SettingStockUsecase stockSetting;
-    //private final ICompanyEmployeeUsecase employeeUsecase;
-    //private final IUserUsecase userUsecase;
 
 
     /**
