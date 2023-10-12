@@ -182,16 +182,15 @@ public class SaleTransactionUsecaseImpl implements SaleTransactionUsecase, Mappe
      * This method is used to deduct the quantity of product sold from product stock balance
      * <p>
      * This method performs the following steps:
-     * 1. Iterates through the list of sale transaction items
-     * 2. Calls deduct method on product usecase
+     * <p>
+     * 1. Checks if Stock is enabled in settings, if not enable it returns and deduction is performed
+     * 2. Iterates through the list of sale transaction items
+     * 3. Calls deduct method on product usecase
      *
      * @param items The saved list of sale transaction item
      */
     private void deductProductQuantityAfterSales(List<SaleTransactionItem> items) {
-        boolean allowStock = this.stockSetting.getAsBool(Setting.SETTING_STOCK_ENABLE_STOCK);
-        if (!allowStock) {
-            return;
-        }
+        if (!this.stockSetting.getAsBool(Setting.SETTING_STOCK_ENABLE_STOCK)) return;
 
         for (SaleTransactionItem item : items) {
             Optional<SaleTransactionItem> optionalItem = this.itemUsecase.find(item.getId());
