@@ -1,5 +1,6 @@
 import {NgModule, Type} from '@angular/core';
 import {SharedModule} from '@shared';
+import {SalesModule} from '../sales/sales.module';
 import {ReportCustomerComponent} from './report-customer/report-customer.component';
 import {ReportEmployeeComponent} from './report-employee/report-employee.component';
 import {ReportExpenseComponent} from './report-expense/report-expense.component';
@@ -16,7 +17,7 @@ const COMPONENTS: Array<Type<void>> = [
 ];
 
 @NgModule({
-    imports: [ReportRoutingModule, SharedModule],
+    imports: [ReportRoutingModule, SharedModule, SalesModule],
     declarations: [...COMPONENTS],
     exports: [...COMPONENTS]
 })

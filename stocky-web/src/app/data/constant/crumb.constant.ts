@@ -103,3 +103,8 @@ export const ACCOUNT_CRUMB: Crumbs[] = [
     {link: '/dashboard', title: 'Dashboard'},
     {link: '/authentication/account', title: 'Manage Account'}
 ];
+
+export const REPORT_SALES: Crumbs[] = [
+    {link: '/report', title: 'Report'},
+    {link: '/report/sales', title: 'Sales Report'}
+];

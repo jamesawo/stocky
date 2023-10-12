@@ -20,6 +20,7 @@ export class SalesCashierShiftComponent implements OnInit, OnDestroy {
     public searchPayload: any = {};
     public isDateInvalid: boolean = false;
     public reportData?: ArrayBuffer;
+    searchBy: any;
     private sub = new Subscription();
 
     constructor(
@@ -58,6 +59,10 @@ export class SalesCashierShiftComponent implements OnInit, OnDestroy {
 
         const data = await firstValueFrom(this.reportUsecase.searchTransactionReport(searchRequest));
         this.displayReportData(data);
+    }
+
+    onSearchByChange(value: any) {
+
     }
 
     private displayReportData(data: ArrayBuffer) {
