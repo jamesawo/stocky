@@ -1,7 +1,6 @@
 package com.jamesaworo.stocky.features.settings.data.usecases_impl;
 
 import com.jamesaworo.stocky.core.annotations.Usecase;
-import com.jamesaworo.stocky.core.constants.Setting;
 import com.jamesaworo.stocky.features.settings.data.repository.SettingStockRepository;
 import com.jamesaworo.stocky.features.settings.domain.entity.SettingStock;
 import com.jamesaworo.stocky.features.settings.domain.usecase.ISettingUsecase;
@@ -54,8 +53,8 @@ public class SettingStockUsecase implements ISettingUsecase<SettingStock> {
         }).orElse(false);
     }
 
-    public Boolean getAsBool(String key) {
+    /*public Boolean getAsBool(String key) {
         Optional<SettingStock> settingStock = this.get(key);
         return settingStock.map(value -> value.getSettingValue().equalsIgnoreCase(Setting.TRUE)).orElse(Boolean.FALSE);
-    }
+    }*/
 }
