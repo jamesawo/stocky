@@ -52,9 +52,5 @@ public class SettingStockUsecase implements ISettingUsecase<SettingStock> {
             return updated == 1;
         }).orElse(false);
     }
-
-    /*public Boolean getAsBool(String key) {
-        Optional<SettingStock> settingStock = this.get(key);
-        return settingStock.map(value -> value.getSettingValue().equalsIgnoreCase(Setting.TRUE)).orElse(Boolean.FALSE);
-    }*/
+    
 }

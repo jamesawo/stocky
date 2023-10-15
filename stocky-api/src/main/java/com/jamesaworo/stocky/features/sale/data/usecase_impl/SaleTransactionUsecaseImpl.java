@@ -188,7 +188,8 @@ public class SaleTransactionUsecaseImpl implements SaleTransactionUsecase, Mappe
      * @param items The saved list of sale transaction item
      */
     private void deductProductQuantityAfterSales(List<SaleTransactionItem> items) {
-        if (!this.stockSetting.getAsBool(Setting.SETTING_STOCK_ENABLE_STOCK)) return;
+        Boolean asBool = this.stockSetting.getAsBool(Setting.SETTING_STOCK_ENABLE_STOCK);
+        if (!asBool) return;
 
         for (SaleTransactionItem item : items) {
             Optional<SaleTransactionItem> optionalItem = this.itemUsecase.find(item.getId());
