@@ -101,7 +101,8 @@ public class ProductUsecaseImpl implements IProductUsecase {
     public void deductProductQuantityAfterSales(Product product, Integer deductBy) {
         Optional<Product> optionalProduct = this.findById(product.getId());
         optionalProduct.ifPresent(exitingProduct -> {
-            if (exitingProduct.getBasic().getQuantity() >= deductBy) {
+            Integer quantity = exitingProduct.getBasic().getQuantity();
+            if (!isEmpty(quantity) && quantity >= deductBy) {
                 updateQuantity(exitingProduct, deductBy, DECREMENT);
             }
         });

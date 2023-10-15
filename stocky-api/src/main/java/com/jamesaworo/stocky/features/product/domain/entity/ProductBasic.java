@@ -58,5 +58,6 @@ public class ProductBasic extends BaseModel {
     private Boolean isService;
     private Integer minAgeLimit;
     private Integer lowStockPoint;
-    private Integer quantity;
+    @Column(columnDefinition = "integer default 0")
+    private Integer quantity = 0;
 }
