@@ -154,6 +154,11 @@ public class StockInteractor implements IStockInteractor {
         return null;
     }
 
+    @Override
+    public ResponseEntity<PageSearchResult<StockCounterResponse>> countStock(StockCounterRequest request) {
+        return null;
+    }
+
 
     /**
      * Converts a Stock model object to a StockRequest object.

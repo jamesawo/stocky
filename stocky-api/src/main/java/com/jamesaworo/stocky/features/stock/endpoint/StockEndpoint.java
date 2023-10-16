@@ -10,6 +10,8 @@ package com.jamesaworo.stocky.features.stock.endpoint;
 import com.jamesaworo.stocky.core.params.PageSearchRequest;
 import com.jamesaworo.stocky.core.params.PageSearchResult;
 import com.jamesaworo.stocky.features.stock.data.interactor.contract.IStockInteractor;
+import com.jamesaworo.stocky.features.stock.data.request.StockCounterRequest;
+import com.jamesaworo.stocky.features.stock.data.request.StockCounterResponse;
 import com.jamesaworo.stocky.features.stock.data.request.StockRequest;
 import com.jamesaworo.stocky.features.stock.data.request.StockSearchRequest;
 import lombok.RequiredArgsConstructor;
@@ -46,5 +48,10 @@ public class StockEndpoint {
             @RequestParam(value = "term") String term
     ) {
         return this.interactor.search(term);
+    }
+
+    @PostMapping(value = "/count-stock")
+    public ResponseEntity<PageSearchResult<StockCounterResponse>> countStock(@RequestBody StockCounterRequest request) {
+        return this.interactor.countStock(request);
     }
 }
