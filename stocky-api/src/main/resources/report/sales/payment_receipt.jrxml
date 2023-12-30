@@ -282,7 +282,7 @@
 				<textFieldExpression><![CDATA["Grand Total:  "+ $P{amountTotal}]]></textFieldExpression>
 			</textField>
 		</band>
-		<band height="73" splitType="Stretch">
+		<band height="74" splitType="Stretch">
 			<frame>
 				<reportElement x="1" y="8" width="204" height="49" uuid="82157688-4fe7-421d-a963-8995049f4696"/>
 				<box>
@@ -323,7 +323,7 @@
 					<textFieldExpression><![CDATA[$P{receiptDate}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="2" y="13" width="78" height="12" uuid="b9527d9c-9aed-4ebf-9026-a4648af3babf">
+					<reportElement x="2" y="37" width="78" height="12" uuid="b9527d9c-9aed-4ebf-9026-a4648af3babf">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<box leftPadding="2">
@@ -338,7 +338,7 @@
 					<text><![CDATA[Customer:]]></text>
 				</staticText>
 				<textField textAdjust="StretchHeight">
-					<reportElement x="80" y="13" width="121" height="12" uuid="30b38362-059b-4748-9ba1-201fc4bee973"/>
+					<reportElement stretchType="ContainerHeight" x="80" y="37" width="121" height="12" uuid="30b38362-059b-4748-9ba1-201fc4bee973"/>
 					<box leftPadding="4">
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -351,7 +351,7 @@
 					<textFieldExpression><![CDATA[$P{receiptCustomer}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="2" y="37" width="78" height="12" uuid="65230960-8ccd-4fd3-badd-6a19daf10b3f">
+					<reportElement x="2" y="25" width="78" height="12" uuid="65230960-8ccd-4fd3-badd-6a19daf10b3f">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<box leftPadding="2">
@@ -366,7 +366,7 @@
 					<text><![CDATA[Payment Mode:]]></text>
 				</staticText>
 				<textField textAdjust="StretchHeight">
-					<reportElement x="80" y="37" width="121" height="12" uuid="da7d737b-50cb-49de-b47b-0092894ca08b"/>
+					<reportElement x="80" y="25" width="121" height="12" uuid="da7d737b-50cb-49de-b47b-0092894ca08b"/>
 					<box leftPadding="4">
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -379,7 +379,7 @@
 					<textFieldExpression><![CDATA[$P{receiptPaymentMethod}]]></textFieldExpression>
 				</textField>
 				<textField textAdjust="StretchHeight">
-					<reportElement x="80" y="25" width="121" height="12" uuid="fcd3efe9-de7b-4a54-aded-ff5af6f12631"/>
+					<reportElement x="80" y="13" width="121" height="12" uuid="fcd3efe9-de7b-4a54-aded-ff5af6f12631"/>
 					<box leftPadding="4">
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -392,7 +392,7 @@
 					<textFieldExpression><![CDATA[$P{supportStaff}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="2" y="25" width="78" height="12" uuid="f8f11b26-b557-49cb-88c9-59a1d9c5e3d9">
+					<reportElement x="2" y="13" width="78" height="12" uuid="f8f11b26-b557-49cb-88c9-59a1d9c5e3d9">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<box leftPadding="2">

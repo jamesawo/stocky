@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {PageResultPayload, PageSearchPayload} from '../../../data/payload/common.interface';
+import {CustomerNotifier, PageResultPayload, PageSearchPayload} from '../../../data/payload/common.interface';
 import {CustomerPayload, CustomerSearchPayload} from '../_data/company.payload';
 
 @Injectable({providedIn: 'root'})
@@ -11,9 +11,13 @@ export class PeopleCustomerUsecase {
     public trigger: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public trigger$: Observable<boolean> = this.trigger.asObservable();
 
+    public customer: BehaviorSubject<CustomerNotifier> = new BehaviorSubject({});
+    public customer$: Observable<CustomerNotifier> = this.customer.asObservable();
+
     private url = environment.api.baseUrl + '/company/customer';
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {
+    }
 
 
     public save(payload: CustomerPayload) {
@@ -33,5 +37,12 @@ export class PeopleCustomerUsecase {
         this.trigger.next(value);
     }
 
+    public setCustomer(value: CustomerNotifier) {
+        if (value && value.customer && value.customer.id) {
+            this.customer.next(value);
+        } else {
+            this.customer.next({});
+        }
+    }
 
 }

@@ -22,8 +22,8 @@ export enum TableButtonEnum {
 }
 
 export enum CustomerTagEnum {
-    ROOKIE = 'ROOKIE',
-    PREMIUM = 'PREMIUM',
+    NEW = 'NEW',
+    OLD = 'OLD',
     VIP = 'VIP'
 }
 
