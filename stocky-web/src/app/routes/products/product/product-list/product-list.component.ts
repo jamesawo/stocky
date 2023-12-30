@@ -7,7 +7,11 @@ import {catchError, firstValueFrom, Observable, of} from 'rxjs';
 import {PRODUCT_LIST_CRUMBS} from 'src/app/data/constant/crumb.constant';
 import {PageSearchPayload, UploadComponentInput} from 'src/app/data/payload/common.interface';
 import {PagePayload} from 'src/app/data/payload/common.payload';
-import {ProductPayload, ProductSearchRequestPayload, ProductTaxPayload} from 'src/app/routes/products/_data/product.payload';
+import {
+    ProductPayload,
+    ProductSearchRequestPayload,
+    ProductTaxPayload
+} from 'src/app/routes/products/_data/product.payload';
 import {ProductUsecase} from 'src/app/routes/products/_usecase/product.usecase';
 import {FileConstant} from '../../../../data/constant/file.constant';
 import {FileMimeType, FileTemplate, FileType, ModalOrDrawer} from '../../../../data/payload/common.enum';
@@ -62,9 +66,11 @@ export class ProductListComponent {
         private uploadService: UploadImportService,
         private cdr: ChangeDetectorRef,
         private util: UtilService
-    ) {}
+    ) {
+    }
 
-    public onCancelHandler = () => {};
+    public onCancelHandler = () => {
+    };
 
     public onToggleCreateProductDrawer = async (product?: ProductPayload): Promise<void> => {
         if (product && product.id) {

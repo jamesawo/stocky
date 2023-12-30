@@ -19,16 +19,16 @@ export type TableProps = {
     templateUrl: './table.component.html',
     styles: [
         `.table-container {
-          width: 100%;
-          overflow-x: auto; /* Add horizontal scrollbar when content exceeds width */
+            width: 100%;
+            overflow-x: auto; /* Add horizontal scrollbar when content exceeds width */
         }
 
         .nowrap-cell {
-          white-space: nowrap;
+            white-space: nowrap;
         }
 
         th.no-wrap {
-          white-space: nowrap;
+            white-space: nowrap;
         }
 
         `

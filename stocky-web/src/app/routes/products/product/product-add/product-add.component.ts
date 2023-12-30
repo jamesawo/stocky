@@ -30,7 +30,7 @@ export class ProductAddComponent implements OnInit {
     public startPoint = 0;
     public isLoading = false;
 
-    public tabs?: {title: string; template: TemplateRef<any>}[];
+    public tabs?: { title: string; template: TemplateRef<any> }[];
     public crumbs = PRODUCT_ADD_CRUMBS;
     public popover = ProductPopover;
     public form!: FormGroup;
@@ -48,7 +48,8 @@ export class ProductAddComponent implements OnInit {
         private usecase: ProductUsecase,
         private settingUsecase: SettingUsecase,
         private util: UtilService
-    ) {}
+    ) {
+    }
 
     public ngOnInit(): void {
         this.tabs = [
@@ -88,7 +89,7 @@ export class ProductAddComponent implements OnInit {
             basic: this.fb.group({
                 productCategory: [basic?.productCategory ?? null, [Validators.required]],
                 unitOfMeasure: [basic?.unitOfMeasure ?? null, [Validators.required]],
-                status: [basic?.status ?? null, [Validators.required]],
+                status: [basic?.status ?? null, []],
                 isActive: [basic?.isActive ?? true, [Validators.required]],
                 useQuantity: [basic?.useQuantity ?? true, [Validators.required]],
                 isService: [basic?.isService ?? false, [Validators.required]],
