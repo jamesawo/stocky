@@ -24,8 +24,8 @@ public class ReportConstant {
     public static final String NO_CATEGORY_EXISTS = "No product category with this name ( %s ) exists";
     public static final String ROW_EMPTY = "No value provided in the row";
     public static final String DONT_EXIST = " does not exist in our records";
-    public static final String RECEIPT_DISCLAIMER = "GOODS BOUGHT IN GOOD CONDITION ARE NONRETURNABLE. THANK YOU FOR YOUR PATRONAGE";
-    public static final String RECEIPT_FOOTER = "Powered by @Stocky | www.stocky-pos.com";
+    public static final String RECEIPT_DISCLAIMER = "All purchased items are nonreturnable, Thank you for your business!";
+    public static final String RECEIPT_FOOTER = "";
     public static final String SALES_REPORT_TITLE = "DAILY SALES COLLECTION REPORT";
     public static final String RECEIPT_NOT_FOUND = "Receipt not found, Invalid details supplied";
     public static final String REPORT_FILE_NAME = "inline; filename=\"Report.pdf\"";
