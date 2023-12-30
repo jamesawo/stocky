@@ -56,6 +56,4 @@ export class SalesProductSearchAndSelectionComponent implements OnInit {
             this.isListView = true;
         }
     }
-
-
 }

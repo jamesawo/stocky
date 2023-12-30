@@ -37,7 +37,6 @@ public class PermissionSeeder {
             runStockPermissionSeeder();
             runSeedRole();
         }
-
     }
 
     private void runAuthenticationSeeder() {
