@@ -31,7 +31,8 @@ export class SalesProductListComponent implements OnInit, OnDestroy {
         private saleCartUsecase: SaleCartUsecase,
         private msg: NzMessageService,
         private util: UtilService
-    ) {}
+    ) {
+    }
 
     public ngOnInit(): void {
         this.sub.add(
@@ -84,9 +85,9 @@ export class SalesProductListComponent implements OnInit, OnDestroy {
     }
 
     private onNotifyChange(type: SaleCartNotifyType) {
-        if (type && type == SaleCartNotifyType.CLEAR_PRODUCT_RESULT) {
+        if (type && type === SaleCartNotifyType.CLEAR_PRODUCT_RESULT) {
+            this.saleCartUsecase.setNotifyType(SaleCartNotifyType.NONE);
             this.products = [];
         }
     }
-
 }

@@ -13,9 +13,10 @@ export class SalesProductSelectionComponent {
     public isSearching = false;
 
     @Input()
-    public type: SaleProductSearchDisplayView = SaleProductSearchDisplayView.grid;
+    public type: SaleProductSearchDisplayView = SaleProductSearchDisplayView.list;
 
-    constructor(private saleProductUsecase: SaleProductsUsecase) {}
+    constructor(private saleProductUsecase: SaleProductsUsecase) {
+    }
 
     ngOnInit() {
         this.saleProductUsecase.searching$.subscribe(val => this.isSearching = val);

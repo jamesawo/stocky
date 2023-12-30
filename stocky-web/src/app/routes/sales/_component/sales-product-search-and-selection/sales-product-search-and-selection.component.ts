@@ -15,7 +15,8 @@ export class SalesProductSearchAndSelectionComponent implements OnInit {
     public isListView = false;
     public lowStockVisibility = true;
 
-    constructor(private cartUsecase: SaleCartUsecase, private util: UtilService) {}
+    constructor(private cartUsecase: SaleCartUsecase, private util: UtilService) {
+    }
 
     public ngOnInit(): void {
         this.getPreference();
@@ -27,7 +28,7 @@ export class SalesProductSearchAndSelectionComponent implements OnInit {
     };
 
     public handleClearSearchResult = () => {
-        this.cartUsecase.notifyType.next(SaleCartNotifyType.CLEAR_PRODUCT_RESULT);
+        this.cartUsecase.setNotifyType(SaleCartNotifyType.CLEAR_PRODUCT_RESULT);
     };
 
     public toggleView = () => {
