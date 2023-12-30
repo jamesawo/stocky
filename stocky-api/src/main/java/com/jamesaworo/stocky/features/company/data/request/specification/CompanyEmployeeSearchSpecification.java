@@ -32,92 +32,92 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @Component
 public class CompanyEmployeeSearchSpecification {
 
-	private static Root<CompanyEmployee> mainRoot;
+    private static Root<CompanyEmployee> mainRoot;
 
-	public static Specification<CompanyEmployee> companyEmployeeSpecification(CompanyEmployeeSearchRequest request) {
+    public static Specification<CompanyEmployee> companyEmployeeSpecification(CompanyEmployeeSearchRequest request) {
 
-		return (root, criteriaQuery, criteriaBuilder) -> {
+        return (root, criteriaQuery, criteriaBuilder) -> {
 
-			mainRoot = root;
-			List<Predicate> predicates = new ArrayList<>();
+            mainRoot = root;
+            List<Predicate> predicates = new ArrayList<>();
 
-			// full name
-			if (!isEmpty(request) && !isEmpty(request.getEmployeeFullName())) {
-				predicates.addAll(fullNamePredicates(criteriaBuilder, request.getEmployeeFullName()));
-			}
+            // full name
+            if (!isEmpty(request) && !isEmpty(request.getEmployeeFullName())) {
+                predicates.addAll(fullNamePredicates(criteriaBuilder, request.getEmployeeFullName()));
+            }
 
-			//  phone
-			if (!isEmpty(request) && !isEmpty(request.getEmployeePhoneNumber())) {
-				predicates.add(phoneNumberPredicate(criteriaBuilder, request.getEmployeePhoneNumber()));
-			}
+            //  phone
+            if (!isEmpty(request) && !isEmpty(request.getEmployeePhoneNumber())) {
+                predicates.add(phoneNumberPredicate(criteriaBuilder, request.getEmployeePhoneNumber()));
+            }
 
-			//  email
-			if (!isEmpty(request) && !isEmpty(request.getEmployeeEmail())) {
-				predicates.add(emailPredicate(criteriaBuilder, request.getEmployeeEmail()));
-			}
+            //  email
+            if (!isEmpty(request) && !isEmpty(request.getEmployeeEmail())) {
+                predicates.add(emailPredicate(criteriaBuilder, request.getEmployeeEmail()));
+            }
 
-			// date range
-			if (!isEmpty(request) && !isEmpty(request.getDateRangeParam())) {
-				predicates.addAll(dateRangeParamPredicates(criteriaBuilder, request.getDateRangeParam(), mainRoot));
-			}
+            // date range
+            if (!isEmpty(request) && !isEmpty(request.getDateRangeParam())) {
+                predicates.addAll(dateRangeParamPredicates(criteriaBuilder, request.getDateRangeParam(), mainRoot));
+            }
 
-			// role
-			if (!isEmpty(request) && !isEmpty(request.getRoles())) {
-				predicates.add(joinOnRolePredicate(criteriaBuilder, request.getRoles()));
-			}
+            // role
+            if (!isEmpty(request) && !isEmpty(request.getRoles())) {
+                predicates.add(joinOnRolePredicate(criteriaBuilder, request.getRoles()));
+            }
 
-			// registered by
-			{
-				if (!isEmpty(request) && !isEmpty(request.getRegisteredBy())) {
-					predicates.add(SearchPredicates.createdByPredicate(criteriaBuilder, request.getRegisteredBy(), mainRoot));
-				}
-			}
+            // registered by
+            {
+                if (!isEmpty(request) && !isEmpty(request.getRegisteredBy())) {
+                    predicates.add(SearchPredicates.createdByPredicate(criteriaBuilder, request.getRegisteredBy(), mainRoot));
+                }
+            }
 
-			// is active record
-			if (!isEmpty(request.getIsActiveStatus())) {
-				predicates.addAll(activeRecordPredicate(criteriaBuilder, request.getIsActiveStatus(), mainRoot));
-			}
+            // is active record
+            if (!isEmpty(request.getIsActiveStatus())) {
+                predicates.addAll(activeRecordPredicate(criteriaBuilder, request.getIsActiveStatus(), mainRoot));
+            }
 
-			return criteriaBuilder.and(predicates.toArray(new Predicate[] { }));
-		};
-	}
+            return criteriaBuilder.and(predicates.toArray(new Predicate[]{}));
+        };
+    }
 
 
-	private static Predicate joinOnRolePredicate(CriteriaBuilder criteriaBuilder, List<RoleRequest> roles) {
-		Join<CompanyEmployee, User> userJoin = mainRoot.join("accountDetail");
-		Join<User, Role> roleJoin = userJoin.join("roles");
+    private static Predicate joinOnRolePredicate(CriteriaBuilder criteriaBuilder, List<RoleRequest> roles) {
+        Join<CompanyEmployee, User> userJoin = mainRoot.join("accountDetail");
+        Join<User, Role> roleJoin = userJoin.join("roles");
 
-		List<Long> rolesId = roles.stream().map(RoleRequest::getId).collect(Collectors.toList());
-		return roleJoin.get("id").in(rolesId);
-	}
+        List<Long> rolesId = roles.stream().map(RoleRequest::getId).collect(Collectors.toList());
+        return roleJoin.get("id").in(rolesId);
+    }
 
-	private static List<Predicate> fullNamePredicates(CriteriaBuilder criteriaBuilder, String fullName) {
-		List<Predicate> predicates = new ArrayList<>();
-		Predicate firstNamePredicate = firstNamePredicate(criteriaBuilder, fullName);
-		Predicate lastNamePredicate = lastNamePredicate(criteriaBuilder, fullName);
-		predicates.add(criteriaBuilder.or(firstNamePredicate, lastNamePredicate));
-		return predicates;
-	}
+    private static List<Predicate> fullNamePredicates(CriteriaBuilder criteriaBuilder, String fullName) {
+        List<Predicate> predicates = new ArrayList<>();
+        Predicate firstNamePredicate = firstNamePredicate(criteriaBuilder, fullName);
+        Predicate lastNamePredicate = lastNamePredicate(criteriaBuilder, fullName);
+        predicates.add(criteriaBuilder.or(firstNamePredicate, lastNamePredicate));
+        return predicates;
+    }
 
-	private static Predicate firstNamePredicate(CriteriaBuilder criteriaBuilder, String name) {
-		Join<CompanyEmployee, CompanyEmployeePersonalDetail> join = mainRoot.join("personalDetail");
-		return criteriaBuilder.like(criteriaBuilder.lower(join.get("employeeFirstName")), "%" + name + "%");
-	}
+    private static Predicate firstNamePredicate(CriteriaBuilder criteriaBuilder, String name) {
+        Join<CompanyEmployee, CompanyEmployeePersonalDetail> join = mainRoot.join("personalDetail");
+        return criteriaBuilder.like(criteriaBuilder.lower(join.get("employeeFirstName")), "%" + name.toLowerCase() + "%");
+    }
 
-	private static Predicate lastNamePredicate(CriteriaBuilder criteriaBuilder, String name) {
-		Join<CompanyEmployee, CompanyEmployeePersonalDetail> join = mainRoot.join("personalDetail");
-		return criteriaBuilder.like(criteriaBuilder.lower(join.get("employeeLastName")), "%" + name + "%");
-	}
+    private static Predicate lastNamePredicate(CriteriaBuilder criteriaBuilder, String name) {
+        Join<CompanyEmployee, CompanyEmployeePersonalDetail> join = mainRoot.join("personalDetail");
+        return criteriaBuilder.like(criteriaBuilder.lower(join.get("employeeLastName")), "%" + name.toLowerCase() + "%");
+    }
 
-	private static Predicate phoneNumberPredicate(CriteriaBuilder criteriaBuilder, String search) {
-		Join<CompanyEmployee, CompanyEmployeePersonalDetail> join = mainRoot.join("personalDetail");
-		return criteriaBuilder.like(criteriaBuilder.lower(join.get("employeePhone")), "%" + search + "%");
-	}
+    private static Predicate phoneNumberPredicate(CriteriaBuilder criteriaBuilder, String search) {
+        Join<CompanyEmployee, CompanyEmployeePersonalDetail> join = mainRoot.join("personalDetail");
+        return criteriaBuilder.like(criteriaBuilder.lower(join.get("employeePhone")), "%" + search + "%");
+    }
 
-	private static Predicate emailPredicate(CriteriaBuilder criteriaBuilder, String search) {
-		Join<CompanyEmployee, CompanyEmployeePersonalDetail> join = mainRoot.join("personalDetail");
-		return criteriaBuilder.like(criteriaBuilder.lower(join.get("employeeEmail")), "%" + search + "%");
-	}
+    private static Predicate emailPredicate(CriteriaBuilder criteriaBuilder, String search) {
+        Join<CompanyEmployee, CompanyEmployeePersonalDetail> join = mainRoot.join("personalDetail");
+        return criteriaBuilder.like(criteriaBuilder.lower(join.get("employeeEmail")), "%" + search + "%");
+    }
 
 
 }
