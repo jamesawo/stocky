@@ -27,6 +27,7 @@ public class ReportConstant {
     public static final String RECEIPT_DISCLAIMER = "All purchased items are nonreturnable, Thank you for your business!";
     public static final String RECEIPT_FOOTER = "";
     public static final String SALES_REPORT_TITLE = "DAILY SALES COLLECTION REPORT";
+    public static final String SALES_COLLECTION_REPORT_TITLE = "SALES COLLECTION REPORT";
     public static final String RECEIPT_NOT_FOUND = "Receipt not found, Invalid details supplied";
     public static final String REPORT_FILE_NAME = "inline; filename=\"Report.pdf\"";
     public static final String RECEIPT_FILE_NAME = "inline; filename=\"Receipt.pdf\"";
