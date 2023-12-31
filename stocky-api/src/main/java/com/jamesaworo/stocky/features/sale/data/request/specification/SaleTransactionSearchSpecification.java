@@ -7,8 +7,10 @@
 
 package com.jamesaworo.stocky.features.sale.data.request.specification;
 
+import com.jamesaworo.stocky.core.params.DateRangeParam;
 import com.jamesaworo.stocky.features.company.data.request.CompanyCustomerRequest;
 import com.jamesaworo.stocky.features.company.domain.entity.CompanyCustomer;
+import com.jamesaworo.stocky.features.report.data.request.DailSaleCollectionRequest;
 import com.jamesaworo.stocky.features.sale.data.request.SaleTransactionInstallmentRequest;
 import com.jamesaworo.stocky.features.sale.domain.entity.SaleTransaction;
 import com.jamesaworo.stocky.features.sale.domain.entity.SaleTransactionInstallment;
@@ -84,6 +86,24 @@ public class SaleTransactionSearchSpecification {
         };
     }
 
+
+    public static Specification<SaleTransaction> salesReportSpecification(DailSaleCollectionRequest request) {
+        return (root, criteriaQuery, criteriaBuilder) -> {
+            mainRoot = root;
+            List<Predicate> predicates = new ArrayList<>();
+
+            // date range
+            if (!isEmpty(request) && !isEmpty(request.getStartDate()) && !isEmpty(request.getEndDate())) {
+                predicates.addAll(dateRangeParamPredicates(
+                        criteriaBuilder,
+                        new DateRangeParam(request.getStartDate(), request.getEndDate()),
+                        mainRoot)
+                );
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[]{}));
+        };
+    }
 
     private static void referenceAndSerialPredicate(List<Predicate> predicates, SaleTransactionSearchRequest request, CriteriaBuilder criteriaBuilder) {
         Predicate productNamePredicate = referencePredicate(criteriaBuilder, request.getReference());

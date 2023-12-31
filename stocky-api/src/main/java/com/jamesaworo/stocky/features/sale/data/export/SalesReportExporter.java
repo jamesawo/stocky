@@ -25,7 +25,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.jamesaworo.stocky.core.utils.Util.formatAmount;
-import static com.jamesaworo.stocky.features.sale.data.enums.SaleReportFileEnum.SALE_REPORT;
+import static com.jamesaworo.stocky.features.sale.data.enums.SaleReportFileEnum.SALE_SHIFT_REPORT;
 import static com.jamesaworo.stocky.features.sale.data.request.report.SaleTransactionDailyReportData.mapFromTransaction;
 import static java.lang.String.valueOf;
 
@@ -38,7 +38,7 @@ public class SalesReportExporter implements DataExporter<byte[], List<SaleTransa
     @Override
     public byte[] export(List<SaleTransaction> data) {
         HashMap<String, Object> map = getReportParamMap(data);
-        return ExportUtil.generatePDFBytes(map, SALE_REPORT.asInputStream(), new JREmptyDataSource());
+        return ExportUtil.generatePDFBytes(map, SALE_SHIFT_REPORT.asInputStream(), new JREmptyDataSource());
     }
 
     private HashMap<String, Object> getReportParamMap(List<SaleTransaction> data) {
