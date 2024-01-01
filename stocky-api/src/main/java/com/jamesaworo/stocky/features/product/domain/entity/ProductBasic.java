@@ -60,4 +60,8 @@ public class ProductBasic extends BaseModel {
     private Integer lowStockPoint;
     @Column(columnDefinition = "integer default 0")
     private Integer quantity = 0;
+
+    public String title() {
+        return String.format("%s %s", this.productName, this.brandName);
+    }
 }
