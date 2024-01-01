@@ -10,7 +10,7 @@ package com.jamesaworo.stocky.features.sale.data.request.specification;
 import com.jamesaworo.stocky.core.params.DateRangeParam;
 import com.jamesaworo.stocky.features.company.data.request.CompanyCustomerRequest;
 import com.jamesaworo.stocky.features.company.domain.entity.CompanyCustomer;
-import com.jamesaworo.stocky.features.report.data.request.DailSaleCollectionRequest;
+import com.jamesaworo.stocky.features.report.data.request.SaleReportRequest;
 import com.jamesaworo.stocky.features.sale.data.request.SaleTransactionInstallmentRequest;
 import com.jamesaworo.stocky.features.sale.domain.entity.SaleTransaction;
 import com.jamesaworo.stocky.features.sale.domain.entity.SaleTransactionInstallment;
@@ -87,7 +87,7 @@ public class SaleTransactionSearchSpecification {
     }
 
 
-    public static Specification<SaleTransaction> salesReportSpecification(DailSaleCollectionRequest request) {
+    public static Specification<SaleTransaction> salesReportSpecification(SaleReportRequest request) {
         return (root, criteriaQuery, criteriaBuilder) -> {
             mainRoot = root;
             List<Predicate> predicates = new ArrayList<>();
