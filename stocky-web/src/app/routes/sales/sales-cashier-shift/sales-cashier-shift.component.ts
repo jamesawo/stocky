@@ -2,7 +2,9 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {firstValueFrom, Subscription} from 'rxjs';
 import {EmployeeUserAccountPayload} from '../../company/_data/company.payload';
 import {PassportUsecase} from '../../passport/authentication/_usecase/passport.usecase';
-import {SalesTransactionReceiptViewerComponent} from '../_component/sales-transaction-receipt-viewer/sales-transaction-receipt-viewer.component';
+import {
+    SalesTransactionReceiptViewerComponent
+} from '../_component/sales-transaction-receipt-viewer/sales-transaction-receipt-viewer.component';
 import {SaleTransactionSearchRequest} from '../_data/sale-transaction.payload';
 import {SaleTransactionReportUsecase} from '../_usecase/sale-transaction-report.usecase';
 
@@ -20,7 +22,8 @@ export class SalesCashierShiftComponent implements OnInit, OnDestroy {
     public searchPayload: any = {};
     public isDateInvalid: boolean = false;
     public reportData?: ArrayBuffer;
-    searchBy: any;
+    public searchBy: any;
+    public username? = '';
     private sub = new Subscription();
 
     constructor(
@@ -55,14 +58,14 @@ export class SalesCashierShiftComponent implements OnInit, OnDestroy {
         searchRequest.date = this.date;
 
         searchRequest.user = new EmployeeUserAccountPayload();
+        this.username = this.passportService.getLoggedInUsername();
         searchRequest.user.username = this.passportService.getLoggedInUsername();
 
         const data = await firstValueFrom(this.reportUsecase.searchTransactionReport(searchRequest));
-        this.displayReportData(data);
+        this.displayReportData(data)
     }
 
     onSearchByChange(value: any) {
-
     }
 
     private displayReportData(data: ArrayBuffer) {

@@ -1,6 +1,7 @@
 <page-header [breadcrumb]="breadCrumbTmpl" [content]="content">
     <ng-template #breadCrumbTmpl></ng-template>
     <ng-template #content>
+
         <div class="ph-main m-t-1em" nz-col nzSpan="24">
             <div [nzGutter]="[16, 16]" nz-row>
 
@@ -22,8 +23,9 @@
                 -->
 
                 <div [nzLg]="16" [nzXs]="24" class="m-t-sm-1em" nz-col>
-                    <nz-form-label [nzNoColon]="false" nzFor="billNumber">Date</nz-form-label>
-                    <app-date-picker (selectChange)="onDateSelected($event)" [hasError]="isDateInvalid"></app-date-picker>
+                    <nz-form-label [nzNoColon]="false">Date</nz-form-label>
+                    <app-date-picker (selectChange)="onDateSelected($event)"
+                                     [hasError]="isDateInvalid"></app-date-picker>
 
                 </div>
 
