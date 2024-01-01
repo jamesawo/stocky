@@ -17,12 +17,12 @@ export class SalesPosComponent implements CanComponentDeactivate, OnInit {
     constructor(
         private cartUsecase: SaleCartUsecase,
         private modalService: NzModalService
-    ) {}
+    ) {
+    }
 
     ngOnInit() {
         this.cartUsecase.cart$.subscribe(cart => this.cart = cart);
     }
-
 
     canDeactivate(): Observable<boolean> {
         let canDeactivate = new Subject<boolean>();

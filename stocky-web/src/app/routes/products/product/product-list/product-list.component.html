@@ -16,13 +16,15 @@
                 <div nz-col nzSpan="24">
                     <div [nzGutter]="[12, 16]" nz-row>
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
-                            <app-product-category-search [(selected)]="searchPayload.category"></app-product-category-search>
+                            <app-product-category-search
+                                [(selected)]="searchPayload.category"></app-product-category-search>
                         </div>
 
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Name</nz-form-label>
-                                <input [(ngModel)]="searchPayload.productName" name="productName" nz-input placeholder="Enter product name"
+                                <input [(ngModel)]="searchPayload.productName" name="productName" nz-input
+                                       placeholder="Enter product name"
                                        type="text"/>
                             </nz-form-item>
                         </div>
@@ -30,7 +32,8 @@
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Brand</nz-form-label>
-                                <input [(ngModel)]="searchPayload.brandName" name="productBrand" nz-input placeholder="Enter product brand"
+                                <input [(ngModel)]="searchPayload.brandName" name="productBrand" nz-input
+                                       placeholder="Enter product brand"
                                        type="text"/>
                             </nz-form-item>
                         </div>
@@ -40,14 +43,16 @@
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Tax</nz-form-label>
-                                <app-product-tax-dropdown [(value)]="searchPayload.taxes" class="wd-100p"></app-product-tax-dropdown>
+                                <app-product-tax-dropdown [(value)]="searchPayload.taxes"
+                                                          class="wd-100p"></app-product-tax-dropdown>
                             </nz-form-item>
                         </div>
 
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Sku</nz-form-label>
-                                <input [(ngModel)]="searchPayload.sku" name="productSku" nz-input placeholder="Enter product SKU" type="text"/>
+                                <input [(ngModel)]="searchPayload.sku" name="productSku" nz-input
+                                       placeholder="Enter product SKU" type="text"/>
                             </nz-form-item>
                         </div>
 
@@ -81,7 +86,8 @@
                     <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" class="text-align-end" nz-col>
                         <nz-space nzSize="small">
 
-                            <app-button *nzSpaceItem [props]="{title: 'Add', icon: 'plus', handler: onToggleCreateProductDrawer}"></app-button>
+                            <app-button *nzSpaceItem
+                                        [props]="{title: 'Add', icon: 'plus', handler: onToggleCreateProductDrawer}"></app-button>
 
                             <app-export-upload-button
                                 *nzSpaceItem [onDownload]="handleExportData" [onUpload]="handleUpload"
@@ -111,8 +117,8 @@
         actionIconsTmpl, categoryTmpl, prodNameTmpl,
         brandNameTmpl, costPriceTmpl,marginPriceTmpl,
         sellingPriceTmpl, discountTmpl, skuTmpl,
-        quantityTmpl, typeTmpl, statusTmpl,
-        taxesTmpl, dateTmpl]"
+        quantityTmpl, typeTmpl,
+        taxesTmpl, statusTmpl, dateTmpl]"
     ></app-table>
 </nz-card>
 
@@ -182,12 +188,12 @@
     <app-table-item [content]="item.basic.isService === true ? 'SERVICE' : 'PRODUCT'"></app-table-item>
 </ng-template>
 
-<ng-template #statusTmpl let-item="item">
+<ng-template #taxesTmpl let-item="item">
     <app-table-item [content]="concatProductTax(item.basic.taxes)"></app-table-item>
 </ng-template>
 
-<ng-template #taxesTmpl let-item="item">
-    <app-table-item [content]="item.basic.status.title"></app-table-item>
+<ng-template #statusTmpl let-item="item">
+    <app-table-item [content]="item.basic.status?.title"></app-table-item>
 </ng-template>
 
 <ng-template #dateTmpl let-item="item">
@@ -219,6 +225,7 @@
 <ng-template #contentFooterBtnTmpl>
     <div class="fl">
         <button (click)="showDrawer = !showDrawer" nz-button nzType="default">Cancel</button>
-        <button (click)="callComponentCreateHandler()" [nzLoading]="isLoading" nz-button nzType="primary">Submit</button>
+        <button (click)="callComponentCreateHandler()" [nzLoading]="isLoading" nz-button nzType="primary">Submit
+        </button>
     </div>
 </ng-template>

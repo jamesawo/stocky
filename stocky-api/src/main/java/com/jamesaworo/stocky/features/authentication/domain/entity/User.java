@@ -41,9 +41,10 @@ public class User extends BaseModel {
     @Column(nullable = false, unique = true, updatable = false)
     private String username;
 
-    // Todo - Refactor,
-    //  Name is already present in CompanyEmployee record,
-    //  there remove name from user.
+    /* Todo - Refactor, Name is already present in CompanyEmployee record,
+        therefore remove name from user.
+     */
+    @Deprecated
     private String name;
 
     @Column(nullable = false)

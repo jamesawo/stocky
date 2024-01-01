@@ -10,12 +10,11 @@ import {SaleProductsUsecase} from '../../_usecase/sale-products.usecase';
 })
 export class SalesProductSearchComponent implements OnInit, OnDestroy {
     public isLoading = false;
-
     private searchInput$: Subject<string> = new Subject<string>();
     private subscription: Subscription = new Subscription();
 
-
-    constructor(private saleProductUsecase: SaleProductsUsecase) {}
+    constructor(private saleProductUsecase: SaleProductsUsecase) {
+    }
 
     public onInput(event: Event): void {
         const value = (event.target as HTMLInputElement).value;

@@ -85,8 +85,10 @@
                                 [formProps]="{formGroup: getForm(), controlName: 'unitOfMeasure'}"
                             ></app-unit-of-measure-dropdown>
                         </div>
-                        <div nz-col nz-tooltip nzFlex="30px" nzTooltipPlacement="top" nzTooltipTitle="Update Unit of Measurements">
-                            <app-unit-of-measurement-add [showTable]="false" buttonText=""></app-unit-of-measurement-add>
+                        <div nz-col nz-tooltip nzFlex="30px" nzTooltipPlacement="top"
+                             nzTooltipTitle="Update Unit of Measurements">
+                            <app-unit-of-measurement-add [showTable]="false"
+                                                         buttonText=""></app-unit-of-measurement-add>
                         </div>
                     </div>
                 </nz-form-control>
@@ -94,7 +96,8 @@
 
             <nz-form-item>
                 <nz-form-label>
-                    <app-hint [props]="{title: 'HINT', content: 'Customer must be older than this age to purchase this item'}"></app-hint>
+                    <app-hint
+                        [props]="{title: 'HINT', content: 'Customer must be older than this age to purchase this item'}"></app-hint>
                     Age Restriction
                 </nz-form-label>
                 <nz-form-control
@@ -117,7 +120,8 @@
                     nzErrorTip=""
                     nzValidateStatus="success"
                 >
-                    <input formControlName="lowStockPoint" name="lowStockPoint" nz-input placeholder="Enter low stock point"/>
+                    <input formControlName="lowStockPoint" name="lowStockPoint" nz-input
+                           placeholder="Enter low stock point"/>
                 </nz-form-control>
             </nz-form-item>
 
@@ -139,10 +143,10 @@
                                 [formProps]="{formGroup: getForm(), controlName: 'status'}"
                             ></app-product-status-dropdown>
                         </div>
-                        <div nz-col nz-tooltip nzFlex="30px" nzTooltipPlacement="top" nzTooltipTitle="Update product status">
+                        <div nz-col nz-tooltip nzFlex="30px" nzTooltipPlacement="top"
+                             nzTooltipTitle="Update product status">
                             <app-product-status-add-btn [showTable]="false" buttonText=""></app-product-status-add-btn>
                         </div>
-
                     </div>
                 </nz-form-control>
             </nz-form-item>
@@ -156,7 +160,8 @@
                     nzErrorTip=""
                     nzValidateStatus="success"
                 >
-                    <nz-switch formControlName="isActive" nzCheckedChildren="ACTIVE" nzUnCheckedChildren="INACTIVE"></nz-switch>
+                    <nz-switch formControlName="isActive" nzCheckedChildren="ACTIVE"
+                               nzUnCheckedChildren="INACTIVE"></nz-switch>
                 </nz-form-control>
             </nz-form-item>
 
@@ -169,7 +174,8 @@
                     nzErrorTip=""
                     nzValidateStatus="success"
                 >
-                    <nz-switch formControlName="useQuantity" nzCheckedChildren="YES" nzUnCheckedChildren="NO"></nz-switch>
+                    <nz-switch formControlName="useQuantity" nzCheckedChildren="YES"
+                               nzUnCheckedChildren="NO"></nz-switch>
                 </nz-form-control>
             </nz-form-item>
 
@@ -219,7 +225,8 @@
                     nzErrorTip=""
                     nzValidateStatus="success"
                 >
-                    <textarea formControlName="description" nz-input placeholder="Enter a short product description" rows="4"></textarea>
+                    <textarea formControlName="description" nz-input placeholder="Enter a short product description"
+                              rows="4"></textarea>
                 </nz-form-control>
             </nz-form-item>
 

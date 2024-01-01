@@ -19,13 +19,16 @@ import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
 import static com.jamesaworo.stocky.core.constants.ReportConstant.*;
-import static com.jamesaworo.stocky.core.utils.Util.*;
+import static com.jamesaworo.stocky.core.utils.Util.formatAmount;
+import static com.jamesaworo.stocky.core.utils.Util.formatDate;
 import static com.jamesaworo.stocky.features.sale.data.enums.SaleReportFileEnum.SALE_RECEIPT;
 import static java.lang.String.format;
 import static org.springframework.util.ObjectUtils.isEmpty;
@@ -48,7 +51,7 @@ public class SalesReceiptExporter implements DataExporter<byte[], SaleTransactio
         map.put("supportStaff", !isEmpty(transaction.getCreatedBy()) ? getUserFullName(transaction.getCreatedBy()).toUpperCase() : EMPTY);
         map.put("receiptCustomer", !isEmpty(transaction.getCustomer()) ? transaction.getCustomer().getFullNameAndPhone().toUpperCase() : WALK_IN.toUpperCase());
         map.put("receiptSerial", transaction.getSerial().toUpperCase());
-        map.put("receiptDate", format("%s - %s", formatDate(transaction.getDate()), formatTime(transaction.getTime())).toUpperCase());
+        map.put("receiptDate", format("%s - %s", formatDate(transaction.getDate()), formatTimeOnlyHourMinute(transaction.getTime())).toUpperCase());
         map.put("receiptPaymentMethod", transaction.getPaymentOption().getTitle().toUpperCase());
         map.put("receiptDisclaimer", RECEIPT_DISCLAIMER);
         map.put("receiptItems", new JRBeanCollectionDataSource(getSalesReceiptItems(transaction)));
@@ -65,12 +68,16 @@ public class SalesReceiptExporter implements DataExporter<byte[], SaleTransactio
         if (!isEmpty(transaction) && !isEmpty(transaction.getItems())) {
             for (SaleTransactionItem item : transaction.getItems()) {
                 SaleReceiptItemRequest receiptItem = new SaleReceiptItemRequest();
+                receiptItem.setQuantity(item.getQuantity().toString());
+                receiptItem.setName(item.getProduct().getBasic().getProductName());
+                receiptItem.setPrice(formatAmount(item.getSubTotal()));
+                /*
                 receiptItem.setName(format("%s. %s @ %s",
                         item.getQuantity().toString(),
                         item.getProduct().getBasic().getProductName(),
                         currency() + formatAmount(item.getPrice()))
                 );
-                receiptItem.setPrice(formatAmount(item.getSubTotal()));
+                 */
                 list.add(receiptItem);
             }
         }
@@ -84,5 +91,10 @@ public class SalesReceiptExporter implements DataExporter<byte[], SaleTransactio
     private String getUserFullName(String username) {
         Optional<User> optionalUser = this.userUsecase.findByUsername(username);
         return optionalUser.map(User::getName).orElse(username);
+    }
+
+    private String formatTimeOnlyHourMinute(LocalTime time) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        return time.format(formatter);
     }
 }

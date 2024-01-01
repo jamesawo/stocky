@@ -23,4 +23,8 @@ export class SaleCartUsecase {
 
     }
 
+    public setNotifyType(value: SaleCartNotifyType) {
+        this.notifyType.next(value);
+    }
+
 }

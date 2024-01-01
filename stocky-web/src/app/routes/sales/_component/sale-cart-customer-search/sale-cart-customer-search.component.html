@@ -11,6 +11,7 @@
         <div nz-row nzGutter="4">
             <div nz-col nzFlex="auto">
                 <app-search-model-dropdown
+                    #searchModelDropdownComponent
                     (valueChange)="onCustomerSelected($event)"
                     [minLength]="3"
                     [optionTemplate]="optionTmpl"
@@ -18,9 +19,12 @@
                     [props]="{placeholder: 'Search Customer',mode: 'default'}"
                     [searchUrl]="CompanyRoutes.CUSTOMER_SEARCH"
                 ></app-search-model-dropdown>
-                
+
                 <ng-template #optionTmpl let-item="item">
-                    <span>{{item.customerFirstName}} - {{item.customerFirstName}} ({{item.customerPhone}})</span>
+                    <span>
+                        {{item.customerFirstName ?? ''}} - {{item.customerLastName ?? ''}}
+                        ({{item.customerPhone ?? '-'}})
+                    </span>
                 </ng-template>
 
             </div>
@@ -28,6 +32,7 @@
                  nzTooltipPlacement="top"
                  nzTooltipTitle="Create a new customer">
                 <app-company-people-customer-add-btn
+                    [saveLocation]="salesPoint"
                     [buttonProps]="{size: 'default'}"
                     [popup]="{display: ModalOrDrawer.DRAWER}"
                 ></app-company-people-customer-add-btn>

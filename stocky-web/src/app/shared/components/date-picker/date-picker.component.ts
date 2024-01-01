@@ -28,6 +28,10 @@ export class DatePickerComponent implements OnInit, OnChanges {
 
     @Input() public formProps?: FormProps;
 
+    @Input()
+    public validateFn: (date: Date) => boolean = (current: Date) => false
+    
+
     constructor(private util: UtilService) {
     }
 
@@ -83,6 +87,5 @@ export class DatePickerComponent implements OnInit, OnChanges {
             this.formProps = {formGroup, controlName};
         }
     }
-
 
 }

@@ -1,11 +1,60 @@
-<!--<page-header [breadcrumb]="breadcrumb" title="Sales Report">-->
-<!--    <ng-template #breadcrumb>-->
-<!--        <app-breadcrumbs [crumbs]="crumbs"></app-breadcrumbs>-->
-<!--    </ng-template>-->
-<!--</page-header>-->
-<!--<nz-tabset>-->
-<!--    <nz-tab nzTitle="Summarized Sales Report">Content of Tab Pane 1</nz-tab>-->
-<!--    <nz-tab nzTitle="Details Sales Report">Content of Tab Pane 3</nz-tab>-->
-<!--</nz-tabset>-->
+<!--<app-sales-cashier-shift></app-sales-cashier-shift>-->
+<page-header [breadcrumb]="breadCrumbTmpl" [content]="content">
+    <ng-template #breadCrumbTmpl></ng-template>
+    <ng-template #content>
 
-<app-sales-cashier-shift></app-sales-cashier-shift>
+        <div class="ph-main m-t-1em" nz-col nzSpan="24">
+            <div [nzGutter]="[16, 16]" nz-row>
+
+                <div [nzLg]="24" [nzXs]="24" class="m-t-sm-1em" disabled nz-col>
+                    <nz-form-label [nzNoColon]="false">Report Type</nz-form-label>
+
+                    <nz-form-control>
+                        <nz-radio-group (ngModelChange)="onReportTypeChange($event)" [ngModel]="selectedReportType">
+                            <label nz-radio [nzValue]="salesReportTypeEnum.SUMMARIZED">Summarized Report</label>
+                            <label nz-radio [nzValue]="salesReportTypeEnum.DETAILED">Detailed Report</label>
+                        </nz-radio-group>
+                    </nz-form-control>
+                </div>
+
+                <div [nzLg]="12" [nzXs]="24" class="m-t-sm-1em" nz-col>
+                    <nz-form-label [nzNoColon]="false">Start Date</nz-form-label>
+                    <app-date-picker (selectChange)="onDateSelected($event, 'start')"
+                                     [hasError]="isInvalidStartDate"></app-date-picker>
+                </div>
+
+                <div [nzLg]="12" [nzXs]="24" class="m-t-sm-1em" nz-col>
+                    <nz-form-label [nzNoColon]="false">End Date</nz-form-label>
+                    <app-date-picker (selectChange)="onDateSelected($event, 'end')"
+                                     [hasError]="isInvalidEndDate"></app-date-picker>
+                </div>
+
+                <div [nzLg]="24" [nzXs]="24" class="m-t-1em m-t-sm-2em m-b-2em" nz-col nzSpan="24">
+                    <div nz-row nzJustify="space-between">
+                        <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" nz-col>
+                            <button [nzLoading]="isLoading" (click)="onGetSalesReport()" [nzSize]="'default'" nz-button
+                                    nzType="primary">
+                                <span>Proceed</span>
+                                <span nz-icon nzType="check"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</page-header>
+
+<nz-card>
+    <ng-container *ngIf="reportData; else noFileTmpl">
+        <app-sales-transaction-receipt-viewer
+            #receiptViewerComponent
+            [data]="reportData"
+            [showControls]="true"></app-sales-transaction-receipt-viewer>
+    </ng-container>
+
+    <ng-template #noFileTmpl>
+        <nz-empty></nz-empty>
+    </ng-template>
+
+</nz-card>

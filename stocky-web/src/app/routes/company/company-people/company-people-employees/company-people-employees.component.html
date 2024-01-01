@@ -19,7 +19,8 @@
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Full Name</nz-form-label>
-                                <input [(ngModel)]="searchPayload.employeeFullName" name="employeeFullName" nz-input placeholder="Enter full name"
+                                <input [(ngModel)]="searchPayload.employeeFullName" name="employeeFullName" nz-input
+                                       placeholder="Enter full name"
                                        type="text"/>
                             </nz-form-item>
                         </div>
@@ -27,7 +28,8 @@
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Phone number</nz-form-label>
-                                <input [(ngModel)]="searchPayload.employeePhoneNumber" name="phoneNumber" nz-input placeholder="Enter phone number"
+                                <input [(ngModel)]="searchPayload.employeePhoneNumber" name="phoneNumber" nz-input
+                                       placeholder="Enter phone number"
                                        type="text"/>
                             </nz-form-item>
                         </div>
@@ -35,7 +37,8 @@
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Account Expiration</nz-form-label>
-                                <app-date-picker [(select)]="searchPayload.expirationDate!" [mode]="'month'"></app-date-picker>
+                                <app-date-picker [(select)]="searchPayload.expirationDate!"
+                                                 [mode]="'month'"></app-date-picker>
                             </nz-form-item>
                         </div>
                     </div>
@@ -47,14 +50,16 @@
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Email</nz-form-label>
-                                <input [(ngModel)]="searchPayload.employeeEmail" name="email" nz-input placeholder="Enter email address" type="text"/>
+                                <input [(ngModel)]="searchPayload.employeeEmail" name="email" nz-input
+                                       placeholder="Enter email address" type="text"/>
                             </nz-form-item>
                         </div>
 
                         <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
                             <nz-form-item>
                                 <nz-form-label>Date Joined</nz-form-label>
-                                <app-range-date-picker [(select)]="searchPayload.dateRangeParam!"></app-range-date-picker>
+                                <app-range-date-picker
+                                    [(select)]="searchPayload.dateRangeParam!"></app-range-date-picker>
                             </nz-form-item>
                         </div>
 
@@ -122,7 +127,7 @@
 <ng-template #fullNameTmpl let-item="item">
     <app-table-item [content]="nameConcat"></app-table-item>
     <ng-template #nameConcat>
-        <span>{{ item.personalDetail.employeeFirstName + ' ' + item.personalDetail.employeeLastName}}</span>
+        <span>{{ item.personalDetail?.employeeFirstName ?? '' + ' ' + item.personalDetail?.employeeLastName ?? ''}}</span>
     </ng-template>
 </ng-template>
 

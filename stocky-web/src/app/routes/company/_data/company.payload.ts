@@ -192,7 +192,7 @@ export class CustomerPayload {
     customerEmail?: string;
     customerPhone?: string;
     customerAddress?: string;
-    customerTag?: string = CustomerTagEnum.ROOKIE;
+    customerTag?: string = CustomerTagEnum.NEW;
     isActiveStatus?: boolean;
 }
 

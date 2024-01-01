@@ -3,3 +3,8 @@ export enum LocationTypeEnum {
     WARE_HOUSE = 'WARE_HOUSE',
     BRANCH = 'BRANCH'
 }
+
+export enum CustomerSaveLocationEnum {
+    SALES_POINT,
+    PEOPLE_CUSTOMER
+}

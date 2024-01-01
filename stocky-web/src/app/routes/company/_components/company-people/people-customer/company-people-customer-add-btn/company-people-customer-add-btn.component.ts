@@ -8,6 +8,7 @@ import {ResponsiveService} from '../../../../../../shared/utils/responsive.servi
 import {UtilService} from '../../../../../../shared/utils/util.service';
 import {CustomerPayload} from '../../../../_data/company.payload';
 import {PeopleCustomerUsecase} from '../../../../_usecase/people-customer.usecase';
+import {CustomerSaveLocationEnum} from "../../../../_data/company.enum";
 
 
 @Component({
@@ -28,6 +29,9 @@ export class CompanyPeopleCustomerAddBtnComponent implements OnInit {
     @Input()
     public buttonProps: CommonInputProps = {size: 'large'};
 
+    @Input()
+    public saveLocation?: CustomerSaveLocationEnum;
+
     public showDrawer = false;
     public isLoading = false;
     public showModal = false;
@@ -44,7 +48,8 @@ export class CompanyPeopleCustomerAddBtnComponent implements OnInit {
         private notification: NzNotificationService,
         private responsiveService: ResponsiveService,
         private util: UtilService
-    ) {}
+    ) {
+    }
 
     public get formBuild() {
         return this.fb.group({
@@ -92,7 +97,17 @@ export class CompanyPeopleCustomerAddBtnComponent implements OnInit {
 
     private onAfterSubmission(response: HttpResponse<CustomerPayload>) {
         if (response.ok) {
+            this.notifySalesPoint(response);
+            this.form.reset();
             this.toggle(ModalOrDrawer.ANY);
+        }
+    }
+
+    private notifySalesPoint(response: HttpResponse<CustomerPayload>) {
+        if (response.body && response.body.id) {
+            if (this.saveLocation != undefined && this.saveLocation === CustomerSaveLocationEnum.SALES_POINT) {
+                this.usecase.setCustomer({from: CustomerSaveLocationEnum.SALES_POINT, customer: response.body});
+            }
         }
     }
 }

@@ -60,8 +60,8 @@ public class CompanyCustomerInteractorImpl implements ICompanyCustomerInteractor
 
     @Override
     public List<CompanyCustomerRequest> search(String term) {
-        List<CompanyCustomer> page = this.usecase.findMany(companyCustomerSpecification(term));
-        Set<CompanyCustomer> customers = new HashSet<>(page);
+        List<CompanyCustomer> customerList = this.usecase.findMany(companyCustomerSpecification(term));
+        Set<CompanyCustomer> customers = new HashSet<>(customerList);
         return customers.stream().map(this::toRequest).collect(Collectors.toList());
     }
 
