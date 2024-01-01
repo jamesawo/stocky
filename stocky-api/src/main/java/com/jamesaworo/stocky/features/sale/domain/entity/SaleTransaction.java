@@ -47,7 +47,7 @@ public class SaleTransaction extends BaseModel {
 
     @OneToOne
     private CompanyCustomer customer;
-    
+
     @OneToOne
     private SaleTransactionAmount amount;
 
