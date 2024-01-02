@@ -149,6 +149,7 @@ public class ProductUsecaseImpl implements IProductUsecase {
             return this.scrapMap;
 
         } catch (Exception exception) {
+            System.out.println(exception.getLocalizedMessage());
             throw new RuntimeException(exception);
         }
     }

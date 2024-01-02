@@ -7,21 +7,21 @@
 
 package com.jamesaworo.stocky.features.product.data.request.mapper;
 
-import com.jamesaworo.stocky.core.constants.enums.StringOrStringArray;
 import com.jamesaworo.stocky.core.params.BiParam;
-import com.jamesaworo.stocky.features.product.domain.entity.*;
+import com.jamesaworo.stocky.features.product.domain.entity.ProductBasic;
+import com.jamesaworo.stocky.features.product.domain.entity.ProductCategory;
+import com.jamesaworo.stocky.features.product.domain.entity.ProductTax;
+import com.jamesaworo.stocky.features.product.domain.entity.ProductUnitOfMeasure;
 import com.jamesaworo.stocky.features.product.domain.usecase.*;
 import lombok.Data;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.context.ApplicationContext;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import static com.jamesaworo.stocky.core.constants.ReportConstant.*;
-import static com.jamesaworo.stocky.core.constants.enums.StringOrStringArray.STRING;
 import static com.jamesaworo.stocky.core.utils.FileUtil.*;
 import static java.lang.String.format;
 import static java.util.Optional.empty;
@@ -54,14 +54,14 @@ public class ProductBasicRow {
         this.row = row;
         this.category = row.getCell(0).getStringCellValue();
         this.unitOfMeasure = row.getCell(1).getStringCellValue();
-        this.productStatus = row.getCell(2).getStringCellValue();
-        this.taxes = row.getCell(3).getStringCellValue();
+        //this.productStatus = row.getCell(2).getStringCellValue();
+        //this.taxes = row.getCell(3).getStringCellValue();
         this.productName = row.getCell(4).getStringCellValue();
-        this.sku = row.getCell(5).getStringCellValue();
-        this.barcode = row.getCell(6).getStringCellValue();
+        //this.sku = row.getCell(5).getStringCellValue();
+        //this.barcode = row.getCell(6).getStringCellValue();
         this.brandName = row.getCell(7).getStringCellValue();
-        this.description = row.getCell(8).getStringCellValue();
-        this.serviceOrProduct = row.getCell(9).getStringCellValue();
+        //this.description = row.getCell(8).getStringCellValue();
+        //this.serviceOrProduct = row.getCell(9).getStringCellValue();
         this.quantity = row.getCell(10).getNumericCellValue();
         this.injectBeans(context);
     }
@@ -82,6 +82,8 @@ public class ProductBasicRow {
             }
         }
 
+        /*
+
         // checks if barcode already exists in product records
         if (!isEmpty(barcode)) {
             Optional<?> optionalBarcode = this.basicUsecase.findByBarcode(barcode);
@@ -100,6 +102,7 @@ public class ProductBasicRow {
             }
         }
 
+        */
 
         // product category
         if (isEmpty(category)) {
@@ -129,6 +132,8 @@ public class ProductBasicRow {
                 param.setLeft(false);
             }
         }
+
+        /*
 
         // product status
         if (isEmpty(productStatus)) {
@@ -164,6 +169,8 @@ public class ProductBasicRow {
             }
 
         }
+
+        */
 
         // product name
         if (isEmpty(productName)) {
