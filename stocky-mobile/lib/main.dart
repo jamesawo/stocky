@@ -5,7 +5,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 // Import for iOS features.
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
-// #enddocregion platform_imports
 
 void main() {
   runApp(const MyApp());
@@ -17,11 +16,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      title: '',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const MyHomePage(title: ''),
     );
   }
 }
@@ -37,14 +35,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late final WebViewController _controller;
+  bool pageLoadError = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue,
-      // appBar: AppBar(
-      //   title: const Text('Stocky'),
-      // ),
+      // appBar: AppBar(title: const Text('Stocky V1.1.3')),
       body: WebViewWidget(controller: _controller),
     );
   }
@@ -82,11 +79,11 @@ class _MyHomePageState extends State<MyHomePage> {
           },
           onWebResourceError: (WebResourceError error) {
             debugPrint('''
-  Page resource error:
-  code: ${error.errorCode}
-  description: ${error.description}
-  errorType: ${error.errorType}
-  isForMainFrame: ${error.isForMainFrame}
+Page resource error:
+code: ${error.errorCode}
+description: ${error.description}
+errorType: ${error.errorType}
+isForMainFrame: ${error.isForMainFrame}
           ''');
           },
           onNavigationRequest: (NavigationRequest request) {
@@ -102,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('http://74.207.228.149:8081/'));
+      ..loadRequest(Uri.parse('http://45.56.112.162:8081/'));
 
     // #docregion platform_features
     if (controller.platform is AndroidWebViewController) {
