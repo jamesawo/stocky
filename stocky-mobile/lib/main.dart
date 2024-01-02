@@ -41,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue,
-      // appBar: AppBar(title: const Text('Stocky V1.1.3')),
+      appBar: AppBar(title: const Text('Cks Automobile')),
       body: WebViewWidget(controller: _controller),
     );
   }
@@ -69,13 +69,13 @@ class _MyHomePageState extends State<MyHomePage> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
-            debugPrint('loading (progress : $progress%)');
+            //debugPrint('loading (progress : $progress%)');
           },
           onPageStarted: (String url) {
-            debugPrint('Page started loading: $url');
+            //debugPrint('Page started loading: $url');
           },
           onPageFinished: (String url) {
-            debugPrint('Page finished loading: $url');
+            //debugPrint('Page finished loading: $url');
           },
           onWebResourceError: (WebResourceError error) {
             debugPrint('''
@@ -87,15 +87,16 @@ isForMainFrame: ${error.isForMainFrame}
           ''');
           },
           onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith('https://www.youtube.com/')) {
+            /*if (request.url.startsWith('https://www.youtube.com/')) {
               debugPrint('blocking navigation to ${request.url}');
               return NavigationDecision.prevent;
             }
             debugPrint('allowing navigation to ${request.url}');
+            */
             return NavigationDecision.navigate;
           },
           onUrlChange: (UrlChange change) {
-            debugPrint('url change to ${change.url}');
+            /*debugPrint('url change to ${change.url}');*/
           },
         ),
       )

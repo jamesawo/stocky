@@ -22,7 +22,10 @@ export class LayoutPassportComponent implements OnInit {
         }
     ];
 
-    constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) {}
+    constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) {
+    }
+
+    getYear = () => new Date().getFullYear();
 
     ngOnInit(): void {
         this.tokenService.clear();
