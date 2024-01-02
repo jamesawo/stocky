@@ -19,7 +19,7 @@
         <relativePath/>
     </parent>
 
-    <artifactId>stocky</artifactId>
+    <artifactId>stocky-mobile</artifactId>
     <groupId>com.jamesaworo</groupId>
     <version>0.0.1-SNAPSHOT</version>
     <name>stocky</name>
