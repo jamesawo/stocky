@@ -56,7 +56,7 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 public class ProductInteractor implements IProductInteractor, Mapper<ProductRequest, Product> {
 
     private final ModelMapper mapper;
-    private final IProductUsecase usecase;
+    private final IProductUsecase productUsecase;
     private final IProductBasicInteractor basicInteractor;
     private final IProductPriceInteractor priceInteractor;
 
@@ -78,7 +78,7 @@ public class ProductInteractor implements IProductInteractor, Mapper<ProductRequ
     }
 
     private ResponseEntity<ProductRequest> update(ProductRequest request) {
-        Optional<Product> optionalProduct = this.usecase.findById(request.getId());
+        Optional<Product> optionalProduct = this.productUsecase.findById(request.getId());
         optionalProduct.map(product -> {
             this.updateBasicDetails(product.getBasic(), request.getBasic());
             this.updatePriceDetails(product.getPrice(), request.getPrice());
@@ -119,7 +119,7 @@ public class ProductInteractor implements IProductInteractor, Mapper<ProductRequ
     private void createNewProduct(ProductBasic basic, ProductPrice price, ProductRequest request) {
         try {
             Product product = Product.builder().basic(basic).price(price).build();
-            Product savedProduct = this.usecase.save(product);
+            Product savedProduct = this.productUsecase.save(product);
 
             request.setId(savedProduct.getId());
             request.setCreatedAt(savedProduct.getCreatedAt().toString());
@@ -132,7 +132,7 @@ public class ProductInteractor implements IProductInteractor, Mapper<ProductRequ
 
     @Override
     public ResponseEntity<PageSearchResult<List<ProductRequest>>> search(PageSearchRequest<ProductSearchRequest> request) {
-        Page<Product> page = this.usecase.findMany(productSpecification(request.getSearchRequest()), request.getPage().toPageable());
+        Page<Product> page = this.productUsecase.findMany(productSpecification(request.getSearchRequest()), request.getPage().toPageable());
         List<ProductRequest> requests = page.getContent().stream().map(this::toRequest).collect(toList());
         return ok().body(toPageSearchResult(requests, page));
     }
@@ -142,14 +142,14 @@ public class ProductInteractor implements IProductInteractor, Mapper<ProductRequ
         if (term.isEmpty()) {
             return ok().body(new ArrayList<>());
         }
-        List<Product> list = this.usecase.findMany(productSpecification(term));
+        List<Product> list = this.productUsecase.findMany(productSpecification(term));
         List<ProductRequest> requests = list.stream().map(this::toRequest).collect(toList());
         return ok().body(requests);
     }
 
     @Override
     public ResponseEntity<Optional<ProductRequest>> setPrice(Long productId, StockPriceRequest stockPriceRequest) {
-        Optional<Product> optionalProduct = this.usecase.findById(productId);
+        Optional<Product> optionalProduct = this.productUsecase.findById(productId);
 
         Optional<ProductRequest> optionalProductRequest = optionalProduct.map(product -> {
             ProductPrice price = product.getPrice();
@@ -167,7 +167,7 @@ public class ProductInteractor implements IProductInteractor, Mapper<ProductRequ
 
     @Override
     public ResponseEntity<Optional<ProductRequest>> setQuantity(Long productId, Integer quantity) {
-        Optional<Product> optionalProduct = this.usecase.findById(productId);
+        Optional<Product> optionalProduct = this.productUsecase.findById(productId);
         Optional<ProductRequest> optionalProductRequest = optionalProduct.map(product -> {
             ProductBasic basic = product.getBasic();
             basic.setQuantity(quantity);
@@ -180,14 +180,14 @@ public class ProductInteractor implements IProductInteractor, Mapper<ProductRequ
 
     @Override
     public ResponseEntity<PageSearchResult<List<ProductRequest>>> searchSalesProduct(PageSearchRequest<ProductSearchRequest> request) {
-        Page<Product> page = this.usecase.findMany(salesProductSpecification(request.getSearchRequest()), request.getPage().toPageable());
+        Page<Product> page = this.productUsecase.findMany(salesProductSpecification(request.getSearchRequest()), request.getPage().toPageable());
         List<ProductRequest> requests = page.getContent().stream().map(this::toRequest).collect(toList());
         return ok().body(toPageSearchResult(requests, page));
     }
 
     @Override
     public ResponseEntity<Boolean> setDiscount(ProductDiscountRequest request) {
-        Optional<Product> optionalProduct = this.usecase.findById(request.getProductId());
+        Optional<Product> optionalProduct = this.productUsecase.findById(request.getProductId());
 
         Boolean res = optionalProduct.map(
                 product -> this.priceInteractor.applyDiscount(
@@ -202,7 +202,7 @@ public class ProductInteractor implements IProductInteractor, Mapper<ProductRequ
             throw new ResponseStatusException(BAD_REQUEST, format(UNEXPECTED_FILE_TYPE, EXCEL.extension()));
         }
 
-        Map<String, String> map = this.usecase.uploadTemplate(file);
+        Map<String, String> map = this.productUsecase.uploadTemplate(file);
 
         byte[] content = writeProductScrapContentToFile(map);
         HttpHeaders headers = new HttpHeaders();
@@ -215,9 +215,10 @@ public class ProductInteractor implements IProductInteractor, Mapper<ProductRequ
 
     }
 
+
     @Override
     public ResponseEntity<Resource> downloadTemplate() throws IOException {
-        Resource resource = this.usecase.downloadTemplate(Template.PRODUCT_UPLOAD);
+        Resource resource = this.productUsecase.downloadTemplate(Template.PRODUCT_UPLOAD);
         Path path = resource.getFile().toPath();
         return ok().header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
