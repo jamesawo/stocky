@@ -9,10 +9,7 @@ import com.jamesaworo.stocky.features.product.data.interactor.contract.IProductB
 import com.jamesaworo.stocky.features.product.data.interactor.contract.IProductInteractor;
 import com.jamesaworo.stocky.features.product.data.interactor.contract.IProductPriceInteractor;
 import com.jamesaworo.stocky.features.product.data.request.*;
-import com.jamesaworo.stocky.features.product.domain.entity.Product;
-import com.jamesaworo.stocky.features.product.domain.entity.ProductBasic;
-import com.jamesaworo.stocky.features.product.domain.entity.ProductCategory;
-import com.jamesaworo.stocky.features.product.domain.entity.ProductPrice;
+import com.jamesaworo.stocky.features.product.domain.entity.*;
 import com.jamesaworo.stocky.features.product.domain.usecase.IProductUsecase;
 import com.jamesaworo.stocky.features.stock.data.request.StockPriceRequest;
 import lombok.RequiredArgsConstructor;
@@ -183,6 +180,17 @@ public class ProductInteractor implements IProductInteractor, Mapper<ProductRequ
         Page<Product> page = this.productUsecase.findMany(salesProductSpecification(request.getSearchRequest()), request.getPage().toPageable());
         List<ProductRequest> requests = page.getContent().stream().map(this::toRequest).collect(toList());
         return ok().body(toPageSearchResult(requests, page));
+    }
+
+    private ProductRequest mapToProductRequest(Product product) {
+        ProductRequest request = this.toRequest(product);
+        ProductUnitOfMeasureRequest unitOfMeasureRequest = new ProductUnitOfMeasureRequest();
+        ProductUnitOfMeasure unitOfMeasure = product.getBasic().getUnitOfMeasure();
+        unitOfMeasureRequest.setId(unitOfMeasure.getId());
+        unitOfMeasureRequest.setTitle(unitOfMeasure.getTitle());
+        unitOfMeasureRequest.setUnit(unitOfMeasure.getUnit());
+        request.getBasic().setUnitOfMeasure(unitOfMeasureRequest);
+        return request;
     }
 
     @Override

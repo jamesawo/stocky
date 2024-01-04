@@ -3,6 +3,7 @@ package com.jamesaworo.stocky.features.product.data.interactor.contract;
 import com.jamesaworo.stocky.features.product.data.request.ProductCategoryRequest;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,4 +30,6 @@ public interface IProductCategoryInteractor {
     ResponseEntity<Optional<Boolean>> toggleActiveStatus(Long id);
 
     ResponseEntity<Resource> downloadTemplate() throws IOException;
+
+    ResponseEntity<?> uploadTemplate(MultipartFile file);
 }

@@ -110,9 +110,9 @@ public class ProductSearchSpecification {
             }
 
             // is service
-            if (!isEmpty(request.getIsService())) {
-                predicates.addAll(joinOnBasicIsServicePredicate(criteriaBuilder, request.getIsService()));
-            }
+//            if (!isEmpty(request.getIsService())) {
+//                predicates.addAll(joinOnBasicIsServicePredicate(criteriaBuilder, request.getIsService()));
+//            }
 
             // is active
             if (!isEmpty(request.getIsActive())) {

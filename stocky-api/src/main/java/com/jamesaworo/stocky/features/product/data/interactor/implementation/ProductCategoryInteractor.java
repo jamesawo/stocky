@@ -12,7 +12,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
@@ -20,11 +22,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.jamesaworo.stocky.core.constants.Exception.RECORD_NOT_FOUND;
 import static com.jamesaworo.stocky.core.constants.Exception.REQUIRED_ID;
+import static com.jamesaworo.stocky.core.constants.ReportConstant.UNEXPECTED_FILE_TYPE;
+import static com.jamesaworo.stocky.core.constants.enums.FileType.EXCEL;
+import static com.jamesaworo.stocky.core.utils.FileUtil.isFileType;
+import static com.jamesaworo.stocky.core.utils.FileUtil.writeProductScrapContentToFile;
+import static java.lang.String.format;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.ResponseEntity.notFound;
 import static org.springframework.http.ResponseEntity.ok;
@@ -103,6 +111,25 @@ public class ProductCategoryInteractor implements IProductCategoryInteractor, Ma
                 .body(resource);
     }
 
+    @Override
+    public ResponseEntity<?> uploadTemplate(MultipartFile file) {
+        if (!isFileType(file, EXCEL)) {
+            throw new ResponseStatusException(BAD_REQUEST, format(UNEXPECTED_FILE_TYPE, EXCEL.extension()));
+        }
+
+        Map<String, String> map = this.usecase.uploadTemplate(file);
+
+        byte[] content = writeProductScrapContentToFile(map);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=scrap_file.txt");
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(content.length)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(content);
+
+    }
+
     private void throwIfRequestNotValid(ProductCategoryRequest request) {
         if (isEmpty(request.getId())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, REQUIRED_ID);
@@ -116,7 +143,6 @@ public class ProductCategoryInteractor implements IProductCategoryInteractor, Ma
     public ProductCategoryRequest toRequest(ProductCategory model) {
         return mapper.map(model, ProductCategoryRequest.class);
     }
-
 
     public ProductCategory toModel(ProductCategoryRequest request) {
         return mapper.map(request, ProductCategory.class);
