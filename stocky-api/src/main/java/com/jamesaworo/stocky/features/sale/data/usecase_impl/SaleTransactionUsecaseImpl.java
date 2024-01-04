@@ -159,8 +159,9 @@ public class SaleTransactionUsecaseImpl implements SaleTransactionUsecase, Mappe
      * @since 1.0.0
      */
     private void saveAndSetReceiptReferenceSerial(SaleTransaction transaction) {
-        transaction.setReference(Util.randomNumeric(10));
-        String serial = receiptSerial(5) + (!isEmpty(transaction.getId()) ? transaction.getId() : "");
+        String id = transaction.getId() != null ? transaction.getId().toString() : "";
+        transaction.setReference(Util.randomNumeric(10) + id);
+        String serial = receiptSerial(5) + id;
         transaction.setSerial(serial);
         this.repository.save(transaction);
     }

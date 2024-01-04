@@ -63,5 +63,4 @@ public class SaleTransaction extends BaseModel {
 
     @OneToOne
     private CompanyPaymentOption paymentOption;
-
 }

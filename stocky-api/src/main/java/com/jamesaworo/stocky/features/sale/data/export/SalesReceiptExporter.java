@@ -68,20 +68,19 @@ public class SalesReceiptExporter implements DataExporter<byte[], SaleTransactio
         if (!isEmpty(transaction) && !isEmpty(transaction.getItems())) {
             for (SaleTransactionItem item : transaction.getItems()) {
                 SaleReceiptItemRequest receiptItem = new SaleReceiptItemRequest();
-                receiptItem.setQuantity(item.getQuantity().toString());
-                receiptItem.setName(item.getProduct().getBasic().getProductName());
-                receiptItem.setPrice(formatAmount(item.getSubTotal()));
-                /*
-                receiptItem.setName(format("%s. %s @ %s",
-                        item.getQuantity().toString(),
-                        item.getProduct().getBasic().getProductName(),
-                        currency() + formatAmount(item.getPrice()))
-                );
-                 */
+                receiptItem.setQuantity(getQuantity(item));
+                receiptItem.setName(item.getProduct().getBasic().title());
+                receiptItem.setPrice(formatAmount(item.getGrandTotal()));
                 list.add(receiptItem);
             }
         }
         return list;
+    }
+
+    private String getQuantity(SaleTransactionItem item) {
+        String quantity = item.getQuantity().toString();
+        String unitOfMeasure = item.getProduct().getBasic().getUnitOfMeasure().getUnit();
+        return quantity + " " + unitOfMeasure;
     }
 
     private String currency() {
