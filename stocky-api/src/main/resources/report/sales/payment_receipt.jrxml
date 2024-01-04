@@ -145,19 +145,19 @@
 					<datasetRun subDataset="ReceiptItemsDataSet" uuid="74fff02f-0e48-4c54-855a-f501bbe0b5b0">
 						<dataSourceExpression><![CDATA[$P{receiptItems}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="22" uuid="dccdf74c-41cb-4706-bee5-c1cbddc7dd58">
+					<jr:column width="30" uuid="dccdf74c-41cb-4706-bee5-c1cbddc7dd58">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
 						<jr:columnHeader height="16" rowSpan="1">
 							<property name="com.jaspersoft.studio.unit.width" value="px"/>
 							<staticText>
-								<reportElement x="0" y="0" width="22" height="16" uuid="603b3738-4c5e-49ff-b7f2-0793fc9bc7db"/>
-								<box>
+								<reportElement x="0" y="0" width="30" height="16" uuid="603b3738-4c5e-49ff-b7f2-0793fc9bc7db"/>
+								<box leftPadding="4">
 									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
+								<textElement textAlignment="Left" verticalAlignment="Middle">
 									<font fontName="Monospaced" size="9" isBold="true"/>
 								</textElement>
 								<text><![CDATA[QTY]]></text>
@@ -172,25 +172,25 @@
 								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField textAdjust="StretchHeight">
-								<reportElement x="0" y="0" width="22" height="15" uuid="11fc8e9e-8cc4-40ba-8205-a621edd6e9dd"/>
-								<box>
+								<reportElement x="0" y="0" width="30" height="15" uuid="11fc8e9e-8cc4-40ba-8205-a621edd6e9dd"/>
+								<box leftPadding="4">
 									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Monospaced" size="8"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="Monospaced" size="7"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="128" uuid="15c19cb6-7d9b-454f-9b67-5e265716d5a5">
+					<jr:column width="120" uuid="15c19cb6-7d9b-454f-9b67-5e265716d5a5">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 						<jr:columnHeader height="16" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="128" height="16" uuid="d4ce464b-7356-40df-95c1-195c0d0475bc"/>
+								<reportElement x="0" y="0" width="120" height="16" uuid="d4ce464b-7356-40df-95c1-195c0d0475bc"/>
 								<box leftPadding="4">
 									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -211,7 +211,7 @@
 								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField textAdjust="StretchHeight">
-								<reportElement x="0" y="0" width="128" height="15" uuid="dbc2c4e4-c18b-4d06-89f3-e2269bdb7fe0"/>
+								<reportElement x="0" y="0" width="120" height="15" uuid="dbc2c4e4-c18b-4d06-89f3-e2269bdb7fe0"/>
 								<box leftPadding="4" rightPadding="4">
 									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -219,7 +219,7 @@
 									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 								</box>
 								<textElement textAlignment="Left" verticalAlignment="Middle">
-									<font fontName="Monospaced" size="8"/>
+									<font fontName="Monospaced" size="7"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 							</textField>
@@ -258,7 +258,7 @@
 									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Monospaced" size="8"/>
+									<font fontName="Monospaced" size="7"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
 							</textField>
