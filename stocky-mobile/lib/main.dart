@@ -16,18 +16,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: '',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const MyHomePage(title: ''),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -36,14 +33,87 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late final WebViewController _controller;
   bool pageLoadError = false;
+  bool hasError = false;
 
   @override
   Widget build(BuildContext context) {
+    if (hasError == true) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Cks Automobile')),
+        backgroundColor: Colors.blue,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("No Connection",
+                  style: TextStyle(color: Colors.white, fontSize: 20)),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  /*setState(() {
+                    hasError = false;
+                  });*/
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyHomePage()),
+                  );
+                },
+                child: const Text(
+                  'Try Again!',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else {
+      return Scaffold(
+          backgroundColor: Colors.blue,
+          appBar: AppBar(title: const Text('Cks Automobile')),
+          // body: WebViewWidget(controller: _controller),
+          body: WebViewWidget(controller: _controller));
+    }
+    /*
     return Scaffold(
-      backgroundColor: Colors.blue,
-      appBar: AppBar(title: const Text('Cks Automobile')),
-      body: WebViewWidget(controller: _controller),
-    );
+        backgroundColor: Colors.blue,
+        appBar: AppBar(title: const Text('Cks Automobile')),
+        // body: WebViewWidget(controller: _controller),
+        body: hasError
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("No Connection",
+                        style: TextStyle(color: Colors.white, fontSize: 20)),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        /*setState(() {
+                          hasError = false;
+                          _controller.reload();
+                        });*/
+                        setState(() {});
+                      },
+                      child: const Text(
+                        'Try Again!',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : WebViewWidget(controller: _controller));
+
+     */
   }
 
   @override
@@ -78,21 +148,12 @@ class _MyHomePageState extends State<MyHomePage> {
             //debugPrint('Page finished loading: $url');
           },
           onWebResourceError: (WebResourceError error) {
-            debugPrint('''
-Page resource error:
-code: ${error.errorCode}
-description: ${error.description}
-errorType: ${error.errorType}
-isForMainFrame: ${error.isForMainFrame}
-          ''');
+            print('there is an error');
+            setState(() {
+              hasError = true;
+            });
           },
           onNavigationRequest: (NavigationRequest request) {
-            /*if (request.url.startsWith('https://www.youtube.com/')) {
-              debugPrint('blocking navigation to ${request.url}');
-              return NavigationDecision.prevent;
-            }
-            debugPrint('allowing navigation to ${request.url}');
-            */
             return NavigationDecision.navigate;
           },
           onUrlChange: (UrlChange change) {
