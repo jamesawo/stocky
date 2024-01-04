@@ -8,6 +8,7 @@
 package com.jamesaworo.stocky.core.utils;
 
 import com.jamesaworo.stocky.configuration.converter.LocalDateStringConverter;
+import com.jamesaworo.stocky.core.constants.ReportConstant;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.time.LocalDate;
@@ -37,7 +38,7 @@ public class Util {
     }
 
     public static String receiptSerial(Integer count) {
-        return String.format("%s%s", randomString(2), randomNumeric(count));
+        return String.format("%s%s", ReportConstant.RECEIPT_PREFIX, randomNumeric(count));
     }
 
     public static String randomString(Integer count) {
