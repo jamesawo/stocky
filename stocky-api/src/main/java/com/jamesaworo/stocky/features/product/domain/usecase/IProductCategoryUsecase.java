@@ -12,7 +12,7 @@ import java.util.Optional;
  * @author Aworo James
  * @since 5/10/23
  */
-public interface IProductCategoryUsecase extends FileHandler<Map<String, Object>, MultipartFile> {
+public interface IProductCategoryUsecase extends FileHandler<Map<String, String>, MultipartFile> {
     Optional<ProductCategory> findOne(Long id);
 
     Optional<ProductCategory> findOne(String name);
