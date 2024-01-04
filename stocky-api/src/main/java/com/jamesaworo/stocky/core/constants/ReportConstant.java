@@ -12,6 +12,7 @@ public class ReportConstant {
     public static final String WALK_IN = "WalkIn Customer";
     public static final String SPACE = " ";
     public static final String DASHES = "---";
+    public static final String RECEIPT_PREFIX = "RCP";
     public static final String NOT_AVAILABLE = "N/A";
     public static final String SCRAP_ERROR = "Error on row %s / cell %s: ";
     public static final String CELL_EMPTY = "No value provided in the cell";
