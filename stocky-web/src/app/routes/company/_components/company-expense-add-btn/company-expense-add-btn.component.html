@@ -7,7 +7,7 @@
         [nzFooter]="contentFooterBtnTmpl"
         [nzMaskClosable]="false"
         [nzVisible]="showDrawer"
-        [nzWidth]="720"
+        [nzWidth]="drawerSize"
         nzTitle="Add Expenses"
     >
         <div *nzDrawerContent>
@@ -104,10 +104,10 @@
                 </nz-form-control>
             </nz-form-item>
 
-            <nz-form-item>
-                <nz-form-label>Attach File</nz-form-label>
-                <app-upload-file></app-upload-file>
-            </nz-form-item>
+            <!-- <nz-form-item>
+                 <nz-form-label>Attach File</nz-form-label>
+                 <app-upload-file></app-upload-file>
+             </nz-form-item>-->
         </div>
     </form>
 </ng-template>

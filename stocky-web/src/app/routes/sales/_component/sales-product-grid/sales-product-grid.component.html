@@ -24,6 +24,7 @@
                                 QTY:
                                 <span [ngStyle]="{color: isLowQuantity(product)? '#af2d2d': '#9eebcf'}" class="b">
                                     {{product?.basic?.quantity}}
+                                    <small>  {{product?.basic?.unitOfMeasure?.unit}}</small>
                                 </span>
                             </label>
 
@@ -36,7 +37,8 @@
                     </div>
 
                     <div class="db mt2 mb1">
-                        <app-amount-currency [amount]="product?.price?.sellingPrice" [class]="'mt2 f4'"></app-amount-currency>
+                        <app-amount-currency [amount]="product?.price?.sellingPrice"
+                                             [class]="'mt2 f4'"></app-amount-currency>
                     </div>
 
                     <button (click)="onAddProductToCart(product)"

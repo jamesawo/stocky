@@ -5,7 +5,7 @@
         <nz-list-item (dblclick)="onAddProductToCart(product)" class="hover-bg-washed-green">
 
             <div class="item-product hover-bg-washed-green">
-                <span nz-typography>{{concatProductName(product)}}</span>
+                <span class="" nz-typography>{{concatProductName(product)}}</span>
             </div>
 
             <div class="item-stats overflow-x-scroll-m ">
@@ -16,21 +16,22 @@
                     <label>
                         QTY:
                         <span [ngStyle]="{color: isLowQuantity(product)? '#af2d2d': '#189b69'}" class="b">
-                         {{product?.basic?.quantity}}
-                     </span>
+                            {{product?.basic?.quantity}} <small>  {{product?.basic?.unitOfMeasure?.unit}}</small>
+                        </span>
                     </label>
                     <label *ngIf="product?.price?.discount" class="ml2">
                         <code>
-                            -{{product?.price?.discount}}%
+                            - {{product?.price?.discount}}%
                         </code>
                     </label>
                 </label>
 
-                <button (click)="onAddProductToCart(product)" class="mt1" nz-button nzType="default">
-                    <span class="mr1" nz-icon nzTheme="outline" nzType="shopping-cart"></span>
-                    Add to cart
-                </button>
             </div>
+
+            <button (click)="onAddProductToCart(product)" class="mt1 cart-button" nz-button nzType="default">
+                <span class="mr1" nz-icon nzTheme="outline" nzType="shopping-cart"></span>
+                Add to cart
+            </button>
 
         </nz-list-item>
 

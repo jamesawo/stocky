@@ -12,7 +12,8 @@
                                [nzValue]="option"
                                nz-radio
                         >
-                            <span *ngIf="showIcon && isSelected(option)" class="mr2" nz-icon nzTheme="outline" nzType="check-circle"></span>
+                            <span *ngIf="showIcon && isSelected(option)" class="mr2" nz-icon nzTheme="outline"
+                                  nzType="check-circle"></span>
                             <span [innerHTML]="option.title" class="b"></span>
 
                         </label>
@@ -25,5 +26,5 @@
 </nz-form-item>
 
 <ng-template #noRecordTmpl>
-    <app-nothing-found text="oops, no options found!"></app-nothing-found>
+    <app-nothing-found text="no payment options"></app-nothing-found>
 </ng-template>

@@ -15,11 +15,11 @@ import {ExpensesUsecase} from '../_usecase/company-expenses/expenses.usecase';
     templateUrl: './company-expenses-setup.component.html',
     styles: [
         `
-          @media (min-width: 320px) and (max-width: 460px) {
-            .re-user {
-              padding: 30px 4px 0px;
+            @media (min-width: 320px) and (max-width: 460px) {
+                .re-user {
+                    padding: 30px 4px 0px;
+                }
             }
-          }
 
         `
     ]
@@ -53,7 +53,8 @@ export class CompanyExpensesSetupComponent {
         private usecase: ExpensesUsecase,
         private notification: NzNotificationService,
         private util: UtilService
-    ) {}
+    ) {
+    }
 
     public onSearch = async (): Promise<void> => {
         this.isLoading = true;

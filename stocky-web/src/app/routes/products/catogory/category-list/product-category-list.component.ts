@@ -6,7 +6,7 @@ import {Crumbs} from 'src/app/shared/components/breadcrumbs/breadcrumbs.componen
 import {PRODUCT_CATEGORY_LIST_CRUMBS} from '../../../../data/constant/crumb.constant';
 import {FileConstant} from '../../../../data/constant/file.constant';
 import {PopOverConstant} from '../../../../data/constant/message.constant';
-import {FileTemplate, FileType, TableButtonEnum} from '../../../../data/payload/common.enum';
+import {FileMimeType, FileTemplate, FileType, TableButtonEnum} from '../../../../data/payload/common.enum';
 import {UploadComponentInput} from '../../../../data/payload/common.interface';
 import {TableEditCacheMap} from '../../../../data/payload/common.types';
 import {TableCol} from '../../../../shared/components/table/table.component';
@@ -14,6 +14,9 @@ import {UploadImportService} from '../../../../shared/utils/upload-import.servic
 import {UtilService} from '../../../../shared/utils/util.service';
 import {ProductCategoryPayload} from '../../_data/product.payload';
 import {ProductCategoryUsecase} from '../../_usecase/product-category.usecase';
+import {UploadFileComponent, UploadFnProps} from "../../../../shared/components/upload-file/upload-file.component";
+import {NzDrawerRef} from "ng-zorro-antd/drawer";
+import {ResponsiveService} from "../../../../shared/utils/responsive.service";
 
 @Component({
     selector: 'app-product-category-list',
@@ -44,6 +47,8 @@ export class ProductCategoryListComponent implements OnInit {
     public pageTitle = 'Add New Category';
     public searchTerm?: string;
     public hasError = false;
+    public drawerRef?: NzDrawerRef<UploadFileComponent>;
+    public size = 350;
     protected readonly TableButtonEnum = TableButtonEnum;
 
     constructor(
@@ -51,8 +56,10 @@ export class ProductCategoryListComponent implements OnInit {
         private notification: NzNotificationService,
         private usecase: ProductCategoryUsecase,
         private uploadService: UploadImportService,
-        private util: UtilService
-    ) {}
+        private util: UtilService,
+        private responsiveService: ResponsiveService
+    ) {
+    }
 
     public ngOnInit(): void {
         this.initForm();
@@ -64,6 +71,9 @@ export class ProductCategoryListComponent implements OnInit {
             title: [null, [Validators.required]],
             description: [null],
             parent: [null]
+        });
+        this.responsiveService.screenWidth$.subscribe(value => {
+            this.size = this.responsiveService.calculateDrawerWidth(value)
         });
     }
 
@@ -140,7 +150,8 @@ export class ProductCategoryListComponent implements OnInit {
         this.editObj[id].loading = false;
     };
 
-    public onCancelDelete = async () => {};
+    public onCancelDelete = async () => {
+    };
 
     public onParentCategorySelected = (parent: ProductCategoryPayload) => {
         if (parent) {
@@ -185,15 +196,40 @@ export class ProductCategoryListComponent implements OnInit {
     public handleUpload = () => {
         const arg: UploadComponentInput = {
             maxFileSizeInMB: FileConstant.MAX_UPLOAD_FILE_SIZE_MB,
-            allowedFileTypes: [FileType.EXCEL, FileType.EXCEL_V2],
-            url: this.usecase.getProductCategoryUploadURL(),
+            allowedFileTypes: [FileType.EXCEL_V2],
+            onUploadTemplate: this.handleUploadTemplate,
             type: 'drag',
             canUploadMultipleFiles: false,
             canDownloadTemplate: true,
             onDownloadTemplate: this.handleDownloadTemplate
         };
-        this.uploadService.upload(arg, 'Upload Product Category File');
+        this.drawerRef = this.uploadService.upload(arg, 'Upload Product Category File');
     };
+
+
+    public handleUploadTemplate = async (arg: UploadFnProps) => {
+        const {formData} = arg;
+        this.triggerIsUploading(true);
+        this.usecase.uploadDataFile(formData).subscribe({
+            next: (res) => {
+                if (res && res.ok && res.body) {
+                    this.notification.info(
+                        'File Uploaded',
+                        FileConstant.UPLOAD_RESULT,
+                        {nzDuration: 9000, nzPauseOnHover: true}
+                    );
+                    const resourceUrl = this.util.handleCreateFileResourceUrl(res.body, FileMimeType.OCT);
+                    this.util.handleFileDownload(resourceUrl, 'ScrapFile.txt');
+                    this.triggerIsUploading(false);
+                }
+            },
+            error: (err) => {
+                this.util.handleHttpRequestError(err, {service: this.notification});
+                this.triggerIsUploading(false);
+            }
+        });
+    };
+
 
     private loadTableData() {
         this.categories = this.usecase.getMany().pipe(shareReplay());
@@ -207,5 +243,12 @@ export class ProductCategoryListComponent implements OnInit {
 
     private notifyChange() {
         this.usecase.setTrigger(true);
+    }
+
+    private triggerIsUploading(val: boolean) {
+        const component = this.drawerRef?.getContentComponent();
+        if (component) {
+            component.isUploading = val;
+        }
     }
 }

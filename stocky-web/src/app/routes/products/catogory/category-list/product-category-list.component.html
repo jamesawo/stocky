@@ -66,7 +66,7 @@
     [nzMaskClosable]="false"
     [nzTitle]="pageTitle"
     [nzVisible]="showForm"
-    [nzWidth]="720"
+    [nzWidth]="size"
 >
     <div *nzDrawerContent>
         <ng-container [ngTemplateOutlet]="contentFormTmpl"></ng-container>
@@ -101,7 +101,8 @@
             </nz-form-item>
 
             <ng-container *ngIf="isSubCategory">
-                <app-product-category-search (selectedChange)="onParentCategorySelected($event)"></app-product-category-search>
+                <app-product-category-search
+                    (selectedChange)="onParentCategorySelected($event)"></app-product-category-search>
             </ng-container>
 
             <nz-form-item>

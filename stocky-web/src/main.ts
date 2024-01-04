@@ -1,17 +1,15 @@
-import { enableProdMode, ViewEncapsulation } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { preloaderFinished } from '@delon/theme';
-import { NzSafeAny } from 'ng-zorro-antd/core/types';
+import {enableProdMode, ViewEncapsulation} from '@angular/core';
+import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import {preloaderFinished} from '@delon/theme';
+import {NzSafeAny} from 'ng-zorro-antd/core/types';
 
-import { AppModule } from './app/app.module';
-import { environment } from '@env/environment';
+import {AppModule} from './app/app.module';
+import {environment} from '@env/environment';
 
 preloaderFinished();
-
 if (environment.production) {
     enableProdMode();
 }
-
 platformBrowserDynamic()
     .bootstrapModule(AppModule, {
         defaultEncapsulation: ViewEncapsulation.Emulated,

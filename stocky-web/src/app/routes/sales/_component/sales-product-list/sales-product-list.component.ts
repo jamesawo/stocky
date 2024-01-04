@@ -51,6 +51,7 @@ export class SalesProductListComponent implements OnInit, OnDestroy {
     }
 
     public onAddProductToCart(product: ProductPayload) {
+        console.log(product)
         if (this.cart) {
             const isAddedToCart = this.cart.addItem(product);
             this.notify(isAddedToCart, product);

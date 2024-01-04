@@ -1,5 +1,5 @@
 import {HttpResponse} from '@angular/common/http';
-import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {NzDrawerRef} from 'ng-zorro-antd/drawer';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
@@ -20,13 +20,14 @@ import {UploadFileComponent, UploadFnProps} from '../../../../shared/components/
 import {UploadImportService} from '../../../../shared/utils/upload-import.service';
 import {UtilService} from '../../../../shared/utils/util.service';
 import {ProductAddComponent} from '../product-add/product-add.component';
+import {ResponsiveService} from "../../../../shared/utils/responsive.service";
 
 @Component({
     selector: 'app-product-list',
     templateUrl: './product-list.component.html',
     styleUrls: ['./product-list.component.css']
 })
-export class ProductListComponent {
+export class ProductListComponent implements OnInit {
     @ViewChild('productAddComponent')
     public productAddComponent?: ProductAddComponent;
 
@@ -39,6 +40,7 @@ export class ProductListComponent {
     public showDrawer = false;
     public productToUpdate?: ProductPayload;
     public drawerRef?: NzDrawerRef<UploadFileComponent>;
+    public size = 350;
 
     public crumbs = PRODUCT_LIST_CRUMBS;
     public tableCols: TableCol[] = [
@@ -65,8 +67,15 @@ export class ProductListComponent {
         private notification: NzNotificationService,
         private uploadService: UploadImportService,
         private cdr: ChangeDetectorRef,
-        private util: UtilService
+        private util: UtilService,
+        private responsiveService: ResponsiveService
     ) {
+    }
+
+    public ngOnInit() {
+        this.responsiveService.screenWidth$.subscribe(value => {
+            this.size = this.responsiveService.calculateDrawerWidth(value)
+        });
     }
 
     public onCancelHandler = () => {
@@ -153,7 +162,7 @@ export class ProductListComponent {
             next: (res) => {
                 if (res && res.ok && res.body) {
                     this.notification.info(
-                        'File Uploaded',
+                        'Product File Uploaded',
                         FileConstant.UPLOAD_RESULT,
                         {nzDuration: 9000, nzPauseOnHover: true}
                     );

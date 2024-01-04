@@ -25,7 +25,8 @@ export class SaleCartItemsComponent implements OnInit, OnDestroy {
         private cartUsecase: SaleCartUsecase,
         private responsive: ResponsiveService,
         private util: UtilService
-    ) {}
+    ) {
+    }
 
 
     public calculateDrawerWidth(screenWidth: number): void {
@@ -38,7 +39,7 @@ export class SaleCartItemsComponent implements OnInit, OnDestroy {
 
         } else {
             this.showToolTip = true;
-            this.limit = 20;
+            this.limit = 100;
             this.statsWidth = '250px';
         }
 
@@ -61,14 +62,14 @@ export class SaleCartItemsComponent implements OnInit, OnDestroy {
         return this.util.getProductFullName(product);
     }
 
-    public increment(arg: {cart: SaleCart, item: SaleCartItem,}) {
+    public increment(arg: { cart: SaleCart, item: SaleCartItem, }) {
         if (arg && arg.cart && arg.item) {
             arg.item.increment();
             arg.cart.updateAmount();
         }
     }
 
-    public decrement(arg: {cart: SaleCart, item: SaleCartItem}) {
+    public decrement(arg: { cart: SaleCart, item: SaleCartItem }) {
         if (arg && arg.cart && arg.item) {
             arg.item.decrement();
             arg.cart.updateAmount();

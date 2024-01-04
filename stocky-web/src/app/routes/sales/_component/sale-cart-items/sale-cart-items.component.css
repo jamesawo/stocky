@@ -23,6 +23,10 @@
     width: 73px;
 }
 
+.item-product {
+    margin-bottom: 5px;
+}
+
 @media screen and (max-width: 640px) {
     .item-product {
         margin-bottom: 17px;

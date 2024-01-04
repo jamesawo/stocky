@@ -18,7 +18,6 @@ const COMPONENTS: Array<Type<void>> = [
     UserLoginComponent,
     UserRegisterComponent,
     UserRegisterResultComponent,
-    // single pages
     CallbackComponent,
     UserLockComponent
 ];

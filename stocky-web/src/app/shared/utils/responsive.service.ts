@@ -38,6 +38,14 @@ export class ResponsiveService implements OnDestroy {
         this._unsubscribe$.complete();
     }
 
+    public calculateDrawerWidth(screenWidth: number): number {
+        if (screenWidth && screenWidth < 700) {
+            return 350;
+        } else {
+            return 750;
+        }
+    }
+
     private _setScreenWidth(width: number): void {
         this.screenWidth$.next(width);
     }
@@ -57,5 +65,6 @@ export class ResponsiveService implements OnDestroy {
             this.mediaBreakpoint$.next(BreakPoints.XXL);
         }
     }
+
 
 }

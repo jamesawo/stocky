@@ -75,8 +75,8 @@ export enum FileType {
 }
 
 export enum FileTemplate {
-    PRODUCT_UPLOAD_TEMPLATE = 'ProductTemplate.xlsx',
-    PRODUCT_CATEGORY_UPLOAD_TEMPLATE = 'ProductCategoryTemplate.xlsx',
+    PRODUCT_UPLOAD_TEMPLATE = 'ProductUploadTemplate.xlsx',
+    PRODUCT_CATEGORY_UPLOAD_TEMPLATE = 'ProductCategoryUploadTemplate.xlsx',
     TRANSACTION_RECEIPT = 'Receipt.pdf',
 }
 

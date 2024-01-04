@@ -1,5 +1,5 @@
 import {HttpResponse} from '@angular/common/http';
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {ModalOrDrawer} from '../../../../data/payload/common.enum';
@@ -7,17 +7,19 @@ import {CommonAddProps, PopupViewProps} from '../../../../data/payload/common.ty
 import {UtilService} from '../../../../shared/utils/util.service';
 import {ExpensesPayload} from '../../_data/company.payload';
 import {ExpensesUsecase} from '../../_usecase/company-expenses/expenses.usecase';
+import {ResponsiveService} from "../../../../shared/utils/responsive.service";
 
 @Component({
     selector: 'app-company-expense-add-btn',
     templateUrl: './company-expense-add-btn.component.html',
     styles: []
 })
-export class CompanyExpenseAddBtnComponent {
+export class CompanyExpenseAddBtnComponent implements OnInit {
     public showDrawer = false;
     public isLoading = false;
     public showModal = false;
     public categoryForm: FormGroup = this.formBuild;
+    public drawerSize = 350;
 
     @Input()
     public props: CommonAddProps = {};
@@ -32,9 +34,16 @@ export class CompanyExpenseAddBtnComponent {
         private fb: FormBuilder,
         private usecase: ExpensesUsecase,
         private notification: NzNotificationService,
-        private util: UtilService
+        private util: UtilService,
+        private responsiveService: ResponsiveService
     ) {
         this.defaultDate = this.util.getDateString();
+    }
+
+    ngOnInit() {
+        this.responsiveService.screenWidth$.subscribe(value => {
+            this.drawerSize = this.responsiveService.calculateDrawerWidth(value);
+        })
     }
 
     public get formBuild() {

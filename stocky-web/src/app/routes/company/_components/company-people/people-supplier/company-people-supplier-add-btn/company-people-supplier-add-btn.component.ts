@@ -1,5 +1,5 @@
 import {HttpResponse} from '@angular/common/http';
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {CommonAddProps, PopupViewProps} from 'src/app/data/payload/common.types';
@@ -8,6 +8,7 @@ import {ModalOrDrawer, TableButtonEnum} from '../../../../../../data/payload/com
 import {UtilService} from '../../../../../../shared/utils/util.service';
 import {SupplierPayload} from '../../../../_data/company.payload';
 import {PeopleSupplierUsecase} from '../../../../_usecase/people-supplier.usecase';
+import {ResponsiveService} from "../../../../../../shared/utils/responsive.service";
 
 
 @Component({
@@ -15,7 +16,7 @@ import {PeopleSupplierUsecase} from '../../../../_usecase/people-supplier.usecas
     templateUrl: './company-people-supplier-add-btn.component.html',
     styles: []
 })
-export class CompanyPeopleSupplierAddBtnComponent {
+export class CompanyPeopleSupplierAddBtnComponent implements OnInit {
     public pageTitle = 'Add New Supplier';
     public isLoading = false;
 
@@ -33,13 +34,21 @@ export class CompanyPeopleSupplierAddBtnComponent {
     protected readonly ModalOrDrawer = ModalOrDrawer;
     protected readonly getNzFormControlValidStatus = this.util.getNzFormControlValidStatus;
     protected readonly PRODUCT_ROUTES = ProductRoutes;
+    public drawerSize = 350;
 
     constructor(
         private fb: FormBuilder,
         private usecase: PeopleSupplierUsecase,
         private notification: NzNotificationService,
-        private util: UtilService
-    ) {}
+        private util: UtilService,
+        private responsiveService: ResponsiveService) {
+    }
+
+    ngOnInit() {
+        this.responsiveService.screenWidth$.subscribe(value => {
+            this.drawerSize = this.responsiveService.calculateDrawerWidth(value);
+        })
+    }
 
     private get buildForm() {
         return this.fb.group({

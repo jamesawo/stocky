@@ -12,8 +12,10 @@ import {PassportUsecase} from '../../../routes/passport/authentication/_usecase/
             nz-dropdown
             [nzDropdownMenu]="userMenu"
         >
-            <nz-avatar [nzSrc]="user.avatar" nzSize="small" class="mr-sm"></nz-avatar>
-            {{ user.name }}
+            <span class="mr1">
+                {{loggedInUser() | titlecase }}
+            </span>
+            <nz-avatar [nzSrc]="user.avatar ?? ''" nzSize="small" class="mr-sm"></nz-avatar>
         </div>
 
         <nz-dropdown-menu #userMenu="nzDropdownMenu">
@@ -47,7 +49,8 @@ export class HeaderUserComponent {
     constructor(
         private settings: SettingsService,
         private passportUsecase: PassportUsecase
-    ) {}
+    ) {
+    }
 
     get user(): User {
         return this.settings.user;
@@ -55,5 +58,15 @@ export class HeaderUserComponent {
 
     logout(): void {
         this.passportUsecase.logout();
+    }
+
+    loggedInUser() {
+        const user = this.passportUsecase.getLoggedInUser();
+        const username = user?.username ?? '';
+
+        if (username.length > 10) {
+            return username.slice(0, 10);
+        }
+        return username;
     }
 }

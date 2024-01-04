@@ -1,22 +1,25 @@
 import {HttpResponse} from '@angular/common/http';
-import {Component, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {ModalOrDrawer} from '../../../../../data/payload/common.enum';
 import {CommonInputProps, PopupViewProps} from '../../../../../data/payload/common.types';
 import {UtilService} from '../../../../../shared/utils/util.service';
 import {RolePayload} from '../../../_data/company.payload';
 import {CompanyRoleFormComponent} from '../company-role-form/company-role-form.component';
+import {ResponsiveService} from "../../../../../shared/utils/responsive.service";
 
 @Component({
     selector: 'app-company-role-add-btn',
     templateUrl: './company-role-add-btn.component.html',
     styles: [`.space-t {
-      margin-top: -10px;
+        margin-top: -10px;
     }`]
 })
-export class CompanyRoleAddBtnComponent implements OnChanges {
+export class CompanyRoleAddBtnComponent implements OnChanges, OnInit {
     public showDrawer = false;
     public showModal = false;
     public isSaving = false;
+    public drawerSize = 350;
+
 
     @ViewChild('roleFormComponent')
     public roleFormComponent?: CompanyRoleFormComponent;
@@ -38,10 +41,20 @@ export class CompanyRoleAddBtnComponent implements OnChanges {
 
     protected readonly ModalOrDrawer = ModalOrDrawer;
 
-    constructor(private util: UtilService) {}
+    constructor(
+        private util: UtilService,
+        private responsiveService: ResponsiveService
+    ) {
+    }
 
     get isDrawer() {
         return this.popup.display == ModalOrDrawer.DRAWER;
+    }
+
+    ngOnInit() {
+        this.responsiveService.screenWidth$.subscribe(value => {
+            this.drawerSize = this.responsiveService.calculateDrawerWidth(value);
+        })
     }
 
     public ngOnChanges(changes: SimpleChanges) {

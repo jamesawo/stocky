@@ -2,7 +2,7 @@ import {registerLocaleData} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {default as ngLang} from '@angular/common/locales/en';
-import {APP_INITIALIZER, ErrorHandler, LOCALE_ID, NgModule, Type} from '@angular/core';
+import {APP_INITIALIZER, ErrorHandler, LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {IconDefinition} from '@ant-design/icons-angular';
@@ -59,13 +59,11 @@ let INTERCEPTOR_PROVIDES: any[] = [
     {provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true}
 ];
 
-const GLOBAL_THIRD_MODULES: Array<Type<void>> = [];
-
 export function StartupServiceFactory(startupService: StartupService): () => Observable<void> {
     return () => startupService.load();
 }
 
-const APPINIT_PROVIDES = [
+const APP_INIT_PROVIDES = [
     StartupService,
     {
         provide: APP_INITIALIZER,
@@ -83,7 +81,9 @@ const icons: IconDefinition[] = [
 ];
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [
+        AppComponent
+    ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
@@ -99,13 +99,11 @@ const icons: IconDefinition[] = [
         NzIconModule.forChild(icons),
         DelonACLModule.forRoot(),
         ...FORM_MODULES,
-        ...GLOBAL_THIRD_MODULES
     ],
     providers: [
         ...LANG_PROVIDES,
         ...INTERCEPTOR_PROVIDES,
-        // ...I18NSERVICE_PROVIDES,
-        ...APPINIT_PROVIDES
+        ...APP_INIT_PROVIDES
     ],
     bootstrap: [AppComponent]
 })

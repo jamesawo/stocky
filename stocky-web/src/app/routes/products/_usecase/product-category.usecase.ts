@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '@env/environment';
 import {BehaviorSubject, Observable} from 'rxjs';
@@ -10,7 +10,8 @@ export class ProductCategoryUsecase {
     public trigger$: Observable<boolean> = this.trigger.asObservable();
     private url = environment.api.baseUrl + '/product/category';
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {
+    }
 
     public setTrigger(value: boolean) {
         this.trigger.next(value);
@@ -49,12 +50,21 @@ export class ProductCategoryUsecase {
     }
 
     public getProductCategoryUploadURL() {
-        return `${this.url}/import-file`;
+        return `${this.url}/upload`;
     }
-    
+
     public downloadTemplate(): Observable<Blob> {
         return this.http.get(`${this.url}/download-template`, {
             responseType: 'blob'
+        });
+    }
+
+    public uploadDataFile(form: FormData): Observable<HttpResponse<Blob>> {
+        const headers = new HttpHeaders({'Accept': 'application/octet-stream'});
+        return this.http.post<Blob>(`${this.url}/upload`, form, {
+            headers,
+            observe: 'response',
+            responseType: 'blob' as 'json'
         });
     }
 

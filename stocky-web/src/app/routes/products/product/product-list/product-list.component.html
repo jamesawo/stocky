@@ -56,15 +56,6 @@
                             </nz-form-item>
                         </div>
 
-                        <div [nzLg]="8" [nzSpan]="8" [nzXs]="24" nz-col>
-                            <nz-form-item>
-                                <div class="flex flex-column">
-                                    <nz-form-label>Is Service</nz-form-label>
-                                    <app-switch-toggle [(value)]="searchPayload.isService"
-                                                       [props]="{showLabel: false, trueText: 'YES', falseText: 'NO'}"></app-switch-toggle>
-                                </div>
-                            </nz-form-item>
-                        </div>
                     </div>
                 </div>
 
@@ -85,7 +76,6 @@
 
                     <div [nzLg]="12" [nzSpan]="12" [nzXs]="10" class="text-align-end" nz-col>
                         <nz-space nzSize="small">
-
                             <app-button *nzSpaceItem
                                         [props]="{title: 'Add', icon: 'plus', handler: onToggleCreateProductDrawer}"></app-button>
 
@@ -97,7 +87,6 @@
                     </div>
                 </div>
             </div>
-
         </form>
 
     </ng-template>
@@ -149,43 +138,44 @@
 </ng-template>
 
 <ng-template #categoryTmpl let-item="item">
-    <app-table-item [content]="item.basic.productCategory.title"></app-table-item>
+    <app-table-item [content]="item.basic?.productCategory?.title?? ''"></app-table-item>
 </ng-template>
 
 <ng-template #prodNameTmpl let-item="item">
-    <app-table-item [content]="item.basic.productName"></app-table-item>
+    <app-table-item [content]="item?.basic?.productName?? ''"></app-table-item>
 </ng-template>
 
 <ng-template #brandNameTmpl let-item="item">
-    <app-table-item [content]="item.basic.brandName"></app-table-item>
+    <app-table-item [content]="item?.basic?.brandName??''"></app-table-item>
 </ng-template>
 
 <ng-template #sellingPriceTmpl let-item="item">
-    <app-amount-currency [amount]="item.price.sellingPrice"></app-amount-currency>
+    <app-amount-currency [amount]="item?.price?.sellingPrice"></app-amount-currency>
 </ng-template>
 
 <ng-template #costPriceTmpl let-item="item">
-    <app-amount-currency [amount]="item.price.costPrice"></app-amount-currency>
+    <app-amount-currency [amount]="item?.price?.costPrice?? 0"></app-amount-currency>
 </ng-template>
 
 <ng-template #marginPriceTmpl let-item="item">
-    <app-table-item [content]="item.price.markup"></app-table-item>
+    <app-table-item [content]="item?.price?.markup??0"></app-table-item>
 </ng-template>
 
 <ng-template #discountTmpl let-item="item">
-    <app-table-item [content]="item.price.discount"></app-table-item>
+    <app-table-item [content]="item?.price?.discount??0"></app-table-item>
 </ng-template>
 
 <ng-template #skuTmpl let-item="item">
-    <app-table-item [content]="item.basic.sku"></app-table-item>
+    <app-table-item [content]="item?.basic?.sku??''"></app-table-item>
 </ng-template>
 
 <ng-template #quantityTmpl let-item="item">
-    <app-table-item [content]="item.basic.quantity"></app-table-item>
+    <app-table-item [content]="item?.basic?.quantity??0"></app-table-item>
 </ng-template>
 
 <ng-template #typeTmpl let-item="item">
-    <app-table-item [content]="item.basic.isService === true ? 'SERVICE' : 'PRODUCT'"></app-table-item>
+    <!--    <app-table-item [content]="item.basic.isService === true ? 'SERVICE' : 'PRODUCT'"></app-table-item>-->
+    <app-table-item [content]="''"></app-table-item>
 </ng-template>
 
 <ng-template #taxesTmpl let-item="item">
@@ -193,7 +183,7 @@
 </ng-template>
 
 <ng-template #statusTmpl let-item="item">
-    <app-table-item [content]="item.basic.status?.title"></app-table-item>
+    <app-table-item [content]="item.basic?.status?.title??''"></app-table-item>
 </ng-template>
 
 <ng-template #dateTmpl let-item="item">
@@ -209,7 +199,7 @@
     [nzFooter]="contentFooterBtnTmpl"
     [nzMaskClosable]="false"
     [nzVisible]="showDrawer"
-    [nzWidth]="720"
+    [nzWidth]="size"
     nzTitle="Add Product"
 >
     <div *nzDrawerContent>

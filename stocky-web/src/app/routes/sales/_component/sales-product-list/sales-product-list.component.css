@@ -1,9 +1,14 @@
+.item-product {
+    width: 250px;
+}
+
 /* Media query for small screens (e.g., phones) */
 @media screen and (max-width: 640px) {
     .item-product {
-        margin-bottom: 17px;
+        margin-bottom: 5px;
         font-size: 15px;
         font-weight: 500;
+        width: 100%
     }
 
     .item-stats {
