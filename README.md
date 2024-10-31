@@ -1,4 +1,4 @@
-# Stocky
+# Stocky_V1
 
 Stocky is a fullstack web application built with Java, Spring Boot, and Angular that helps busy store owners manage all
 of their stores in one place. This app is designed to be both performant and user-friendly.
