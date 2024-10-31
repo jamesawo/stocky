@@ -2,7 +2,7 @@
  * @Author: james.junior
  * @Date: 10/3/22 10:15 AM
  *
- * @Project: paymed-V1
+ * @Project: stocky-api
  */
 
 package com.jamesaworo.stocky.features.authentication.data.principal;
@@ -26,8 +26,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<com.jamesaworo.stocky.features.authentication.domain.entity.User> optional = this.usecase.findByUsernameEqualsIgnoreCase(username);
-        return optional.map(UserPrincipalImpl::new).orElseThrow(() -> new UsernameNotFoundException(NO_USER_FOUND + username));
+        Optional<com.jamesaworo.stocky.features.authentication.domain.entity.User> optional = this.usecase
+                .findByUsernameEqualsIgnoreCase(username);
+        return optional.map(UserPrincipalImpl::new)
+                .orElseThrow(() -> new UsernameNotFoundException(NO_USER_FOUND + username));
     }
 
 }

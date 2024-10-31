@@ -1,0 +1,2 @@
+[start]
+cmd = "java -Dserver.port=$PORT -Dspring.profiles.active=$SPRING_PROFILE -Dspring.datasource.url=$SPRING_DATASOURCE_URL -Dspring.datasource.username=$SPRING_DATASOURCE_US -Dspring.datasource.password=$SPRING_DATASOURCE_PW -Djwt.secret=$JWT_SECRET -Djwt.expiration=$JWT_EXPIRATION -Djwt.issuer=$JWT_ISSUER -Dstocky.system.password=$STK_PW -Dstocky.system.username=$STK_US $JAVA_OPTS -jar stocky-api/target/*jar"
